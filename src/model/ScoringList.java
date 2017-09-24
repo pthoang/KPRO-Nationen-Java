@@ -1,18 +1,22 @@
 package model;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 
 
 public class ScoringList {
 	
 	private final SimpleIntegerProperty id;
-	private Date created;
-	private Date lastChanged;
+	private ObjectProperty<LocalDate> created;
+	private ObjectProperty<LocalDate> lastChanged;
 	private final SimpleIntegerProperty year;
 	private Map<Candidate, Integer> candidates;
 	// TOOD: make as a model?
@@ -26,11 +30,11 @@ public class ScoringList {
 	 * @param year
 	 */
 	public ScoringList(int id, int year) {
-		this.id.set(id);
-		this.year.set(year);
+		this.id = new SimpleIntegerProperty(id);
+		this.year = new SimpleIntegerProperty(year);
 		candidates = new HashMap<Candidate, Integer>();
-		created = new Date();
-		lastChanged = new Date();
+		created = new SimpleObjectProperty<LocalDate>(LocalDate.now());
+		lastChanged = new SimpleObjectProperty<LocalDate>(LocalDate.now());
 	}
 		
 	/**
@@ -54,14 +58,21 @@ public class ScoringList {
 		return year;
 	}
 	
-	public Date createdProperty() {
+	public ObjectProperty<LocalDate> createdProperty() {
 		return created;
 	}
 	
-	public Date lastChangedProperty() {
+	public LocalDate getCreatedDate() {
+		return created.get();
+	}
+	
+	public ObjectProperty<LocalDate> lastChangedProperty() {
 		return lastChanged;
 	}
 	
+	public LocalDate getLastChangedDate() {
+		return lastChanged.get();
+	}
 	/**
 	 * Add candidate with rank to list
 	 * @param candidate

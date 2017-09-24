@@ -90,12 +90,12 @@ public class ViewController {
 	public void showPreviousListsView() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("../view/ListsView.fxml"));
+			loader.setLocation(MainApp.class.getResource("../view/PreviousListsView.fxml"));
 			AnchorPane listView = (AnchorPane) loader.load();
 		
 			rootLayout.setCenter(listView);
 			
-			ListCandidatesController controller = loader.getController();
+			ScoringListsController controller = loader.getController();
 			controller.setMainApp(mainApp);
 			controller.setViewController(this);
 		} catch (IOException e) {

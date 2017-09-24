@@ -33,12 +33,17 @@ public class AddCandidateController extends SuperController {
 	@FXML
 	private Button nextButton;
 	
-	
+	/**
+	 * Creates the AddCandidateController object.
+	 */
 	public AddCandidateController() {
 		super();
 	}
 	
-	
+	/**
+	 * Called when pushed the saveCandidate button in view.
+	 * Saves the candidate if input is valid.
+	 */
 	@FXML
 	private void saveCandidate() {
 		if (isInputValid()) {
@@ -56,12 +61,19 @@ public class AddCandidateController extends SuperController {
 	}
 	
 	/**
-	 * Verify the input
+	 * Verify the input.
 	 */
+	// TODO: can be improved
 	private boolean isInputValid() {
-		// TODO
-		return true;
+		String name = nameField.getText();
+		String description = descriptionField.getText();
+		if (name.length() > 2 & description.length() > 20) {
+			return true;
+		}
+		return false;
 	}
+	
+	
 	
 	/**
 	 * Clean fields
@@ -72,15 +84,21 @@ public class AddCandidateController extends SuperController {
 	}
 	
 	
-	
+	/**
+	 * Set the mainApp, then get the list of candidates and set them in the table.
+	 * @param mainApp
+	 */
+	@Override
 	public void setMainApp(MainApp mainApp) {
 		super.setMainApp(mainApp);
 		
 		ObservableList<Candidate> candidates = mainApp.getCandidates();
-		System.out.println("Candidates: " + candidates);
 		candidateTable.setItems(candidates);
 	}
 	
+	/**
+	 * Initialize the view.
+	 */
 	@FXML
 	private void initialize() {
 		firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
@@ -88,7 +106,9 @@ public class AddCandidateController extends SuperController {
 	}
 	
 	
-	
+	/**
+	 * Called when the cancelButton is clocked. Shows the startMenu.
+	 */
 	
 	@FXML
 	private void cancel() {
@@ -96,11 +116,17 @@ public class AddCandidateController extends SuperController {
 		
 	}
 	
+	/**
+	 * Called when the saveButton is clicked. Saves the list.
+	 */
 	@FXML
 	private void save() {
 		// TODO: save list
 	}
 	
+	/**
+	 * Called when the nextButton is clicked. Moves on to showing databases.
+	 */
 	@FXML
 	private void next() {
 		super.viewController.showAddDatabaseView();

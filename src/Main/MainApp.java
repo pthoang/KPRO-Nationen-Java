@@ -4,6 +4,7 @@ package Main;
 import java.awt.List;
 import java.io.IOException;
 
+import controllers.RootController;
 import controllers.ViewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -20,6 +21,7 @@ public class MainApp extends Application {
 	
 	private Stage primaryStage;
 	private BorderPane rootLayout;
+	private RootController rootController;
 	
 	private ViewController viewController;
 	
@@ -38,7 +40,9 @@ public class MainApp extends Application {
 				
 		ViewController viewController = new ViewController();
 		viewController.setRootLayout(rootLayout);
+		rootController.setViewController(viewController);
 		viewController.setMainApp(this);
+		
 		
 		viewController.showStartMenu();
 	}
@@ -54,6 +58,9 @@ public class MainApp extends Application {
 			loader.setLocation(MainApp.class.getResource("../view/RootLayout.fxml"));
 			rootLayout = (BorderPane) loader.load();
 			
+			rootController = loader.getController();
+			rootController.setMainApp(this);
+			
 			// Show the scene containing the root layout.
 			Scene scene = new Scene(rootLayout);
 			primaryStage.setScene(scene);
@@ -63,10 +70,14 @@ public class MainApp extends Application {
 		}
 	}
 	
+	/**
+	 * Returns the primaryStage
+	 * @return primaryStage
+	 */
 	public Stage getStage() {
 		return this.primaryStage;
 	}
-		
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -85,16 +96,13 @@ public class MainApp extends Application {
 	}
 	
 	private void populateWithLists() {
-		// TODO
-		
 		listsData = FXCollections.observableArrayList();
 		
-		ScoringList scoringList = new ScoringList();
+		ScoringList scoringList = new ScoringList(1, 2016);
 		scoringList.addCandidate(candidatesData.get(0), 2);
 		scoringList.addCandidate(candidatesData.get(1), 1);
 		
 		listsData.add(scoringList);
-		
 	}
 	
 	public void addCandidate(Candidate candidate) {
@@ -104,5 +112,13 @@ public class MainApp extends Application {
 	
 	public ObservableList<Candidate> getCandidates() {
 		return candidatesData;
+	}
+	
+	public void addScoringList(ScoringList scoringList) {
+		listsData.add(scoringList);
+	}
+	
+	public ObservableList<ScoringList> getScoringLists() {
+		return listsData;
 	}
 }

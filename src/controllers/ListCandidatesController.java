@@ -16,6 +16,17 @@ public class ListCandidatesController extends SuperController {
 	@FXML
 	private TableColumn<Candidate, String> lastNameColumn;
 	
+	/**
+	 * Creates the ListCandidatesController object
+	 */
+	public ListCandidatesController() {
+		super();
+	}
+	/**
+	 * Set mainApp in super, then gets the candidates and shows them in the table.
+	 * @params mainApp
+	 */
+	@Override
 	public void setMainApp(MainApp mainApp) {
 		super.setMainApp(mainApp);
 		
@@ -24,10 +35,12 @@ public class ListCandidatesController extends SuperController {
 		candidateTable.setItems(candidates);
 	}
 	
+	/**
+	 * Initialize the view.
+	 */
 	@FXML
 	private void initialize() {
 		firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
 		lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
 	}
-
 }

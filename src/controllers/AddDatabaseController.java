@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class AddDatabaseaController extends SuperController {
+public class AddDatabaseController extends SuperController {
 	
 	@FXML
 	private Button createOutputButton;

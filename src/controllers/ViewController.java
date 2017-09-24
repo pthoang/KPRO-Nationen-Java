@@ -34,6 +34,8 @@ public class ViewController {
 			AnchorPane startMenuView = (AnchorPane) loader.load();
 			
 			// Set startscreen in the center of root layout.
+			System.out.println("rootLayout: " + rootLayout);
+			System.out.println("startMenuView: " + startMenuView);
 			rootLayout.setCenter(startMenuView);
 			
 			StartMenuController controller = loader.getController();
@@ -113,7 +115,7 @@ public class ViewController {
 		
 			rootLayout.setCenter(addDatabaseView);
 			
-			AddDatabaseaController controller = loader.getController();
+			AddDatabaseController controller = loader.getController();
 			controller.setMainApp(mainApp);
 			controller.setViewController(this);
 		} catch (IOException e) {
@@ -121,4 +123,41 @@ public class ViewController {
 		}
 	}
 	
+	/**
+	 * Shows the view for adding a candidate.
+	 */
+	public void showAddCandidateView() {
+		try {
+			FXMLLoader loader= new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("../view/AddCandidateView.fxml"));
+			AnchorPane addCandidateView = (AnchorPane) loader.load();
+		
+			rootLayout.setCenter(addCandidateView);
+			
+			AddDatabaseController controller = loader.getController();
+			controller.setMainApp(mainApp);
+			controller.setViewController(this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Shows the view for changing a candidate.
+	 */
+	public void showChangeCandidateView() {
+		try {
+			FXMLLoader loader= new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("../view/ChangeCandidateView.fxml"));
+			AnchorPane changeCandidateView = (AnchorPane) loader.load();
+		
+			rootLayout.setCenter(changeCandidateView);
+			
+			AddDatabaseController controller = loader.getController();
+			controller.setMainApp(mainApp);
+			controller.setViewController(this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

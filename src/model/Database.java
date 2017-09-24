@@ -71,6 +71,10 @@ public class Database {
 		
 	}
 	
+	/**
+	 * Set the mainApp
+	 * @param mainApp
+	 */
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 	}

@@ -15,7 +15,9 @@ public class StartMenuController extends SuperController {
 	@FXML 
 	private Button previousListsButton;
 	
-	
+	/**
+	 * Creates the startMenuController object.
+	 */
 	public StartMenuController() {
 		super();
 	}

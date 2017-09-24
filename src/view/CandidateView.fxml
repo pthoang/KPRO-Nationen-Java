@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+   <children>
+      <ImageView fitHeight="143.0" fitWidth="111.0" layoutX="24.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" />
+      <Button layoutX="524.0" layoutY="361.0" mnemonicParsing="false" text="Lagre" />
+      <Label layoutX="158.0" layoutY="38.0" text="Ola Nordmann" />
+      <Label layoutX="62.0" layoutY="251.0" text="Tidligere rang" />
+   </children>
+</AnchorPane>

@@ -103,6 +103,21 @@ public class ViewController {
 		}
 	}
 	
+	public void showAddCandidatesToListView() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("../view/AddCandidateToListView2.fxml"));
+			AnchorPane addCandidatesToList = (AnchorPane) loader.load();
+		
+			rootLayout.setCenter(addCandidatesToList);
+			
+			AddCandidatesToListController controller = loader.getController();
+			controller.setMainApp(mainApp);
+			controller.setViewController(this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * Shows the view for adding databases.
@@ -126,15 +141,15 @@ public class ViewController {
 	/**
 	 * Shows the view for adding a candidate.
 	 */
-	public void showAddCandidateView() {
+	public void showNewCandidateView() {
 		try {
 			FXMLLoader loader= new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("../view/AddCandidateView.fxml"));
-			AnchorPane addCandidateView = (AnchorPane) loader.load();
+			loader.setLocation(MainApp.class.getResource("../view/NewCandidateView.fxml"));
+			AnchorPane newCandidateView = (AnchorPane) loader.load();
 		
-			rootLayout.setCenter(addCandidateView);
+			rootLayout.setCenter(newCandidateView);
 			
-			AddDatabaseController controller = loader.getController();
+			NewCandidateController controller = loader.getController();
 			controller.setMainApp(mainApp);
 			controller.setViewController(this);
 		} catch (IOException e) {

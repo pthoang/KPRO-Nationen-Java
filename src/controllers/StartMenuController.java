@@ -4,7 +4,6 @@ import Main.MainApp;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
-
 public class StartMenuController extends SuperController {
 	
 	
@@ -14,6 +13,8 @@ public class StartMenuController extends SuperController {
 	private Button listCandidatesButton;
 	@FXML 
 	private Button previousListsButton;
+	@FXML
+	private Button newCandidateButton;
 	
 	/**
 	 * Creates the startMenuController object.
@@ -36,7 +37,7 @@ public class StartMenuController extends SuperController {
 	 */
 	@FXML
 	private void showNewList() {
-		viewController.showNewListView();
+		viewController.showAddCandidatesToListView();
 	}
 	
 	/**
@@ -54,4 +55,13 @@ public class StartMenuController extends SuperController {
 	private void showListCandidates() {
 		viewController.showListCandidatesView();
 	}
+	
+	/**
+	 * Shows the view for creating a new candidate.
+	 */
+	@FXML
+	private void showNewCandidate() {
+		viewController.showNewCandidateView();
+	}
+	
 }

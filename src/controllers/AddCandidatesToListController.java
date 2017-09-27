@@ -62,15 +62,13 @@ public class AddCandidatesToListController extends SuperController {
 		
 	}
 	
-	
 	/**
 	 * Called when the cancelButton is clocked. Shows the startMenu.
 	 */
 	
 	@FXML
 	private void cancel() {
-		super.viewController.showStartMenu();
-		
+		super.viewController.showStartMenu();	
 	}
 	
 	/**
@@ -88,5 +86,4 @@ public class AddCandidatesToListController extends SuperController {
 	private void next() {
 		super.viewController.showAddDatabaseView();
 	}
-
 }

@@ -22,6 +22,7 @@ public class ListCandidatesController extends SuperController {
 	public ListCandidatesController() {
 		super();
 	}
+	
 	/**
 	 * Set mainApp in super, then gets the candidates and shows them in the table.
 	 * @params mainApp

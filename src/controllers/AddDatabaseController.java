@@ -23,7 +23,7 @@ public class AddDatabaseController extends SuperController {
 	
 	@FXML
 	private void createOutput() {
-		
+		// TODO
 	}
 	
 	/**
@@ -36,7 +36,7 @@ public class AddDatabaseController extends SuperController {
 	}
 	
 	/**
-	 * Loades the selected file
+	 * Load the selected file
 	 */
 	@FXML
 	private void fileChooser() {

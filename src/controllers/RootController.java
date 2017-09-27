@@ -27,12 +27,12 @@ public class RootController extends SuperController {
 	
 	@FXML
 	private void showNewScoringList() {
-		super.viewController.showNewListView();
+		super.viewController.showAddCandidatesToListView();
 	}
 	
 	@FXML
 	private void showAddCandidate() {
-		super.viewController.showNewListView();
+		super.viewController.showNewCandidateView();
 		
 	}
 	

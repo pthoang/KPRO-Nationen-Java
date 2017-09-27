@@ -32,6 +32,10 @@ public class ScoringListsController extends SuperController {
 		super();
 	}
 	
+	/**
+	 * Sets the mainApp in the super class. Then gets the list of scoringLists and set the table.
+	 * @param MainApp
+	 */
 	@Override
 	public void setMainApp(MainApp mainApp) {
 		super.setMainApp(mainApp);

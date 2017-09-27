@@ -26,8 +26,6 @@ public class NewCandidateController extends SuperController {
 		System.out.println("NewCandidateController in class: " + this);
 	}
 	
-	
-	
 	/**
 	 * Called when pushed the saveCandidate button in view.
 	 * Saves the candidate if input is valid.

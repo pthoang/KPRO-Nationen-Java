@@ -47,25 +47,6 @@ public class ViewController {
 	}
 	
 	/**
-	 * Shows the view for creating a new list.
-	 */
-	public void showNewListView() {
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("../view/AddCandidateToListView.fxml"));
-			AnchorPane addCandidateToListView = (AnchorPane) loader.load();
-		
-			rootLayout.setCenter(addCandidateToListView);
-			
-			AddCandidateController controller = loader.getController();
-			controller.setMainApp(mainApp);
-			controller.setViewController(this);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/**
 	 * Shows the view for listing candidates.
 	 */
 	public void showListCandidatesView() {
@@ -103,10 +84,13 @@ public class ViewController {
 		}
 	}
 	
+	/**
+	 * Shows the view for adding candidates to new list.
+	 */
 	public void showAddCandidatesToListView() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("../view/AddCandidateToListView2.fxml"));
+			loader.setLocation(MainApp.class.getResource("../view/AddCandidateToListView.fxml"));
 			AnchorPane addCandidatesToList = (AnchorPane) loader.load();
 		
 			rootLayout.setCenter(addCandidatesToList);
@@ -139,7 +123,7 @@ public class ViewController {
 	}
 	
 	/**
-	 * Shows the view for adding a candidate.
+	 * Shows the view for creating a new candidate.
 	 */
 	public void showNewCandidateView() {
 		try {
@@ -158,15 +142,15 @@ public class ViewController {
 	}
 	
 	/**
-	 * Shows the view for changing a candidate.
+	 * Shows the view for editing a candidate.
 	 */
-	public void showChangeCandidateView() {
+	public void showEditCandidateView() {
 		try {
 			FXMLLoader loader= new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("../view/ChangeCandidateView.fxml"));
-			AnchorPane changeCandidateView = (AnchorPane) loader.load();
+			loader.setLocation(MainApp.class.getResource("../view/EditCandidateView.fxml"));
+			AnchorPane editCandidateView = (AnchorPane) loader.load();
 		
-			rootLayout.setCenter(changeCandidateView);
+			rootLayout.setCenter(editCandidateView);
 			
 			AddDatabaseController controller = loader.getController();
 			controller.setMainApp(mainApp);

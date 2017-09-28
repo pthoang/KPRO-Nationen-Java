@@ -8,21 +8,21 @@ import javafx.scene.control.TableView;
 import model.Candidate;
 
 public class ListCandidatesController extends SuperController {
-	
+
 	@FXML
 	private TableView<Candidate> candidateTable;
 	@FXML
 	private TableColumn<Candidate, String> firstNameColumn;
 	@FXML
 	private TableColumn<Candidate, String> lastNameColumn;
-	
+
 	/**
 	 * Creates the ListCandidatesController object
 	 */
 	public ListCandidatesController() {
 		super();
 	}
-	
+
 	/**
 	 * Set mainApp in super, then gets the candidates and shows them in the table.
 	 * @params mainApp
@@ -30,12 +30,12 @@ public class ListCandidatesController extends SuperController {
 	@Override
 	public void setMainApp(MainApp mainApp) {
 		super.setMainApp(mainApp);
-		
+
 		ObservableList<Candidate> candidates = mainApp.getCandidates();
 		System.out.println("Candidates: " + candidates);
 		candidateTable.setItems(candidates);
 	}
-	
+
 	/**
 	 * Initialize the view.
 	 */

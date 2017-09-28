@@ -13,7 +13,7 @@ import model.ScoringList;
 import util.DateUtil;
 
 public class ScoringListsController extends SuperController {
-	
+
 	@FXML
 	private TableView<ScoringList> scoringListsTable;
 	@FXML
@@ -24,14 +24,14 @@ public class ScoringListsController extends SuperController {
 	private TableColumn<ScoringList, Integer> yearColumn;
 	@FXML
 	private TableColumn<ScoringList, String> numberOfCandidatesColumn;
-	
+
 	/**
 	 * Creates the ScoringListsController.
 	 */
 	public ScoringListsController() {
 		super();
 	}
-	
+
 	/**
 	 * Sets the mainApp in the super class. Then gets the list of scoringLists and set the table.
 	 * @param MainApp
@@ -39,11 +39,11 @@ public class ScoringListsController extends SuperController {
 	@Override
 	public void setMainApp(MainApp mainApp) {
 		super.setMainApp(mainApp);
-		
+
 		ObservableList<ScoringList> scoringLists = mainApp.getScoringLists();
 		scoringListsTable.setItems(scoringLists);
 	}
-	
+
 	@FXML
 	private void initialize() {
 		createdColumn.setCellValueFactory(cellData -> {

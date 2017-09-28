@@ -12,7 +12,7 @@ import javafx.scene.control.TextField;
 import model.Candidate;
 
 public class AddCandidatesToListController extends SuperController {
-	
+
 	@FXML
 	private Button cancelButton;
 	@FXML
@@ -24,14 +24,14 @@ public class AddCandidatesToListController extends SuperController {
 	private NewCandidateController newCandidateController;
 	@FXML
 	private ListCandidatesController listCandidatesController;
-	
+
 	/**
 	 * Creates the AddCandidateController object.
 	 */
 	public AddCandidatesToListController() {
 		super();
 	}
-	
+
 	/**
 	 * Set the mainApp, then get the list of candidates and set them in the table.
 	 * @param mainApp
@@ -39,38 +39,38 @@ public class AddCandidatesToListController extends SuperController {
 	@Override
 	public void setMainApp(MainApp mainApp) {
 		super.setMainApp(mainApp);
-		
+
 		System.out.println("NewCandidateController when setting MainApp: " + newCandidateController);
 		newCandidateController.setMainApp(mainApp);
 		listCandidatesController.setMainApp(mainApp);
 	}
-	
+
 	@Override
 	public void setViewController(ViewController viewController) {
 		super.setViewController(viewController);
-		
+
 		System.out.println("NewCandidateController when setting ViewController: " + newCandidateController);
 		newCandidateController.setViewController(viewController);
 		listCandidatesController.setViewController(viewController);
 	}
-	
+
 	/**
 	 * Initialize the view.
 	 */
 	@FXML
 	private void initialize() {
-		
+
 	}
-	
+
 	/**
 	 * Called when the cancelButton is clocked. Shows the startMenu.
 	 */
-	
+
 	@FXML
 	private void cancel() {
 		super.viewController.showStartMenu();	
 	}
-	
+
 	/**
 	 * Called when the saveButton is clicked. Saves the list.
 	 */
@@ -78,7 +78,7 @@ public class AddCandidatesToListController extends SuperController {
 	private void save() {
 		// TODO: save list
 	}
-	
+
 	/**
 	 * Called when the nextButton is clicked. Moves on to showing databases.
 	 */

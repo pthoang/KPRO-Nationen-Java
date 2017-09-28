@@ -17,7 +17,7 @@ public class NewCandidateController extends SuperController {
 	private Button saveAndAddMoreCandidatesButton;
 	@FXML
 	private Button saveCanditateAndGoBackButton;
-	
+
 	/**
 	 * Creates the AddCandidateController object.
 	 */
@@ -25,7 +25,7 @@ public class NewCandidateController extends SuperController {
 		super();
 		System.out.println("NewCandidateController in class: " + this);
 	}
-	
+
 	/**
 	 * Called when pushed the saveCandidate button in view.
 	 * Saves the candidate if input is valid.
@@ -34,28 +34,28 @@ public class NewCandidateController extends SuperController {
 	private void handleSaveAndAddMore() {
 		saveCandidate();
 	}
-	
+
 	private void saveCandidate() {
 		if (isInputValid()) {
 			String name = nameField.getText();
 			String description = descriptionField.getText();
-			
+
 			// TODO: automatically save it to this years list
-			
+
 			Candidate candidate = new Candidate(name, null, description);
-			
+
 			super.mainApp.addCandidate(candidate);
-			
+
 			cleanFields();
 		}
 	}
-	
+
 	@FXML
 	private void handleSaveAndGoBack() {
 		saveCandidate();
 		viewController.showStartMenu();
 	}
-	
+
 	/**
 	 * Verify the input.
 	 */
@@ -68,9 +68,9 @@ public class NewCandidateController extends SuperController {
 		}
 		return false;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Clean fields
 	 */
@@ -78,8 +78,8 @@ public class NewCandidateController extends SuperController {
 		nameField.setText("");
 		descriptionField.setText("");
 	}
-	
-	
+
+
 	/**
 	 * Initialize the view.
 	 */

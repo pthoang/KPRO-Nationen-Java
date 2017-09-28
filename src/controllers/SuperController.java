@@ -9,10 +9,10 @@ import Main.MainApp;
  */
 public class SuperController {
 
-	
+
 	protected MainApp mainApp;
 	protected ViewController viewController;
-	
+
 	/**
 	 * Set the mainApp
 	 * @param mainApp
@@ -20,7 +20,7 @@ public class SuperController {
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 	}
-	
+
 	/**
 	 * Set the viewController
 	 * @param viewController
@@ -28,5 +28,5 @@ public class SuperController {
 	public void setViewController(ViewController viewController) {
 		this.viewController = viewController;
 	}
-	
+
 }

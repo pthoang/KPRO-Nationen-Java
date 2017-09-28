@@ -14,9 +14,9 @@ public class Candidate {
 	private SimpleStringProperty imageName;
 	private SimpleStringProperty description;
 	private SimpleIntegerProperty range;
-	
+
 	// TODO: add missing values as adress and so on
-	
+
 	/**
 	 * Constructor for Candidate
 	 * @param name
@@ -30,7 +30,7 @@ public class Candidate {
 		// Error
 		this.description = new SimpleStringProperty();
 	}
-	
+
 	/**
 	 * Get firstName as string
 	 * @return String The firstName
@@ -38,7 +38,7 @@ public class Candidate {
 	public String getFirstName() {
 		return firstName.get();
 	}
-	
+
 	/**
 	 * Get firstNameProperty
 	 * @return SimpleStringProperty The firstName
@@ -46,7 +46,7 @@ public class Candidate {
 	public SimpleStringProperty firstNameProperty() {
 		return firstName;
 	}
-	
+
 	/**
 	 * Set firstName
 	 * @param firstName
@@ -54,7 +54,7 @@ public class Candidate {
 	public void setFirstName(SimpleStringProperty firstName) {
 		this.firstName = firstName;
 	}
-	
+
 	/**
 	 * Get lastName as string
 	 * @return String The lastName
@@ -62,7 +62,7 @@ public class Candidate {
 	public String getLastName() {
 		return lastName.get();
 	}
-	
+
 	/**
 	 * Get lastName
 	 * @return SimpleStringProperty The lastName
@@ -70,7 +70,7 @@ public class Candidate {
 	public SimpleStringProperty lastNameProperty() {
 		return lastName;
 	}
-	
+
 	/**
 	 * Set lastName
 	 * @param lastName
@@ -78,7 +78,7 @@ public class Candidate {
 	public void setLastName(SimpleStringProperty lastName) {
 		this.lastName = lastName;
 	}
-	
+
 	/**
 	 * Get imageName as String
 	 * @return String The imageName
@@ -86,7 +86,7 @@ public class Candidate {
 	public String getImageName() {
 		return imageName.get();
 	}
-	
+
 	/**
 	 * Set imageName
 	 * @return SimpleStringProperty The imageName 
@@ -94,7 +94,7 @@ public class Candidate {
 	public SimpleStringProperty imageNavnProperty() {
 		return imageName;
 	}
-	
+
 	/**
 	 * Set imageName
 	 * @param imageName
@@ -102,7 +102,7 @@ public class Candidate {
 	public void setImageNavn(SimpleStringProperty imageName) {
 		this.imageName = imageName;
 	}
-	
+
 	/**
 	 * Get description as string
 	 * @return String The description
@@ -110,7 +110,7 @@ public class Candidate {
 	public String getDescription() {
 		return description.get();
 	}
-	
+
 	/**
 	 * Get the description
 	 * @return SimpleStringProperty The description
@@ -118,7 +118,7 @@ public class Candidate {
 	public SimpleStringProperty descriptionProperty() {
 		return description;
 	}
-	
+
 	/**
 	 * Set the description
 	 * @param description
@@ -126,7 +126,7 @@ public class Candidate {
 	public void setDescription(SimpleStringProperty description) {
 		this.description = description;
 	}
-	
+
 	/**
 	 * Get the range
 	 * @return int The range
@@ -134,7 +134,7 @@ public class Candidate {
 	public int getRange() {
 		return range.get();
 	}
-	
+
 	/**
 	 * Get the range
 	 * @return IntegerProperty The range
@@ -142,7 +142,7 @@ public class Candidate {
 	public IntegerProperty rangeProperty() {
 		return range;
 	}
-	
+
 	/**
 	 * Set the range
 	 * @param range
@@ -161,7 +161,7 @@ public class Candidate {
 			handleMiddleNames(names);	
 		}
 	}
-	
+
 	/**
 	 * Take all the neames except the last one and merge them to the first name
 	 * @param names
@@ -177,5 +177,5 @@ public class Candidate {
 			firstName.set(firstNameString);
 		}
 	}
-	
+
 }

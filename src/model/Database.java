@@ -9,27 +9,27 @@ import java.sql.SQLException;
 import Main.MainApp;
 
 public class Database {
-	
+
 	private Connection conn;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
-	
+
 	// JDBC driver name and database URL
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	static final String DB_URL = "jdbc:mysql://localhost/Nationen-Landbruksmakt?useSSL=false";
-	
+
 	// Database credentials
 	static final String USER = "admin";
 	static final String PASS = "password"; 
-	
+
 	private final String dbName = "Landbruksmakt"; 
 	private MainApp mainApp;
-	
+
 	/**
 	 * Create the database object
 	 */
 	public Database() {
-		
+
 		try {
 			try {
 				// Register JDBC driver in program
@@ -39,7 +39,7 @@ public class Database {
 				e.printStackTrace();
 				return;
 			}
-			
+
 			// Open a connection
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			String query = "CREATE DATABASE IF NOT EXIST " + dbName + ";";
@@ -59,7 +59,7 @@ public class Database {
 			} catch (SQLException se) {
 				se.printStackTrace();
 			}
-			
+
 			try {
 				if (conn != null) {
 					conn.close();
@@ -68,9 +68,9 @@ public class Database {
 				se.printStackTrace();
 			}
 		}
-		
+
 	}
-	
+
 	/**
 	 * Set the mainApp
 	 * @param mainApp

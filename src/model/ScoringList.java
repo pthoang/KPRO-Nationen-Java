@@ -13,7 +13,7 @@ import javafx.beans.value.ObservableValue;
 
 
 public class ScoringList {
-	
+
 	private final SimpleIntegerProperty id;
 	private ObjectProperty<LocalDate> created;
 	private ObjectProperty<LocalDate> lastChanged;
@@ -21,9 +21,9 @@ public class ScoringList {
 	private Map<Candidate, Integer> candidates;
 	// TOOD: make as a model?
 	private SimpleStringProperty juryDescription;
-	
+
 	final private int MAX_LENGTH = 100;
-	
+
 	/** 
 	 * Create the ScoringList object.
 	 * @param id
@@ -36,7 +36,7 @@ public class ScoringList {
 		created = new SimpleObjectProperty<LocalDate>(LocalDate.now());
 		lastChanged = new SimpleObjectProperty<LocalDate>(LocalDate.now());
 	}
-		
+
 	/**
 	 * Get id
 	 * @return int The id
@@ -45,7 +45,7 @@ public class ScoringList {
 		return id.get();
 	}
 
-	
+
 	/**
 	 * Get year
 	 * @return int The year
@@ -53,23 +53,23 @@ public class ScoringList {
 	public int getYear() {
 		return year.get();
 	}
-	
+
 	public SimpleIntegerProperty yearProperty() {
 		return year;
 	}
-	
+
 	public ObjectProperty<LocalDate> createdProperty() {
 		return created;
 	}
-	
+
 	public LocalDate getCreatedDate() {
 		return created.get();
 	}
-	
+
 	public ObjectProperty<LocalDate> lastChangedProperty() {
 		return lastChanged;
 	}
-	
+
 	public LocalDate getLastChangedDate() {
 		return lastChanged.get();
 	}
@@ -81,7 +81,7 @@ public class ScoringList {
 	public void addCandidate(Candidate candidate, int rank) {
 		candidates.put(candidate, rank);
 	}
-	
+
 	/**
 	 * Get the rank to the candidate if in list
 	 * @param candidate
@@ -104,7 +104,7 @@ public class ScoringList {
 		// TODO
 		return null;
 	}
-	
+
 	/**
 	 * Get the length of the list with candidates
 	 * @return int The size of the list
@@ -112,7 +112,7 @@ public class ScoringList {
 	public int getLength() {
 		return candidates.size();
 	}
-	
+
 	/**
 	 * Get if the list is full based on MAX_LENGTH
 	 * @return boolean If the length is MAX_LENGTH
@@ -120,10 +120,10 @@ public class ScoringList {
 	public boolean isFull() {
 		return getLength() == MAX_LENGTH;
 	}
-	
+
 	public SimpleStringProperty numberOfCandidatesProperty() {
 		return new SimpleStringProperty(getLength() + "/" + MAX_LENGTH);
 	}
-	
-	
+
+
 }

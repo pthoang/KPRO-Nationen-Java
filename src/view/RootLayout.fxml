@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane minHeight="600.0" minWidth="800.0" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RootController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem fx:id="newScoringListItem" mnemonicParsing="false" onAction="#showNewScoringList" text="Ny maktkåring" />
+                  <MenuItem fx:id="addCandidateItem" mnemonicParsing="false" onAction="#showAddCandidate" text="Ny kandidat" />
+                  <MenuItem fx:id="existingScoringListsItem" mnemonicParsing="false" onAction="#showExistingScoringLists" text="Eksisterende lister" />
+                  <MenuItem fx:id="existingCandidatesItem" mnemonicParsing="false" onAction="#showExistingCandidates" text="Eksisterende kandidater" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Hjelp">
+            <items>
+              <MenuItem fx:id="aboutItem" mnemonicParsing="false" onAction="#showAbout" text="Om" />
+              <MenuItem fx:id="settingsItem" mnemonicParsing="false" onAction="#showSettings" text="Instillinger" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+</BorderPane>

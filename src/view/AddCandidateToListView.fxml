@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddCandidatesToListController">
+   <children>
+      <ToolBar layoutX="600.0" layoutY="560.0" prefHeight="40.0" prefWidth="200.0">
+         <items>
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancel" text="Avslutt" />
+            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#save" text="Lagre" />
+            <Button fx:id="nextButton" mnemonicParsing="false" onAction="#next" text="Neste" />
+         </items>
+      </ToolBar>
+      <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="561.0" prefWidth="800.0" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Pane>
+        	<children>
+	          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+	          	<children>
+	          		<fx:include fx:id="newCandidate" source="NewCandidateView.fxml" />
+	          	</children>
+	          </AnchorPane>
+	         </children>
+	        </Pane>
+	       <Pane>
+	       <children>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="211.0" prefWidth="798.0">
+          	<children>
+          		<fx:include fx:id="listCandidates" source="ListCandidatesView.fxml" />
+          	</children>
+          </AnchorPane>
+        </children>
+        </Pane>
+      </SplitPane>
+   </children>
+</AnchorPane>

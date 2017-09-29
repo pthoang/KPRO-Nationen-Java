@@ -57,14 +57,14 @@ public class StartMenuController extends SuperController {
 		// TODO: should this be moved to its own class?
 		
 		FileChooser fileChooser = new FileChooser();
-		Desktop desktop = Desktop.getDesktop();
-
+		
 		Stage stage = super.mainApp.getStage();
 		File file = fileChooser.showOpenDialog(stage);
 		String filePath = file.getAbsolutePath();
 		
 		// When testing
 		//String filePath = "src/NameListTest.txt";
+		// TODO: missing validation of file
 		try (Stream<String> stream = Files.lines(Paths.get(filePath))) {
 			readNameList(stream);
 		} catch (IOException e) {

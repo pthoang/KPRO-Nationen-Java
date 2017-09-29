@@ -1,14 +1,22 @@
 package controllers;
 
 import java.awt.Desktop;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
 import Main.MainApp;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import model.Candidate;
 import model.ScoringList;
 
 public class StartMenuController extends SuperController {
@@ -43,11 +51,39 @@ public class StartMenuController extends SuperController {
 	@FXML
 	private void importNameList() {
 		// TODO: get nameList
+		// TODO: should this be moved to its own class?
+		
+		BufferedReader br = null;
+		String filePath = "src/NameListTest.txt";
+		try (Stream<String> stream = Files.lines(Paths.get(filePath))) {
+			readNameList(stream);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (br != null) {
+					br.close();
+				}
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+		
 		scoringList.createFromNameList();
 		
 		showCandidatesList();
 	}
 	
+	private void readNameList(Stream<String> stream) throws IOException {
+		final AtomicInteger rank = new AtomicInteger();
+		stream.forEach((name) -> {
+			Candidate candidate = new Candidate(name, null, null, rank.get());
+			scoringList.addCandidate(candidate);
+			rank.incrementAndGet();
+			System.out.println("ScoringList in streamreader: " + scoringList);
+		});
+	}
+
 	@FXML
 	private void importLastYearList() {
 		// TODO: get previous list
@@ -78,5 +114,5 @@ public class StartMenuController extends SuperController {
 		Stage stage = super.mainApp.getStage();
 		fileChooser.showOpenDialog(stage);
 	}
-
+		
 }

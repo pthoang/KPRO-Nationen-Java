@@ -25,7 +25,6 @@ public class Candidate {
 	 */
 	public Candidate(String name, String imageURL, String despcription, int rank) {
 		splitUpName(name);
-		this.firstName = new SimpleStringProperty(name);
 		this.imageURL = new SimpleStringProperty(imageURL);
 		// Error
 		this.description = new SimpleStringProperty();

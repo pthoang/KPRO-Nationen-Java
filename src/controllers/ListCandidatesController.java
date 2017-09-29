@@ -42,7 +42,10 @@ public class ListCandidatesController extends SuperController {
 
 		ScoringList scoringList = mainApp.getScoringList();
 		ObservableList<Candidate> candidates = scoringList.getCandidates();
-		System.out.println("Candidates: " + candidates);
+		for (int i = 0; i < candidates.size(); i++) {
+			System.out.println(candidates.get(i).getFirstName() + candidates.get(i).getLastName());
+
+		}
 		candidateTable.setItems(candidates);
 	}
 

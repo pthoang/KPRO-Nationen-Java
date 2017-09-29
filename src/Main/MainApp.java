@@ -36,8 +36,6 @@ public class MainApp extends Application {
 
 		initRootLayout();
 
-		populateDatabase();
-
 		ViewController viewController = new ViewController();
 		viewController.setRootLayout(rootLayout);
 		rootController.setViewController(viewController);
@@ -87,18 +85,6 @@ public class MainApp extends Application {
 	
 	public ScoringList getScoringList() {
 		return scoringList;
-	}
-
-	// From here and down should be moved to database
-	private void populateDatabase() {
-		populateWithCandidates();
-	}
-
-	private void populateWithCandidates() {
-		candidatesData = FXCollections.observableArrayList();
-
-		candidatesData.add(new Candidate("Alfa Al", "apic", "description Alfa", 1));
-		candidatesData.add(new Candidate("Beta Be", "bpic", "description Beta", 2));
 	}
 		
 }

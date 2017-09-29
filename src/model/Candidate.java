@@ -1,11 +1,8 @@
 package model;
 
-import java.util.List;
-
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 public class Candidate {
 
@@ -158,6 +155,7 @@ public class Candidate {
 	private void splitUpName(String name) {
 		if (name.contains(" ")) {
 			String[] names = name.split(" ");
+			System.out.println("Names: " + names[0] + " " + names[1]);
 			handleMiddleNames(names);	
 		}
 	}
@@ -169,12 +167,16 @@ public class Candidate {
 	private void handleMiddleNames(String[] names) {
 		int numberOfNames = names.length;
 		if (numberOfNames > 2) {
-			lastName.set(names[numberOfNames -1]);
+			lastName = new SimpleStringProperty(names[numberOfNames -1]);
+
 			String firstNameString = names[0];
 			for (int i = 1; i < numberOfNames-1; i++) {
 				firstNameString += " " + names[i];
 			}
-			firstName.set(firstNameString);
+			firstName = new SimpleStringProperty(firstNameString);
+		} else if (numberOfNames == 2) {
+			firstName = new SimpleStringProperty(names[0]);
+			lastName = new SimpleStringProperty(names[1]);
 		}
 	}
 

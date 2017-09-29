@@ -77,6 +77,7 @@ public class StartMenuController extends SuperController {
 	private void readNameList(Stream<String> stream) throws IOException {
 		final AtomicInteger rank = new AtomicInteger();
 		stream.forEach((name) -> {
+			System.out.println("Name: " + name);
 			Candidate candidate = new Candidate(name, null, null, rank.get());
 			scoringList.addCandidate(candidate);
 			rank.incrementAndGet();

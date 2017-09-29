@@ -1,7 +1,5 @@
 package controllers;
 
-import java.util.Map;
-
 import Main.MainApp;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

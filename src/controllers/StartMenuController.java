@@ -2,6 +2,7 @@ package controllers;
 
 import java.awt.Desktop;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,6 +11,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
+
+import javax.swing.JFileChooser;
 
 import Main.MainApp;
 import javafx.fxml.FXML;
@@ -53,21 +56,20 @@ public class StartMenuController extends SuperController {
 		// TODO: get nameList
 		// TODO: should this be moved to its own class?
 		
-		BufferedReader br = null;
-		String filePath = "src/NameListTest.txt";
+		FileChooser fileChooser = new FileChooser();
+		Desktop desktop = Desktop.getDesktop();
+
+		Stage stage = super.mainApp.getStage();
+		File file = fileChooser.showOpenDialog(stage);
+		String filePath = file.getAbsolutePath();
+		
+		// When testing
+		//String filePath = "src/NameListTest.txt";
 		try (Stream<String> stream = Files.lines(Paths.get(filePath))) {
 			readNameList(stream);
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				if (br != null) {
-					br.close();
-				}
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
-		}
+		} 
 		
 		scoringList.createFromNameList();
 		
@@ -77,11 +79,10 @@ public class StartMenuController extends SuperController {
 	private void readNameList(Stream<String> stream) throws IOException {
 		final AtomicInteger rank = new AtomicInteger();
 		stream.forEach((name) -> {
-			System.out.println("Name: " + name);
 			Candidate candidate = new Candidate(name, null, null, rank.get());
 			scoringList.addCandidate(candidate);
 			rank.incrementAndGet();
-			System.out.println("ScoringList in streamreader: " + scoringList);
+			
 		});
 	}
 

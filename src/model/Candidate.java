@@ -161,14 +161,13 @@ public class Candidate {
 	}
 
 	/**
-	 * Take all the neames except the last one and merge them to the first name
+	 * Take all the names except the last one and merge them to the first name
 	 * @param names
 	 */
 	private void handleMiddleNames(String[] names) {
 		int numberOfNames = names.length;
 		if (numberOfNames > 2) {
 			lastName = new SimpleStringProperty(names[numberOfNames -1]);
-
 			String firstNameString = names[0];
 			for (int i = 1; i < numberOfNames-1; i++) {
 				firstNameString += " " + names[i];

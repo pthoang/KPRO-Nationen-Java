@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 public class AddDatabaseController extends SuperController {
 
 	@FXML
-	private Button createOutputButton;
+	private Button nextButton;
 	@FXML
 	private Button fileChooserButton;
 	@FXML
@@ -46,6 +46,11 @@ public class AddDatabaseController extends SuperController {
 
 		Stage stage = super.mainApp.getStage();
 		fileChooser.showOpenDialog(stage);
+	}
+	
+	@FXML
+	private void handleNext() {
+		super.viewController.showScoringListView();
 	}
 
 

@@ -1,26 +1,35 @@
 package controllers;
 
+import java.awt.Desktop;
+import java.util.Calendar;
+import java.util.Date;
+
 import Main.MainApp;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import model.ScoringList;
 
 public class StartMenuController extends SuperController {
 
 
 	@FXML 
-	private Button newListButton;
+	private Button nameListButton;
 	@FXML
-	private Button listCandidatesButton;
-	@FXML 
-	private Button previousListsButton;
-	@FXML
-	private Button newCandidateButton;
+	private Button lastYearListButton;
+	
+	private ScoringList scoringList;
+	
+	FileChooser fileChooser = new FileChooser();
 
 	/**
 	 * Creates the startMenuController object.
 	 */
 	public StartMenuController() {
 		super();
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		scoringList = new ScoringList(year);
 	}
 
 	/**
@@ -29,39 +38,45 @@ public class StartMenuController extends SuperController {
 	 */
 	@FXML
 	private void initialize() {
-
+	}
+	
+	@FXML
+	private void importNameList() {
+		// TODO: get nameList
+		scoringList.createFromNameList();
+		
+		showCandidatesList();
+	}
+	
+	@FXML
+	private void importLastYearList() {
+		// TODO: get previous list
+		scoringList.createFromPreviousList();
+		
+		showCandidatesList();
 	}
 
 	/**
-	 * Showes view for when the user wants to create a new list.
+	 * Shows view for when the user wants to create a new list.
 	 */
 	@FXML
-	private void showNewList() {
-		viewController.showAddCandidatesToListView();
+	private void showCandidatesList() {
+		mainApp.setScoringList(scoringList);
+		viewController.showCandidatesListView();
+		
 	}
-
+	
 	/**
-	 * Shows the view for when the user wants to see previous lists.
+	 * Load the selected file
 	 */
 	@FXML
-	private void showPreviousLists() {
-		viewController.showPreviousListsView();
-	}
+	private void fileChooser() {
 
-	/**
-	 * Shows the view for when the user wants to see existing candidates.
-	 */
-	@FXML
-	private void showListCandidates() {
-		viewController.showListCandidatesView();
-	}
+		FileChooser fileChooser = new FileChooser();
+		Desktop desktop = Desktop.getDesktop();
 
-	/**
-	 * Shows the view for creating a new candidate.
-	 */
-	@FXML
-	private void showNewCandidate() {
-		viewController.showNewCandidateView();
+		Stage stage = super.mainApp.getStage();
+		fileChooser.showOpenDialog(stage);
 	}
 
 }

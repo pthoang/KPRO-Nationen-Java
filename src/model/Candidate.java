@@ -11,9 +11,9 @@ public class Candidate {
 
 	private SimpleStringProperty firstName;
 	private SimpleStringProperty lastName;
-	private SimpleStringProperty imageName;
+	private SimpleStringProperty imageURL;
 	private SimpleStringProperty description;
-	private SimpleIntegerProperty range;
+	private SimpleIntegerProperty rank;
 
 	// TODO: add missing values as adress and so on
 
@@ -23,12 +23,13 @@ public class Candidate {
 	 * @param imageName
 	 * @param despcription
 	 */
-	public Candidate(String name, String imageName, String despcription) {
+	public Candidate(String name, String imageURL, String despcription, int rank) {
 		splitUpName(name);
 		this.firstName = new SimpleStringProperty(name);
-		this.imageName = new SimpleStringProperty(imageName);
+		this.imageURL = new SimpleStringProperty(imageURL);
 		// Error
 		this.description = new SimpleStringProperty();
+		this.rank = new SimpleIntegerProperty(rank);
 	}
 
 	/**
@@ -83,8 +84,8 @@ public class Candidate {
 	 * Get imageName as String
 	 * @return String The imageName
 	 */
-	public String getImageName() {
-		return imageName.get();
+	public String getImageURL() {
+		return imageURL.get();
 	}
 
 	/**
@@ -92,15 +93,15 @@ public class Candidate {
 	 * @return SimpleStringProperty The imageName 
 	 */
 	public SimpleStringProperty imageNavnProperty() {
-		return imageName;
+		return imageURL;
 	}
 
 	/**
 	 * Set imageName
 	 * @param imageName
 	 */
-	public void setImageNavn(SimpleStringProperty imageName) {
-		this.imageName = imageName;
+	public void setImageURLProperty(SimpleStringProperty imageURL) {
+		this.imageURL = imageURL;
 	}
 
 	/**
@@ -131,24 +132,24 @@ public class Candidate {
 	 * Get the range
 	 * @return int The range
 	 */
-	public int getRange() {
-		return range.get();
+	public int getRank() {
+		return rank.get();
 	}
 
 	/**
 	 * Get the range
 	 * @return IntegerProperty The range
 	 */
-	public IntegerProperty rangeProperty() {
-		return range;
+	public IntegerProperty rankProperty() {
+		return rank;
 	}
 
 	/**
 	 * Set the range
 	 * @param range
 	 */
-	public void setRange(SimpleIntegerProperty range) {
-		this.range = range;
+	public void setRank(SimpleIntegerProperty rank) {
+		this.rank = rank;
 	}
 
 	/**

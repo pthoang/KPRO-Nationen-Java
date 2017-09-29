@@ -26,7 +26,7 @@ public class MainApp extends Application {
 	private ViewController viewController;
 
 	private ObservableList<Candidate> candidatesData;
-	private ObservableList<ScoringList> listsData;
+	private ScoringList scoringList;
 
 
 	@Override
@@ -42,7 +42,6 @@ public class MainApp extends Application {
 		viewController.setRootLayout(rootLayout);
 		rootController.setViewController(viewController);
 		viewController.setMainApp(this);
-
 
 		viewController.showStartMenu();
 	}
@@ -81,44 +80,25 @@ public class MainApp extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+	
+	public void setScoringList(ScoringList scoringList) {
+		this.scoringList = scoringList;
+	}
+	
+	public ScoringList getScoringList() {
+		return scoringList;
+	}
 
 	// From here and down should be moved to database
 	private void populateDatabase() {
 		populateWithCandidates();
-		populateWithLists();
 	}
 
 	private void populateWithCandidates() {
 		candidatesData = FXCollections.observableArrayList();
 
-		candidatesData.add(new Candidate("Alfa Al", "apic", "description Alfa"));
-		candidatesData.add(new Candidate("Beta Be", "bpic", "description Beta"));
+		candidatesData.add(new Candidate("Alfa Al", "apic", "description Alfa", 1));
+		candidatesData.add(new Candidate("Beta Be", "bpic", "description Beta", 2));
 	}
-
-	private void populateWithLists() {
-		listsData = FXCollections.observableArrayList();
-
-		ScoringList scoringList = new ScoringList(1, 2016);
-		scoringList.addCandidate(candidatesData.get(0), 2);
-		scoringList.addCandidate(candidatesData.get(1), 1);
-
-		listsData.add(scoringList);
-	}
-
-	public void addCandidate(Candidate candidate) {
-		candidatesData.add(candidate);
-		System.out.println("Candidate saved");
-	}
-
-	public ObservableList<Candidate> getCandidates() {
-		return candidatesData;
-	}
-
-	public void addScoringList(ScoringList scoringList) {
-		listsData.add(scoringList);
-	}
-
-	public ObservableList<ScoringList> getScoringLists() {
-		return listsData;
-	}
+		
 }

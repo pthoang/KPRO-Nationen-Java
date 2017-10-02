@@ -1,19 +1,16 @@
 package model;
 
-import java.util.List;
-
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 public class Candidate {
 
 	private SimpleStringProperty firstName;
 	private SimpleStringProperty lastName;
-	private SimpleStringProperty imageName;
+	private SimpleStringProperty imageURL;
 	private SimpleStringProperty description;
-	private SimpleIntegerProperty range;
+	private SimpleIntegerProperty rank;
 
 	// TODO: add missing values as adress and so on
 
@@ -23,12 +20,12 @@ public class Candidate {
 	 * @param imageName
 	 * @param despcription
 	 */
-	public Candidate(String name, String imageName, String despcription) {
+	public Candidate(String name, String imageURL, String despcription, int rank) {
 		splitUpName(name);
-		this.firstName = new SimpleStringProperty(name);
-		this.imageName = new SimpleStringProperty(imageName);
+		this.imageURL = new SimpleStringProperty(imageURL);
 		// Error
 		this.description = new SimpleStringProperty();
+		this.rank = new SimpleIntegerProperty(rank);
 	}
 
 	/**
@@ -83,8 +80,8 @@ public class Candidate {
 	 * Get imageName as String
 	 * @return String The imageName
 	 */
-	public String getImageName() {
-		return imageName.get();
+	public String getImageURL() {
+		return imageURL.get();
 	}
 
 	/**
@@ -92,15 +89,15 @@ public class Candidate {
 	 * @return SimpleStringProperty The imageName 
 	 */
 	public SimpleStringProperty imageNavnProperty() {
-		return imageName;
+		return imageURL;
 	}
 
 	/**
 	 * Set imageName
 	 * @param imageName
 	 */
-	public void setImageNavn(SimpleStringProperty imageName) {
-		this.imageName = imageName;
+	public void setImageURLProperty(SimpleStringProperty imageURL) {
+		this.imageURL = imageURL;
 	}
 
 	/**
@@ -131,24 +128,24 @@ public class Candidate {
 	 * Get the range
 	 * @return int The range
 	 */
-	public int getRange() {
-		return range.get();
+	public int getRank() {
+		return rank.get();
 	}
 
 	/**
 	 * Get the range
 	 * @return IntegerProperty The range
 	 */
-	public IntegerProperty rangeProperty() {
-		return range;
+	public IntegerProperty rankProperty() {
+		return rank;
 	}
 
 	/**
 	 * Set the range
 	 * @param range
 	 */
-	public void setRange(SimpleIntegerProperty range) {
-		this.range = range;
+	public void setRank(SimpleIntegerProperty rank) {
+		this.rank = rank;
 	}
 
 	/**
@@ -158,23 +155,27 @@ public class Candidate {
 	private void splitUpName(String name) {
 		if (name.contains(" ")) {
 			String[] names = name.split(" ");
+			System.out.println("Names: " + names[0] + " " + names[1]);
 			handleMiddleNames(names);	
 		}
 	}
 
 	/**
-	 * Take all the neames except the last one and merge them to the first name
+	 * Take all the names except the last one and merge them to the first name
 	 * @param names
 	 */
 	private void handleMiddleNames(String[] names) {
 		int numberOfNames = names.length;
 		if (numberOfNames > 2) {
-			lastName.set(names[numberOfNames -1]);
+			lastName = new SimpleStringProperty(names[numberOfNames -1]);
 			String firstNameString = names[0];
 			for (int i = 1; i < numberOfNames-1; i++) {
 				firstNameString += " " + names[i];
 			}
-			firstName.set(firstNameString);
+			firstName = new SimpleStringProperty(firstNameString);
+		} else if (numberOfNames == 2) {
+			firstName = new SimpleStringProperty(names[0]);
+			lastName = new SimpleStringProperty(names[1]);
 		}
 	}
 

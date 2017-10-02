@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import model.ScoringList;
 
 public class ViewController {
 
@@ -49,7 +50,7 @@ public class ViewController {
 	/**
 	 * Shows the view for listing candidates.
 	 */
-	public void showListCandidatesView() {
+	public void showCandidatesListView() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("../view/ListCandidatesView.fxml"));
@@ -58,25 +59,6 @@ public class ViewController {
 			rootLayout.setCenter(listCandidatesView);
 
 			ListCandidatesController controller = loader.getController();
-			controller.setMainApp(mainApp);
-			controller.setViewController(this);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Shows the view for listing old lists.
-	 */
-	public void showPreviousListsView() {
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("../view/PreviousListsView.fxml"));
-			AnchorPane listView = (AnchorPane) loader.load();
-
-			rootLayout.setCenter(listView);
-
-			ScoringListsController controller = loader.getController();
 			controller.setMainApp(mainApp);
 			controller.setViewController(this);
 		} catch (IOException e) {
@@ -153,6 +135,25 @@ public class ViewController {
 			rootLayout.setCenter(editCandidateView);
 
 			AddDatabaseController controller = loader.getController();
+			controller.setMainApp(mainApp);
+			controller.setViewController(this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Shows the view for the final list.
+	 */
+	public void showScoringListView() {
+		try {
+			FXMLLoader loader= new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("../view/ScoringListView.fxml"));
+			AnchorPane scoringListView = (AnchorPane) loader.load();
+
+			rootLayout.setCenter(scoringListView);
+
+			ScoringListController controller = loader.getController();
 			controller.setMainApp(mainApp);
 			controller.setViewController(this);
 		} catch (IOException e) {

@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import model.Candidate;
+import model.ScoringList;
 
 public class NewCandidateController extends SuperController {
 
@@ -14,9 +15,11 @@ public class NewCandidateController extends SuperController {
 	@FXML
 	private TextArea descriptionField;
 	@FXML
-	private Button saveAndAddMoreCandidatesButton;
+	private TextField rankField;
 	@FXML
-	private Button saveCanditateAndGoBackButton;
+	private Button saveCanditateButton;
+	
+	ScoringList scoringList;
 
 	/**
 	 * Creates the AddCandidateController object.
@@ -31,29 +34,34 @@ public class NewCandidateController extends SuperController {
 	 * Saves the candidate if input is valid.
 	 */
 	@FXML
-	private void handleSaveAndAddMore() {
+	private void handleSaveCandidate() {
 		saveCandidate();
+		
+		
+	}
+	
+	@Override
+	public void setMainApp(MainApp mainApp) {
+		super.setMainApp(mainApp);
+		
+		scoringList = super.mainApp.getScoringList();
 	}
 
 	private void saveCandidate() {
 		if (isInputValid()) {
 			String name = nameField.getText();
 			String description = descriptionField.getText();
+			String rank = rankField.getText();
+			int rankNr = Integer.parseInt(rank);
 
 			// TODO: automatically save it to this years list
 
-			Candidate candidate = new Candidate(name, null, description);
+			Candidate candidate = new Candidate(name, null, description, rankNr);
 
-			super.mainApp.addCandidate(candidate);
+			scoringList.addCandidate(candidate);
 
 			cleanFields();
 		}
-	}
-
-	@FXML
-	private void handleSaveAndGoBack() {
-		saveCandidate();
-		viewController.showStartMenu();
 	}
 
 	/**
@@ -68,7 +76,6 @@ public class NewCandidateController extends SuperController {
 		}
 		return false;
 	}
-
 
 
 	/**

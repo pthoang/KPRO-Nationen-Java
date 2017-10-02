@@ -7,11 +7,17 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ListCandidatesController">
    <children>
-      <TableView fx:id="candidateTable" layoutX="-188.0" layoutY="-297.0" prefHeight="0.0" prefWidth="12.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TableView fx:id="candidateTable" layoutX="-188.0" layoutY="-297.0" prefHeight="353.0" prefWidth="600.0" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
           <TableColumn fx:id="lastNameColumn" prefWidth="75.0" text="Etternavn" />
             <TableColumn fx:id="firstNameColumn" prefWidth="75.0" text="Fornavn" />
         </columns>
       </TableView>
+      <ToolBar layoutX="375.0" layoutY="353.0" prefHeight="40.0" prefWidth="225.0">
+        <items>
+          <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" text="Tilbake til menyen" />
+            <Button fx:id="nextButton" mnemonicParsing="false" onAction="#handleNext" text="Neste" />
+        </items>
+      </ToolBar>
    </children>
 </AnchorPane>

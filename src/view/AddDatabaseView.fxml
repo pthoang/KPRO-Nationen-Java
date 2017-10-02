@@ -7,7 +7,6 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddDatabaseController">
    <children>
-      <Button fx:id="createOutputButton" layoutX="488.0" layoutY="340.0" mnemonicParsing="false" onAction="#createOutput" text="Lag fil" />
       <AnchorPane layoutX="5.0" layoutY="220.0" prefHeight="50.0" prefWidth="600.0">
          <children>
             <Label layoutX="34.0" layoutY="19.0" text="Skatteetaten" />
@@ -36,5 +35,11 @@
             <Button fx:id="chooseFileButton3" layoutX="359.0" layoutY="12.0" mnemonicParsing="false" onAction="#fileChooser" text="Last inn" />
          </children>
       </AnchorPane>
+      <ToolBar layoutX="381.0" layoutY="333.0" prefHeight="40.0" prefWidth="200.0">
+        <items>
+          <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" text="Tilbake" />
+            <Button fx:id="nextButton" mnemonicParsing="false" onAction="#handleNext" text="Lag fil" />
+        </items>
+      </ToolBar>
    </children>
 </AnchorPane>

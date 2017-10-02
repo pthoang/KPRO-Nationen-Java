@@ -52,6 +52,11 @@ public class AddDatabaseController extends SuperController {
 	private void handleNext() {
 		super.viewController.showScoringListView();
 	}
+	
+	@FXML
+	private void handleBack() {
+		super.viewController.showCandidatesListView();
+	}
 
 
 }

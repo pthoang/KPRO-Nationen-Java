@@ -54,6 +54,9 @@ public class ListCandidatesController extends SuperController {
 	private void initialize() {
 		firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
 		lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
+	
+		candidateTable.getSelectionModel().selectedItemProperty().addListener(
+	            (observable, oldValue, newValue) -> super.viewController.showCandidateDetails(newValue));
 	}
 	
 	@FXML
@@ -65,4 +68,6 @@ public class ListCandidatesController extends SuperController {
 	private void handleBack() {
 		super.viewController.showStartMenu();
 	}
+	
+	
 }

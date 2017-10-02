@@ -6,6 +6,11 @@ import javafx.scene.control.Button;
 public class ScoringListController extends SuperController {
 
 	@FXML
+	private ListCandidatesController listCandidatesController;
+	@FXML
+	private CandidateController candidateController;
+	
+	@FXML
 	private Button backButton;
 	@FXML
 	private Button saveButton;
@@ -22,6 +27,11 @@ public class ScoringListController extends SuperController {
 	@FXML
 	private void handleSave() {
 		super.mainApp.getScoringList().saveList();
+		
+	}
+	
+	@FXML 
+	private void initialize() {
 		
 	}
 }

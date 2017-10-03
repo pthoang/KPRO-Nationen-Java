@@ -32,6 +32,9 @@ public class ScoringListController extends SuperController {
 	@FXML
 	private TableColumn<Candidate, String> lastNameColumn;
 	
+	private ScoringList scoringList;
+	private ObservableList<Candidate> candidates;
+	
 	
 	public ScoringListController() {
 		super();
@@ -51,9 +54,18 @@ public class ScoringListController extends SuperController {
 	
 	
 	public void getAndFillTable() {
-		ScoringList scoringList = super.mainApp.getScoringList();
-		ObservableList<Candidate> candidates = scoringList.getCandidates();
+		System.out.println("In get and fill Table");
+		
+		scoringList = super.mainApp.getScoringList();
+		
+		scoringList.printCandidates();
+
+		candidates = scoringList.getCandidates();
+		scoringList.printCandidates();
+		
 		candidateTable.setItems(candidates);
+		
+		candidateController.setCandidate(scoringList.getCandidates().get(0));
 	}
 	
 	@FXML 
@@ -64,6 +76,7 @@ public class ScoringListController extends SuperController {
 	
 		candidateTable.getSelectionModel().selectedItemProperty().addListener(
 	            (observable, oldValue, newValue) -> candidateController.setCandidate(newValue));		
+		candidateController.setScoringListController(this);
 	}
 	
 	@FXML
@@ -74,5 +87,18 @@ public class ScoringListController extends SuperController {
 	@FXML
 	private void handleSave() {
 		super.mainApp.getScoringList().saveList();	
+	}
+	
+	public void refreshTable() {
+		
+		scoringList = super.mainApp.getScoringList();
+		
+		scoringList.printCandidates();
+		
+		
+		candidates = scoringList.getCandidates();
+		
+		
+		candidateTable.refresh();
 	}
 }

@@ -36,7 +36,7 @@ public class ScoringList {
 	public ScoringList(int year) {
 		this.year = new SimpleIntegerProperty(year);
 		candidates = FXCollections.observableArrayList();
-		}
+	}
 
 
 	/**
@@ -102,6 +102,10 @@ public class ScoringList {
 	
 	public ObservableList<Candidate> getCandidates() {
 		return candidates;
+	}
+	
+	public void deleteCandidate(Candidate candidate) {
+		candidates.remove(candidate);
 	}
 	
 	public void printCandidates() {

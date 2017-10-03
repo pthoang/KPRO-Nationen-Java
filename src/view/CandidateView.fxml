@@ -9,12 +9,17 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CandidateController">
    <children>
       <ImageView fx:id="image" fitHeight="143.0" fitWidth="111.0" layoutX="24.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="saveButton" layoutX="524.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleSave" text="Lagre" />
-      <Button fx:id="deleteButton" layoutX="445.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleDelete" text="Slett" />
-      <TextField fx:id="nameField" layoutX="146.0" layoutY="23.0" onAction="#handleChangeName" />
-      <TextField fx:id="lastYearRankField" layoutX="329.0" layoutY="22.0" onAction="#handleChangeLastYearRank" prefHeight="25.0" prefWidth="27.0" />
-      <TextField fx:id="rankField" layoutX="119.0" layoutY="22.0" onAction="#handleChangeRank" prefHeight="25.0" prefWidth="27.0" />
+      <TextField fx:id="nameField" layoutX="146.0" layoutY="23.0" />
+      <TextField fx:id="previousYearRankField" layoutX="329.0" layoutY="22.0" prefHeight="25.0" prefWidth="27.0" />
+      <TextField fx:id="rankField" layoutX="119.0" layoutY="22.0" prefHeight="25.0" prefWidth="27.0" />
       <TextArea fx:id="descriptionField" layoutX="120.0" layoutY="117.0" prefHeight="200.0" prefWidth="200.0" />
-      <TextField fx:id="addressField" layoutX="119.0" layoutY="59.0" onAction="#handleChangeAddressField" />
+      <TextField fx:id="municipalityField" layoutX="119.0" layoutY="59.0" />
+      <ToolBar layoutX="57.0" layoutY="354.0" prefHeight="40.0" prefWidth="348.0">
+        <items>
+          <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDelete" text="Slett kandidat" />
+            <Button fx:id="saveCandidateButton" mnemonicParsing="false" onAction="#handleSaveChangesToCandidate" text="Lagre kandidat" />
+            <Button fx:id="saveListButton" mnemonicParsing="false" onAction="#handleSaveList" text="Lagre listen" />
+        </items>
+      </ToolBar>
    </children>
 </AnchorPane>

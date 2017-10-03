@@ -7,16 +7,18 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ScoringListController">
    <children>
-      <SplitPane dividerPositions="0.4899665551839465" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.29699248120300753" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="454.0">
-              <TableView fx:id="candidateTable" layoutX="-188.0" layoutY="-297.0" prefHeight="353.0" prefWidth="600.0" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-		        <columns>
-		            <TableColumn fx:id="rankColumn" prefWidth="66.0" text="Rang" />
-		          <TableColumn fx:id="lastNameColumn" prefWidth="84.0" text="Etternavn" />
-		            <TableColumn fx:id="firstNameColumn" prefWidth="75.0" text="Fornavn" />
-		        </columns>
-      		  </TableView>
+             <children>
+                 <TableView fx:id="candidateTable" layoutX="-188.0" layoutY="-297.0" prefHeight="353.0" prefWidth="600.0" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+   		        <columns>
+   		            <TableColumn fx:id="rankColumn" prefWidth="66.0" text="Rang" />
+   		          <TableColumn fx:id="lastNameColumn" prefWidth="84.0" text="Etternavn" />
+   		            <TableColumn fx:id="firstNameColumn" prefWidth="75.0" text="Fornavn" />
+   		        </columns>
+         		  </TableView>
+             </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
           	<children>

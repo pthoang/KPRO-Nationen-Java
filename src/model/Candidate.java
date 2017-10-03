@@ -15,9 +15,9 @@ public class Candidate {
 	private SimpleIntegerProperty previousYearRank;
 
 	// PG stands for ProductionGrants
-	private SimpleIntegerProperty animalsPG;
-	private SimpleIntegerProperty hiredHelpPG;
-	private SimpleIntegerProperty farmingPG;
+	private SimpleIntegerProperty animalsPG = new SimpleIntegerProperty(0);
+	private SimpleIntegerProperty hiredHelpPG = new SimpleIntegerProperty(0);
+	private SimpleIntegerProperty farmingPG = new SimpleIntegerProperty(0);
 	
 	// TODO: missing network
 	
@@ -220,6 +220,47 @@ public class Candidate {
 	public void setPreviousYearRank(SimpleIntegerProperty previousYearRank) {
 		this.previousYearRank = previousYearRank;
 	}
+	
+	
+	public int getAnimalsPG() {
+		return animalsPG.get();
+	}
+	
+	public IntegerProperty getAnimalsPGProperty() {
+		return animalsPG;
+	}
+	
+	public void setAnimalsPG(SimpleIntegerProperty animalsPG) {
+		this.animalsPG = animalsPG;
+	}
+	
+	public int getHiredHelpPG() {
+		return hiredHelpPG.get();
+	}
+	
+	public IntegerProperty getHiredHelpPGProperty() {
+		return hiredHelpPG;
+	}
+	
+	public void setHiredHelpPG(SimpleIntegerProperty hiredHelpPG) {
+		this.hiredHelpPG = hiredHelpPG;
+	}
+	
+	public int getFarmingPG() {
+		return farmingPG.get();
+	}
+	
+	public IntegerProperty getFarmingPGProperty() {
+		return farmingPG;
+	}
+	
+	public void setFarmingPG(SimpleIntegerProperty farmingPG) {
+		this.farmingPG = farmingPG;
+	}
+	
+	
+	
+	
 
 	/**
 	 * Split up the name based on the string name

@@ -38,7 +38,6 @@ public class ScoringList {
 		candidates = FXCollections.observableArrayList();
 	}
 
-
 	/**
 	 * Get year
 	 * @return int The year
@@ -47,6 +46,10 @@ public class ScoringList {
 		return year.get();
 	}
 
+	/** 
+	 * Get year
+	 * @return SimpleIntegerProperty The year as a property
+	 */
 	public SimpleIntegerProperty yearProperty() {
 		return year;
 	}
@@ -80,20 +83,16 @@ public class ScoringList {
 	}
 
 	public void createFromNameList(String filePath) {
-		// When testing
-		filePath = "src/NameListTest.txt";
 		// TODO: missing validation of file
-		System.out.println("Path: " + filePath);
 		try (Stream<String> stream = Files.lines(Paths.get(filePath))) {
 			readNameList(stream);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
-
 	}
 	
 	public void createFromPreviousList() {
-		
+		// TODO
 	}
 	
 	public void saveList() {
@@ -108,6 +107,7 @@ public class ScoringList {
 		candidates.remove(candidate);
 	}
 	
+	// To  help during development
 	public void printCandidates() {
 		for (int i = 0; i < candidates.size(); i++) {
 			System.out.println(candidates.get(i).getFirstName() + candidates.get(i).getLastName());

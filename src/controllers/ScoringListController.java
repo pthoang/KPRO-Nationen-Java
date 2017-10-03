@@ -22,7 +22,7 @@ public class ScoringListController extends SuperController {
 	@FXML
 	private Button saveButton;
 	
-	
+	// Related to table view
 	@FXML
 	private TableView<Candidate> candidateTable;
 	@FXML
@@ -34,7 +34,6 @@ public class ScoringListController extends SuperController {
 	
 	private ScoringList scoringList;
 	private ObservableList<Candidate> candidates;
-	
 	
 	public ScoringListController() {
 		super();
@@ -54,14 +53,8 @@ public class ScoringListController extends SuperController {
 	
 	
 	public void getAndFillTable() {
-		System.out.println("In get and fill Table");
-		
 		scoringList = super.mainApp.getScoringList();
-		
-		scoringList.printCandidates();
-
 		candidates = scoringList.getCandidates();
-		scoringList.printCandidates();
 		
 		candidateTable.setItems(candidates);
 		
@@ -95,10 +88,8 @@ public class ScoringListController extends SuperController {
 		
 		scoringList.printCandidates();
 		
-		
 		candidates = scoringList.getCandidates();
-		
-		
+				
 		candidateTable.refresh();
 	}
 }

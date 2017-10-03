@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import model.Candidate;
 import model.ScoringList;
 
 public class ViewController {
@@ -67,25 +68,6 @@ public class ViewController {
 	}
 
 	/**
-	 * Shows the view for adding candidates to new list.
-	 */
-	public void showAddCandidatesToListView() {
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("../view/AddCandidateToListView.fxml"));
-			AnchorPane addCandidatesToList = (AnchorPane) loader.load();
-
-			rootLayout.setCenter(addCandidatesToList);
-
-			AddCandidatesToListController controller = loader.getController();
-			controller.setMainApp(mainApp);
-			controller.setViewController(this);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Shows the view for adding databases.
 	 */
 	public void showAddDatabaseView() {
@@ -126,17 +108,19 @@ public class ViewController {
 	/**
 	 * Shows the view for editing a candidate.
 	 */
-	public void showEditCandidateView() {
+	public void showCandidateView(Candidate candidate) {
 		try {
 			FXMLLoader loader= new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("../view/EditCandidateView.fxml"));
-			AnchorPane editCandidateView = (AnchorPane) loader.load();
+			loader.setLocation(MainApp.class.getResource("../view/CandidateView.fxml"));
+			AnchorPane CandidateView = (AnchorPane) loader.load();
 
-			rootLayout.setCenter(editCandidateView);
+			rootLayout.setCenter(CandidateView);
 
-			AddDatabaseController controller = loader.getController();
+			CandidateController controller = loader.getController();
 			controller.setMainApp(mainApp);
 			controller.setViewController(this);
+			
+			controller.setCandidate(candidate);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

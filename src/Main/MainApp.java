@@ -1,17 +1,14 @@
 
 package Main;
 
-import java.awt.List;
 import java.io.IOException;
 
 import controllers.RootController;
 import controllers.ViewController;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.Candidate;
@@ -22,13 +19,13 @@ public class MainApp extends Application {
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 	private RootController rootController;
-
-	private ViewController viewController;
-
-	private ObservableList<Candidate> candidatesData;
 	private ScoringList scoringList;
 
 
+	public static void main(String[] args) {
+		launch(args);
+	}
+	
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -75,14 +72,25 @@ public class MainApp extends Application {
 		return this.primaryStage;
 	}
 
-	public static void main(String[] args) {
-		launch(args);
-	}
 	
+	
+	
+	/**
+	 * Sets the scoringList
+	 * @param scoringList The ScoringList
+	 */
 	public void setScoringList(ScoringList scoringList) {
 		this.scoringList = scoringList;
+		
+		System.out.println("Setting scoringList in MainApp: " + scoringList);
+		
+		scoringList.printCandidates();
 	}
 	
+	/**
+	 * Get the scoringList
+	 * @return scoringList
+	 */
 	public ScoringList getScoringList() {
 		return scoringList;
 	}

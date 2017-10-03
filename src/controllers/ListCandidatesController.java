@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import model.Candidate;
 import model.ScoringList;
 
@@ -13,6 +14,8 @@ public class ListCandidatesController extends SuperController {
 
 	@FXML
 	private TableView<Candidate> candidateTable;
+	@FXML
+	private TableColumn<Candidate, Integer> rankColumn;
 	@FXML
 	private TableColumn<Candidate, String> firstNameColumn;
 	@FXML
@@ -38,13 +41,7 @@ public class ListCandidatesController extends SuperController {
 	public void setMainApp(MainApp mainApp) {
 		super.setMainApp(mainApp);
 
-		ScoringList scoringList = mainApp.getScoringList();
-		ObservableList<Candidate> candidates = scoringList.getCandidates();
-		for (int i = 0; i < candidates.size(); i++) {
-			System.out.println(candidates.get(i).getFirstName() + candidates.get(i).getLastName());
-
-		}
-		candidateTable.setItems(candidates);
+		getAndFillTable();
 	}
 
 	/**
@@ -52,11 +49,12 @@ public class ListCandidatesController extends SuperController {
 	 */
 	@FXML
 	private void initialize() {
+		rankColumn.setCellValueFactory(new PropertyValueFactory<Candidate, Integer>("rank"));
 		firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
 		lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
 	
 		candidateTable.getSelectionModel().selectedItemProperty().addListener(
-	            (observable, oldValue, newValue) -> super.viewController.showCandidateDetails(newValue));
+	            (observable, oldValue, newValue) -> super.viewController.showCandidateView(newValue));
 	}
 	
 	@FXML
@@ -67,6 +65,13 @@ public class ListCandidatesController extends SuperController {
 	@FXML
 	private void handleBack() {
 		super.viewController.showStartMenu();
+	}
+	
+	public void getAndFillTable() {
+		System.out.println("MainApp in ListCandidatesController " + this + ": " + super.mainApp);
+		ScoringList scoringList = super.mainApp.getScoringList();
+		ObservableList<Candidate> candidates = scoringList.getCandidates();
+		candidateTable.setItems(candidates);
 	}
 	
 	

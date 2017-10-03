@@ -1,9 +1,14 @@
 package model;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -74,8 +79,17 @@ public class ScoringList {
 		return new SimpleStringProperty(getLength() + "/" + MAX_LENGTH);
 	}
 
-	public void createFromNameList() {
-		
+	public void createFromNameList(String filePath) {
+		// When testing
+		filePath = "src/NameListTest.txt";
+		// TODO: missing validation of file
+		System.out.println("Path: " + filePath);
+		try (Stream<String> stream = Files.lines(Paths.get(filePath))) {
+			readNameList(stream);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+
 	}
 	
 	public void createFromPreviousList() {
@@ -88,6 +102,21 @@ public class ScoringList {
 	
 	public ObservableList<Candidate> getCandidates() {
 		return candidates;
+	}
+	
+	public void printCandidates() {
+		for (int i = 0; i < candidates.size(); i++) {
+			System.out.println(candidates.get(i).getFirstName() + candidates.get(i).getLastName());
+		}
+	}
+	
+	private void readNameList(Stream<String> stream) throws IOException {
+		final AtomicInteger rank = new AtomicInteger(1);
+		stream.forEach((name) -> {
+			Candidate candidate = new Candidate(name, null, null, rank.get());
+			candidates.add(candidate);
+			rank.incrementAndGet();		
+		});
 	}
 
 }

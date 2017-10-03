@@ -9,7 +9,8 @@
    <children>
       <TableView fx:id="candidateTable" layoutX="-188.0" layoutY="-297.0" prefHeight="353.0" prefWidth="600.0" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
-          <TableColumn fx:id="lastNameColumn" prefWidth="75.0" text="Etternavn" />
+            <TableColumn fx:id="rankColumn" prefWidth="66.0" text="Rang" />
+          <TableColumn fx:id="lastNameColumn" prefWidth="84.0" text="Etternavn" />
             <TableColumn fx:id="firstNameColumn" prefWidth="75.0" text="Fornavn" />
         </columns>
       </TableView>

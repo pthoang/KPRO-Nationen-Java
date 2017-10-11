@@ -49,7 +49,7 @@ public class ScoringListController extends SuperController {
 	private Button saveListButton;
 	
 	@FXML
-	private ImageView imageView;
+	private ImageView imageView = new ImageView();
 	@FXML
 	private TextField nameField = new TextField();
 	@FXML
@@ -189,7 +189,9 @@ public class ScoringListController extends SuperController {
 		newImagePath = file.getAbsolutePath();
 		
 		System.out.println("Path: " + newImagePath);
-		imageView.setImage(new Image(newImagePath));
+		Image image = new Image(getClass().getResource(newImagePath).toExternalForm());
+		
+		imageView.setImage(image);
 	}
 	
 	/**
@@ -221,7 +223,9 @@ public class ScoringListController extends SuperController {
 	 * Sets all the fields to the candidate.
 	 */
 	public void setFields() {
-		imageView.setImage(new Image("@../../person_icon.png"));
+		Image image = new Image(getClass().getResource("../person_icon.png").toExternalForm());
+		
+		imageView.setImage(image);
 		nameField.setText(candidate.getFirstName() + " " + candidate.getLastName());
 		municipalityField.setText(candidate.getMunicipality());
 		rankField.setText(Integer.toString(candidate.getRank()));

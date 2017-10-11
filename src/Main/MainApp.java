@@ -72,9 +72,6 @@ public class MainApp extends Application {
 		return this.primaryStage;
 	}
 
-	
-	
-	
 	/**
 	 * Sets the scoringList
 	 * @param scoringList The ScoringList

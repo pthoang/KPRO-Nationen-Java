@@ -60,6 +60,7 @@ public class StartMenuController extends SuperController {
 		
 		Stage stage = super.mainApp.getStage();
 		File file = fileChooser.showOpenDialog(stage);
+		System.out.println("Path: " + file.getAbsolutePath());
 		String filePath = file.getAbsolutePath();
 	
 		scoringList.createFromNameList(filePath);

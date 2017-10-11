@@ -9,8 +9,8 @@ public class Candidate {
 	private SimpleStringProperty firstName;
 	private SimpleStringProperty lastName;
 	private SimpleStringProperty municipality = new SimpleStringProperty();
-	private SimpleStringProperty imageURL  = new SimpleStringProperty();;
-	private SimpleStringProperty description  = new SimpleStringProperty();;
+	private SimpleStringProperty imageURL  = new SimpleStringProperty("/home/doraoline/Koding/KPRO-Nationen-Java/person_icon.png");;
+	private SimpleStringProperty description  = new SimpleStringProperty();
 	private SimpleIntegerProperty rank;
 	private SimpleIntegerProperty previousYearRank;
 
@@ -20,7 +20,7 @@ public class Candidate {
 	private SimpleIntegerProperty farmingPG = new SimpleIntegerProperty(0);
 	
 	// TODO: missing network
-	
+
 	/**
 	 * Constructor for the Candidate object. 
 	 * Used when creating a new candidate based on list from jury.
@@ -48,9 +48,8 @@ public class Candidate {
 		this.rank = new SimpleIntegerProperty(rank);
 		this.previousYearRank = new SimpleIntegerProperty(rank);
 
-		this.imageURL = new SimpleStringProperty(imageURL);
-		// Error
-		this.description = new SimpleStringProperty();
+		//this.imageURL = new SimpleStringProperty(imageURL);
+		this.description.setValue(despcription);
 	}
 
 	/**
@@ -122,7 +121,7 @@ public class Candidate {
 	 * @param municipality
 	 */
 	public void setMunicipality(SimpleStringProperty municipality) {
-		this.municipality =municipality;
+		this.municipality = municipality;
 	}
 	
 	/**
@@ -130,6 +129,7 @@ public class Candidate {
 	 * @return String The imageName
 	 */
 	public String getImageURL() {
+		System.out.println("Image PATH: " + imageURL.get());
 		return imageURL.get();
 	}
 
@@ -258,9 +258,6 @@ public class Candidate {
 		this.farmingPG = farmingPG;
 	}
 	
-	
-	
-	
 
 	/**
 	 * Split up the name based on the string name
@@ -292,4 +289,6 @@ public class Candidate {
 		}
 	}
 
+	// TODO
+	// Missing functions to validate rank etc
 }

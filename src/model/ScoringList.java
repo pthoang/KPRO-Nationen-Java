@@ -117,7 +117,7 @@ public class ScoringList {
 	private void readNameList(Stream<String> stream) throws IOException {
 		final AtomicInteger rank = new AtomicInteger(1);
 		stream.forEach((name) -> {
-			Candidate candidate = new Candidate(name, null, null, rank.get());
+			Candidate candidate = new Candidate(name, rank.get(), 0);
 			candidates.add(candidate);
 			rank.incrementAndGet();		
 		});

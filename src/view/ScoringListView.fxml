@@ -32,7 +32,7 @@
 		        <items>
 		          <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDelete" text="Slett kandidat" />
 		            <Button fx:id="saveCandidateButton" mnemonicParsing="false" onAction="#handleSaveChangesToCandidate" text="Lagre kandidat" />
-		            <Button fx:id="saveListButton" mnemonicParsing="false" onAction="#handleSaveList" text="Lagre listen" />
+		            <Button fx:id="newCandidateButton" mnemonicParsing="false" onAction="#handleNewCandidate" text="Ny kandidat" />
 		        </items>
 		      </ToolBar>
 		      <TextField fx:id="animalsPGField" layoutX="415.0" layoutY="117.0" prefHeight="25.0" prefWidth="71.0" />
@@ -51,7 +51,7 @@
 				<ToolBar layoutX="197.0" layoutY="556.0" prefHeight="40.0" prefWidth="200.0">
                    <items>
                      <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" text="Tilbake" />
-                     <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleSave" text="Lagre" />
+                     <Button fx:id="saveListButton" mnemonicParsing="false" onAction="#handleSaveList" text="Lagre" />
                    </items>
                  </ToolBar>
                   <ImageView fx:id="imageView" fitHeight="90.0" fitWidth="84.0" layoutX="24.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />

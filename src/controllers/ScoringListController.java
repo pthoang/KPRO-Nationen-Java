@@ -131,13 +131,21 @@ public class ScoringListController extends SuperController {
 		candidateTable.refresh();
 	}
 	
+	
+	
 	// Related to candidate view
+
 	/**
 	 * Updates the candidates based on the changes in the fields.
 	 * Then refresh the table.
 	 */
 	@FXML
 	public void handleSaveChangesToCandidate() {
+		
+		if (candidate == null) {
+			candidate = new Candidate("", 0, 0);
+			scoringList.addCandidate(candidate);
+		}
 		// Name
 		String newName = nameField.getText();
 		candidate.splitUpAndSaveName(newName);
@@ -194,6 +202,12 @@ public class ScoringListController extends SuperController {
 		imageView.setImage(image);
 	}
 	
+	@FXML
+	public void handleNewCandidate() {
+		candidate = null;
+		cleanFields();
+	}
+	
 	/**
 	 * Saves the list to a file locally.
 	 */
@@ -234,5 +248,17 @@ public class ScoringListController extends SuperController {
 		animalsPGField.setText(Integer.toString(candidate.getAnimalsPG()));
 		hiredHelpPGField.setText(Integer.toString(candidate.getHiredHelpPG()));
 		farmingPGField.setText(Integer.toString(candidate.getFarmingPG()));
+	}
+	
+	public void cleanFields() {
+		imageView.setImage(new Image(getClass().getResource("../person_icon.png").toExternalForm()));
+		nameField.setText("");
+		municipalityField.setText("");
+		rankField.setText("");
+		previousYearRankField.setText("");
+		descriptionField.setText("");
+		animalsPGField.setText("");
+		hiredHelpPGField.setText("");
+		farmingPGField.setText("");
 	}
 }

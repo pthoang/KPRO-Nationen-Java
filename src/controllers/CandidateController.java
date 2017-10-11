@@ -81,7 +81,7 @@ public class CandidateController extends SuperController {
 		candidate.setPreviousYearRank(new SimpleIntegerProperty(newPreviousYearRank));
 
 		// Rank
-		int rank = Integer.parseInt(previousYearRankField.getText());
+		int rank = Integer.parseInt(rankField.getText());
 		candidate.setRank(new SimpleIntegerProperty(rank));
 		
 		// Municipality

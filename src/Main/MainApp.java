@@ -6,12 +6,10 @@ import java.io.IOException;
 import controllers.RootController;
 import controllers.ViewController;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import model.Candidate;
 import model.ScoringList;
 
 public class MainApp extends Application {

@@ -147,7 +147,7 @@ public class CandidateController extends SuperController {
 	 * Sets all the fields to the candidate.
 	 */
 	public void setFields() {
-		image.setImage(new Image(candidate.getImageURL()));
+		//image.setImage(new Image("/home/doraoline/Koding/KPRO-Nationen-Java/person_icon.png"));
 		nameField.setText(candidate.getFirstName() + " " + candidate.getLastName());
 		municipalityField.setText(candidate.getMunicipality());
 		rankField.setText(Integer.toString(candidate.getRank()));

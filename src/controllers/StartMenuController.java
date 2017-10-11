@@ -60,12 +60,10 @@ public class StartMenuController extends SuperController {
 		
 		Stage stage = super.mainApp.getStage();
 		File file = fileChooser.showOpenDialog(stage);
-		System.out.println("Path: " + file.getAbsolutePath());
 		String filePath = file.getAbsolutePath();
 	
 		scoringList.createFromNameList(filePath);
 		super.mainApp.setScoringList(scoringList);
-		System.out.println("Setting scoringList in mainApp");
 		
 		showCandidatesList();
 	}

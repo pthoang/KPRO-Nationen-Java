@@ -28,7 +28,7 @@
 .table-view {
     -fx-background-color: #363636;
     -fx-control-inner-background: #363636;
-    -fx-border-color: #464646;
+    -fx-border-color: #8b8b8b;
 }
 
 .table-view .column-header .label {

@@ -110,7 +110,7 @@ public class ScoringList {
 	// To  help during development
 	public void printCandidates() {
 		for (int i = 0; i < candidates.size(); i++) {
-			System.out.println(candidates.get(i).getFirstName() + candidates.get(i).getLastName());
+			System.out.println(candidates.get(i).getFirstName() + " " + candidates.get(i).getLastName());
 		}
 	}
 	

@@ -36,8 +36,6 @@ public class ViewController {
 			AnchorPane startMenuView = (AnchorPane) loader.load();
 
 			// Set startscreen in the center of root layout.
-			System.out.println("rootLayout: " + rootLayout);
-			System.out.println("startMenuView: " + startMenuView);
 			rootLayout.setCenter(startMenuView);
 
 			StartMenuController controller = loader.getController();

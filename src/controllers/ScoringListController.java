@@ -283,7 +283,6 @@ public class ScoringListController extends SuperController {
 	}
 	
 	private void saveImageToFile() {
-		System.out.println("Save image");
 		// TODO: set as ID instead
 		String imageName = candidate.getFirstName() + candidate.getLastName();
 		imageName = imageName.replace(" ",  "");

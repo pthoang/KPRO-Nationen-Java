@@ -76,10 +76,6 @@ public class MainApp extends Application {
 	 */
 	public void setScoringList(ScoringList scoringList) {
 		this.scoringList = scoringList;
-		
-		System.out.println("Setting scoringList in MainApp: " + scoringList);
-		
-		scoringList.printCandidates();
 	}
 	
 	/**

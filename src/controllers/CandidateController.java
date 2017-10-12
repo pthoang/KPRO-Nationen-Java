@@ -1,11 +1,17 @@
 package controllers;
 
+import java.io.File;
+
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import model.Candidate;
 
 public class CandidateController extends SuperController {
@@ -17,6 +23,8 @@ public class CandidateController extends SuperController {
 	@FXML
 	private Button saveListButton;
 	
+	@FXML
+	private ImageView image;
 	@FXML
 	private TextField nameField = new TextField();
 	@FXML
@@ -37,6 +45,8 @@ public class CandidateController extends SuperController {
 	private Candidate candidate;
 	
 	private ScoringListController scoringListController;
+	
+	private String newImagePath;
 	
 	@FXML
 	public void initialize() {
@@ -61,6 +71,11 @@ public class CandidateController extends SuperController {
 		candidate.splitUpAndSaveName(newName);
 		System.out.println("Changed name");
 		
+		// Image
+		if (newImagePath != "") {
+			candidate.setImageURLProperty(new SimpleStringProperty(newImagePath));
+		}
+		
 		// PreviousYearRank
 		int newPreviousYearRank = Integer.parseInt(previousYearRankField.getText());
 		candidate.setPreviousYearRank(new SimpleIntegerProperty(newPreviousYearRank));
@@ -72,6 +87,10 @@ public class CandidateController extends SuperController {
 		// Municipality
 		String newMunicipality = municipalityField.getText();
 		candidate.setMunicipality(new SimpleStringProperty(newMunicipality));;
+		
+		// Description
+		String description = descriptionField.getText();
+		candidate.setDescription(new SimpleStringProperty(description));
 
 		// ProductionGrants
 		int animalsPG = Integer.parseInt(animalsPGField.getText());
@@ -86,6 +105,17 @@ public class CandidateController extends SuperController {
 		// Network
 		// TODO	
 		scoringListController.refreshTable();
+	}
+	
+	@FXML
+	private void handleChangeImage() {
+		FileChooser fileChooser = new FileChooser();
+		
+		System.out.println("MainApp: " + super.mainApp);
+		Stage stage = super.mainApp.getStage();
+		File file = fileChooser.showOpenDialog(stage);
+		
+		newImagePath = file.getAbsolutePath();
 	}
 	
 	/**
@@ -116,6 +146,7 @@ public class CandidateController extends SuperController {
 	 * Sets all the fields to the candidate.
 	 */
 	public void setFields() {
+		//image.setImage(new Image("/home/doraoline/Koding/KPRO-Nationen-Java/person_icon.png"));
 		nameField.setText(candidate.getFirstName() + " " + candidate.getLastName());
 		municipalityField.setText(candidate.getMunicipality());
 		rankField.setText(Integer.toString(candidate.getRank()));

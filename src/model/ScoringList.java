@@ -110,14 +110,14 @@ public class ScoringList {
 	// To  help during development
 	public void printCandidates() {
 		for (int i = 0; i < candidates.size(); i++) {
-			System.out.println(candidates.get(i).getFirstName() + candidates.get(i).getLastName());
+			System.out.println(candidates.get(i).getFirstName() + " " + candidates.get(i).getLastName());
 		}
 	}
 	
 	private void readNameList(Stream<String> stream) throws IOException {
 		final AtomicInteger rank = new AtomicInteger(1);
 		stream.forEach((name) -> {
-			Candidate candidate = new Candidate(name, null, null, rank.get());
+			Candidate candidate = new Candidate(name, rank.get(), 0);
 			candidates.add(candidate);
 			rank.incrementAndGet();		
 		});

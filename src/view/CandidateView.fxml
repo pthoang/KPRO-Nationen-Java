@@ -24,7 +24,7 @@
       <TextField fx:id="hiredHelpPGField" GridPane.rowIndex="5" GridPane.columnIndex="1" />
       <TextField fx:id="farmingPGField" GridPane.rowIndex="6" GridPane.columnIndex="1" />
 
-      <Label maxWidth="200" GridPane.rowIndex="3" GridPane.columnIndex="2" text="Nettverk:" alignment="CENTER_LEFT"/>
+      <Label maxWidth="200" GridPane.rowIndex="3" GridPane.columnIndex="2" text="Nettverk:" />
       <ListView fx:id="networkList" maxHeight="200" GridPane.rowSpan="3" GridPane.rowIndex="4" GridPane.columnIndex="2"  />
 
       <ToolBar GridPane.rowIndex="9" GridPane.columnIndex="0" GridPane.columnSpan="2">
@@ -32,6 +32,7 @@
             <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDelete" text="Slett kandidat" />
             <Button fx:id="saveCandidateButton" mnemonicParsing="false" onAction="#handleSaveChangesToCandidate" text="Lagre kandidat" />
             <Button fx:id="saveListButton" mnemonicParsing="false" onAction="#handleSaveList" text="Lagre listen" />
+            <Button fx:id="changeImageButton"  mnemonicParsing="false" onAction="#handleChangeImage" text="Endre bilde" />
          </items>
       </ToolBar>
 
@@ -43,7 +44,6 @@
       <Label maxWidth="200" GridPane.rowIndex="4" GridPane.columnIndex="0"  text="Dyr"/>
       <Label maxWidth="200" GridPane.rowIndex="5" GridPane.columnIndex="0"  text="Avløser"/>
       <Label maxWidth="200" GridPane.rowIndex="6" GridPane.columnIndex="0"  text="Jordbruk"/>
-
 
    </children>
    <columnConstraints>

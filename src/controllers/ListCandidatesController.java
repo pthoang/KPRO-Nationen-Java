@@ -68,7 +68,6 @@ public class ListCandidatesController extends SuperController {
 	}
 	
 	public void getAndFillTable() {
-		System.out.println("MainApp in ListCandidatesController " + this + ": " + super.mainApp);
 		ScoringList scoringList = super.mainApp.getScoringList();
 		ObservableList<Candidate> candidates = scoringList.getCandidates();
 		candidateTable.setItems(candidates);

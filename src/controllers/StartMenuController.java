@@ -44,9 +44,6 @@ public class StartMenuController extends SuperController {
 	
 	@FXML
 	private void importNameList() {
-		// TODO: get nameList
-		// TODO: should this be moved to its own class?
-		
 		FileChooser fileChooser = new FileChooser();
 		
 		Stage stage = super.mainApp.getStage();
@@ -54,8 +51,8 @@ public class StartMenuController extends SuperController {
 		String filePath = file.getAbsolutePath();
 	
 		scoringList.createFromNameList(filePath);
+		
 		super.mainApp.setScoringList(scoringList);
-		System.out.println("Setting scoringList in mainApp");
 		
 		showCandidatesList();
 	}

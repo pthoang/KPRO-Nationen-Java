@@ -124,6 +124,14 @@ public class CandidateController extends SuperController {
 		}
 	}
 	
+	private void validateRank(String rank) {
+		
+	}
+	
+	private void validatePreviousYearRank(int preivousYearRank) {
+		
+	}
+	
 	private void validateDescription(String description) {
 		if (description.length() <= 5) {
 			errorMessage += "\n Beskrivelse mangler:";

@@ -66,7 +66,6 @@ public class StartMenuController extends SuperController {
 		showCandidatesList();
 	}
 	
-	
 	@FXML
 	private void importLastYearList() {
 		// TODO: get previous list

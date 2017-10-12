@@ -2,9 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.AnchorPane?>
 
 <?import javafx.geometry.Insets?>
 <GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CandidateController" alignment="center" hgap="10" vgap="10">
@@ -14,19 +12,20 @@
    <children>
       <ImageView fx:id="image" GridPane.rowSpan="3" GridPane.rowIndex="0" GridPane.columnIndex="2" pickOnBounds="true" preserveRatio="true" />
 
-      <TextField fx:id="nameField" maxWidth="200" GridPane.rowIndex="0" GridPane.columnIndex="1" promptText="Navn"/>
-      <TextField fx:id="previousYearRankField" maxWidth="200" GridPane.rowIndex="1" GridPane.columnIndex="1" promptText="Fjorårets rangering" />
-      <TextField fx:id="rankField" maxWidth="200" GridPane.rowIndex="2" GridPane.columnIndex="1" promptText="Rangering"/>
+      <TextField fx:id="nameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+      <TextField fx:id="previousYearRankField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+      <TextField fx:id="rankField" GridPane.rowIndex="2" GridPane.columnIndex="1" />
 
-      <TextArea fx:id="descriptionField" maxWidth="400" maxHeight="180" GridPane.rowSpan="3" GridPane.rowIndex="4" GridPane.columnIndex="0" promptText="Beskrivelse"/>
+      <Label maxWidth="200" GridPane.rowIndex="7" GridPane.columnIndex="0" text="Beskrivelse:" />
+      <TextArea fx:id="descriptionField" maxHeight="200" GridPane.columnSpan="3" GridPane.rowIndex="8" GridPane.columnIndex="0" />
 
-      <TextField fx:id="municipalityField" GridPane.rowIndex="3" GridPane.columnIndex="1" promptText="Kommune" />
-      <TextField fx:id="animalsPGField" GridPane.rowIndex="4" GridPane.columnIndex="1" promptText="Dyr" />
-      <TextField fx:id="hiredHelpPGField" GridPane.rowIndex="5" GridPane.columnIndex="1" promptText="Avløser" />
-      <TextField fx:id="farmingPGField" GridPane.rowIndex="6" GridPane.columnIndex="1" promptText="Jordbruk" />
+      <TextField fx:id="municipalityField" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+      <TextField fx:id="animalsPGField" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+      <TextField fx:id="hiredHelpPGField" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+      <TextField fx:id="farmingPGField" GridPane.rowIndex="6" GridPane.columnIndex="1" />
 
-      <Label GridPane.rowIndex="7" GridPane.columnIndex="0" text="Nettverk" />
-      <ListView fx:id="networkList" GridPane.rowSpan="2" GridPane.columnSpan="2" GridPane.rowIndex="8" GridPane.columnIndex="0"  />
+      <Label maxWidth="200" GridPane.rowIndex="3" GridPane.columnIndex="2" text="Nettverk:" alignment="CENTER_LEFT"/>
+      <ListView fx:id="networkList" maxHeight="200" GridPane.rowSpan="3" GridPane.rowIndex="4" GridPane.columnIndex="2"  />
 
       <ToolBar GridPane.rowIndex="9" GridPane.columnIndex="0" GridPane.columnSpan="2">
          <items>
@@ -36,13 +35,21 @@
          </items>
       </ToolBar>
 
-      <Label></Label>
+      <Label maxWidth="200" GridPane.rowIndex="0" GridPane.columnIndex="0" text="Navn"/>
+      <Label maxWidth="200" GridPane.rowIndex="1" GridPane.columnIndex="0" text="Fjorårets rangering"/>
+      <Label maxWidth="200" GridPane.rowIndex="2" GridPane.columnIndex="0" text="Årets rangering"/>
+
+      <Label maxWidth="200" GridPane.rowIndex="3" GridPane.columnIndex="0"  text="Kommune"/>
+      <Label maxWidth="200" GridPane.rowIndex="4" GridPane.columnIndex="0"  text="Dyr"/>
+      <Label maxWidth="200" GridPane.rowIndex="5" GridPane.columnIndex="0"  text="Avløser"/>
+      <Label maxWidth="200" GridPane.rowIndex="6" GridPane.columnIndex="0"  text="Jordbruk"/>
 
 
    </children>
    <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" halignment="CENTER" />
-      <ColumnConstraints hgrow="SOMETIMES" halignment="CENTER" />
+      <ColumnConstraints percentWidth="20" hgrow="SOMETIMES" halignment="CENTER" />
+      <ColumnConstraints percentWidth="40" hgrow="SOMETIMES" halignment="CENTER" />
+      <ColumnConstraints percentWidth="40" hgrow="SOMETIMES" halignment="CENTER" />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />

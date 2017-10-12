@@ -103,7 +103,6 @@ public class CandidateController extends SuperController {
 	public void handleDelete() {
 		super.mainApp.getScoringList().deleteCandidate(candidate);
 	}
-	
 	/**
 	 * Get the candidate to be set in the fields, and then fill inn the fields.
 	 * @param candidate

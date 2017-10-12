@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.geometry.Insets?>
-
+<?import javafx.scene.image.*?>
 
 <GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.StartMenuController">
    <children>
@@ -16,6 +13,7 @@
       <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" minWidth="10.0" prefWidth="50.0" />
    </columnConstraints>
    <rowConstraints>
+      <RowConstraints percentHeight="20" prefHeight="10.0" vgrow="SOMETIMES" />
       <RowConstraints percentHeight="20" prefHeight="10.0" vgrow="SOMETIMES" />
       <RowConstraints percentHeight="20" prefHeight="10.0" vgrow="SOMETIMES" />
    </rowConstraints>

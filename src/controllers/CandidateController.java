@@ -1,10 +1,13 @@
 package controllers;
 
 import java.io.File;
+import java.util.regex.Pattern;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -47,6 +50,7 @@ public class CandidateController extends SuperController {
 	private ScoringListController scoringListController;
 	
 	private String newImagePath;
+	private String errorMessage;
 	
 	@FXML
 	public void initialize() {
@@ -66,10 +70,11 @@ public class CandidateController extends SuperController {
 	 */
 	@FXML
 	public void handleSaveChangesToCandidate() {
+		errorMessage = "";
+		
 		// Name
 		String newName = nameField.getText();
-		candidate.splitUpAndSaveName(newName);
-		System.out.println("Changed name");
+		validateName(newName);
 		
 		// Image
 		if (newImagePath != "") {
@@ -90,7 +95,7 @@ public class CandidateController extends SuperController {
 		
 		// Description
 		String description = descriptionField.getText();
-		candidate.setDescription(new SimpleStringProperty(description));
+		validateDescription(description);
 
 		// ProductionGrants
 		int animalsPG = Integer.parseInt(animalsPGField.getText());
@@ -104,7 +109,46 @@ public class CandidateController extends SuperController {
 		
 		// Network
 		// TODO	
-		scoringListController.refreshTable();
+		
+		handleErrorMessage(); 
+	}
+	
+	private void validateName(String name) {
+		Pattern pattern = Pattern.compile("^[A-ZÆØÅa-zæøå.- ]++$");
+		
+		if (name.length() <= 2) {
+			errorMessage += "\n Navn må være lengre enn 2 bokstaver.";
+		} 
+		if (!pattern.matcher(name).matches()) {
+			errorMessage += "\n Navnet inneholder ugyldige bokstaver. Tillatt er: a-å, ., og -";
+		}
+	}
+	
+	private void validateDescription(String description) {
+		if (description.length() <= 5) {
+			errorMessage += "\n Beskrivelse mangler:";
+		}
+	}
+	
+	private void saveCandidate() {
+		String newName = nameField.getText();
+		candidate.splitUpAndSaveName(newName);
+		
+		String description = descriptionField.getText();
+		candidate.setDescription(new SimpleStringProperty(description));
+	}
+	
+	private void handleErrorMessage() {
+		if (errorMessage.length() != 0) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Feilmeldinger");
+			alert.setHeaderText("Felter til kandidaten er ikke korrekt utfylt.");
+			alert.setContentText(errorMessage);
+			alert.showAndWait();
+		} else {
+			saveCandidate();
+			scoringListController.refreshTable();
+		}
 	}
 	
 	@FXML
@@ -117,6 +161,7 @@ public class CandidateController extends SuperController {
 		
 		newImagePath = file.getAbsolutePath();
 	}
+
 	
 	/**
 	 * Saves the list to a file locally.

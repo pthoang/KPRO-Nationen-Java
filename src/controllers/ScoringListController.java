@@ -220,6 +220,9 @@ public class ScoringListController extends SuperController {
 		} 
 		if (!pattern.matcher(name).matches()) {
 			errorMessage += "\n Navnet inneholder ugyldige bokstaver. Tillatt er: a-å, ., og -";
+		} 
+		if (nameExistInList(name)) {
+			errorMessage += "\n Det eksisterer allerede noen med det for- og etternavnet";
 		}
 	}
 	
@@ -385,5 +388,22 @@ public class ScoringListController extends SuperController {
 		} catch (IOException ex) {
 			System.out.println("Error when loading image: " + ex);
 		}
+	}
+	
+	// TODO: can be made more complex
+	private boolean nameExistInList(String name) {
+		String[] names = name.split(" ");
+		int numberOfNames = names.length;
+		for (int i = 0; i < candidates.size(); i++) {
+			Candidate c = candidates.get(i);
+			boolean matchFirstName = c.getFirstName().equals(names[0]);
+			System.out.println("Names: " + names);
+			System.out.println("Last name: " + names[numberOfNames - 1]);
+			boolean matchLastName = c.getLastName().equals(names[numberOfNames - 1]);
+			if (matchFirstName && matchLastName) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

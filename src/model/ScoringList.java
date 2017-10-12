@@ -1,9 +1,14 @@
 package model;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -31,8 +36,7 @@ public class ScoringList {
 	public ScoringList(int year) {
 		this.year = new SimpleIntegerProperty(year);
 		candidates = FXCollections.observableArrayList();
-		}
-
+	}
 
 	/**
 	 * Get year
@@ -42,6 +46,10 @@ public class ScoringList {
 		return year.get();
 	}
 
+	/** 
+	 * Get year
+	 * @return SimpleIntegerProperty The year as a property
+	 */
 	public SimpleIntegerProperty yearProperty() {
 		return year;
 	}
@@ -74,12 +82,17 @@ public class ScoringList {
 		return new SimpleStringProperty(getLength() + "/" + MAX_LENGTH);
 	}
 
-	public void createFromNameList() {
-		
+	public void createFromNameList(String filePath) {
+		// TODO: missing validation of file
+		try (Stream<String> stream = Files.lines(Paths.get(filePath))) {
+			readNameList(stream);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
 	}
 	
 	public void createFromPreviousList() {
-		
+		// TODO
 	}
 	
 	public void saveList() {
@@ -88,6 +101,26 @@ public class ScoringList {
 	
 	public ObservableList<Candidate> getCandidates() {
 		return candidates;
+	}
+	
+	public void deleteCandidate(Candidate candidate) {
+		candidates.remove(candidate);
+	}
+	
+	// To  help during development
+	public void printCandidates() {
+		for (int i = 0; i < candidates.size(); i++) {
+			System.out.println(candidates.get(i).getFirstName() + " " + candidates.get(i).getLastName());
+		}
+	}
+	
+	private void readNameList(Stream<String> stream) throws IOException {
+		final AtomicInteger rank = new AtomicInteger(1);
+		stream.forEach((name) -> {
+			Candidate candidate = new Candidate(name, rank.get(), 0);
+			candidates.add(candidate);
+			rank.incrementAndGet();		
+		});
 	}
 
 }

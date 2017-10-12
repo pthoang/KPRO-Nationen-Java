@@ -7,7 +7,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="800.0" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.StartMenuController">
    <children>
-      <Button fx:id="lastYearButton" layoutX="341.0" layoutY="218.0" mnemonicParsing="false" onAction="#importLastYearList" text="Importer fjorårets liste" />
+      <Button fx:id="lastYearListButton" layoutX="341.0" layoutY="218.0" mnemonicParsing="false" onAction="#importLastYearList" text="Importer fjorårets liste" />
       <Button fx:id="nameListButton" layoutX="325.0" layoutY="150.0" mnemonicParsing="false" onAction="#importNameList" text="Importer navneliste fra jury" />
    </children>
 </AnchorPane>

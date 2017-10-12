@@ -53,38 +53,20 @@ public class StartMenuController extends SuperController {
 	
 	@FXML
 	private void importNameList() {
-		// TODO: get nameList
-		// TODO: should this be moved to its own class?
-		
 		FileChooser fileChooser = new FileChooser();
 		
 		Stage stage = super.mainApp.getStage();
 		File file = fileChooser.showOpenDialog(stage);
 		String filePath = file.getAbsolutePath();
+	
+		scoringList.createFromNameList(filePath);
 		
-		// When testing
-		//String filePath = "src/NameListTest.txt";
-		// TODO: missing validation of file
-		try (Stream<String> stream = Files.lines(Paths.get(filePath))) {
-			readNameList(stream);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} 
-		
-		scoringList.createFromNameList();
+		super.mainApp.setScoringList(scoringList);
 		
 		showCandidatesList();
 	}
 	
-	private void readNameList(Stream<String> stream) throws IOException {
-		final AtomicInteger rank = new AtomicInteger();
-		stream.forEach((name) -> {
-			Candidate candidate = new Candidate(name, null, null, rank.get());
-			scoringList.addCandidate(candidate);
-			rank.incrementAndGet();
-			
-		});
-	}
+	
 
 	@FXML
 	private void importLastYearList() {
@@ -101,20 +83,5 @@ public class StartMenuController extends SuperController {
 	private void showCandidatesList() {
 		mainApp.setScoringList(scoringList);
 		viewController.showCandidatesListView();
-		
 	}
-	
-	/**
-	 * Load the selected file
-	 */
-	@FXML
-	private void fileChooser() {
-
-		FileChooser fileChooser = new FileChooser();
-		Desktop desktop = Desktop.getDesktop();
-
-		Stage stage = super.mainApp.getStage();
-		fileChooser.showOpenDialog(stage);
-	}
-		
 }

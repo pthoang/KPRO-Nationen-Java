@@ -17,6 +17,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import com.google.gson.*;
 
 
 public class ScoringList {
@@ -91,8 +92,14 @@ public class ScoringList {
 		} 
 	}
 	
-	public void createFromPreviousList() {
+	public void createFromPreviousList(String filePath) {
 		// TODO
+		try {
+			readJson(filePath);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void saveList() {
@@ -121,6 +128,14 @@ public class ScoringList {
 			candidates.add(candidate);
 			rank.incrementAndGet();		
 		});
+	}
+
+	private void readJson(String filepath) throws IOException {
+		String content = new String(Files.readAllBytes(Paths.get(filepath)));
+
+		JsonParser parser = new JsonParser();
+		JsonElement data = parser.parse(content);
+		System.out.println(data);
 	}
 
 }

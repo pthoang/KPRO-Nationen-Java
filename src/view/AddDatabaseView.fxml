@@ -5,41 +5,46 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddDatabaseController">
+<?import javafx.geometry.Insets?>
+<GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddDatabaseController" alignment="center" hgap="10" vgap="10">
+   <padding>
+      <Insets top="10" right="10" bottom="10" left="20"/>
+   </padding>
    <children>
-      <AnchorPane layoutX="5.0" layoutY="220.0" prefHeight="50.0" prefWidth="600.0">
-         <children>
-            <Label layoutX="34.0" layoutY="19.0" text="Skatteetaten" />
-            <TextField fx:id="loadedFileNameField" layoutX="161.0" layoutY="13.0" />
-            <Button fx:id="chooseFileButton" layoutX="360.0" layoutY="13.0" mnemonicParsing="false" onAction="#fileChooser" text="Last inn" />
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="5.0" layoutY="62.0" prefHeight="50.0" prefWidth="600.0">
-         <children>
-            <Label layoutX="12.0" layoutY="16.0" text="Aksjonærregisteret" />
-            <TextField fx:id="loadedFileNameField1" layoutX="154.0" layoutY="11.0" />
-            <Button fx:id="chooseFileButton1" layoutX="357.0" layoutY="13.0" mnemonicParsing="false" onAction="#fileChooser" text="Last inn" />
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutY="170.0" prefHeight="50.0" prefWidth="600.0">
-         <children>
-            <Label layoutX="34.0" layoutY="19.0" text="Rolleregister" />
-            <TextField fx:id="loadedFileNameField2" layoutX="156.0" layoutY="13.0" />
-            <Button fx:id="chooseFileButton2" layoutX="357.0" layoutY="13.0" mnemonicParsing="false" onAction="#fileChooser" text="Last inn" />
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="1.0" layoutY="114.0" prefHeight="50.0" prefWidth="600.0">
-         <children>
-            <Label layoutX="34.0" layoutY="19.0" text="Eiendsomsbasen" />
-            <TextField fx:id="loadedFileNameField3" layoutX="159.0" layoutY="13.0" />
-            <Button fx:id="chooseFileButton3" layoutX="359.0" layoutY="12.0" mnemonicParsing="false" onAction="#fileChooser" text="Last inn" />
-         </children>
-      </AnchorPane>
-      <ToolBar layoutX="381.0" layoutY="333.0" prefHeight="40.0" prefWidth="200.0">
-        <items>
-          <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" text="Tilbake" />
+            <Label GridPane.columnIndex="0" GridPane.rowIndex="0" text="Skatteetaten" />
+            <TextField fx:id="loadedFileNameField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+            <Button fx:id="chooseFileButton" GridPane.columnIndex="2" GridPane.rowIndex="0" mnemonicParsing="false" onAction="#fileChooser" text="Last inn" />
+
+            <Label GridPane.columnIndex="0" GridPane.rowIndex="1" text="Aksjonærregisteret" />
+            <TextField fx:id="loadedFileNameField1" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button fx:id="chooseFileButton1" GridPane.columnIndex="2" GridPane.rowIndex="1" mnemonicParsing="false" onAction="#fileChooser" text="Last inn" />
+
+
+            <Label GridPane.columnIndex="0" GridPane.rowIndex="2" text="Rolleregister" />
+            <TextField fx:id="loadedFileNameField2" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button fx:id="chooseFileButton2" GridPane.columnIndex="2" GridPane.rowIndex="2" mnemonicParsing="false" onAction="#fileChooser" text="Last inn" />
+
+            <Label GridPane.columnIndex="0" GridPane.rowIndex="3" text="Eiendsomsbasen" />
+            <TextField fx:id="loadedFileNameField3" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Button fx:id="chooseFileButton3" GridPane.columnIndex="2" GridPane.rowIndex="3" mnemonicParsing="false" onAction="#fileChooser" text="Last inn" />
+
+      <ToolBar GridPane.columnIndex="0" GridPane.rowIndex="4" prefHeight="40.0" prefWidth="200.0">
+         <items>
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" text="Tilbake" />
             <Button fx:id="nextButton" mnemonicParsing="false" onAction="#handleNext" text="Lag fil" />
-        </items>
+         </items>
       </ToolBar>
    </children>
-</AnchorPane>
+   <columnConstraints>
+      <ColumnConstraints percentWidth="20" hgrow="SOMETIMES" halignment="LEFT" />
+      <ColumnConstraints percentWidth="30" hgrow="SOMETIMES" halignment="LEFT" />
+      <ColumnConstraints percentWidth="50" hgrow="SOMETIMES" halignment="LEFT" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />
+      <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />
+      <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />
+      <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />
+      <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />
+   </rowConstraints>
+</GridPane>

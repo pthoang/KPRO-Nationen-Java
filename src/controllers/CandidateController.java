@@ -1,10 +1,13 @@
 package controllers;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.regex.Pattern;
+import java.io.IOException;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -17,6 +20,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Candidate;
 
+import javax.imageio.ImageIO;
+
 public class CandidateController extends SuperController {
 
 	@FXML
@@ -25,9 +30,9 @@ public class CandidateController extends SuperController {
 	private Button saveCandidateButton;
 	@FXML
 	private Button saveListButton;
-	
+
 	@FXML
-	private ImageView image;
+	private ImageView imageView;
 	@FXML
 	private TextField nameField = new TextField();
 	@FXML
@@ -44,6 +49,8 @@ public class CandidateController extends SuperController {
 	private TextField hiredHelpPGField = new TextField();
 	@FXML
 	private TextField farmingPGField = new TextField();
+
+	private Image newImage;
 	
 	private Candidate candidate;
 	
@@ -178,6 +185,11 @@ public class CandidateController extends SuperController {
 	public void handleSaveList() {
 		// TODO: copy the list and save it as temporaryList?
 	}
+
+	@FXML
+	private void handleBack() {
+		super.viewController.showCandidatesListView();
+	}
 	
 	/**
 	 * Called when the delete-button is clicked. Deletes a candidate from the list.
@@ -186,7 +198,6 @@ public class CandidateController extends SuperController {
 	public void handleDelete() {
 		super.mainApp.getScoringList().deleteCandidate(candidate);
 	}
-	
 	/**
 	 * Get the candidate to be set in the fields, and then fill inn the fields.
 	 * @param candidate
@@ -200,7 +211,10 @@ public class CandidateController extends SuperController {
 	 * Sets all the fields to the candidate.
 	 */
 	public void setFields() {
-		//image.setImage(new Image("/home/doraoline/Koding/KPRO-Nationen-Java/person_icon.png"));
+
+		File file = new File(candidate.getImageURL());
+		setImageField(file);
+
 		nameField.setText(candidate.getFirstName() + " " + candidate.getLastName());
 		municipalityField.setText(candidate.getMunicipality());
 		rankField.setText(Integer.toString(candidate.getRank()));
@@ -209,5 +223,15 @@ public class CandidateController extends SuperController {
 		animalsPGField.setText(Integer.toString(candidate.getAnimalsPG()));
 		hiredHelpPGField.setText(Integer.toString(candidate.getHiredHelpPG()));
 		farmingPGField.setText(Integer.toString(candidate.getFarmingPG()));
+	}
+
+	private void setImageField(File file) {
+		try {
+			BufferedImage bufferedImage = ImageIO.read(file);
+			newImage = SwingFXUtils.toFXImage(bufferedImage, null);
+			imageView.setImage(newImage);
+		} catch (IOException ex) {
+			System.out.println("Error when loading image: " + ex);
+		}
 	}
 }

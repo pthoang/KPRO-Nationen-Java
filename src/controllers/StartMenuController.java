@@ -1,25 +1,13 @@
 package controllers;
 
-import java.awt.Desktop;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
-
-import javax.swing.JFileChooser;
-
-import Main.MainApp;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import model.Candidate;
 import model.ScoringList;
 
 public class StartMenuController extends SuperController {
@@ -29,6 +17,9 @@ public class StartMenuController extends SuperController {
 	private Button nameListButton;
 	@FXML
 	private Button lastYearListButton;
+
+	@FXML
+	private ImageView imageView;
 	
 	private ScoringList scoringList;
 	

@@ -12,6 +12,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.ScoringList;
 
+import static com.apple.eio.FileManager.getResource;
+
 public class MainApp extends Application {
 
 	private Stage primaryStage;
@@ -41,7 +43,7 @@ public class MainApp extends Application {
 
 	/**
 	 * Initializes the root layout
-	 * @param args
+	 * @param
 	 */
 	public void initRootLayout() {
 		try {
@@ -55,7 +57,10 @@ public class MainApp extends Application {
 
 			// Show the scene containing the root layout.
 			Scene scene = new Scene(rootLayout);
+			scene.getStylesheets().add(this.getClass().getResource("../style.css").toExternalForm());
 			primaryStage.setScene(scene);
+			String css = this.getClass().getResource("../style.css").toExternalForm();
+			scene.getStylesheets().add(css);
 			primaryStage.show();
 		} catch (IOException e) {
 			e.printStackTrace();

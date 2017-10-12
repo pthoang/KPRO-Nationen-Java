@@ -18,6 +18,10 @@
     -fx-background-color: #363636;
 }
 
+.split-pane > .split-pane-divider {
+    -fx-background-color: #626262;
+}
+
 .button {
     -fx-background-color: #489853;
     -fx-border-color: #3c7f45;

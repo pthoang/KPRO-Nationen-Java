@@ -132,6 +132,11 @@ public class CandidateController extends SuperController {
 	public void handleSaveList() {
 		// TODO: copy the list and save it as temporaryList?
 	}
+
+	@FXML
+	private void handleBack() {
+		super.viewController.showCandidatesListView();
+	}
 	
 	/**
 	 * Called when the delete-button is clicked. Deletes a candidate from the list.

@@ -33,6 +33,7 @@
             <Button fx:id="saveCandidateButton" mnemonicParsing="false" onAction="#handleSaveChangesToCandidate" text="Lagre kandidat" />
             <Button fx:id="saveListButton" mnemonicParsing="false" onAction="#handleSaveList" text="Lagre listen" />
             <Button fx:id="changeImageButton"  mnemonicParsing="false" onAction="#handleChangeImage" text="Endre bilde" />
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" text="Tilbake" />
          </items>
       </ToolBar>
 

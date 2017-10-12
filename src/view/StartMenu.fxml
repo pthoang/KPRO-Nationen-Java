@@ -6,8 +6,8 @@
 
 <GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.StartMenuController">
    <children>
-      <Button fx:id="lastYearListButton" minWidth="250" mnemonicParsing="false" onAction="#importLastYearList" text="Importer fjorårets liste" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-      <Button fx:id="nameListButton" minWidth="250" mnemonicParsing="false" onAction="#importNameList" text="Importer navneliste fra jury" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+      <Button fx:id="nameListButton" minWidth="250" mnemonicParsing="false" onAction="#importNameList" text="Importer navneliste fra jury"  GridPane.columnIndex="0" GridPane.rowIndex="1" />
+      <Button fx:id="lastYearListButton" minWidth="250" mnemonicParsing="false" onAction="#importLastYearList" text="Importer fjorårets liste" GridPane.columnIndex="0" GridPane.rowIndex="2" />
    </children>
    <columnConstraints>
       <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" minWidth="10.0" prefWidth="50.0" />

@@ -17,8 +17,8 @@
         </TableView>
         <ToolBar GridPane.columnIndex="0" GridPane.rowIndex="1">
             <items>
-                <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" text="Tilbake" />
-                <Button fx:id="nextButton" mnemonicParsing="false" onAction="#handleNext" text="Lagre" />
+                <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" text="Tilbake til menyen" />
+                <Button fx:id="nextButton" mnemonicParsing="false" onAction="#handleNext" text="Neste" />
             </items>
         </ToolBar>
     </children>

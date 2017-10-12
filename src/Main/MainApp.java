@@ -61,10 +61,8 @@ public class MainApp extends Application {
 			Scene scene = new Scene(rootLayout);
 			scene.getStylesheets().add(this.getClass().getResource("../style.css").toExternalForm());
 			primaryStage.setScene(scene);
-
 			String css = this.getClass().getResource("../style.css").toExternalForm();
 			scene.getStylesheets().add(css);
-
 			primaryStage.show();
 		} catch (IOException e) {
 			e.printStackTrace();

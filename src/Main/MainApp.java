@@ -45,7 +45,7 @@ public class MainApp extends Application {
 
 	/**
 	 * Initializes the root layout
-	 * @param args
+	 * @param
 	 */
 	public void initRootLayout() {
 		try {
@@ -62,6 +62,8 @@ public class MainApp extends Application {
 			scene.getStylesheets().add(this.getClass().getResource("../style.css").toExternalForm());
 			primaryStage.setScene(scene);
 
+			String css = this.getClass().getResource("../style.css").toExternalForm();
+			scene.getStylesheets().add(css);
 
 			primaryStage.show();
 		} catch (IOException e) {

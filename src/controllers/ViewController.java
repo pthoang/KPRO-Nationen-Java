@@ -120,13 +120,13 @@ public class ViewController {
 			CandidateController controller = loader.getController();
 			controller.setMainApp(mainApp);
 			controller.setViewController(this);
-			
+
 			controller.setCandidate(candidate);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Shows the view for the final list.
 	 */

@@ -1,0 +1,50 @@
+.root {
+    -fx-background-color: #363636;
+    -fx-border-color: #272727;
+}
+
+
+.gridPane {
+    -fx-background-color: #363636;
+
+}
+
+
+.anchorPane {
+    -fx-background-color: #363636;
+}
+
+.button {
+    -fx-background-color: #489853;
+    -fx-border-color: #3c7f45;
+    -fx-text-fill: #1d1d1d;
+}
+
+
+.table-view {
+    -fx-background-color: #363636;
+    -fx-control-inner-background: #363636;
+}
+
+.tool-bar {
+    -fx-background-color: #363636;
+
+}
+
+.text-field {
+    -fx-background-color: #616161;
+    -fx-prompt-text-fill: #999999;
+    -fx-text-fill: white;
+}
+
+
+.text-area {
+    -fx-background-color: #616161;
+    -fx-prompt-text-fill: #999999;
+    -fx-text-fill: white;
+}
+
+.list-view {
+    -fx-control-inner-background: #616161;
+    -fx-text-fill: white;
+}

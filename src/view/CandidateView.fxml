@@ -6,32 +6,53 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CandidateController">
+<?import javafx.geometry.Insets?>
+<GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CandidateController" alignment="center" hgap="10" vgap="10">
+   <padding>
+      <Insets top="10" right="10" bottom="10" left="10"/>
+   </padding>
    <children>
-      <ImageView fx:id="image" fitHeight="109.0" fitWidth="75.0" layoutX="24.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" />
-      <TextField fx:id="nameField" layoutX="146.0" layoutY="23.0" />
-      <TextField fx:id="previousYearRankField" layoutX="430.0" layoutY="22.0" prefHeight="25.0" prefWidth="27.0" />
-      <TextField fx:id="rankField" layoutX="119.0" layoutY="22.0" prefHeight="25.0" prefWidth="27.0" />
-      <TextArea fx:id="descriptionField" layoutX="120.0" layoutY="117.0" prefHeight="200.0" prefWidth="200.0" />
-      <TextField fx:id="municipalityField" layoutX="185.0" layoutY="58.0" />
-      <ToolBar layoutX="57.0" layoutY="354.0" prefHeight="40.0" prefWidth="348.0">
-        <items>
-          <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDelete" text="Slett kandidat" />
+      <ImageView fx:id="image" GridPane.rowSpan="3" GridPane.rowIndex="0" GridPane.columnIndex="2" pickOnBounds="true" preserveRatio="true" />
+
+      <TextField fx:id="nameField" maxWidth="200" GridPane.rowIndex="0" GridPane.columnIndex="1" promptText="Navn"/>
+      <TextField fx:id="previousYearRankField" maxWidth="200" GridPane.rowIndex="1" GridPane.columnIndex="1" promptText="Fjorårets rangering" />
+      <TextField fx:id="rankField" maxWidth="200" GridPane.rowIndex="2" GridPane.columnIndex="1" promptText="Rangering"/>
+
+      <TextArea fx:id="descriptionField" maxWidth="400" maxHeight="180" GridPane.rowSpan="3" GridPane.rowIndex="4" GridPane.columnIndex="0" promptText="Beskrivelse"/>
+
+      <TextField fx:id="municipalityField" GridPane.rowIndex="3" GridPane.columnIndex="1" promptText="Kommune" />
+      <TextField fx:id="animalsPGField" GridPane.rowIndex="4" GridPane.columnIndex="1" promptText="Dyr" />
+      <TextField fx:id="hiredHelpPGField" GridPane.rowIndex="5" GridPane.columnIndex="1" promptText="Avløser" />
+      <TextField fx:id="farmingPGField" GridPane.rowIndex="6" GridPane.columnIndex="1" promptText="Jordbruk" />
+
+      <Label GridPane.rowIndex="7" GridPane.columnIndex="0" text="Nettverk" />
+      <ListView fx:id="networkList" GridPane.rowSpan="2" GridPane.columnSpan="2" GridPane.rowIndex="8" GridPane.columnIndex="0"  />
+
+      <ToolBar GridPane.rowIndex="9" GridPane.columnIndex="0" GridPane.columnSpan="2">
+         <items>
+            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDelete" text="Slett kandidat" />
             <Button fx:id="saveCandidateButton" mnemonicParsing="false" onAction="#handleSaveChangesToCandidate" text="Lagre kandidat" />
             <Button fx:id="saveListButton" mnemonicParsing="false" onAction="#handleSaveList" text="Lagre listen" />
-        </items>
+         </items>
       </ToolBar>
-      <TextField fx:id="animalsPGField" layoutX="415.0" layoutY="117.0" prefHeight="25.0" prefWidth="71.0" />
-      <TextField fx:id="hiredHelpPGField" layoutX="416.0" layoutY="154.0" prefHeight="25.0" prefWidth="71.0" />
-      <TextField fx:id="farmingPGField" layoutX="417.0" layoutY="190.0" prefHeight="25.0" prefWidth="71.0" />
-      <Label layoutX="338.0" layoutY="122.0" text="Dyr" />
-      <Label layoutX="338.0" layoutY="159.0" text="Avløser" />
-      <Label layoutX="338.0" layoutY="195.0" text="Jordbruk" />
-      <Label layoutX="332.0" layoutY="87.0" text="Produksjonstilskudd:" />
-      <Label layoutX="332.0" layoutY="27.0" text="Fjorårets rang" />
-      <Label layoutX="108.0" layoutY="64.0" text="Kommune" />
-      <Label layoutX="124.0" layoutY="95.0" text="Beskrivelse" />
-      <Label layoutX="338.0" layoutY="227.0" text="Nettverk" />
-      <ListView fx:id="networkList" layoutX="344.0" layoutY="254.0" prefHeight="68.0" prefWidth="171.0" />
+
+      <Label></Label>
+
+
    </children>
-</AnchorPane>
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" halignment="CENTER" />
+      <ColumnConstraints hgrow="SOMETIMES" halignment="CENTER" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />
+      <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />
+      <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />
+      <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />
+      <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />
+      <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />
+      <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />
+      <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />
+      <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />
+   </rowConstraints>
+</GridPane>

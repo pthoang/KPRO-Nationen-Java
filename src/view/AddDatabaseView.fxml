@@ -29,10 +29,10 @@
             <Button fx:id="chooseFileButton3" GridPane.columnIndex="2" GridPane.rowIndex="3" mnemonicParsing="false" onAction="#fileChooser" text="Last inn" />
 
       <ToolBar GridPane.columnIndex="0" GridPane.rowIndex="4" prefHeight="40.0" prefWidth="200.0">
-        <items>
-          <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" text="Tilbake" />
+         <items>
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" text="Tilbake" />
             <Button fx:id="nextButton" mnemonicParsing="false" onAction="#handleNext" text="Lag fil" />
-        </items>
+         </items>
       </ToolBar>
    </children>
    <columnConstraints>

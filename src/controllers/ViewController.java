@@ -132,7 +132,7 @@ public class ViewController {
 		try {
 			FXMLLoader loader= new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("../view/ScoringListView.fxml"));
-			AnchorPane scoringListView = (AnchorPane) loader.load();
+			GridPane scoringListView = (GridPane) loader.load();
 
 			rootLayout.setCenter(scoringListView);
 

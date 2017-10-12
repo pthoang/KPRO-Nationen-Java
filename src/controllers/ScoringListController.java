@@ -1,11 +1,13 @@
 package controllers;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
-
-import Main.MainApp;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -19,6 +21,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Candidate;
 import model.ScoringList;
+
+import Main.MainApp;
 
 public class ScoringListController extends SuperController {
 	
@@ -47,6 +51,8 @@ public class ScoringListController extends SuperController {
 	private Button saveCandidateButton;
 	@FXML
 	private Button saveListButton;
+	@FXML
+	private Button changeImageButton;
 	
 	@FXML
 	private ImageView imageView = new ImageView();
@@ -69,9 +75,10 @@ public class ScoringListController extends SuperController {
 	
 	private Candidate candidate;
 	
-	private String newImagePath;
+	private Image newImage;
 	
-	
+	private final String STANDARD_IMAGE_PATH = "../images/person_icon2.png";
+	private final String IMAGE_PATH = "images/";
 	
 	public ScoringListController() {
 		super();
@@ -87,12 +94,9 @@ public class ScoringListController extends SuperController {
 
 		getAndFillTable();
 	}
-	
-	
-	
+		
 	public void getAndFillTable() {
-		scoringList = super.mainApp.getScoringList();
-		candidates = scoringList.getCandidates();
+		updateLists();
 		
 		candidateTable.setItems(candidates);
 		
@@ -121,14 +125,13 @@ public class ScoringListController extends SuperController {
 	}
 	
 	public void refreshTable() {
-		
-		scoringList = super.mainApp.getScoringList();
-		
-		//scoringList.printCandidates();
-		
-		candidates = scoringList.getCandidates();
-				
+		updateLists();
 		candidateTable.refresh();
+	}
+	
+	public void updateLists() {
+		scoringList = super.mainApp.getScoringList();		
+		candidates = scoringList.getCandidates();
 	}
 	
 	
@@ -141,19 +144,16 @@ public class ScoringListController extends SuperController {
 	 */
 	@FXML
 	public void handleSaveChangesToCandidate() {
-		
 		if (candidate == null) {
-			candidate = new Candidate("", 0, 0);
-			scoringList.addCandidate(candidate);
+			createAndAddEmptyCandidate();
 		}
 		// Name
 		String newName = nameField.getText();
 		candidate.splitUpAndSaveName(newName);
-		System.out.println("Changed name");
 		
 		// Image
-		if (newImagePath != "") {
-			candidate.setImageURLProperty(new SimpleStringProperty(newImagePath));
+		if (newImage != null) {
+			saveImageToFile();
 		}
 		
 		// PreviousYearRank
@@ -184,22 +184,35 @@ public class ScoringListController extends SuperController {
 		
 		// Network
 		// TODO	
+		
 		refreshTable();
+	}
+	
+	private void createAndAddEmptyCandidate() {
+		candidate = new Candidate("", 0, 0);
+		scoringList.addCandidate(candidate);
 	}
 	
 	@FXML
 	private void handleChangeImage() {
+		// TODO: can maybe be its own static function, since it is used multiple places. Returns the path as a string
 		FileChooser fileChooser = new FileChooser();
+
+		//FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
+		//FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
+		//fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
 		
 		Stage stage = super.mainApp.getStage();
 		File file = fileChooser.showOpenDialog(stage);
 		
-		newImagePath = file.getAbsolutePath();
-		
-		System.out.println("Path: " + newImagePath);
-		Image image = new Image(getClass().getResource(newImagePath).toExternalForm());
-		
-		imageView.setImage(image);
+		try {
+			BufferedImage bufferedImage = ImageIO.read(file);
+			newImage = SwingFXUtils.toFXImage(bufferedImage, null);
+			imageView.setImage(newImage);
+			System.out.println("New image: " + newImage);
+		} catch (IOException ex) {
+			System.out.println("Error when loading image: " + ex);
+		}
 	}
 	
 	@FXML
@@ -237,9 +250,18 @@ public class ScoringListController extends SuperController {
 	 * Sets all the fields to the candidate.
 	 */
 	public void setFields() {
-		Image image = new Image(getClass().getResource("../person_icon.png").toExternalForm());
+		try {
+			File file = new File(candidate.getImageURL());
+			BufferedImage bufferedImage = ImageIO.read(file);
+			newImage = SwingFXUtils.toFXImage(bufferedImage, null);
+			imageView.setImage(newImage);
+			System.out.println("New image: " + newImage);
+		} catch (IOException ex) {
+			System.out.println("Error when loading image: " + ex);
+		}
 		
-		imageView.setImage(image);
+		//Image image = new Image(getClass().getResource(candidate.getImageURL()).toExternalForm());
+		//imageView.setImage(image);
 		nameField.setText(candidate.getFirstName() + " " + candidate.getLastName());
 		municipalityField.setText(candidate.getMunicipality());
 		rankField.setText(Integer.toString(candidate.getRank()));
@@ -251,7 +273,8 @@ public class ScoringListController extends SuperController {
 	}
 	
 	public void cleanFields() {
-		imageView.setImage(new Image(getClass().getResource("../person_icon.png").toExternalForm()));
+		Image image = new Image(getClass().getResource(STANDARD_IMAGE_PATH).toExternalForm());
+		imageView.setImage(image);
 		nameField.setText("");
 		municipalityField.setText("");
 		rankField.setText("");
@@ -260,5 +283,25 @@ public class ScoringListController extends SuperController {
 		animalsPGField.setText("");
 		hiredHelpPGField.setText("");
 		farmingPGField.setText("");
+	}
+	
+	private void saveImageToFile() {
+		System.out.println("Save image");
+		// TODO: set as ID instead
+		String imageName = candidate.getFirstName() + candidate.getLastName();
+		imageName = imageName.replace(" ",  "");
+		
+		System.out.println("Image name: " + imageName);
+		
+		File outputFile = new File(IMAGE_PATH + imageName + ".png");
+		System.out.println("Outputfile path: " + outputFile.getAbsolutePath());
+		BufferedImage bImage = SwingFXUtils.fromFXImage(newImage,  null);
+		try {
+			ImageIO.write(bImage,  "png", outputFile);
+			candidate.setImageURLProperty(new SimpleStringProperty("images/" + imageName + ".png"));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		
 	}
 }

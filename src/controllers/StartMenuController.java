@@ -56,6 +56,7 @@ public class StartMenuController extends SuperController {
 		// TODO: get nameList
 		// TODO: should this be moved to its own class?
 		
+		/* TODO commented out in production
 		FileChooser fileChooser = new FileChooser();
 		
 		Stage stage = super.mainApp.getStage();
@@ -63,9 +64,12 @@ public class StartMenuController extends SuperController {
 		String filePath = file.getAbsolutePath();
 	
 		scoringList.createFromNameList(filePath);
+		*/
+		scoringList.createFromNameList("src/NameListTest.txt");
 		super.mainApp.setScoringList(scoringList);
 		
-		showCandidatesList();
+		//showCandidatesList();
+		viewController.showScoringListView();
 	}
 	
 	

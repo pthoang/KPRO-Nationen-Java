@@ -9,7 +9,7 @@ public class Candidate {
 	private SimpleStringProperty firstName;
 	private SimpleStringProperty lastName;
 	private SimpleStringProperty municipality = new SimpleStringProperty();
-	private SimpleStringProperty imageURL  = new SimpleStringProperty("/home/doraoline/Koding/KPRO-Nationen-Java/person_icon.png");;
+	private SimpleStringProperty imageURL  = new SimpleStringProperty("images/person_icon2.png");;
 	private SimpleStringProperty description  = new SimpleStringProperty();
 	private SimpleIntegerProperty rank;
 	private SimpleIntegerProperty previousYearRank;
@@ -48,7 +48,7 @@ public class Candidate {
 		this.rank = new SimpleIntegerProperty(rank);
 		this.previousYearRank = new SimpleIntegerProperty(rank);
 
-		//this.imageURL = new SimpleStringProperty(imageURL);
+		this.imageURL = new SimpleStringProperty(imageURL);
 		this.description.setValue(despcription);
 	}
 
@@ -129,7 +129,7 @@ public class Candidate {
 	 * @return String The imageName
 	 */
 	public String getImageURL() {
-		System.out.println("Image PATH: " + imageURL.get());
+		System.out.println("Image PATH in Candidate: " + imageURL.get());
 		return imageURL.get();
 	}
 
@@ -146,6 +146,7 @@ public class Candidate {
 	 * @param imageName
 	 */
 	public void setImageURLProperty(SimpleStringProperty imageURL) {
+	
 		this.imageURL = imageURL;
 	}
 

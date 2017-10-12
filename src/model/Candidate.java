@@ -9,7 +9,7 @@ public class Candidate {
 	private SimpleStringProperty firstName;
 	private SimpleStringProperty lastName;
 	private SimpleStringProperty municipality = new SimpleStringProperty();
-	private SimpleStringProperty imageURL  = new SimpleStringProperty("images/person_icon2.png");;
+	private SimpleStringProperty imageURL  = new SimpleStringProperty("images/standard.png");;
 	private SimpleStringProperty description  = new SimpleStringProperty();
 	private SimpleIntegerProperty rank;
 	private SimpleIntegerProperty previousYearRank;
@@ -268,6 +268,9 @@ public class Candidate {
 		if (name.contains(" ")) {
 			String[] names = name.split(" ");
 			handleMiddleNames(names);	
+		} else {
+			firstName = new SimpleStringProperty(name);
+			lastName = new SimpleStringProperty("");
 		}
 	}
 

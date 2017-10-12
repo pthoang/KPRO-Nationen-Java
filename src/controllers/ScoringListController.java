@@ -77,7 +77,6 @@ public class ScoringListController extends SuperController {
 	
 	private Image newImage;
 	
-	private final String STANDARD_IMAGE_PATH = "../images/person_icon2.png";
 	private final String IMAGE_PATH = "images/";
 	
 	public ScoringListController() {
@@ -173,14 +172,26 @@ public class ScoringListController extends SuperController {
 		candidate.setDescription(new SimpleStringProperty(description));
 
 		// ProductionGrants
-		int animalsPG = Integer.parseInt(animalsPGField.getText());
-		candidate.setAnimalsPG(new SimpleIntegerProperty(animalsPG));
+		try {
+			int animalsPG = Integer.parseInt(animalsPGField.getText());
+			candidate.setAnimalsPG(new SimpleIntegerProperty(animalsPG));
+		} catch (NumberFormatException e) {
+			System.out.println("Candidate don't have a animalsPG");
+		}
 		
-		int hiredHelpPG = Integer.parseInt(hiredHelpPGField.getText());
-		candidate.setHiredHelpPG(new SimpleIntegerProperty(hiredHelpPG));
+		try {
+			int hiredHelpPG = Integer.parseInt(hiredHelpPGField.getText());
+			candidate.setHiredHelpPG(new SimpleIntegerProperty(hiredHelpPG));
+		} catch (NumberFormatException e) {
+			System.out.println("Candidate don't have a hiredHelpPG");
+		}
 		
-		int fargminPG = Integer.parseInt(farmingPGField.getText());
-		candidate.setFarmingPG(new SimpleIntegerProperty(fargminPG));
+		try {
+			int farmingPG = Integer.parseInt(farmingPGField.getText());
+			candidate.setFarmingPG(new SimpleIntegerProperty(farmingPG));
+		} catch (NumberFormatException e) {
+			System.out.println("Candidate don't have a farmingPG");
+		}
 		
 		// Network
 		// TODO	
@@ -198,6 +209,7 @@ public class ScoringListController extends SuperController {
 		// TODO: can maybe be its own static function, since it is used multiple places. Returns the path as a string
 		FileChooser fileChooser = new FileChooser();
 
+		// TODO
 		//FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
 		//FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
 		//fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
@@ -205,14 +217,7 @@ public class ScoringListController extends SuperController {
 		Stage stage = super.mainApp.getStage();
 		File file = fileChooser.showOpenDialog(stage);
 		
-		try {
-			BufferedImage bufferedImage = ImageIO.read(file);
-			newImage = SwingFXUtils.toFXImage(bufferedImage, null);
-			imageView.setImage(newImage);
-			System.out.println("New image: " + newImage);
-		} catch (IOException ex) {
-			System.out.println("Error when loading image: " + ex);
-		}
+		setImageField(file);
 	}
 	
 	@FXML
@@ -250,18 +255,9 @@ public class ScoringListController extends SuperController {
 	 * Sets all the fields to the candidate.
 	 */
 	public void setFields() {
-		try {
-			File file = new File(candidate.getImageURL());
-			BufferedImage bufferedImage = ImageIO.read(file);
-			newImage = SwingFXUtils.toFXImage(bufferedImage, null);
-			imageView.setImage(newImage);
-			System.out.println("New image: " + newImage);
-		} catch (IOException ex) {
-			System.out.println("Error when loading image: " + ex);
-		}
+		File file = new File(candidate.getImageURL());
+		setImageField(file);
 		
-		//Image image = new Image(getClass().getResource(candidate.getImageURL()).toExternalForm());
-		//imageView.setImage(image);
 		nameField.setText(candidate.getFirstName() + " " + candidate.getLastName());
 		municipalityField.setText(candidate.getMunicipality());
 		rankField.setText(Integer.toString(candidate.getRank()));
@@ -273,8 +269,9 @@ public class ScoringListController extends SuperController {
 	}
 	
 	public void cleanFields() {
-		Image image = new Image(getClass().getResource(STANDARD_IMAGE_PATH).toExternalForm());
-		imageView.setImage(image);
+		File file = new File("images/standard.png");
+		setImageField(file);
+		
 		nameField.setText("");
 		municipalityField.setText("");
 		rankField.setText("");
@@ -290,11 +287,8 @@ public class ScoringListController extends SuperController {
 		// TODO: set as ID instead
 		String imageName = candidate.getFirstName() + candidate.getLastName();
 		imageName = imageName.replace(" ",  "");
-		
-		System.out.println("Image name: " + imageName);
-		
+	
 		File outputFile = new File(IMAGE_PATH + imageName + ".png");
-		System.out.println("Outputfile path: " + outputFile.getAbsolutePath());
 		BufferedImage bImage = SwingFXUtils.fromFXImage(newImage,  null);
 		try {
 			ImageIO.write(bImage,  "png", outputFile);
@@ -303,5 +297,15 @@ public class ScoringListController extends SuperController {
 			throw new RuntimeException(e);
 		}
 		
+	}
+	
+	private void setImageField(File file) {
+		try {
+			BufferedImage bufferedImage = ImageIO.read(file);
+			newImage = SwingFXUtils.toFXImage(bufferedImage, null);
+			imageView.setImage(newImage);
+		} catch (IOException ex) {
+			System.out.println("Error when loading image: " + ex);
+		}
 	}
 }

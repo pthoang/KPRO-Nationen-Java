@@ -52,9 +52,6 @@ public class ListCandidatesController extends SuperController {
 		rankColumn.setCellValueFactory(new PropertyValueFactory<Candidate, Integer>("rank"));
 		firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
 		lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
-	
-		candidateTable.getSelectionModel().selectedItemProperty().addListener(
-	            (observable, oldValue, newValue) -> super.viewController.showCandidateView(newValue));
 	}
 	
 	@FXML

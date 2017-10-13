@@ -12,7 +12,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.ScoringList;
 
-import static com.apple.eio.FileManager.getResource;
+// Gives error on Linux - is it necessary?
+//import static com.apple.eio.FileManager.getResource;
 
 public class MainApp extends Application {
 

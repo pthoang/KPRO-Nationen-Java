@@ -60,7 +60,13 @@ public class StartMenuController extends SuperController {
 	@FXML
 	private void importLastYearList() {
 		// TODO: get previous list
-		scoringList.createFromPreviousList();
+
+		FileChooser fileChooser = new FileChooser();
+		Stage stage = super.mainApp.getStage();
+		File file = fileChooser.showOpenDialog(stage);
+		String filePath = file.getAbsolutePath();
+
+		scoringList.createFromPreviousList(filePath);
 		
 		showCandidatesList();
 	}

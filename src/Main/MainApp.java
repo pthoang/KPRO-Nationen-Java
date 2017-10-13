@@ -18,16 +18,16 @@ public class MainApp extends Application {
 
 	private Stage primaryStage;
 	private BorderPane rootLayout;
-	
+
 	private RootController rootController;
 	private ScoringListController scoringListController;
-	
+
 	private ScoringList scoringList;
-	
+
 	public static void main(String[] args) {
 		launch(args);
 	}
-	
+
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -36,7 +36,7 @@ public class MainApp extends Application {
 		initRootLayout();
 
 		newList();
-		
+
 		showScoringListView();
 	}
 
@@ -65,7 +65,7 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Shows the view for the final list.
 	 */
@@ -101,7 +101,7 @@ public class MainApp extends Application {
 	public void setScoringList(ScoringList scoringList) {
 		this.scoringList = scoringList;
 	}
-	
+
 	/**
 	 * Get the scoringList
 	 * @return scoringList
@@ -109,11 +109,11 @@ public class MainApp extends Application {
 	public ScoringList getScoringList() {
 		return scoringList;
 	}
-	
+
 	public void updateView() {
 		scoringListController.fillTable();
 	}
-	
+
 	public void newList() {
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		scoringList = new ScoringList(year);

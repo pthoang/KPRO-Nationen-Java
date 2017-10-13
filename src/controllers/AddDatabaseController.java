@@ -21,7 +21,7 @@ public class AddDatabaseController {
 	FileChooser fileChooser = new FileChooser();
 	private MainApp mainApp;
 
-	
+
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 	}
@@ -51,6 +51,6 @@ public class AddDatabaseController {
 		Stage stage = mainApp.getStage();
 		fileChooser.showOpenDialog(stage);
 	}
-	
+
 
 }

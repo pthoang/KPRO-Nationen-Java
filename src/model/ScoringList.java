@@ -3,18 +3,11 @@ package model;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import com.google.gson.*;
@@ -24,8 +17,6 @@ public class ScoringList {
 
 	private final SimpleIntegerProperty year;
 	private ObservableList<Candidate> candidates;
-	// TOOD: make as a model?
-	private SimpleStringProperty juryDescription;
 
 	final private int MAX_LENGTH = 100;
 
@@ -84,16 +75,14 @@ public class ScoringList {
 	}
 
 	public void createFromNameList(String filePath) {
-		// TODO: missing validation of file
 		try (Stream<String> stream = Files.lines(Paths.get(filePath))) {
 			readNameList(stream);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
 	}
-	
+
 	public void createFromPreviousList(String filePath) {
-		// TODO
 		try {
 			readJson(filePath);
 
@@ -101,26 +90,22 @@ public class ScoringList {
 			e.printStackTrace();
 		}
 	}
-	
-	public void saveList() {
-		// TODO: Save and download
-	}
-	
+
 	public ObservableList<Candidate> getCandidates() {
 		return candidates;
 	}
-	
+
 	public void deleteCandidate(Candidate candidate) {
 		candidates.remove(candidate);
 	}
-	
+
 	// To  help during development
 	public void printCandidates() {
 		for (int i = 0; i < candidates.size(); i++) {
 			System.out.println(candidates.get(i).getName());
 		}
 	}
-	
+
 	private void readNameList(Stream<String> stream) throws IOException {
 		final AtomicInteger rank = new AtomicInteger(1);
 		stream.forEach((name) -> {

@@ -29,12 +29,12 @@ import model.ScoringList;
 import Main.MainApp;
 
 public class ScoringListController {
-	
+
 	@FXML
 	private Button backButton;
 	@FXML
 	private Button saveButton;
-	
+
 	// Related to table view
 	@FXML
 	private TableView<Candidate> candidateTable;
@@ -42,10 +42,10 @@ public class ScoringListController {
 	private TableColumn<Candidate, Integer> rankColumn;
 	@FXML
 	private TableColumn<Candidate, String> nameColumn;
-	
+
 	private ScoringList scoringList;
 	private ObservableList<Candidate> candidates;
-	
+
 	// Related to candidate view 
 	@FXML
 	private Button deleteButton;
@@ -55,7 +55,7 @@ public class ScoringListController {
 	private Button saveListButton;
 	@FXML
 	private Button changeImageButton;
-	
+
 	@FXML
 	private ImageView imageView = new ImageView();
 	@FXML
@@ -74,19 +74,19 @@ public class ScoringListController {
 	private TextField hiredHelpPGField = new TextField();
 	@FXML
 	private TextField farmingPGField = new TextField();
-	
+
 	private Candidate candidate;
-	
+
 	private Image newImage;
-	
+
 	private final String IMAGE_PATH = "images/";
 	private String errorMessage;
-	
+
 	private MainApp mainApp;
-	
+
 	public ScoringListController() {
 	}
-	
+
 	/**
 	 * Set mainApp in super, then gets the candidates and shows them in the table.
 	 * @params mainApp
@@ -94,46 +94,40 @@ public class ScoringListController {
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 		updateLists();
-		
+
 		if (candidates.size() > 0) {
 			fillTable();
 		}
 	}
-	
+
 	public void fillTable() {
 		candidateTable.setItems(candidates);
-		
+
 		Candidate firstCandidate = candidates.get(0);
 		setCandidate(firstCandidate);
 	}
-	
+
 	@FXML 
 	private void initialize() {
 		rankColumn.setCellValueFactory(new PropertyValueFactory<Candidate, Integer>("rank"));
 		nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-		
+
 		candidateTable.getSelectionModel().selectedItemProperty().addListener(
-	            (observable, oldValue, newValue) -> setCandidate(newValue));
+				(observable, oldValue, newValue) -> setCandidate(newValue));
 	}
-	
-	
-	@FXML
-	private void handleSave() {
-		mainApp.getScoringList().saveList();	
-	}
-	
+
 	public void refreshTable() {
 		updateLists();
 		candidateTable.refresh();
 	}
-	
+
 	public void updateLists() {
 		scoringList = mainApp.getScoringList();
 		candidates = scoringList.getCandidates();
 	}
-	
-	
-	
+
+
+
 	// Related to candidate view
 
 	/**
@@ -145,34 +139,34 @@ public class ScoringListController {
 		if (candidate == null) {
 			createAndAddEmptyCandidate();
 		}
-		
+
 		errorMessage = "";
-		
+
 		// Name
 		String newName = nameField.getText();
 		// validateName(newName);
-		
+
 		// Image
 		if (newImage != null) {
 			saveImageToFile();
 		}
-		
+
 		// PreviousYearRank
 		String newPreviousYearRank = previousYearRankField.getText();
 		// validatePreviousYearRank(newPreviousYearRank);
-		
+
 		// Rank
 		String newRank = rankField.getText();
 		// validateRank(newRank);
-		
+
 		// Municipality
 		String newMunicipality = municipalityField.getText();
 		candidate.setMunicipality(new SimpleStringProperty(newMunicipality));;
-		
+
 		// Description
 		String description = descriptionField.getText();
 		// validateDescription(description);
-		
+
 		// ProductionGrants
 		try {
 			int animalsPG = Integer.parseInt(animalsPGField.getText());
@@ -180,39 +174,39 @@ public class ScoringListController {
 		} catch (NumberFormatException e) {
 			System.out.println("Candidate don't have a animalsPG");
 		}
-		
+
 		try {
 			int hiredHelpPG = Integer.parseInt(hiredHelpPGField.getText());
 			candidate.setHiredHelpPG(new SimpleIntegerProperty(hiredHelpPG));
 		} catch (NumberFormatException e) {
 			System.out.println("Candidate don't have a hiredHelpPG");
 		}
-		
+
 		try {
 			int farmingPG = Integer.parseInt(farmingPGField.getText());
 			candidate.setFarmingPG(new SimpleIntegerProperty(farmingPG));
 		} catch (NumberFormatException e) {
 			System.out.println("Candidate don't have a farmingPG");
 		}
-		
+
 		// Network
 		// TODO	
-		
+
 		handleErrorMessage(); 
 	}
-	
+
 	private void createAndAddEmptyCandidate() {
 		int nextCandidateRank = candidates.size() + 1;
-		
+
 		rankField.setText(Integer.toString(nextCandidateRank));
 		candidate = new Candidate("", nextCandidateRank, 0);
-		
+
 		scoringList.addCandidate(candidate);
 	}
-	
+
 	private void validateName(String name) {
 		Pattern pattern = Pattern.compile("^[A-ZÆØÅa-zæøå. \\-]++$");
-		
+
 		if (name.length() <= 2) {
 			errorMessage += "\n Navn må være lengre enn 2 bokstaver.";
 		} 
@@ -223,7 +217,7 @@ public class ScoringListController {
 			errorMessage += "\n Det eksisterer allerede noen med det for- og etternavnet";
 		}
 	}
-	
+
 	private void validateRank(String rankString) {
 		try {
 			int rank = Integer.parseInt(rankString);
@@ -234,7 +228,7 @@ public class ScoringListController {
 			errorMessage += "\n Plasseringen er ikke et tall";
 		}
 	}
-	
+
 	private void validatePreviousYearRank(String rankString) {
 		try {
 			int rank = Integer.parseInt(rankString);
@@ -246,28 +240,28 @@ public class ScoringListController {
 		}
 	}
 
-	
+
 	private void validateDescription(String description) {
 		if (description.length() <= 5) {
 			errorMessage += "\n Beskrivelse mangler:";
 		}
 	}
-	
+
 	private void saveCandidate() {
 		String newName = nameField.getText();
 		candidate.setName(new SimpleStringProperty(newName));
-		
+
 		String description = descriptionField.getText();
 		candidate.setDescription(new SimpleStringProperty(description));
-		
+
 		try {
 			int rank = Integer.parseInt(rankField.getText());
 			candidate.setRank(new SimpleIntegerProperty(rank));
 		} catch (NumberFormatException e) {
 			System.out.println("Candidate don't have a rank");
 		}
-		
-		
+
+
 		try {
 			int previousYearRank = Integer.parseInt(previousYearRankField.getText());
 			candidate.setPreviousYearRank(new SimpleIntegerProperty(previousYearRank));
@@ -275,7 +269,7 @@ public class ScoringListController {
 			System.out.println("Candidate don't have a previousYear rank");
 		}
 	}
-	
+
 	private void handleErrorMessage() {
 		if (errorMessage.length() != 0) {
 			Alert alert = new Alert(AlertType.ERROR);
@@ -288,7 +282,7 @@ public class ScoringListController {
 			refreshTable();
 		}
 	}
-	
+
 	@FXML
 	private void handleChangeImage() {
 		// TODO: can maybe be its own static function, since it is used multiple places. Returns the path as a string
@@ -298,19 +292,19 @@ public class ScoringListController {
 		//FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
 		//FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
 		//fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
-		
+
 		Stage stage = mainApp.getStage();
 		File file = fileChooser.showOpenDialog(stage);
-		
+
 		setImageField(file);
 	}
-	
+
 	@FXML
 	public void handleNewCandidate() {
 		candidate = null;
 		cleanFields();
 	}
-	
+
 	/**
 	 * Saves the list to a file locally.
 	 */
@@ -318,7 +312,7 @@ public class ScoringListController {
 	public void handleSaveList() {
 		// TODO: copy the list and save it as temporaryList?
 	}
-	
+
 	/**
 	 * Called when the delete-button is clicked. Deletes a candidate from the list.
 	 */
@@ -327,7 +321,7 @@ public class ScoringListController {
 		scoringList.deleteCandidate(candidate);
 		cleanFields();
 	}
-	
+
 	/**
 	 * Get the candidate to be set in the fields, and then fill inn the fields.
 	 * @param candidate
@@ -336,14 +330,14 @@ public class ScoringListController {
 		this.candidate = candidate;
 		setFields();		
 	}
-	
+
 	/**
 	 * Sets all the fields to the candidate.
 	 */
 	public void setFields() {
 		File file = new File(candidate.getImageURL());
 		setImageField(file);
-		
+
 		nameField.setText(candidate.getName());
 		municipalityField.setText(candidate.getMunicipality());
 		rankField.setText(Integer.toString(candidate.getRank()));
@@ -353,11 +347,11 @@ public class ScoringListController {
 		hiredHelpPGField.setText(Integer.toString(candidate.getHiredHelpPG()));
 		farmingPGField.setText(Integer.toString(candidate.getFarmingPG()));
 	}
-	
+
 	public void cleanFields() {
 		File file = new File("images/standard.png");
 		setImageField(file);
-		
+
 		nameField.setText("");
 		municipalityField.setText("");
 		rankField.setText("");
@@ -367,12 +361,12 @@ public class ScoringListController {
 		hiredHelpPGField.setText("");
 		farmingPGField.setText("");
 	}
-	
+
 	private void saveImageToFile() {
 		// TODO: set as ID instead
 		String imageName = candidate.getName();
 		imageName = imageName.replace(" ",  "");
-	
+
 		File outputFile = new File(IMAGE_PATH + imageName + ".png");
 		BufferedImage bImage = SwingFXUtils.fromFXImage(newImage,  null);
 		try {
@@ -381,9 +375,9 @@ public class ScoringListController {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		
+
 	}
-	
+
 	private void setImageField(File file) {
 		try {
 			BufferedImage bufferedImage = ImageIO.read(file);
@@ -393,7 +387,7 @@ public class ScoringListController {
 			System.out.println("Error when loading image: " + ex);
 		}
 	}
-	
+
 	// TODO: can be made more complex
 	private boolean nameExistInList(String name) {
 		String[] names = name.split(" ");
@@ -405,7 +399,7 @@ public class ScoringListController {
 			System.out.println("Names: " + names);
 			System.out.println("Last name: " + names[numberOfNames - 1]);
 			// TOOD
-			
+
 			//boolean matchLastName = c.getLastName().equals(names[numberOfNames - 1]);
 			//if (matchFirstName && matchLastName) {
 			//	return true;

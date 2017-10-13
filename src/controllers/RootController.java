@@ -19,21 +19,21 @@ public class RootController {
 	public RootController() {
 		super();
 	}
-	
+
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 	}	
-	
+
 	@FXML
 	private void showAddSources() {
 		FileChooser fileChooser = new FileChooser();
-		
+
 		Stage stage = mainApp.getStage();
 		File file = fileChooser.showOpenDialog(stage);
 		String filePath = file.getAbsolutePath();
-		
+
 		ScoringList scoringList = mainApp.getScoringList();
-		
+
 		if (filePath.toLowerCase().endsWith(".json")) {
 			scoringList.createFromPreviousList(filePath);
 		} else if (filePath.toLowerCase().endsWith(".txt")) {
@@ -41,14 +41,14 @@ public class RootController {
 		} else {
 			System.out.println("Error: invalid file");
 		}
-		
+
 		mainApp.setScoringList(scoringList);
-		
+
 		mainApp.updateView();
-		
-		
+
+
 	}
-	
+
 	@FXML
 	private void showNewAndEmpty() {
 		mainApp.newList();
@@ -63,5 +63,5 @@ public class RootController {
 	private void showSettings() {
 		// TODO
 	}	
-	
+
 }

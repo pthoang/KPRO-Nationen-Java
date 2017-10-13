@@ -131,11 +131,35 @@ public class ScoringList {
 	}
 
 	private void readJson(String filepath) throws IOException {
+		//loads the whole file into memory
 		String content = new String(Files.readAllBytes(Paths.get(filepath)));
 
+		//starts the parserto create json objects we can work with
 		JsonParser parser = new JsonParser();
 		JsonElement data = parser.parse(content);
-		System.out.println(data);
+
+		//this gets the list of people from the
+		JsonArray people = (JsonArray)data.getAsJsonObject().get("people");
+
+		int rank = 1;
+
+		//loops trough the list and creates basic information for candidates
+		for (JsonElement jsonCandidate : people) {
+			//System.out.println(jsonCandidate.getAsJsonObject().get("firstName"));
+			String name = jsonCandidate.getAsJsonObject().get("firstName").toString();
+			//System.out.println(jsonCandidate.getAsJsonObject().get("lastYear"));
+
+			//this is just a quickfix. needs error handling when they dont have a value from before
+			int lastYear = 0; //Integer.parseInt(jsonCandidate.getAsJsonObject().get("lastYear").toString());
+
+			//creates and add the candidate
+			Candidate newCandidate = new Candidate(name, rank, lastYear);
+			candidates.add(newCandidate);
+
+			rank++;
+			System.out.println(jsonCandidate.getAsJsonObject().get("firstName"));
+		}
+
 	}
 
 }

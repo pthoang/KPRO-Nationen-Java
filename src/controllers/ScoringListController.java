@@ -28,7 +28,7 @@ import model.ScoringList;
 
 import Main.MainApp;
 
-public class ScoringListController extends SuperController {
+public class ScoringListController {
 	
 	@FXML
 	private Button backButton;
@@ -84,6 +84,8 @@ public class ScoringListController extends SuperController {
 	private final String IMAGE_PATH = "images/";
 	private String errorMessage;
 	
+	private MainApp mainApp;
+	
 	public ScoringListController() {
 	}
 	
@@ -99,6 +101,8 @@ public class ScoringListController extends SuperController {
 			fillTable();
 		}
 	}
+	
+
 		
 	public void fillTable() {
 		candidateTable.setItems(candidates);
@@ -117,14 +121,10 @@ public class ScoringListController extends SuperController {
 	            (observable, oldValue, newValue) -> setCandidate(newValue));
 	}
 	
-	@FXML
-	private void handleBack() {
-		super.viewController.showStartMenu();
-	}
 	
 	@FXML
 	private void handleSave() {
-		super.mainApp.getScoringList().saveList();	
+		mainApp.getScoringList().saveList();	
 	}
 	
 	public void refreshTable() {
@@ -304,7 +304,7 @@ public class ScoringListController extends SuperController {
 		//FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
 		//fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
 		
-		Stage stage = super.mainApp.getStage();
+		Stage stage = mainApp.getStage();
 		File file = fileChooser.showOpenDialog(stage);
 		
 		setImageField(file);

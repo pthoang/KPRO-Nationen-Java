@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import Main.MainApp;
 import model.ScoringList;
 
-public class RootController extends SuperController {
+public class RootController {
 
 	private MainApp mainApp;
 

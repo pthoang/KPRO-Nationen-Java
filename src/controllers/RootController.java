@@ -51,7 +51,7 @@ public class RootController {
 	
 	@FXML
 	private void showNewAndEmpty() {
-		mainApp.cleanList();
+		mainApp.newList();
 	}
 
 	@FXML

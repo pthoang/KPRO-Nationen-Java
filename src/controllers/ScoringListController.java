@@ -41,9 +41,7 @@ public class ScoringListController {
 	@FXML
 	private TableColumn<Candidate, Integer> rankColumn;
 	@FXML
-	private TableColumn<Candidate, String> firstNameColumn;
-	@FXML
-	private TableColumn<Candidate, String> lastNameColumn;
+	private TableColumn<Candidate, String> nameColumn;
 	
 	private ScoringList scoringList;
 	private ObservableList<Candidate> candidates;
@@ -102,8 +100,6 @@ public class ScoringListController {
 		}
 	}
 	
-
-		
 	public void fillTable() {
 		candidateTable.setItems(candidates);
 		
@@ -114,9 +110,8 @@ public class ScoringListController {
 	@FXML 
 	private void initialize() {
 		rankColumn.setCellValueFactory(new PropertyValueFactory<Candidate, Integer>("rank"));
-		firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
-		lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
-	
+		nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+		
 		candidateTable.getSelectionModel().selectedItemProperty().addListener(
 	            (observable, oldValue, newValue) -> setCandidate(newValue));
 	}
@@ -260,7 +255,7 @@ public class ScoringListController {
 	
 	private void saveCandidate() {
 		String newName = nameField.getText();
-		candidate.splitUpAndSaveName(newName);
+		candidate.setName(new SimpleStringProperty(newName));
 		
 		String description = descriptionField.getText();
 		candidate.setDescription(new SimpleStringProperty(description));
@@ -349,7 +344,7 @@ public class ScoringListController {
 		File file = new File(candidate.getImageURL());
 		setImageField(file);
 		
-		nameField.setText(candidate.getFirstName() + " " + candidate.getLastName());
+		nameField.setText(candidate.getName());
 		municipalityField.setText(candidate.getMunicipality());
 		rankField.setText(Integer.toString(candidate.getRank()));
 		previousYearRankField.setText(Integer.toString(candidate.getPreviousYearRank()));
@@ -375,7 +370,7 @@ public class ScoringListController {
 	
 	private void saveImageToFile() {
 		// TODO: set as ID instead
-		String imageName = candidate.getFirstName() + candidate.getLastName();
+		String imageName = candidate.getName();
 		imageName = imageName.replace(" ",  "");
 	
 		File outputFile = new File(IMAGE_PATH + imageName + ".png");
@@ -405,13 +400,16 @@ public class ScoringListController {
 		int numberOfNames = names.length;
 		for (int i = 0; i < candidates.size(); i++) {
 			Candidate c = candidates.get(i);
-			boolean matchFirstName = c.getFirstName().equals(names[0]);
+			// TOOD
+			//boolean matchFirstName = c.getFirstName().equals(names[0]);
 			System.out.println("Names: " + names);
 			System.out.println("Last name: " + names[numberOfNames - 1]);
-			boolean matchLastName = c.getLastName().equals(names[numberOfNames - 1]);
-			if (matchFirstName && matchLastName) {
-				return true;
-			}
+			// TOOD
+			
+			//boolean matchLastName = c.getLastName().equals(names[numberOfNames - 1]);
+			//if (matchFirstName && matchLastName) {
+			//	return true;
+			//}
 		}
 		return false;
 	}

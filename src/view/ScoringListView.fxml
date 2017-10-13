@@ -18,8 +18,7 @@
 							<columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
 							<columns>
 								<TableColumn fx:id="rankColumn" text="Rangering" />
-								<TableColumn fx:id="lastNameColumn" text="Etternavn" />
-								<TableColumn fx:id="firstNameColumn" text="Fornavn" />
+								<TableColumn fx:id="nameColumn" text="Navn" />
 							</columns>
 						</TableView>
 						<ToolBar GridPane.columnIndex="0" GridPane.rowIndex="1">

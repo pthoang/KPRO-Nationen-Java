@@ -37,7 +37,6 @@ public class AddDatabaseController {
 	@FXML
 	private void loadedFileNameField() {
 		// TODO
-
 	}
 
 	/**

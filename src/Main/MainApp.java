@@ -14,9 +14,6 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.ScoringList;
 
-// Gives error on Linux - is it necessary?
-//import static com.apple.eio.FileManager.getResource;
-
 public class MainApp extends Application {
 
 	private Stage primaryStage;
@@ -59,7 +56,7 @@ public class MainApp extends Application {
 
 			// Show the scene containing the root layout.
 			Scene scene = new Scene(rootLayout);
-			scene.getStylesheets().add(this.getClass().getResource("../style.css").toExternalForm());
+			//scene.getStylesheets().add(this.getClass().getResource("../style.css").toExternalForm());
 			primaryStage.setScene(scene);
 			String css = this.getClass().getResource("../style.css").toExternalForm();
 			scene.getStylesheets().add(css);
@@ -114,13 +111,7 @@ public class MainApp extends Application {
 	}
 	
 	public void updateView() {
-		System.out.println("Update view: " + Integer.toString(scoringList.getLength()));
-		System.out.println("ScoringListController in MainApp: " + scoringListController);
 		scoringListController.fillTable();
-	}
-	
-	public void cleanList() {
-		newList();
 	}
 	
 	public void newList() {

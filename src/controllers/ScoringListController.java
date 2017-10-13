@@ -85,23 +85,22 @@ public class ScoringListController extends SuperController {
 	private String errorMessage;
 	
 	public ScoringListController() {
-		super();
 	}
 	
 	/**
 	 * Set mainApp in super, then gets the candidates and shows them in the table.
 	 * @params mainApp
 	 */
-	@Override
 	public void setMainApp(MainApp mainApp) {
-		super.setMainApp(mainApp);
-
-		getAndFillTable();
-	}
-		
-	public void getAndFillTable() {
+		this.mainApp = mainApp;
 		updateLists();
 		
+		if (candidates.size() > 0) {
+			fillTable();
+		}
+	}
+		
+	public void fillTable() {
 		candidateTable.setItems(candidates);
 		
 		Candidate firstCandidate = candidates.get(0);
@@ -134,7 +133,7 @@ public class ScoringListController extends SuperController {
 	}
 	
 	public void updateLists() {
-		scoringList = super.mainApp.getScoringList();		
+		scoringList = mainApp.getScoringList();
 		candidates = scoringList.getCandidates();
 	}
 	

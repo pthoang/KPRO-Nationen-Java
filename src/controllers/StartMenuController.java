@@ -12,6 +12,8 @@ import model.ScoringList;
 
 public class StartMenuController extends SuperController {
 
+	// CAN BE DELETED?
+
 
 	@FXML 
 	private Button nameListButton;
@@ -32,6 +34,8 @@ public class StartMenuController extends SuperController {
 		super();
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		scoringList = new ScoringList(year);
+		
+		System.out.println("StartMenuController can be deleted");
 	}
 
 	/**

@@ -9,15 +9,16 @@
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu mnemonicParsing="false" text="Fil">
                <items>
-                  <MenuItem fx:id="startMenuButton" mnemonicParsing="false" onAction="#showStartMenu" text="Hovedmeny" />
+               	  <MenuItem mnemonicParsing="false" onAction="#showNewAndEmpty" text="Ny tom liste" />
+                  <MenuItem mnemonicParsing="false" onAction="#showAddSources" text="Last inn kilder" />
                </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Hjelp">
             <items>
               <MenuItem fx:id="aboutItem" mnemonicParsing="false" onAction="#showAbout" text="Om" />
-              <MenuItem fx:id="settingsItem" mnemonicParsing="false" onAction="#showSettings" text="Instillinger" />
+              <MenuItem fx:id="settingsItem" mnemonicParsing="false" onAction="#showSettings" text="Innstillinger" />
             </items>
           </Menu>
         </menus>

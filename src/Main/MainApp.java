@@ -2,13 +2,15 @@
 package Main;
 
 import java.io.IOException;
+import java.util.Calendar;
 
 import controllers.RootController;
-import controllers.ViewController;
+import controllers.ScoringListController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.ScoringList;
 
@@ -19,10 +21,12 @@ public class MainApp extends Application {
 
 	private Stage primaryStage;
 	private BorderPane rootLayout;
+	
 	private RootController rootController;
+	private ScoringListController scoringListController;
+	
 	private ScoringList scoringList;
-
-
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -30,16 +34,13 @@ public class MainApp extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
-		this.primaryStage.setTitle("Nationen - Landbruksmakt");
+		this.primaryStage.setTitle("Nationen - Maktkampen");
 
 		initRootLayout();
 
-		ViewController viewController = new ViewController();
-		viewController.setRootLayout(rootLayout);
-		rootController.setViewController(viewController);
-		viewController.setMainApp(this);
-
-		viewController.showStartMenu();
+		newList();
+		
+		showScoringListView();
 	}
 
 	/**
@@ -63,6 +64,26 @@ public class MainApp extends Application {
 			String css = this.getClass().getResource("../style.css").toExternalForm();
 			scene.getStylesheets().add(css);
 			primaryStage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Shows the view for the final list.
+	 */
+	public void showScoringListView() {
+		try {
+			FXMLLoader loader= new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("../view/ScoringListView.fxml"));
+			GridPane scoringListView = (GridPane) loader.load();
+
+			System.out.println("Rootlayout: " + rootLayout);
+			System.out.println("ScoringListView: " + scoringListView);
+			rootLayout.setCenter(scoringListView);
+
+			scoringListController = loader.getController();
+			scoringListController.setMainApp(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -91,5 +112,20 @@ public class MainApp extends Application {
 	public ScoringList getScoringList() {
 		return scoringList;
 	}
-		
+	
+	public void updateView() {
+		System.out.println("Update view: " + Integer.toString(scoringList.getLength()));
+		System.out.println("ScoringListController in MainApp: " + scoringListController);
+		scoringListController.fillTable();
+	}
+	
+	public void cleanList() {
+		newList();
+	}
+	
+	public void newList() {
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		scoringList = new ScoringList(year);
+
+	}
 }

@@ -156,7 +156,7 @@ public class ScoringListController extends SuperController {
 		
 		// Name
 		String newName = nameField.getText();
-		validateName(newName);
+		// validateName(newName);
 		
 		// Image
 		if (newImage != null) {
@@ -165,11 +165,11 @@ public class ScoringListController extends SuperController {
 		
 		// PreviousYearRank
 		String newPreviousYearRank = previousYearRankField.getText();
-		validatePreviousYearRank(newPreviousYearRank);
+		// validatePreviousYearRank(newPreviousYearRank);
 		
 		// Rank
 		String newRank = rankField.getText();
-		validateRank(newRank);
+		// validateRank(newRank);
 		
 		// Municipality
 		String newMunicipality = municipalityField.getText();
@@ -177,7 +177,7 @@ public class ScoringListController extends SuperController {
 		
 		// Description
 		String description = descriptionField.getText();
-		validateDescription(description);
+		// validateDescription(description);
 		
 		// ProductionGrants
 		try {

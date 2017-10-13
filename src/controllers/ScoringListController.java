@@ -208,7 +208,11 @@ public class ScoringListController extends SuperController {
 	}
 	
 	private void createAndAddEmptyCandidate() {
-		candidate = new Candidate("", 0, 0);
+		int nextCandidateRank = candidates.size() + 1;
+		
+		rankField.setText(Integer.toString(nextCandidateRank));
+		candidate = new Candidate("", nextCandidateRank, 0);
+		
 		scoringList.addCandidate(candidate);
 	}
 	
@@ -262,15 +266,20 @@ public class ScoringListController extends SuperController {
 		String description = descriptionField.getText();
 		candidate.setDescription(new SimpleStringProperty(description));
 		
-		int newPreviousYearRank = Integer.parseInt(rankField.getText());
-		candidate.setPreviousYearRank(new SimpleIntegerProperty(newPreviousYearRank));
-
-		int rank = Integer.parseInt(rankField.getText());
-		candidate.setRank(new SimpleIntegerProperty(rank));
+		try {
+			int rank = Integer.parseInt(rankField.getText());
+			candidate.setRank(new SimpleIntegerProperty(rank));
+		} catch (NumberFormatException e) {
+			System.out.println("Candidate don't have a rank");
+		}
 		
-		int previousYearRank = Integer.parseInt(previousYearRankField.getText());
-		candidate.setPreviousYearRank(new SimpleIntegerProperty(previousYearRank));
 		
+		try {
+			int previousYearRank = Integer.parseInt(previousYearRankField.getText());
+			candidate.setPreviousYearRank(new SimpleIntegerProperty(previousYearRank));
+		} catch (NumberFormatException e) {
+			System.out.println("Candidate don't have a previousYear rank");
+		}
 	}
 	
 	private void handleErrorMessage() {
@@ -322,6 +331,7 @@ public class ScoringListController extends SuperController {
 	@FXML
 	public void handleDelete() {
 		scoringList.deleteCandidate(candidate);
+		cleanFields();
 	}
 	
 	/**

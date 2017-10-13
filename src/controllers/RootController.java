@@ -27,4 +27,9 @@ public class RootController extends SuperController {
 	private void showSettings() {
 		// TODO
 	}
+	
+	@FXML
+	private void showStartMenu() {
+		viewController.showStartMenu();
+	}
 }

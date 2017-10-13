@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import model.Candidate;
 import model.ScoringList;
 
@@ -33,7 +34,7 @@ public class ViewController {
 			// Load start screen
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("../view/StartMenu.fxml"));
-			AnchorPane startMenuView = (AnchorPane) loader.load();
+			GridPane startMenuView = (GridPane) loader.load();
 
 			// Set startscreen in the center of root layout.
 			rootLayout.setCenter(startMenuView);
@@ -53,7 +54,7 @@ public class ViewController {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("../view/ListCandidatesView.fxml"));
-			AnchorPane listCandidatesView = (AnchorPane) loader.load();
+			GridPane listCandidatesView = (GridPane) loader.load();
 
 			rootLayout.setCenter(listCandidatesView);
 
@@ -72,7 +73,7 @@ public class ViewController {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("../view/AddDatabaseView.fxml"));
-			AnchorPane addDatabaseView = (AnchorPane) loader.load();
+			GridPane addDatabaseView = (GridPane) loader.load();
 
 			rootLayout.setCenter(addDatabaseView);
 
@@ -110,20 +111,20 @@ public class ViewController {
 		try {
 			FXMLLoader loader= new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("../view/CandidateView.fxml"));
-			AnchorPane CandidateView = (AnchorPane) loader.load();
+			GridPane CandidateView = (GridPane) loader.load();
 
 			rootLayout.setCenter(CandidateView);
 
 			CandidateController controller = loader.getController();
 			controller.setMainApp(mainApp);
 			controller.setViewController(this);
-			
+
 			controller.setCandidate(candidate);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Shows the view for the final list.
 	 */
@@ -131,7 +132,7 @@ public class ViewController {
 		try {
 			FXMLLoader loader= new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("../view/ScoringListView.fxml"));
-			AnchorPane scoringListView = (AnchorPane) loader.load();
+			GridPane scoringListView = (GridPane) loader.load();
 
 			rootLayout.setCenter(scoringListView);
 

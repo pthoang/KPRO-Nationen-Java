@@ -3,17 +3,21 @@ package controllers;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Pattern;
+
 import javax.imageio.ImageIO;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -78,6 +82,7 @@ public class ScoringListController extends SuperController {
 	private Image newImage;
 	
 	private final String IMAGE_PATH = "images/";
+	private String errorMessage;
 	
 	public ScoringListController() {
 		super();
@@ -146,9 +151,12 @@ public class ScoringListController extends SuperController {
 		if (candidate == null) {
 			createAndAddEmptyCandidate();
 		}
+		
+		errorMessage = "";
+		
 		// Name
 		String newName = nameField.getText();
-		candidate.splitUpAndSaveName(newName);
+		validateName(newName);
 		
 		// Image
 		if (newImage != null) {
@@ -156,12 +164,12 @@ public class ScoringListController extends SuperController {
 		}
 		
 		// PreviousYearRank
-		int newPreviousYearRank = Integer.parseInt(previousYearRankField.getText());
-		candidate.setPreviousYearRank(new SimpleIntegerProperty(newPreviousYearRank));
-
+		String newPreviousYearRank = previousYearRankField.getText();
+		validatePreviousYearRank(newPreviousYearRank);
+		
 		// Rank
-		int rank = Integer.parseInt(rankField.getText());
-		candidate.setRank(new SimpleIntegerProperty(rank));
+		String newRank = rankField.getText();
+		validateRank(newRank);
 		
 		// Municipality
 		String newMunicipality = municipalityField.getText();
@@ -169,8 +177,8 @@ public class ScoringListController extends SuperController {
 		
 		// Description
 		String description = descriptionField.getText();
-		candidate.setDescription(new SimpleStringProperty(description));
-
+		validateDescription(description);
+		
 		// ProductionGrants
 		try {
 			int animalsPG = Integer.parseInt(animalsPGField.getText());
@@ -196,12 +204,86 @@ public class ScoringListController extends SuperController {
 		// Network
 		// TODO	
 		
-		refreshTable();
+		handleErrorMessage(); 
 	}
 	
 	private void createAndAddEmptyCandidate() {
 		candidate = new Candidate("", 0, 0);
 		scoringList.addCandidate(candidate);
+	}
+	
+	private void validateName(String name) {
+		Pattern pattern = Pattern.compile("^[A-ZÆØÅa-zæøå. \\-]++$");
+		
+		if (name.length() <= 2) {
+			errorMessage += "\n Navn må være lengre enn 2 bokstaver.";
+		} 
+		if (!pattern.matcher(name).matches()) {
+			errorMessage += "\n Navnet inneholder ugyldige bokstaver. Tillatt er: a-å, ., og -";
+		} 
+		if (nameExistInList(name)) {
+			errorMessage += "\n Det eksisterer allerede noen med det for- og etternavnet";
+		}
+	}
+	
+	private void validateRank(String rankString) {
+		try {
+			int rank = Integer.parseInt(rankString);
+			if (rank < 1 || rank > 100) {
+				errorMessage += "\n Plasseringen må være mellom 1 og 100";
+			}
+		} catch (NumberFormatException e) {
+			errorMessage += "\n Plasseringen er ikke et tall";
+		}
+	}
+	
+	private void validatePreviousYearRank(String rankString) {
+		try {
+			int rank = Integer.parseInt(rankString);
+			if (rank < 1 || rank > 100) {
+				errorMessage += "\n FJorårets plasseringen må være mellom 1 og 100";
+			}
+		} catch (NumberFormatException e) {
+			errorMessage += "\n Fjorårets plasseringen er ikke et tall";
+		}
+	}
+
+	
+	private void validateDescription(String description) {
+		if (description.length() <= 5) {
+			errorMessage += "\n Beskrivelse mangler:";
+		}
+	}
+	
+	private void saveCandidate() {
+		String newName = nameField.getText();
+		candidate.splitUpAndSaveName(newName);
+		
+		String description = descriptionField.getText();
+		candidate.setDescription(new SimpleStringProperty(description));
+		
+		int newPreviousYearRank = Integer.parseInt(rankField.getText());
+		candidate.setPreviousYearRank(new SimpleIntegerProperty(newPreviousYearRank));
+
+		int rank = Integer.parseInt(rankField.getText());
+		candidate.setRank(new SimpleIntegerProperty(rank));
+		
+		int previousYearRank = Integer.parseInt(previousYearRankField.getText());
+		candidate.setPreviousYearRank(new SimpleIntegerProperty(previousYearRank));
+		
+	}
+	
+	private void handleErrorMessage() {
+		if (errorMessage.length() != 0) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Feilmeldinger");
+			alert.setHeaderText("Felter til kandidaten er ikke korrekt utfylt.");
+			alert.setContentText(errorMessage);
+			alert.showAndWait();
+		} else {
+			saveCandidate();
+			refreshTable();
+		}
 	}
 	
 	@FXML
@@ -306,5 +388,22 @@ public class ScoringListController extends SuperController {
 		} catch (IOException ex) {
 			System.out.println("Error when loading image: " + ex);
 		}
+	}
+	
+	// TODO: can be made more complex
+	private boolean nameExistInList(String name) {
+		String[] names = name.split(" ");
+		int numberOfNames = names.length;
+		for (int i = 0; i < candidates.size(); i++) {
+			Candidate c = candidates.get(i);
+			boolean matchFirstName = c.getFirstName().equals(names[0]);
+			System.out.println("Names: " + names);
+			System.out.println("Last name: " + names[numberOfNames - 1]);
+			boolean matchLastName = c.getLastName().equals(names[numberOfNames - 1]);
+			if (matchFirstName && matchLastName) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

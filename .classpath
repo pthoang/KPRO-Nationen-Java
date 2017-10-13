@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="images"/>
 	<classpathentry kind="lib" path="/home/doraoline/Downloads/jdk1.8.0_144/jre/lib/ext/jfxrt.jar"/>
+	<classpathentry kind="lib" path="/home/doraoline/Downloads/gson-2.8.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

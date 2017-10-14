@@ -1,10 +1,8 @@
 package controllers;
 
-import java.io.File;
 import javafx.fxml.FXML;
-import javafx.scene.control.MenuItem;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+
+import java.io.File;
 
 import Main.MainApp;
 import model.ScoringList;
@@ -25,11 +23,8 @@ public class RootController {
 	}	
 
 	@FXML
-	private void showAddSources() {
-		FileChooser fileChooser = new FileChooser();
-
-		Stage stage = mainApp.getStage();
-		File file = fileChooser.showOpenDialog(stage);
+	private void showLoadList() {
+		File file = mainApp.choseFileAndGetFile();
 		String filePath = file.getAbsolutePath();
 
 		ScoringList scoringList = mainApp.getScoringList();
@@ -45,8 +40,11 @@ public class RootController {
 		mainApp.setScoringList(scoringList);
 
 		mainApp.updateView();
-
-
+	}
+	
+	@FXML
+	private void showLoadSources() {
+		mainApp.showLoadSourcesView();
 	}
 
 	@FXML
@@ -63,5 +61,10 @@ public class RootController {
 	private void showSettings() {
 		// TODO
 	}	
+	
+	@FXML
+	private void showUserManual() {
+		// TOOD
+	}
 
 }

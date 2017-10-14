@@ -12,13 +12,15 @@
           <Menu mnemonicParsing="false" text="Fil">
                <items>
                	  <MenuItem mnemonicParsing="false" onAction="#showNewAndEmpty" text="Ny tom liste" />
-                  <MenuItem mnemonicParsing="false" onAction="#showAddSources" text="Last inn kilder" />
+                  <MenuItem mnemonicParsing="false" onAction="#showLoadList" text="Last inn liste" />
+                  <MenuItem mnemonicParsing="false" onAction="#showLoadSources" text="Last inn kilder" />
                </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Hjelp">
             <items>
               <MenuItem fx:id="aboutItem" mnemonicParsing="false" onAction="#showAbout" text="Om" />
               <MenuItem fx:id="settingsItem" mnemonicParsing="false" onAction="#showSettings" text="Innstillinger" />
+                  <MenuItem fx:id="showUserManual" mnemonicParsing="false" text="Brukermanual" />
             </items>
           </Menu>
         </menus>

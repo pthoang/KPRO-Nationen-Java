@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class AddDatabaseController {
+public class AddSourcesController {
 
 	@FXML
 	private Button nextButton;
@@ -45,11 +45,6 @@ public class AddDatabaseController {
 	@FXML
 	private void fileChooser() {
 
-		FileChooser fileChooser = new FileChooser();
-		Desktop desktop = Desktop.getDesktop();
-
-		Stage stage = mainApp.getStage();
-		fileChooser.showOpenDialog(stage);
 	}
 
 

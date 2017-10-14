@@ -21,8 +21,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import model.Candidate;
 import model.ScoringList;
 
@@ -285,17 +283,7 @@ public class ScoringListController {
 
 	@FXML
 	private void handleChangeImage() {
-		// TODO: can maybe be its own static function, since it is used multiple places. Returns the path as a string
-		FileChooser fileChooser = new FileChooser();
-
-		// TODO
-		//FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
-		//FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
-		//fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
-
-		Stage stage = mainApp.getStage();
-		File file = fileChooser.showOpenDialog(stage);
-
+		File file = mainApp.choseFileAndGetFile();
 		setImageField(file);
 	}
 
@@ -394,16 +382,11 @@ public class ScoringListController {
 		int numberOfNames = names.length;
 		for (int i = 0; i < candidates.size(); i++) {
 			Candidate c = candidates.get(i);
-			// TOOD
-			//boolean matchFirstName = c.getFirstName().equals(names[0]);
-			System.out.println("Names: " + names);
-			System.out.println("Last name: " + names[numberOfNames - 1]);
-			// TOOD
-
-			//boolean matchLastName = c.getLastName().equals(names[numberOfNames - 1]);
-			//if (matchFirstName && matchLastName) {
-			//	return true;
-			//}
+			String candidateName = c.getName();
+			
+			if (name.equals(candidateName)) {
+				return true;
+			}
 		}
 		return false;
 	}

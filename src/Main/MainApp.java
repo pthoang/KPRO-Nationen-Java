@@ -1,9 +1,11 @@
 
 package Main;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
+import controllers.AddSourcesController;
 import controllers.RootController;
 import controllers.ScoringListController;
 import javafx.application.Application;
@@ -11,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.ScoringList;
 
@@ -21,6 +24,7 @@ public class MainApp extends Application {
 
 	private RootController rootController;
 	private ScoringListController scoringListController;
+	private AddSourcesController addSourcesController;
 
 	private ScoringList scoringList;
 
@@ -56,7 +60,7 @@ public class MainApp extends Application {
 
 			// Show the scene containing the root layout.
 			Scene scene = new Scene(rootLayout);
-			//scene.getStylesheets().add(this.getClass().getResource("../style.css").toExternalForm());
+			scene.getStylesheets().add(this.getClass().getResource("../style.css").toExternalForm());
 			primaryStage.setScene(scene);
 			String css = this.getClass().getResource("../style.css").toExternalForm();
 			scene.getStylesheets().add(css);
@@ -75,8 +79,6 @@ public class MainApp extends Application {
 			loader.setLocation(MainApp.class.getResource("../view/ScoringListView.fxml"));
 			GridPane scoringListView = (GridPane) loader.load();
 
-			System.out.println("Rootlayout: " + rootLayout);
-			System.out.println("ScoringListView: " + scoringListView);
 			rootLayout.setCenter(scoringListView);
 
 			scoringListController = loader.getController();
@@ -85,7 +87,25 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Shows the view for adding databases.
+	 */
+	public void showLoadSourcesView() {
+		try {
+			FXMLLoader loader= new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("../view/AddSourcesView.fxml"));
+			GridPane addSourcesView = (GridPane) loader.load();
 
+			rootLayout.setCenter(addSourcesView);
+
+			addSourcesController = loader.getController();
+			addSourcesController.setMainApp(this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Returns the primaryStage
 	 * @return primaryStage
@@ -95,6 +115,14 @@ public class MainApp extends Application {
 	}
 
 	/**
+	 * Get the scoringList
+	 * @return scoringList
+	 */
+	public ScoringList getScoringList() {
+		return scoringList;
+	}
+	
+	/**
 	 * Sets the scoringList
 	 * @param scoringList The ScoringList
 	 */
@@ -103,20 +131,23 @@ public class MainApp extends Application {
 	}
 
 	/**
-	 * Get the scoringList
-	 * @return scoringList
+	 * Updates the scoringListView (refresh the table)
 	 */
-	public ScoringList getScoringList() {
-		return scoringList;
-	}
-
 	public void updateView() {
 		scoringListController.fillTable();
 	}
 
+	/**
+	 * Creates a new and empty list
+	 */
 	public void newList() {
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		scoringList = new ScoringList(year);
-
+	}
+	
+	public File choseFileAndGetFile() {
+		FileChooser fileChooser = new FileChooser();
+		File file = fileChooser.showOpenDialog(primaryStage);
+		return file;
 	}
 }

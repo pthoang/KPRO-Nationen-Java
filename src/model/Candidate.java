@@ -8,7 +8,7 @@ public class Candidate {
 
 	private SimpleStringProperty name;
 	private SimpleStringProperty municipality = new SimpleStringProperty();
-	private SimpleStringProperty imageURL = new SimpleStringProperty("images/standard.png");;
+	private SimpleStringProperty imageURL = new SimpleStringProperty("resources/standard.png");;
 	private SimpleStringProperty description = new SimpleStringProperty();
 	private SimpleIntegerProperty rank;
 	private SimpleIntegerProperty previousYearRank;
@@ -113,7 +113,6 @@ public class Candidate {
 	 * @return String The imageName
 	 */
 	public String getImageURL() {
-		System.out.println("Image PATH in Candidate: " + imageURL.get());
 		return imageURL.get();
 	}
 

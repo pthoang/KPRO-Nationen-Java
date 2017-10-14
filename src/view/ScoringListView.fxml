@@ -17,8 +17,8 @@
 						<TableView fx:id="candidateTable" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS">
 							<columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
 							<columns>
-								<TableColumn fx:id="rankColumn" text="Rangering" />
-								<TableColumn fx:id="nameColumn" text="Navn" />
+								<TableColumn fx:id="rankColumn" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" text="Rang" />
+								<TableColumn fx:id="nameColumn" prefWidth="100.0" text="Navn" />
 							</columns>
 						</TableView>
 						<ToolBar GridPane.columnIndex="0" GridPane.rowIndex="1">

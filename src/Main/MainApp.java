@@ -1,45 +1,47 @@
 
 package Main;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 
+import controllers.AddSourcesController;
 import controllers.RootController;
-import controllers.ViewController;
+import controllers.ScoringListController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.ScoringList;
-
-// Gives error on Linux - is it necessary?
-//import static com.apple.eio.FileManager.getResource;
 
 public class MainApp extends Application {
 
 	private Stage primaryStage;
 	private BorderPane rootLayout;
-	private RootController rootController;
-	private ScoringList scoringList;
 
+	private RootController rootController;
+	private ScoringListController scoringListController;
+	private AddSourcesController addSourcesController;
+
+	private ScoringList scoringList;
 
 	public static void main(String[] args) {
 		launch(args);
 	}
-	
+
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
-		this.primaryStage.setTitle("Nationen - Landbruksmakt");
+		this.primaryStage.setTitle("Nationen - Maktkampen");
 
 		initRootLayout();
 
-		ViewController viewController = new ViewController();
-		viewController.setRootLayout(rootLayout);
-		rootController.setViewController(viewController);
-		viewController.setMainApp(this);
+		newList();
 
-		viewController.showStartMenu();
+		showScoringListView();
 	}
 
 	/**
@@ -69,6 +71,42 @@ public class MainApp extends Application {
 	}
 
 	/**
+	 * Shows the view for the final list.
+	 */
+	public void showScoringListView() {
+		try {
+			FXMLLoader loader= new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("../view/ScoringListView.fxml"));
+			GridPane scoringListView = (GridPane) loader.load();
+
+			rootLayout.setCenter(scoringListView);
+
+			scoringListController = loader.getController();
+			scoringListController.setMainApp(this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Shows the view for adding databases.
+	 */
+	public void showLoadSourcesView() {
+		try {
+			FXMLLoader loader= new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("../view/AddSourcesView.fxml"));
+			GridPane addSourcesView = (GridPane) loader.load();
+
+			rootLayout.setCenter(addSourcesView);
+
+			addSourcesController = loader.getController();
+			addSourcesController.setMainApp(this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * Returns the primaryStage
 	 * @return primaryStage
 	 */
@@ -77,19 +115,39 @@ public class MainApp extends Application {
 	}
 
 	/**
-	 * Sets the scoringList
-	 * @param scoringList The ScoringList
-	 */
-	public void setScoringList(ScoringList scoringList) {
-		this.scoringList = scoringList;
-	}
-	
-	/**
 	 * Get the scoringList
 	 * @return scoringList
 	 */
 	public ScoringList getScoringList() {
 		return scoringList;
 	}
-		
+	
+	/**
+	 * Sets the scoringList
+	 * @param scoringList The ScoringList
+	 */
+	public void setScoringList(ScoringList scoringList) {
+		this.scoringList = scoringList;
+	}
+
+	/**
+	 * Updates the scoringListView (refresh the table)
+	 */
+	public void updateView() {
+		scoringListController.fillTable();
+	}
+
+	/**
+	 * Creates a new and empty list
+	 */
+	public void newList() {
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		scoringList = new ScoringList(year);
+	}
+	
+	public File choseFileAndGetFile() {
+		FileChooser fileChooser = new FileChooser();
+		File file = fileChooser.showOpenDialog(primaryStage);
+		return file;
+	}
 }

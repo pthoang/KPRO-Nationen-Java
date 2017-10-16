@@ -1,21 +1,55 @@
 package controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.MenuItem;
 
-public class RootController extends SuperController {
+import java.io.File;
 
-	@FXML
-	private MenuItem aboutItem;
-	@FXML
-	private MenuItem settingsItem;
+import Main.MainApp;
+import model.ScoringList;
 
+public class RootController {
+
+	private MainApp mainApp;
 
 	/**
 	 * Create the RootController object.
 	 */
 	public RootController() {
 		super();
+	}
+
+	public void setMainApp(MainApp mainApp) {
+		this.mainApp = mainApp;
+	}	
+
+	@FXML
+	private void showLoadList() {
+		File file = mainApp.choseFileAndGetFile();
+		String filePath = file.getAbsolutePath();
+
+		ScoringList scoringList = mainApp.getScoringList();
+
+		if (filePath.toLowerCase().endsWith(".json")) {
+			scoringList.createFromPreviousList(filePath);
+		} else if (filePath.toLowerCase().endsWith(".txt")) {
+			scoringList.createFromNameList(filePath);
+		} else {
+			System.out.println("Error: invalid file");
+		}
+
+		mainApp.setScoringList(scoringList);
+
+		mainApp.updateView();
+	}
+	
+	@FXML
+	private void showLoadSources() {
+		mainApp.showLoadSourcesView();
+	}
+
+	@FXML
+	private void showNewAndEmpty() {
+		mainApp.newList();
 	}
 
 	@FXML
@@ -26,10 +60,11 @@ public class RootController extends SuperController {
 	@FXML
 	private void showSettings() {
 		// TODO
-	}
+	}	
 	
 	@FXML
-	private void showStartMenu() {
-		viewController.showStartMenu();
+	private void showUserManual() {
+		// TOOD
 	}
+
 }

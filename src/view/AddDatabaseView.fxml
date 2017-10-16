@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <?import javafx.geometry.Insets?>
-<GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddDatabaseController" alignment="center" hgap="10" vgap="10">
+<GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddSourcesController" alignment="center" hgap="10" vgap="10">
    <padding>
       <Insets top="10" right="10" bottom="10" left="20"/>
    </padding>

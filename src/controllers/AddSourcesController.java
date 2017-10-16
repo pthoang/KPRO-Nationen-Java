@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class AddDatabaseController extends SuperController {
+public class AddSourcesController {
 
 	@FXML
 	private Button nextButton;
@@ -19,7 +19,12 @@ public class AddDatabaseController extends SuperController {
 	private TextField loadedFileNameField;
 
 	FileChooser fileChooser = new FileChooser();
+	private MainApp mainApp;
 
+
+	public void setMainApp(MainApp mainApp) {
+		this.mainApp = mainApp;
+	}
 
 	@FXML
 	private void createOutput() {
@@ -32,7 +37,6 @@ public class AddDatabaseController extends SuperController {
 	@FXML
 	private void loadedFileNameField() {
 		// TODO
-
 	}
 
 	/**
@@ -41,21 +45,6 @@ public class AddDatabaseController extends SuperController {
 	@FXML
 	private void fileChooser() {
 
-		FileChooser fileChooser = new FileChooser();
-		Desktop desktop = Desktop.getDesktop();
-
-		Stage stage = super.mainApp.getStage();
-		fileChooser.showOpenDialog(stage);
-	}
-	
-	@FXML
-	private void handleNext() {
-		super.viewController.showScoringListView();
-	}
-	
-	@FXML
-	private void handleBack() {
-		super.viewController.showCandidatesListView();
 	}
 
 

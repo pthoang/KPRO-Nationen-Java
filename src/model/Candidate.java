@@ -6,10 +6,9 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class Candidate {
 
-	private SimpleStringProperty firstName;
-	private SimpleStringProperty lastName;
+	private SimpleStringProperty name;
 	private SimpleStringProperty municipality = new SimpleStringProperty();
-	private SimpleStringProperty imageURL = new SimpleStringProperty("images/standard.png");;
+	private SimpleStringProperty imageURL = new SimpleStringProperty("resources/standard.png");;
 	private SimpleStringProperty description = new SimpleStringProperty();
 	private SimpleIntegerProperty rank;
 	private SimpleIntegerProperty previousYearRank;
@@ -30,7 +29,7 @@ public class Candidate {
 	 * @param previousYearRank
 	 */
 	public Candidate(String name, int rank, int previousYearRank) {
-		splitUpAndSaveName(name);
+		this.name = new SimpleStringProperty(name);
 		this.rank = new SimpleIntegerProperty(rank);
 		this.previousYearRank = new SimpleIntegerProperty(rank);
 	}
@@ -46,7 +45,7 @@ public class Candidate {
 	 * @param despcription
 	 */
 	public Candidate(String name, String imageURL, String despcription, int rank) {
-		splitUpAndSaveName(name);
+		this.name = new SimpleStringProperty(name);
 		this.rank = new SimpleIntegerProperty(rank);
 		this.previousYearRank = new SimpleIntegerProperty(rank);
 
@@ -55,57 +54,30 @@ public class Candidate {
 	}
 
 	/**
-	 * Get firstName as string
+	 * Get name as string
 	 * 
-	 * @return String The firstName
+	 * @return String The name
 	 */
-	public String getFirstName() {
-		return firstName.get();
+	public String getName() {
+		return name.get();
 	}
 
 	/**
-	 * Get firstNameProperty
+	 * Get nameProperty
 	 * 
-	 * @return SimpleStringProperty The firstName
+	 * @return SimpleStringProperty The name
 	 */
-	public SimpleStringProperty firstNameProperty() {
-		return firstName;
+	public SimpleStringProperty nameProperty() {
+		return name;
 	}
 
 	/**
-	 * Set firstName
+	 * Set name
 	 * 
-	 * @param firstName
+	 * @param name
 	 */
-	public void setFirstName(SimpleStringProperty firstName) {
-		this.firstName = firstName;
-	}
-
-	/**
-	 * Get lastName as string
-	 * 
-	 * @return String The lastName
-	 */
-	public String getLastName() {
-		return lastName.get();
-	}
-
-	/**
-	 * Get lastName
-	 * 
-	 * @return SimpleStringProperty The lastName
-	 */
-	public SimpleStringProperty lastNameProperty() {
-		return lastName;
-	}
-
-	/**
-	 * Set lastName
-	 * 
-	 * @param lastName
-	 */
-	public void setLastName(SimpleStringProperty lastName) {
-		this.lastName = lastName;
+	public void setName(SimpleStringProperty name) {
+		this.name = name;
 	}
 
 	/**
@@ -141,7 +113,6 @@ public class Candidate {
 	 * @return String The imageName
 	 */
 	public String getImageURL() {
-		System.out.println("Image PATH in Candidate: " + imageURL.get());
 		return imageURL.get();
 	}
 
@@ -279,41 +250,6 @@ public class Candidate {
 
 	public void setFarmingPG(SimpleIntegerProperty farmingPG) {
 		this.farmingPG = farmingPG;
-	}
-
-	/**
-	 * Split up the name based on the string name
-	 * 
-	 * @param name
-	 */
-	public void splitUpAndSaveName(String name) {
-		if (name.contains(" ")) {
-			String[] names = name.split(" ");
-			handleMiddleNames(names);
-		} else {
-			firstName = new SimpleStringProperty(name);
-			lastName = new SimpleStringProperty("");
-		}
-	}
-
-	/**
-	 * Take all the names except the last one and merge them to the first name
-	 * 
-	 * @param names
-	 */
-	private void handleMiddleNames(String[] names) {
-		int numberOfNames = names.length;
-		if (numberOfNames > 2) {
-			lastName = new SimpleStringProperty(names[numberOfNames - 1]);
-			String firstNameString = names[0];
-			for (int i = 1; i < numberOfNames - 1; i++) {
-				firstNameString += " " + names[i];
-			}
-			firstName = new SimpleStringProperty(firstNameString);
-		} else if (numberOfNames == 2) {
-			firstName = new SimpleStringProperty(names[0]);
-			lastName = new SimpleStringProperty(names[1]);
-		}
 	}
 
 	// TODO

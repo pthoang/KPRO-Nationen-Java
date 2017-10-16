@@ -1,12 +1,15 @@
 package controllers;
 
 import java.awt.Desktop;
+<<<<<<< HEAD
 import java.io.File;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+=======
+>>>>>>> development
 
 import Main.MainApp;
 import javafx.fxml.FXML;
@@ -50,6 +53,7 @@ public class AddSourcesController {
 	 */
 	@FXML
 	private void fileChooser() {
+<<<<<<< HEAD
 		File file = mainApp.choseFileAndGetFile();
 		System.out.println("Trying to add source");
 	}
@@ -88,4 +92,10 @@ public class AddSourcesController {
 
 
 
+=======
+
+	}
+
+
+>>>>>>> development
 }

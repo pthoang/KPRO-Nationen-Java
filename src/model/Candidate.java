@@ -4,9 +4,12 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.List;
 
+=======
+>>>>>>> development
 public class Candidate {
 
 	private SimpleStringProperty name;
@@ -15,7 +18,10 @@ public class Candidate {
 	private SimpleStringProperty description = new SimpleStringProperty();
 	private SimpleIntegerProperty rank;
 	private SimpleIntegerProperty previousYearRank;
+<<<<<<< HEAD
 	private ArrayList organizations;
+=======
+>>>>>>> development
 
 	// PG stands for ProductionGrants
 	private SimpleIntegerProperty animalsPG = new SimpleIntegerProperty(0);

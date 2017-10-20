@@ -5,6 +5,7 @@ import java.util.HashMap;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
 
 public class Candidate extends Person {
 
@@ -21,7 +22,7 @@ public class Candidate extends Person {
 	private SimpleIntegerProperty farmingPG = new SimpleIntegerProperty(0);
 
 	// TODO: missing network
-	private HashMap<Person, String> network;
+	private HashMap<Person, String> network = new HashMap<Person, String>();
 
 	/**
 	 * Constructor for the Candidate object. Used when creating a new candidate
@@ -32,6 +33,7 @@ public class Candidate extends Person {
 	 * @param previousYearRank
 	 */
 	public Candidate(String name, int rank, int previousYearRank) {
+		super(name, null);
 		this.name = new SimpleStringProperty(name);
 		this.rank = new SimpleIntegerProperty(rank);
 		this.previousYearRank = new SimpleIntegerProperty(rank);
@@ -48,6 +50,7 @@ public class Candidate extends Person {
 	 * @param despcription
 	 */
 	public Candidate(String name, String imageURL, String despcription, int rank) {
+		super(name, imageURL);
 		this.name = new SimpleStringProperty(name);
 		this.rank = new SimpleIntegerProperty(rank);
 		this.previousYearRank = new SimpleIntegerProperty(rank);
@@ -260,5 +263,9 @@ public class Candidate extends Person {
 	
 	public void addToNetwork(Person person, String description) {
 		network.put(person, description);
+	}
+	
+	public HashMap<Person, String> getNetwork() {
+		return network;
 	}
 }

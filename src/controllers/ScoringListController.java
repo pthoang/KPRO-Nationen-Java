@@ -4,6 +4,7 @@ import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -12,6 +13,7 @@ import javax.imageio.ImageIO;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
@@ -22,6 +24,7 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -85,6 +88,8 @@ public class ScoringListController {
 	private TextField hiredHelpPGField = new TextField();
 	@FXML
 	private TextField farmingPGField = new TextField();
+	@FXML
+	private ListView networkListView = new ListView();
 
 	private Candidate candidate;
 
@@ -124,7 +129,10 @@ public class ScoringListController {
 		nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 
 		candidateTable.getSelectionModel().selectedItemProperty().addListener(
-				(observable, oldValue, newValue) -> setCandidate(newValue));
+				(observable, oldValue, newValue) -> setCandidate(newValue));ListView<String> list = new ListView<String>();
+				ObservableList<String> items =FXCollections.observableArrayList (
+					    "Single", "Double", "Suite", "Family App");
+					list.setItems(items);
 	}
 
 	public void refreshTable() {
@@ -135,6 +143,14 @@ public class ScoringListController {
 	public void updateLists() {
 		scoringList = mainApp.getScoringList();
 		candidates = scoringList.getCandidates();
+	}
+	
+	public void updateNetworkList() {
+		HashMap<Person, String> networkList = candidate.getNetwork();
+		
+		ObservableList<HashMap<Person, String>> obsNetworkList = (ObservableList<HashMap<Person, String>>) FXCollections.observableMap(networkList);
+		
+		networkListView.setItems(obsNetworkList);
 	}
 
 
@@ -408,11 +424,15 @@ public class ScoringListController {
 	@FXML
 	public void handleAddConnection() {
 		
+		System.out.println("Handle Add Connection");
 		connectionDialog();
+		
+		updateNetworkList();
 		
 	}
 	
 	private void connectionDialog() {
+		System.out.println("Showing connection dialog");
 		// Create the custom dialog.
 		Dialog<Pair<Person, String>> dialog = new Dialog<>();
 		dialog.setTitle("Nettverks kobling");
@@ -442,7 +462,6 @@ public class ScoringListController {
 		grid.add(new Label("Link til bilde:"), 0, 2);
 		grid.add(imageURL, 1, 2);
 
-		
 		// Enable/Disable login button depending on whether a username was entered.
 		Node addButton = dialog.getDialogPane().lookupButton(addButtonType);
 		addButton.setDisable(true);
@@ -465,12 +484,19 @@ public class ScoringListController {
 		    }
 		    return null;
 		});
-		**/
 
-		Optional<Pair<Person, String>> result = dialog.showAndWait();
-
+		
 		result.ifPresent(nameDescription -> {
 		    System.out.println("name=" + nameDescription.getKey() + ", description=" + nameDescription.getValue());
 		});
+		**/
+		Optional<Pair<Person, String>> result = dialog.showAndWait();
+
+		String nameString = name.getText();
+		System.out.println("Name: " + nameString);
+		// Save the person
+		Person person = new Person(name.getText(), imageURL.getText());
+		candidate.addToNetwork(person, description.getText());
+
 	}
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Candidate extends Person {
@@ -21,8 +22,7 @@ public class Candidate extends Person {
 	private SimpleIntegerProperty hiredHelpPG = new SimpleIntegerProperty(0);
 	private SimpleIntegerProperty farmingPG = new SimpleIntegerProperty(0);
 
-	// TODO: missing network
-	private HashMap<Person, String> network = new HashMap<Person, String>();
+	private ObservableList<Connection> connections =  FXCollections.observableArrayList();
 
 	/**
 	 * Constructor for the Candidate object. Used when creating a new candidate
@@ -261,11 +261,14 @@ public class Candidate extends Person {
 	// TODO
 	// Missing functions to validate rank etc
 	
-	public void addToNetwork(Person person, String description) {
-		network.put(person, description);
+	public void addConnection(Person person, String description) {
+		Connection newConnection = new Connection(this, person, description);
+		connections.add(newConnection);
 	}
 	
-	public HashMap<Person, String> getNetwork() {
-		return network;
+	public ObservableList<Connection> getConnections() {
+		return connections;
 	}
+	
+	
 }

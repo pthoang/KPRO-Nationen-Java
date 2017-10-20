@@ -4,17 +4,37 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class Person {
 	
-	private String name;
-	private String imageURL;
+	private SimpleStringProperty name;
+	private SimpleStringProperty imageURL;
 	
 	public Person(String name, String imageURL) {
-		this.name = name;
-		this.imageURL = imageURL;
+		this.name = new SimpleStringProperty(name);
+		this.imageURL = new SimpleStringProperty(imageURL);
 	}
 
 	
 	public SimpleStringProperty getNameProperty() {
-		return new SimpleStringProperty(name);
+		return name;
+	}
+	
+	public String getName() {
+		return name.get();
+	}
+	
+	public SimpleStringProperty getImageURLProperty() {
+		return imageURL;
+	}
+	
+	public String getImageURL() {
+		return imageURL.get();
+	}
+	
+	public void setName(String name) {
+		this.name = new SimpleStringProperty(name);
+	}
+	
+	public void setImageURL(String imageURL) {
+		this.imageURL = new SimpleStringProperty(imageURL); 
 	}
 	// TODO: validate name
 	

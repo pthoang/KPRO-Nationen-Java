@@ -7,33 +7,43 @@ public class Connection {
 	private Candidate candidate;
 	private Person person;
 	
-	private SimpleStringProperty name;
 	private SimpleStringProperty description;
 	
 	public Connection(Candidate candidate, Person person, String description) {
 		this.candidate = candidate;
 		this.person = person;
-		this.name = person.getNameProperty();
-		this.description = new SimpleStringProperty(description);
-		
-		System.out.println("Person name in connection: " + name.get() + " or " + person.getNameProperty().get());
-		
+		this.description = new SimpleStringProperty(description);	
 	}
+	
 	public SimpleStringProperty nameProperty() {
-		return name;
+		return person.getNameProperty();
+	}
+	
+	public void setName(String name) {
+		person.setName(name);
 	}
 	
 	public SimpleStringProperty descriptionProperty() {
 		return description;
 	}
 	
+	public void setDescription(String description) {
+		this.description = new SimpleStringProperty(description);
+	}
+	
 	public String getName() {
-		System.out.println("Get name: " + name.get());
-		return name.get();
+		return person.getName();
 	}
 	
 	public String getDescription() {
 		return description.get();
 	}
 	
+	public String getImageURL() {
+		return person.getImageURL();
+	}
+	
+	public void setImageURL(String imageURL) {
+		person.setImageURL(imageURL);
+	}
 }

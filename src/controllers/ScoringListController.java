@@ -95,8 +95,6 @@ public class ScoringListController {
 	private TableColumn<Connection, String> networkNameColumn;
 	@FXML
 	private TableColumn<Connection, String> networkDescriptionColumn;;
-
-	private ObservableList<Connection> connections =  FXCollections.observableArrayList();
 	
 	private Candidate candidate;
 
@@ -141,8 +139,8 @@ public class ScoringListController {
 		networkNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 		networkDescriptionColumn.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
 		
-		//networkTable.getSelectionModel().selectedItemProperty().addListener(
-		//		(observable, oldValue, newValue) -> connectionDialog(newValue));
+		networkTable.getSelectionModel().selectedItemProperty().addListener(
+				(observable, oldValue, newValue) -> connectionDialog(newValue));
 		
 	}
 
@@ -157,28 +155,10 @@ public class ScoringListController {
 	}
 	
 	public void updateNetworkList() {
-		System.out.println("Updating networkTable");
-		networkTable.setItems(connections);
-		
-		System.out.println(connections);
-		System.out.println(connections.get(0).getName());
+		networkTable.setItems(candidate.getConnections());		
 		networkTable.refresh();
 	}
 	
-	private ObservableList<HashMap> generateDataInMap() {
-		// Max number of network
-        int max = 15;
-        ObservableList<HashMap> networkMap = FXCollections.observableArrayList();
-        for (int i = 1; i < max; i++) {
-            HashMap<Person, String> connection = candidate.getNetwork();
- 
-            networkMap.add(connection);
-        }
-        return networkMap;
-	}
-
-
-
 	// Related to candidate view
 
 	/**
@@ -388,7 +368,7 @@ public class ScoringListController {
 		hiredHelpPGField.setText(Integer.toString(candidate.getHiredHelpPG()));
 		farmingPGField.setText(Integer.toString(candidate.getFarmingPG()));
 		
-		networkTable.setItems(connections);
+		networkTable.setItems(candidate.getConnections());
 	}
 
 	public void cleanFields() {
@@ -449,12 +429,7 @@ public class ScoringListController {
 	
 	@FXML
 	public void handleAddConnection() {
-		
-		System.out.println("Handle Add Connection");
 		connectionDialog(null);
-		
-		updateNetworkList();
-		
 	}
 	
 	private void connectionDialog(Connection connection) {
@@ -465,29 +440,31 @@ public class ScoringListController {
 
 		// Set the button types.
 		ButtonType addButtonType = new ButtonType("Legg til", ButtonData.OK_DONE);
-		dialog.getDialogPane().getButtonTypes().addAll(addButtonType, ButtonType.CANCEL);
+		ButtonType cancelButtonType = new ButtonType("Avslutt", ButtonData.CANCEL_CLOSE);
+		dialog.getDialogPane().getButtonTypes().addAll(addButtonType, cancelButtonType);
 
 		// Create the username and password labels and fields.
 		GridPane grid = new GridPane();
 		grid.setHgap(50);
 		grid.setVgap(20);
-		//grid.setPadding(new Insets(20, 150, 10, 10));
 		
 		TextField name = new TextField();
 		TextField description = new TextField();
 		TextField imageURL = new TextField();
-
 		
 		if (connection == null) {
 			name.setPromptText("");
 			description.setPromptText("");
 			imageURL.setPromptText("");
-		} else {
 			
-			name.setPromptText(connection.getName());
-			description.setPromptText(connection.getDescription());
+			// Request focus on the name field by default.
+			Platform.runLater(() -> name.requestFocus());
+			
+		} else {
+			name.setText(connection.getName());
+			description.setText(connection.getDescription());
 			// TODO
-			imageURL.setPromptText("");
+			imageURL.setText(connection.getImageURL());
 		}
 		
 		grid.add(new Label("Navn:"), 0, 0);
@@ -508,34 +485,19 @@ public class ScoringListController {
 
 		dialog.getDialogPane().setContent(grid);
 
-		// Request focus on the name field by default.
-		Platform.runLater(() -> name.requestFocus());
+		dialog.showAndWait();
 
-		// Convert the result to a username-password-pair when the login button is clicked.
-		/**
-		dialog.setResultConverter(dialogButton -> {
-		    if (dialogButton == addButtonType) {
-		        return new Pair<>(name.getText(), description.getText());
-		    }
-		    return null;
-		});
-
+		if (connection == null) {
+			Person person = new Person(name.getText(), imageURL.getText());
 		
-		result.ifPresent(nameDescription -> {
-		    System.out.println("name=" + nameDescription.getKey() + ", description=" + nameDescription.getValue());
-		});
-		**/
-		Optional<Pair<Person, String>> result = dialog.showAndWait();
-
-		String nameString = name.getText();
-		System.out.println("Name: " + nameString);
-		// Save the person
-		Person person = new Person(name.getText(), imageURL.getText());
-		//candidate.addToNetwork(person, description.getText());
-		Connection newConnection = new Connection(candidate, person, description.getText());
-		//System.out.println(connection.getName() + " + " + connection.getDescription());
-		connections.add(newConnection);
+			candidate.addConnection(person, description.getText());
+		} else {
+			connection.setName(name.getText());
+			connection.setDescription(description.getText());
+			connection.setImageURL(imageURL.getText());
+		}
 		
+
 		updateNetworkList();
 	}
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<GridPane maxWidth="800.0" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SettingsController">
+   <children>
+      <ToolBar layoutX="487.0" layoutY="440.0" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <items>
+          <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleSave" text="Lagre" />
+          <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancel" text="Avbryt" />
+        </items>
+      </ToolBar>
+      <TextField fx:id="numCandidatesField" layoutX="232.0" layoutY="86.0" prefHeight="25.0" prefWidth="10.0" GridPane.columnIndex="1" />
+      <Label layoutX="53.0" layoutY="91.0" text="Antall kandidater i lista" />
+   </children>
+   <columnConstraints>
+      <ColumnConstraints maxWidth="465.0" minWidth="223.0" prefWidth="223.0" />
+      <ColumnConstraints maxWidth="500.0" minWidth="10.0" prefWidth="500.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="600.0" minHeight="31.0" prefHeight="436.0" />
+      <RowConstraints maxHeight="64.0" minHeight="0.0" prefHeight="64.0" />
+   </rowConstraints>
+</GridPane>

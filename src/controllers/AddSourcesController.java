@@ -56,15 +56,17 @@ public class AddSourcesController {
 	}
 
 	//Leaving this here for now, not sure where to put this
-	private HashMap<String, ArrayList<StockInformation>> extractStockData(ObservableList<Candidate> candidates,
-																		  File file){
-		HashMap<String, ArrayList<StockInformation>> candidates_stockInformation =
-				new HashMap<>();
+	private HashMap<String, ArrayList<StockInformation>>
+	extractStockData(ObservableList<Candidate> candidates, File file){
+
+		HashMap<String, ArrayList<StockInformation>> candidates_stockInformation = new HashMap<>();
 
 
 		for (Candidate candidate:
 			 candidates) {
+
 			candidates_stockInformation.put(candidate.getName().toLowerCase(), new ArrayList<>());
+
 		}
 
 

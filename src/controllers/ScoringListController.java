@@ -37,6 +37,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 import model.Candidate;
+import model.Connection;
 import model.Person;
 import model.ScoringList;
 
@@ -89,8 +90,14 @@ public class ScoringListController {
 	@FXML
 	private TextField farmingPGField = new TextField();
 	@FXML
-	private ListView networkListView = new ListView();
+	private TableView<Connection> networkTable;
+	@FXML
+	private TableColumn<Connection, String> networkNameColumn;
+	@FXML
+	private TableColumn<Connection, String> networkDescriptionColumn;;
 
+	private ObservableList<Connection> connections =  FXCollections.observableArrayList();
+	
 	private Candidate candidate;
 
 	private Image newImage;
@@ -129,10 +136,14 @@ public class ScoringListController {
 		nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 
 		candidateTable.getSelectionModel().selectedItemProperty().addListener(
-				(observable, oldValue, newValue) -> setCandidate(newValue));ListView<String> list = new ListView<String>();
-				ObservableList<String> items =FXCollections.observableArrayList (
-					    "Single", "Double", "Suite", "Family App");
-					list.setItems(items);
+				(observable, oldValue, newValue) -> setCandidate(newValue));
+			
+		networkNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+		networkDescriptionColumn.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
+		
+		//networkTable.getSelectionModel().selectedItemProperty().addListener(
+		//		(observable, oldValue, newValue) -> connectionDialog(newValue));
+		
 	}
 
 	public void refreshTable() {
@@ -146,11 +157,24 @@ public class ScoringListController {
 	}
 	
 	public void updateNetworkList() {
-		HashMap<Person, String> networkList = candidate.getNetwork();
+		System.out.println("Updating networkTable");
+		networkTable.setItems(connections);
 		
-		ObservableList<HashMap<Person, String>> obsNetworkList = (ObservableList<HashMap<Person, String>>) FXCollections.observableMap(networkList);
-		
-		networkListView.setItems(obsNetworkList);
+		System.out.println(connections);
+		System.out.println(connections.get(0).getName());
+		networkTable.refresh();
+	}
+	
+	private ObservableList<HashMap> generateDataInMap() {
+		// Max number of network
+        int max = 15;
+        ObservableList<HashMap> networkMap = FXCollections.observableArrayList();
+        for (int i = 1; i < max; i++) {
+            HashMap<Person, String> connection = candidate.getNetwork();
+ 
+            networkMap.add(connection);
+        }
+        return networkMap;
 	}
 
 
@@ -363,6 +387,8 @@ public class ScoringListController {
 		animalsPGField.setText(Integer.toString(candidate.getAnimalsPG()));
 		hiredHelpPGField.setText(Integer.toString(candidate.getHiredHelpPG()));
 		farmingPGField.setText(Integer.toString(candidate.getFarmingPG()));
+		
+		networkTable.setItems(connections);
 	}
 
 	public void cleanFields() {
@@ -425,14 +451,13 @@ public class ScoringListController {
 	public void handleAddConnection() {
 		
 		System.out.println("Handle Add Connection");
-		connectionDialog();
+		connectionDialog(null);
 		
 		updateNetworkList();
 		
 	}
 	
-	private void connectionDialog() {
-		System.out.println("Showing connection dialog");
+	private void connectionDialog(Connection connection) {
 		// Create the custom dialog.
 		Dialog<Pair<Person, String>> dialog = new Dialog<>();
 		dialog.setTitle("Nettverks kobling");
@@ -447,14 +472,24 @@ public class ScoringListController {
 		grid.setHgap(50);
 		grid.setVgap(20);
 		//grid.setPadding(new Insets(20, 150, 10, 10));
-
+		
 		TextField name = new TextField();
-		name.setPromptText("Navn");
 		TextField description = new TextField();
-		description.setPromptText("Beskrivelse");
 		TextField imageURL = new TextField();
-		imageURL.setPromptText("Link til bilde");
 
+		
+		if (connection == null) {
+			name.setPromptText("");
+			description.setPromptText("");
+			imageURL.setPromptText("");
+		} else {
+			
+			name.setPromptText(connection.getName());
+			description.setPromptText(connection.getDescription());
+			// TODO
+			imageURL.setPromptText("");
+		}
+		
 		grid.add(new Label("Navn:"), 0, 0);
 		grid.add(name, 1, 0);
 		grid.add(new Label("Beskrivelse:"), 0, 1);
@@ -496,7 +531,11 @@ public class ScoringListController {
 		System.out.println("Name: " + nameString);
 		// Save the person
 		Person person = new Person(name.getText(), imageURL.getText());
-		candidate.addToNetwork(person, description.getText());
-
+		//candidate.addToNetwork(person, description.getText());
+		Connection newConnection = new Connection(candidate, person, description.getText());
+		//System.out.println(connection.getName() + " + " + connection.getDescription());
+		connections.add(newConnection);
+		
+		updateNetworkList();
 	}
 }

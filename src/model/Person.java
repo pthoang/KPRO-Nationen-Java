@@ -1,5 +1,7 @@
 package model;
 
+import javafx.beans.property.SimpleStringProperty;
+
 public class Person {
 	
 	private String name;
@@ -10,6 +12,10 @@ public class Person {
 		this.imageURL = imageURL;
 	}
 
+	
+	public SimpleStringProperty getNameProperty() {
+		return new SimpleStringProperty(name);
+	}
 	// TODO: validate name
 	
 	// TODO: validate imageURL

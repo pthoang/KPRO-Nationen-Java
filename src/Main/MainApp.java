@@ -43,6 +43,10 @@ public class MainApp extends Application {
 		newList();
 
 		showScoringListView();
+		
+		// During testing
+		scoringList.createFromNameList("resources/NameListTest.txt");
+		updateView();
 	}
 
 	/**

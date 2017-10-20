@@ -56,7 +56,11 @@
 					<TextField fx:id="farmingPGField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
 					<Label maxWidth="200" text="Nettverk:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-					<ListView fx:id="networkList" maxHeight="200" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.rowSpan="3" />
+					<TableView fx:id="networkTable" maxHeight="200" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.rowSpan="3">
+                     <columns>
+                        <TableColumn fx:id="networkNameColumn" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" text="Navn" />
+                        <TableColumn fx:id="networkDescriptionColumn" maxWidth="165.0" minWidth="70.0" prefWidth="165.0" text="Beskrivelse" />
+                     </columns></TableView>
 
 					<ToolBar GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="9">
 						<items>

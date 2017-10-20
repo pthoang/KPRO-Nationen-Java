@@ -1,10 +1,12 @@
 package model;
 
+import java.util.HashMap;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-public class Candidate {
+public class Candidate extends Person {
 
 	private SimpleStringProperty name;
 	private SimpleStringProperty municipality = new SimpleStringProperty();
@@ -19,6 +21,7 @@ public class Candidate {
 	private SimpleIntegerProperty farmingPG = new SimpleIntegerProperty(0);
 
 	// TODO: missing network
+	private HashMap<Person, String> network;
 
 	/**
 	 * Constructor for the Candidate object. Used when creating a new candidate
@@ -254,4 +257,8 @@ public class Candidate {
 
 	// TODO
 	// Missing functions to validate rank etc
+	
+	public void addToNetwork(Person person, String description) {
+		network.put(person, description);
+	}
 }

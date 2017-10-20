@@ -4,24 +4,21 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.List;
 
-=======
->>>>>>> development
+
 public class Candidate {
 
 	private SimpleStringProperty name;
 	private SimpleStringProperty municipality = new SimpleStringProperty();
-	private SimpleStringProperty imageURL = new SimpleStringProperty("resources/standard.png");;
+	private SimpleStringProperty imageURL = new SimpleStringProperty("resources/standard.png");
 	private SimpleStringProperty description = new SimpleStringProperty();
 	private SimpleIntegerProperty rank;
 	private SimpleIntegerProperty previousYearRank;
-<<<<<<< HEAD
+
 	private ArrayList organizations;
-=======
->>>>>>> development
+
 
 	// PG stands for ProductionGrants
 	private SimpleIntegerProperty animalsPG = new SimpleIntegerProperty(0);
@@ -50,8 +47,6 @@ public class Candidate {
 	 * 
 	 * @param name
 	 * @param rank
-	 * @param previousYearRank
-	 * @param imageName
 	 * @param despcription
 	 */
 	public Candidate(String name, String imageURL, String despcription, int rank) {
@@ -137,8 +132,7 @@ public class Candidate {
 
 	/**
 	 * Set imageName
-	 * 
-	 * @param imageName
+	 *
 	 */
 	public void setImageURLProperty(SimpleStringProperty imageURL) {
 

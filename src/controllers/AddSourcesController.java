@@ -57,7 +57,7 @@ public class AddSourcesController {
 
 	//Leaving this here for now, not sure where to put this
 	private HashMap<String, ArrayList<StockInformation>>
-	extractStockData(ObservableList<Candidate> candidates, File file){
+	extractShareholderData(ObservableList<Candidate> candidates, File file){
 
 		HashMap<String, ArrayList<StockInformation>> candidates_stockInformation = new HashMap<>();
 
@@ -105,6 +105,5 @@ public class AddSourcesController {
 
 		return candidates_stockInformation;
 	}
-
 
 }

@@ -2,24 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4f50f285-ca55-4714-be05-08f345536164" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/KPRO-Nationen-Java/Main/MainApp.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/KPRO-Nationen-Java/controllers/AddSourcesController.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/KPRO-Nationen-Java/controllers/RootController.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/KPRO-Nationen-Java/controllers/ScoringListController.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/KPRO-Nationen-Java/model/Candidate.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/KPRO-Nationen-Java/model/ScoringList.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/KPRO-Nationen-Java/model/StockInformation.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/KPRO-Nationen-Java/nationen-logo.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/gson_2_8_2.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/KPRO-Nationen-Java/style.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/KPRO-Nationen-Java/view/AddDatabaseView.fxml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/KPRO-Nationen-Java/view/RootLayout.fxml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/KPRO-Nationen-Java/view/ScoringListView.fxml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/com_google_code_gson_gson_2_8_2.xml" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/KPRO-Nationen-Java.iml" afterPath="$PROJECT_DIR$/KPRO-Nationen-Java.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/controllers/AddSourcesController.java" afterPath="$PROJECT_DIR$/src/controllers/AddSourcesController.java" />
     </list>
@@ -40,8 +22,8 @@
       <file leaf-file-name="AddSourcesController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/controllers/AddSourcesController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-969">
-              <caret line="19" column="13" lean-forward="false" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+            <state relative-caret-position="493">
+              <caret line="106" column="5" lean-forward="false" selection-start-line="106" selection-start-column="5" selection-end-line="106" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -55,6 +37,13 @@
   <component name="GradleLocalSettings">
     <option name="externalProjectsViewState">
       <projects_view />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/controllers/AddSourcesController.java" />
+      </list>
     </option>
   </component>
   <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
@@ -645,12 +634,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1508162775893</updated>
-      <workItem from="1508162780841" duration="2574000" />
+      <workItem from="1508162780841" duration="5446000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2574000" />
+    <option name="totallyTimeSpent" value="5446000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
@@ -705,8 +694,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/controllers/AddSourcesController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-969">
-          <caret line="19" column="13" lean-forward="false" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+        <state relative-caret-position="493">
+          <caret line="106" column="5" lean-forward="false" selection-start-line="106" selection-start-column="5" selection-end-line="106" selection-end-column="5" />
           <folding />
         </state>
       </provider>

@@ -8,7 +8,7 @@ import java.util.List;
 public class DataSources {
 
     //a list containing all the data sources that is available
-    List<DataSourceInterface> dsList;
+    private List<DataSourceInterface> dsList;
 
     public DataSources() {
         throw new UnsupportedOperationException("not implemented");

@@ -7,7 +7,7 @@ import model.Candidate;
 import java.util.List;
 
 public class AnalyzerRegister {
-    List<AnalyzeDataInterface> adList;
+    private List<AnalyzeDataInterface> adList;
 
     public AnalyzerRegister() {
         throw new UnsupportedOperationException("not implemented");

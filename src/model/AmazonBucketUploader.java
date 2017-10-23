@@ -13,7 +13,6 @@ import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.Bucket;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.CreateBucketRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -21,11 +20,8 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 
 public class AmazonBucketUploader {
 	
-	Bucket bucket;
 	String bucketName = "tunmedia";
 	String folderName = "maktkaring_" + Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
-	String keyName = ""; 
-	String filePath = ""; 
 	
 	private String accessKey = "";
 	private String secretKey = "";
@@ -56,7 +52,6 @@ public class AmazonBucketUploader {
 	public void createOrGetBucket() {
 		if(!(s3Client.doesBucketExist(bucketName))) {
 			s3Client.createBucket(new CreateBucketRequest(bucketName));
-			
 		} else {
 			System.out.println("Bucket exists");
 		}
@@ -66,8 +61,6 @@ public class AmazonBucketUploader {
 		PutObjectRequest por = new PutObjectRequest(path, fileName, file);
 		por.setCannedAcl(CannedAccessControlList.PublicRead);
 		s3Client.putObject(por);
-
-		
 	}
 	
 	// TODO: if image exist, change name

@@ -2,6 +2,15 @@ package controllers;
 
 import java.awt.Desktop;
 
+import java.io.File;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+
+
+
 import Main.MainApp;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -45,7 +54,46 @@ public class AddSourcesController {
 	@FXML
 	private void fileChooser() {
 
+		File file = mainApp.choseFileAndGetFile();
+		System.out.println("Trying to add source");
+	}
+	@FXML
+	private void fileChooser_tilskudd() {
+		File file = mainApp.choseFileAndGetFile();
+		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+
+			String line = "";
+			String cvsSplitBy = ";";
+
+			while ((line = br.readLine()) != null) {
+
+				// use comma as separator
+				String[] organization = line.split(cvsSplitBy);
+
+				System.out.println("Navn: "+ organization[1]);
+
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void handleBack() {
+		System.out.println("Trying to go back, but the past is behind you");
+	}
+
+	public void handleNext() {
+		System.out.println("Trying to go to the Next, but the future is inpredictable");
 	}
 
 
+
+
+
+
+
 }
+
+

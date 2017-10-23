@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -29,11 +30,12 @@ public class AmazonBucketUploader {
 	
 	Bucket bucket;
 	String bucketName = "tunmedia";
+	String folderName = "maktkaring_" + Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
 	String keyName = ""; 
 	String filePath = ""; 
 	
 	private String accessKey = "";
-	private String secretKey = ""; 
+	private String secretKey = "";
 	
 	private AmazonS3 s3Client;
 	
@@ -66,9 +68,7 @@ public class AmazonBucketUploader {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		System.out.println("AccessKey: " + accessKey);
-		System.out.println("SecretKey: " + secretKey);
+	
 
 	}
 	
@@ -76,8 +76,6 @@ public class AmazonBucketUploader {
 		System.out.println("Get client");
 		BasicAWSCredentials creds = new BasicAWSCredentials(accessKey, secretKey);
 		s3Client = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(creds)).withRegion("us-east-2").build();
-		System.out.println("After getting client");
-		System.out.println("Owner: "+ s3Client.getS3AccountOwner());
 	}
 			
 	public void createOrGetBucket() {
@@ -93,7 +91,8 @@ public class AmazonBucketUploader {
 	public void uploadFile(File file) {
 		System.out.println("Uploading file");
 		String fileName = "Testfile.png";
-		s3Client.putObject(new PutObjectRequest(bucketName, fileName, file));
+		String path = bucketName + "/" + folderName;
+		s3Client.putObject(new PutObjectRequest(path, fileName, file));
 		System.out.println("After uploading file");
 	}
 	/*

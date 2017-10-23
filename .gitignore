@@ -2,6 +2,7 @@
 
 src/images/*
 
+./idea
 #
 # Project specific excludes. copied from https://gist.github.com/chhh/4961200
 #

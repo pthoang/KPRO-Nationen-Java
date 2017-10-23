@@ -17,6 +17,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import model.AmazonBucketUploader;
 import model.ScoringList;
 
 public class MainApp extends Application {
@@ -49,6 +50,9 @@ public class MainApp extends Application {
 		// During testing
 		scoringList.createFromNameList("resources/NameListTest.txt");
 		updateView();
+		
+		AmazonBucketUploader bucketUploader = new AmazonBucketUploader();
+		bucketUploader.uploadFile(new File("resources/standard.png"));
 	}
 
 	/**

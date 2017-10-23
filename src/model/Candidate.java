@@ -1,10 +1,14 @@
 package model;
 
+import java.util.HashMap;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
-public class Candidate {
+public class Candidate extends Person {
 
 	private SimpleStringProperty name;
 	private SimpleStringProperty municipality = new SimpleStringProperty();
@@ -18,7 +22,7 @@ public class Candidate {
 	private SimpleIntegerProperty hiredHelpPG = new SimpleIntegerProperty(0);
 	private SimpleIntegerProperty farmingPG = new SimpleIntegerProperty(0);
 
-	// TODO: missing network
+	private ObservableList<Connection> connections =  FXCollections.observableArrayList();
 
 	/**
 	 * Constructor for the Candidate object. Used when creating a new candidate
@@ -29,6 +33,7 @@ public class Candidate {
 	 * @param previousYearRank
 	 */
 	public Candidate(String name, int rank, int previousYearRank) {
+		super(name, null);
 		this.name = new SimpleStringProperty(name);
 		this.rank = new SimpleIntegerProperty(rank);
 		this.previousYearRank = new SimpleIntegerProperty(rank);
@@ -45,6 +50,7 @@ public class Candidate {
 	 * @param despcription
 	 */
 	public Candidate(String name, String imageURL, String despcription, int rank) {
+		super(name, imageURL);
 		this.name = new SimpleStringProperty(name);
 		this.rank = new SimpleIntegerProperty(rank);
 		this.previousYearRank = new SimpleIntegerProperty(rank);
@@ -254,4 +260,15 @@ public class Candidate {
 
 	// TODO
 	// Missing functions to validate rank etc
+	
+	public void addConnection(Person person, String description) {
+		Connection newConnection = new Connection(this, person, description);
+		connections.add(newConnection);
+	}
+	
+	public ObservableList<Connection> getConnections() {
+		return connections;
+	}
+	
+	
 }

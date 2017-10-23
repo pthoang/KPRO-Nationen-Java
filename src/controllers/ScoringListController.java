@@ -1,27 +1,44 @@
 package controllers;
 
+import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
+
+import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.util.Pair;
 import model.Candidate;
+import model.Connection;
+import model.Person;
 import model.ScoringList;
 
 import Main.MainApp;
@@ -72,7 +89,13 @@ public class ScoringListController {
 	private TextField hiredHelpPGField = new TextField();
 	@FXML
 	private TextField farmingPGField = new TextField();
-
+	@FXML
+	private TableView<Connection> networkTable;
+	@FXML
+	private TableColumn<Connection, String> networkNameColumn;
+	@FXML
+	private TableColumn<Connection, String> networkDescriptionColumn;;
+	
 	private Candidate candidate;
 
 	private Image newImage;
@@ -112,6 +135,13 @@ public class ScoringListController {
 
 		candidateTable.getSelectionModel().selectedItemProperty().addListener(
 				(observable, oldValue, newValue) -> setCandidate(newValue));
+			
+		networkNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+		networkDescriptionColumn.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
+		
+		networkTable.getSelectionModel().selectedItemProperty().addListener(
+				(observable, oldValue, newValue) -> connectionDialog(newValue));
+		
 	}
 
 	public void refreshTable() {
@@ -123,9 +153,12 @@ public class ScoringListController {
 		scoringList = mainApp.getScoringList();
 		candidates = scoringList.getCandidates();
 	}
-
-
-
+	
+	public void updateNetworkList() {
+		networkTable.setItems(candidate.getConnections());		
+		networkTable.refresh();
+	}
+	
 	// Related to candidate view
 
 	/**
@@ -334,6 +367,8 @@ public class ScoringListController {
 		animalsPGField.setText(Integer.toString(candidate.getAnimalsPG()));
 		hiredHelpPGField.setText(Integer.toString(candidate.getHiredHelpPG()));
 		farmingPGField.setText(Integer.toString(candidate.getFarmingPG()));
+		
+		networkTable.setItems(candidate.getConnections());
 	}
 
 	public void cleanFields() {
@@ -389,5 +424,80 @@ public class ScoringListController {
 			}
 		}
 		return false;
+	}
+	
+	
+	@FXML
+	public void handleAddConnection() {
+		connectionDialog(null);
+	}
+	
+	private void connectionDialog(Connection connection) {
+		// Create the custom dialog.
+		Dialog<Pair<Person, String>> dialog = new Dialog<>();
+		dialog.setTitle("Nettverks kobling");
+		dialog.setHeaderText("Legg inn navn og en kort beskrivelse for koblingen, samt link til bilde");
+
+		// Set the button types.
+		ButtonType addButtonType = new ButtonType("Legg til", ButtonData.OK_DONE);
+		ButtonType cancelButtonType = new ButtonType("Avslutt", ButtonData.CANCEL_CLOSE);
+		dialog.getDialogPane().getButtonTypes().addAll(addButtonType, cancelButtonType);
+
+		// Create the username and password labels and fields.
+		GridPane grid = new GridPane();
+		grid.setHgap(50);
+		grid.setVgap(20);
+		
+		TextField name = new TextField();
+		TextField description = new TextField();
+		TextField imageURL = new TextField();
+		
+		if (connection == null) {
+			name.setPromptText("");
+			description.setPromptText("");
+			imageURL.setPromptText("");
+			
+			// Request focus on the name field by default.
+			Platform.runLater(() -> name.requestFocus());
+			
+		} else {
+			name.setText(connection.getName());
+			description.setText(connection.getDescription());
+			// TODO
+			imageURL.setText(connection.getImageURL());
+		}
+		
+		grid.add(new Label("Navn:"), 0, 0);
+		grid.add(name, 1, 0);
+		grid.add(new Label("Beskrivelse:"), 0, 1);
+		grid.add(description, 1, 1);
+		grid.add(new Label("Link til bilde:"), 0, 2);
+		grid.add(imageURL, 1, 2);
+
+		// Enable/Disable login button depending on whether a username was entered.
+		Node addButton = dialog.getDialogPane().lookupButton(addButtonType);
+		addButton.setDisable(true);
+
+		// Do some validation (using the Java 8 lambda syntax).
+		name.textProperty().addListener((observable, oldValue, newValue) -> {
+		    addButton.setDisable(newValue.trim().isEmpty());
+		});
+
+		dialog.getDialogPane().setContent(grid);
+
+		dialog.showAndWait();
+
+		if (connection == null) {
+			Person person = new Person(name.getText(), imageURL.getText());
+		
+			candidate.addConnection(person, description.getText());
+		} else {
+			connection.setName(name.getText());
+			connection.setDescription(description.getText());
+			connection.setImageURL(imageURL.getText());
+		}
+		
+
+		updateNetworkList();
 	}
 }

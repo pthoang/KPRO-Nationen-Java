@@ -41,7 +41,7 @@
 						<Insets bottom="10" left="10" right="10" top="10" />
 					</padding>
 				<children>
-					<ImageView fx:id="imageView" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="0" GridPane.rowSpan="3" />
+					<ImageView fx:id="imageView" fitHeight="150.0" fitWidth="150.0" onMouseClicked="#handleChangeImage" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="0" GridPane.rowSpan="3" />
 
 					<TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 					<TextField fx:id="previousYearRankField" GridPane.columnIndex="1" GridPane.rowIndex="1" />

@@ -11,6 +11,7 @@ import controllers.ScoringListController;
 import controllers.SettingsController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -44,6 +45,10 @@ public class MainApp extends Application {
 		newList();
 
 		showScoringListView();
+		
+		// During testing
+		scoringList.createFromNameList("resources/NameListTest.txt");
+		updateView();
 	}
 
 	/**

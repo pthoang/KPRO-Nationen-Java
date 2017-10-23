@@ -59,7 +59,7 @@ public class RootController {
 
 	@FXML
 	private void showSettings() {
-		// TODO
+		mainApp.showSettingsView();
 	}	
 	
 	@FXML

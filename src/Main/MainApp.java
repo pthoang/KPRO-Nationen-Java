@@ -8,6 +8,7 @@ import java.util.Calendar;
 import controllers.AddSourcesController;
 import controllers.RootController;
 import controllers.ScoringListController;
+import controllers.SettingsController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -25,6 +26,7 @@ public class MainApp extends Application {
 	private RootController rootController;
 	private ScoringListController scoringListController;
 	private AddSourcesController addSourcesController;
+	private SettingsController settingsController;
 
 	private ScoringList scoringList;
 
@@ -107,6 +109,24 @@ public class MainApp extends Application {
 	}
 	
 	/**
+	 * Shows the view for settings.
+	 */
+	public void showSettingsView() {
+		try {
+			FXMLLoader loader= new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("../view/SettingsView.fxml"));
+			GridPane settingsView = (GridPane) loader.load();
+
+			rootLayout.setCenter(settingsView);
+
+			settingsController = loader.getController();
+			settingsController.setMainApp(this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * Returns the primaryStage
 	 * @return primaryStage
 	 */
@@ -149,5 +169,10 @@ public class MainApp extends Application {
 		FileChooser fileChooser = new FileChooser();
 		File file = fileChooser.showOpenDialog(primaryStage);
 		return file;
+	}
+	
+	public void setNumCandidates(int numCandidates) {
+		scoringList.setMaxLength(numCandidates);
+		
 	}
 }

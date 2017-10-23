@@ -30,6 +30,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
+import model.AmazonBucketUploader;
 import model.Candidate;
 import model.Connection;
 import model.Person;
@@ -98,7 +99,8 @@ public class ScoringListController {
 	private String errorMessage;
 
 	private MainApp mainApp;
-
+	private AmazonBucketUploader bucketUploader;
+	
 	public ScoringListController() {
 	}
 
@@ -113,6 +115,10 @@ public class ScoringListController {
 		if (candidates.size() > 0) {
 			fillTable();
 		}
+	}
+	
+	public void setBucketUploader(AmazonBucketUploader bucketUploader) {
+		this.bucketUploader = bucketUploader;
 	}
 
 	public void fillTable() {
@@ -218,6 +224,7 @@ public class ScoringListController {
 		// TODO	
 
 		handleErrorMessage(); 
+		uploadToBucket();
 	}
 
 	private void createAndAddEmptyCandidate() {
@@ -497,6 +504,10 @@ public class ScoringListController {
 	
 	public void uploadToBucket() {
 		// TODO
+		String imagePath = candidate.getImageURL();
+		File image = new File(imagePath);
+		String fileName = image.getName();
+		bucketUploader.uploadFile(image, fileName);
 		
 	}
 }

@@ -32,6 +32,8 @@ public class MainApp extends Application {
 
 	private ScoringList scoringList;
 
+	AmazonBucketUploader bucketUploader;
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -51,8 +53,8 @@ public class MainApp extends Application {
 		scoringList.createFromNameList("resources/NameListTest.txt");
 		updateView();
 		
-		AmazonBucketUploader bucketUploader = new AmazonBucketUploader();
-		bucketUploader.uploadFile(new File("resources/standard.png"));
+		bucketUploader = new AmazonBucketUploader();
+		scoringListController.setBucketUploader(bucketUploader);
 	}
 
 	/**
@@ -184,4 +186,5 @@ public class MainApp extends Application {
 		scoringList.setMaxLength(numCandidates);
 		
 	}
+	
 }

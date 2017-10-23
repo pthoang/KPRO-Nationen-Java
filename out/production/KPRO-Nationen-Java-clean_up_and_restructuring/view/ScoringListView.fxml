@@ -41,7 +41,7 @@
 						<Insets bottom="10" left="10" right="10" top="10" />
 					</padding>
 				<children>
-					<ImageView fx:id="imageView" fitHeight="150.0" fitWidth="150.0" onMouseClicked="#handleChangeImage" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="0" GridPane.rowSpan="3" />
+					<ImageView fx:id="imageView" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="0" GridPane.rowSpan="3" />
 
 					<TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 					<TextField fx:id="previousYearRankField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -56,11 +56,7 @@
 					<TextField fx:id="farmingPGField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
 					<Label maxWidth="200" text="Nettverk:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-					<TableView fx:id="networkTable" maxHeight="200" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.rowSpan="3">
-                     <columns>
-                        <TableColumn fx:id="networkNameColumn" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" text="Navn" />
-                        <TableColumn fx:id="networkDescriptionColumn" maxWidth="165.0" minWidth="70.0" prefWidth="165.0" text="Beskrivelse" />
-                     </columns></TableView>
+					<ListView fx:id="networkList" maxHeight="200" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.rowSpan="3" />
 
 					<ToolBar GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="9">
 						<items>
@@ -68,7 +64,6 @@
 							<Button fx:id="saveCandidateButton" mnemonicParsing="false" onAction="#handleSaveChangesToCandidate" text="Lagre kandidat" />
 							<Button fx:id="newCandidateButton" mnemonicParsing="false" onAction="#handleNewCandidate" text="Ny kandidat" />
 							<Button fx:id="changeImageButton" mnemonicParsing="false" onAction="#handleChangeImage" text="Endre bilde" />
-                        <Button fx:id="addConnectionButton" mnemonicParsing="false" onAction="#handleAddConnection" text="Legg til nettverk" />
 						</items>
 					</ToolBar>
 

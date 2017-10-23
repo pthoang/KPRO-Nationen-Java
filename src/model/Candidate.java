@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javafx.beans.property.IntegerProperty;
@@ -10,12 +11,16 @@ import javafx.collections.ObservableList;
 
 public class Candidate extends Person {
 
+
 	private SimpleStringProperty name;
 	private SimpleStringProperty municipality = new SimpleStringProperty();
-	private SimpleStringProperty imageURL = new SimpleStringProperty("resources/standard.png");;
+	private SimpleStringProperty imageURL = new SimpleStringProperty("resources/standard.png");
 	private SimpleStringProperty description = new SimpleStringProperty();
 	private SimpleIntegerProperty rank;
 	private SimpleIntegerProperty previousYearRank;
+
+	private ArrayList organizations;
+
 
 	// PG stands for ProductionGrants
 	private SimpleIntegerProperty animalsPG = new SimpleIntegerProperty(0);
@@ -27,7 +32,7 @@ public class Candidate extends Person {
 	/**
 	 * Constructor for the Candidate object. Used when creating a new candidate
 	 * based on list from jury.
-	 * 
+	 *
 	 * @param name
 	 * @param rank
 	 * @param previousYearRank
@@ -42,11 +47,9 @@ public class Candidate extends Person {
 	/**
 	 * Constructor for the Candidate object. Used when creating manually a new
 	 * candidate.
-	 * 
+	 *
 	 * @param name
 	 * @param rank
-	 * @param previousYearRank
-	 * @param imageName
 	 * @param despcription
 	 */
 	public Candidate(String name, String imageURL, String despcription, int rank) {
@@ -61,7 +64,7 @@ public class Candidate extends Person {
 
 	/**
 	 * Get name as string
-	 * 
+	 *
 	 * @return String The name
 	 */
 	public String getName() {
@@ -70,7 +73,7 @@ public class Candidate extends Person {
 
 	/**
 	 * Get nameProperty
-	 * 
+	 *
 	 * @return SimpleStringProperty The name
 	 */
 	public SimpleStringProperty nameProperty() {
@@ -79,7 +82,7 @@ public class Candidate extends Person {
 
 	/**
 	 * Set name
-	 * 
+	 *
 	 * @param name
 	 */
 	public void setName(SimpleStringProperty name) {
@@ -88,7 +91,7 @@ public class Candidate extends Person {
 
 	/**
 	 * Get municipality as string
-	 * 
+	 *
 	 * @return String The municipality
 	 */
 	public String getMunicipality() {
@@ -97,7 +100,7 @@ public class Candidate extends Person {
 
 	/**
 	 * Get municipality
-	 * 
+	 *
 	 * @return SimpleStringProperty The municipality
 	 */
 	public SimpleStringProperty municipalityProperty() {
@@ -106,7 +109,7 @@ public class Candidate extends Person {
 
 	/**
 	 * Set municipality
-	 * 
+	 *
 	 * @param municipality
 	 */
 	public void setMunicipality(SimpleStringProperty municipality) {
@@ -115,7 +118,7 @@ public class Candidate extends Person {
 
 	/**
 	 * Get imageName as String
-	 * 
+	 *
 	 * @return String The imageName
 	 */
 	public String getImageURL() {
@@ -124,7 +127,7 @@ public class Candidate extends Person {
 
 	/**
 	 * Set imageName
-	 * 
+	 *
 	 * @return SimpleStringProperty The imageName
 	 */
 	public SimpleStringProperty imageNavnProperty() {
@@ -133,8 +136,7 @@ public class Candidate extends Person {
 
 	/**
 	 * Set imageName
-	 * 
-	 * @param imageName
+	 *
 	 */
 	public void setImageURLProperty(SimpleStringProperty imageURL) {
 
@@ -143,7 +145,7 @@ public class Candidate extends Person {
 
 	/**
 	 * Get description as string
-	 * 
+	 *
 	 * @return String The description
 	 */
 	public String getDescription() {
@@ -152,7 +154,7 @@ public class Candidate extends Person {
 
 	/**
 	 * Get the description
-	 * 
+	 *
 	 * @return SimpleStringProperty The description
 	 */
 	public SimpleStringProperty descriptionProperty() {
@@ -161,7 +163,7 @@ public class Candidate extends Person {
 
 	/**
 	 * Set the description
-	 * 
+	 *
 	 * @param description
 	 */
 	public void setDescription(SimpleStringProperty description) {
@@ -170,7 +172,7 @@ public class Candidate extends Person {
 
 	/**
 	 * Get the range
-	 * 
+	 *
 	 * @return integer The range
 	 */
 	public int getRank() {
@@ -179,7 +181,7 @@ public class Candidate extends Person {
 
 	/**
 	 * Get the rank
-	 * 
+	 *
 	 * @return IntegerProperty The rank
 	 */
 	public IntegerProperty rankProperty() {
@@ -188,7 +190,7 @@ public class Candidate extends Person {
 
 	/**
 	 * Set the rank
-	 * 
+	 *
 	 * @param rank
 	 */
 	public void setRank(SimpleIntegerProperty rank) {
@@ -197,7 +199,7 @@ public class Candidate extends Person {
 
 	/**
 	 * Get the previousYearRank
-	 * 
+	 *
 	 * @return integer The previousYearRank
 	 */
 	public int getPreviousYearRank() {
@@ -206,7 +208,7 @@ public class Candidate extends Person {
 
 	/**
 	 * Get the previousYearRank
-	 * 
+	 *
 	 * @return IntegerProperty The previousYearRank
 	 */
 	public IntegerProperty previousYearRankProperty() {
@@ -215,7 +217,7 @@ public class Candidate extends Person {
 
 	/**
 	 * Set the previousYearRank
-	 * 
+	 *
 	 * @param previousYearRank
 	 */
 	public void setPreviousYearRank(SimpleIntegerProperty previousYearRank) {
@@ -260,15 +262,15 @@ public class Candidate extends Person {
 
 	// TODO
 	// Missing functions to validate rank etc
-	
+
 	public void addConnection(Person person, String description) {
 		Connection newConnection = new Connection(this, person, description);
 		connections.add(newConnection);
 	}
-	
+
 	public ObservableList<Connection> getConnections() {
 		return connections;
 	}
-	
-	
+
+
 }

@@ -20,30 +20,23 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 
 public class AmazonBucketUploader {
 	
-	String bucketName = "tunmedia";
-	String folderName = "maktkaring_" + Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
-	
-	private String accessKey = "";
-	private String secretKey = "";
+	private String bucketName;
+	private String folderName;
+	private String accessKey;
+	private String secretKey;
 	
 	private AmazonS3 s3Client;
 	
-	public AmazonBucketUploader() {
-		setKeys();
+	public AmazonBucketUploader(String bucketName, String folderName, String accessKey, String secretKey) {
+		this.bucketName = bucketName;
+		this.folderName = folderName;
+		this.accessKey = accessKey;
+		this.secretKey = secretKey;
+		
 		getClient();
 		createOrGetBucket();
 	}
-	
-	private void setKeys() {
-		try (Stream<String> stream = Files.lines(Paths.get("/home/doraoline/Downloads/rootkey.csv"))) {
-			List<String> keys = stream.collect(Collectors.toList());
-			accessKey = keys.get(0).split("=")[1];
-			secretKey = keys.get(1).split("=")[1];				
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
+		
 	public void getClient() {
 		BasicAWSCredentials creds = new BasicAWSCredentials(accessKey, secretKey);
 		s3Client = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(creds)).withRegion("us-east-2").build();

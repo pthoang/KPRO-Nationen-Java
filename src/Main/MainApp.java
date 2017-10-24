@@ -19,6 +19,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.AmazonBucketUploader;
 import model.ScoringList;
+import model.Settings;
 
 public class MainApp extends Application {
 
@@ -31,6 +32,7 @@ public class MainApp extends Application {
 	private SettingsController settingsController;
 
 	private ScoringList scoringList;
+	private Settings settings;
 
 	AmazonBucketUploader bucketUploader;
 	
@@ -44,6 +46,7 @@ public class MainApp extends Application {
 		this.primaryStage.setTitle("Nationen - Maktkampen");
 
 		initRootLayout();
+		settings = new Settings();
 
 		newList();
 
@@ -54,6 +57,7 @@ public class MainApp extends Application {
 		updateView();
 		
 		bucketUploader = new AmazonBucketUploader();
+		
 		scoringListController.setBucketUploader(bucketUploader);
 	}
 
@@ -183,8 +187,7 @@ public class MainApp extends Application {
 	}
 	
 	public void setNumCandidates(int numCandidates) {
-		scoringList.setMaxLength(numCandidates);
-		
+		scoringList.setMaxLength(numCandidates);	
 	}
 	
 }

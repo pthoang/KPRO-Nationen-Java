@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -17,8 +18,9 @@ public class ScoringList {
 
 	private final SimpleIntegerProperty year;
 	private ObservableList<Candidate> candidates;
+	private Jury jury;
 
-	final private int MAX_LENGTH = 100;
+	private int maxLength = 100;
 
 	/** 
 	 * Create the ScoringList object.
@@ -67,11 +69,11 @@ public class ScoringList {
 	 * @return boolean If the length is MAX_LENGTH
 	 */
 	public boolean isFull() {
-		return getLength() == MAX_LENGTH;
+		return getLength() == maxLength;
 	}
 
 	public SimpleStringProperty numberOfCandidatesProperty() {
-		return new SimpleStringProperty(getLength() + "/" + MAX_LENGTH);
+		return new SimpleStringProperty(getLength() + "/" + maxLength);
 	}
 
 	public void createFromNameList(String filePath) {
@@ -145,5 +147,13 @@ public class ScoringList {
 			System.out.println(jsonCandidate.getAsJsonObject().get("firstName"));
 		}
 
+	}
+
+	public void saveList(File filepath) {
+		throw new UnsupportedOperationException("not implemented");
+	}
+	
+	public void setMaxLength(int maxLength) {
+		this.maxLength = maxLength;
 	}
 }

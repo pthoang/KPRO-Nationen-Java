@@ -6,6 +6,15 @@ import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import java.io.File;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+
+
+
 import Main.MainApp;
 import com.google.gson.*;
 import javafx.collections.ObservableList;
@@ -53,7 +62,44 @@ public class AddSourcesController {
 	@FXML
 	private void fileChooser() {
 
+		File file = mainApp.choseFileAndGetFile();
+		System.out.println("Trying to add source");
 	}
+	@FXML
+	private void fileChooser_tilskudd() {
+		File file = mainApp.choseFileAndGetFile();
+		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+
+			String line = "";
+			String cvsSplitBy = ";";
+
+			while ((line = br.readLine()) != null) {
+
+				// use comma as separator
+				String[] organization = line.split(cvsSplitBy);
+
+				System.out.println("Navn: "+ organization[1]);
+
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void handleBack() {
+		System.out.println("Trying to go back, but the past is behind you");
+	}
+
+	public void handleNext() {
+		System.out.println("Trying to go to the Next, but the future is inpredictable");
+	}
+
+
+
+
+
 
 	//Leaving this here for now, not sure where to put this
 	private HashMap<String, ArrayList<ShareholderInformation>>
@@ -242,3 +288,5 @@ public class AddSourcesController {
 	}
 
 }
+
+

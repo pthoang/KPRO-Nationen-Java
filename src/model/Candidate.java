@@ -1,34 +1,44 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
-public class Candidate {
+public class Candidate extends Person {
+
 
 	private SimpleStringProperty name;
 	private SimpleStringProperty municipality = new SimpleStringProperty();
-	private SimpleStringProperty imageURL = new SimpleStringProperty("resources/standard.png");;
+	private SimpleStringProperty imageURL = new SimpleStringProperty("resources/standard.png");
 	private SimpleStringProperty description = new SimpleStringProperty();
 	private SimpleIntegerProperty rank;
 	private SimpleIntegerProperty previousYearRank;
+
+	private ArrayList organizations;
+
 
 	// PG stands for ProductionGrants
 	private SimpleIntegerProperty animalsPG = new SimpleIntegerProperty(0);
 	private SimpleIntegerProperty hiredHelpPG = new SimpleIntegerProperty(0);
 	private SimpleIntegerProperty farmingPG = new SimpleIntegerProperty(0);
 
-	// TODO: missing network
+	private ObservableList<Connection> connections =  FXCollections.observableArrayList();
 
 	/**
 	 * Constructor for the Candidate object. Used when creating a new candidate
 	 * based on list from jury.
-	 * 
+	 *
 	 * @param name
 	 * @param rank
 	 * @param previousYearRank
 	 */
 	public Candidate(String name, int rank, int previousYearRank) {
+		super(name, null);
 		this.name = new SimpleStringProperty(name);
 		this.rank = new SimpleIntegerProperty(rank);
 		this.previousYearRank = new SimpleIntegerProperty(rank);
@@ -37,14 +47,13 @@ public class Candidate {
 	/**
 	 * Constructor for the Candidate object. Used when creating manually a new
 	 * candidate.
-	 * 
+	 *
 	 * @param name
 	 * @param rank
-	 * @param previousYearRank
-	 * @param imageName
 	 * @param despcription
 	 */
 	public Candidate(String name, String imageURL, String despcription, int rank) {
+		super(name, imageURL);
 		this.name = new SimpleStringProperty(name);
 		this.rank = new SimpleIntegerProperty(rank);
 		this.previousYearRank = new SimpleIntegerProperty(rank);
@@ -55,7 +64,7 @@ public class Candidate {
 
 	/**
 	 * Get name as string
-	 * 
+	 *
 	 * @return String The name
 	 */
 	public String getName() {
@@ -64,7 +73,7 @@ public class Candidate {
 
 	/**
 	 * Get nameProperty
-	 * 
+	 *
 	 * @return SimpleStringProperty The name
 	 */
 	public SimpleStringProperty nameProperty() {
@@ -73,7 +82,7 @@ public class Candidate {
 
 	/**
 	 * Set name
-	 * 
+	 *
 	 * @param name
 	 */
 	public void setName(SimpleStringProperty name) {
@@ -82,7 +91,7 @@ public class Candidate {
 
 	/**
 	 * Get municipality as string
-	 * 
+	 *
 	 * @return String The municipality
 	 */
 	public String getMunicipality() {
@@ -91,7 +100,7 @@ public class Candidate {
 
 	/**
 	 * Get municipality
-	 * 
+	 *
 	 * @return SimpleStringProperty The municipality
 	 */
 	public SimpleStringProperty municipalityProperty() {
@@ -100,7 +109,7 @@ public class Candidate {
 
 	/**
 	 * Set municipality
-	 * 
+	 *
 	 * @param municipality
 	 */
 	public void setMunicipality(SimpleStringProperty municipality) {
@@ -109,7 +118,7 @@ public class Candidate {
 
 	/**
 	 * Get imageName as String
-	 * 
+	 *
 	 * @return String The imageName
 	 */
 	public String getImageURL() {
@@ -118,7 +127,7 @@ public class Candidate {
 
 	/**
 	 * Set imageName
-	 * 
+	 *
 	 * @return SimpleStringProperty The imageName
 	 */
 	public SimpleStringProperty imageNavnProperty() {
@@ -127,8 +136,7 @@ public class Candidate {
 
 	/**
 	 * Set imageName
-	 * 
-	 * @param imageName
+	 *
 	 */
 	public void setImageURLProperty(SimpleStringProperty imageURL) {
 
@@ -137,7 +145,7 @@ public class Candidate {
 
 	/**
 	 * Get description as string
-	 * 
+	 *
 	 * @return String The description
 	 */
 	public String getDescription() {
@@ -146,7 +154,7 @@ public class Candidate {
 
 	/**
 	 * Get the description
-	 * 
+	 *
 	 * @return SimpleStringProperty The description
 	 */
 	public SimpleStringProperty descriptionProperty() {
@@ -155,7 +163,7 @@ public class Candidate {
 
 	/**
 	 * Set the description
-	 * 
+	 *
 	 * @param description
 	 */
 	public void setDescription(SimpleStringProperty description) {
@@ -164,7 +172,7 @@ public class Candidate {
 
 	/**
 	 * Get the range
-	 * 
+	 *
 	 * @return integer The range
 	 */
 	public int getRank() {
@@ -173,7 +181,7 @@ public class Candidate {
 
 	/**
 	 * Get the rank
-	 * 
+	 *
 	 * @return IntegerProperty The rank
 	 */
 	public IntegerProperty rankProperty() {
@@ -182,7 +190,7 @@ public class Candidate {
 
 	/**
 	 * Set the rank
-	 * 
+	 *
 	 * @param rank
 	 */
 	public void setRank(SimpleIntegerProperty rank) {
@@ -191,7 +199,7 @@ public class Candidate {
 
 	/**
 	 * Get the previousYearRank
-	 * 
+	 *
 	 * @return integer The previousYearRank
 	 */
 	public int getPreviousYearRank() {
@@ -200,7 +208,7 @@ public class Candidate {
 
 	/**
 	 * Get the previousYearRank
-	 * 
+	 *
 	 * @return IntegerProperty The previousYearRank
 	 */
 	public IntegerProperty previousYearRankProperty() {
@@ -209,7 +217,7 @@ public class Candidate {
 
 	/**
 	 * Set the previousYearRank
-	 * 
+	 *
 	 * @param previousYearRank
 	 */
 	public void setPreviousYearRank(SimpleIntegerProperty previousYearRank) {
@@ -254,4 +262,15 @@ public class Candidate {
 
 	// TODO
 	// Missing functions to validate rank etc
+
+	public void addConnection(Person person, String description) {
+		Connection newConnection = new Connection(this, person, description);
+		connections.add(newConnection);
+	}
+
+	public ObservableList<Connection> getConnections() {
+		return connections;
+	}
+
+
 }

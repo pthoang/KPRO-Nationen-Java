@@ -57,6 +57,7 @@ public class SettingsController {
 	}
 	
 	private void setDefaultSettings() {
+		System.out.println("Set default settings: " + settings);
 		String numCandidates = Integer.toString(settings.getNumCandidates());
 		numCandidatesField.setText(numCandidates);
 		bucketAccessKeyField.setText(settings.getBucketAccessKey());

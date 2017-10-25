@@ -62,6 +62,7 @@ public class Settings {
 	
 	// Just under testing
 	private void setDefaultKeys() {
+		System.out.println ("Setting default keys");
 		try (Stream<String> stream = Files.lines(Paths.get("/home/doraoline/Downloads/rootkey.csv"))) {
 			List<String> keys = stream.collect(Collectors.toList());
 			bucketAccessKey = keys.get(0).split("=")[1];

@@ -56,7 +56,12 @@ public class MainApp extends Application {
 		scoringList.createFromNameList("resources/NameListTest.txt");
 		updateView();
 		
-		bucketUploader = new AmazonBucketUploader();
+		bucketUploader = new AmazonBucketUploader(
+				settings.getBucketName(),
+				settings.getFolderName(),
+				settings.getBucketAccessKey(),
+				settings.getBucketSecretKey()
+				);
 		
 		scoringListController.setBucketUploader(bucketUploader);
 	}
@@ -136,6 +141,7 @@ public class MainApp extends Application {
 
 			settingsController = loader.getController();
 			settingsController.setMainApp(this);
+			settingsController.setSettings(settings);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

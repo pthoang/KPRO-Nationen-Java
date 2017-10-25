@@ -20,7 +20,6 @@ public class SettingsController {
 	private TextField bucketAccessKeyField;
 	@FXML
 	private TextField bucketSecretKeyField;
-	
 	@FXML
 	private TextField bucketNameField;
 	@FXML
@@ -48,6 +47,7 @@ public class SettingsController {
 		settings.setBucketName(bucketNameField.getText());
 		settings.setFolderName(folderNameField.getText());
 		
+		mainApp.updateAmazonBucketUploader();
 		mainApp.showScoringListView();
 	}
 	
@@ -57,7 +57,6 @@ public class SettingsController {
 	}
 	
 	private void setDefaultSettings() {
-		System.out.println("Set default settings: " + settings);
 		String numCandidates = Integer.toString(settings.getNumCandidates());
 		numCandidatesField.setText(numCandidates);
 		bucketAccessKeyField.setText(settings.getBucketAccessKey());

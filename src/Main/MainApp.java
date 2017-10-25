@@ -34,7 +34,7 @@ public class MainApp extends Application {
 	private ScoringList scoringList;
 	private Settings settings;
 
-	AmazonBucketUploader bucketUploader;
+	private AmazonBucketUploader bucketUploader;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -105,6 +105,7 @@ public class MainApp extends Application {
 
 			scoringListController = loader.getController();
 			scoringListController.setMainApp(this);
+			scoringListController.setBucketUploader(bucketUploader);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -141,6 +142,7 @@ public class MainApp extends Application {
 
 			settingsController = loader.getController();
 			settingsController.setMainApp(this);
+			System.out.println("Setting settings in showSettingsView: " + settings);
 			settingsController.setSettings(settings);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -194,6 +196,12 @@ public class MainApp extends Application {
 	
 	public void setNumCandidates(int numCandidates) {
 		scoringList.setMaxLength(numCandidates);	
+	}
+	
+	public void updateAmazonBucketUploader() {
+		bucketUploader.setBucketName(settings.getBucketName());
+		bucketUploader.setFolderName(settings.getFolderName());
+		bucketUploader.setKeys(settings.getBucketAccessKey(), settings.getBucketSecretKey());
 	}
 	
 }

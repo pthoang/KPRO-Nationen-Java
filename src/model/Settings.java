@@ -57,12 +57,12 @@ public class Settings {
 	}
 	
 	public void setFolderName(String folderName) {
+		System.out.println("Foldername " + folderName + " in " + this);
 		this.folderName = folderName;
 	}
 	
 	// Just under testing
 	private void setDefaultKeys() {
-		System.out.println ("Setting default keys");
 		try (Stream<String> stream = Files.lines(Paths.get("/home/doraoline/Downloads/rootkey.csv"))) {
 			List<String> keys = stream.collect(Collectors.toList());
 			bucketAccessKey = keys.get(0).split("=")[1];

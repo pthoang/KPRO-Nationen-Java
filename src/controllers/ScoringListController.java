@@ -503,11 +503,9 @@ public class ScoringListController {
 	}
 	
 	public void uploadToBucket() {
-		// TODO
 		String imagePath = candidate.getImageURL();
 		File image = new File(imagePath);
 		String fileName = image.getName();
 		bucketUploader.uploadFile(image, fileName);
-		
 	}
 }

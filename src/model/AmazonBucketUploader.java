@@ -13,9 +13,13 @@ import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.CreateBucketRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 
 public class AmazonBucketUploader {
@@ -36,6 +40,24 @@ public class AmazonBucketUploader {
 		getClient();
 		createOrGetBucket();
 	}
+	
+	public void setBucketName(String bucketName) {
+		this.bucketName = bucketName;
+		
+		createOrGetBucket();
+	}
+	
+	public void setFolderName(String folderName) {
+		this.folderName = folderName;
+	}
+	
+	public void setKeys(String accessKey, String secretKey) {
+		this.accessKey = accessKey;
+		
+		this.secretKey = secretKey;
+		
+		getClient();
+	}
 		
 	public void getClient() {
 		BasicAWSCredentials creds = new BasicAWSCredentials(accessKey, secretKey);
@@ -53,7 +75,18 @@ public class AmazonBucketUploader {
 		String path = bucketName + "/" + folderName;
 		PutObjectRequest por = new PutObjectRequest(path, fileName, file);
 		por.setCannedAcl(CannedAccessControlList.PublicRead);
-		s3Client.putObject(por);
+		try {
+			s3Client.putObject(por);
+		} catch (AmazonS3Exception e) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Advarsel!");
+			alert.setHeaderText("Noe gikk galt");
+			alert.setContentText("Access og/eller secret key til Amazon-bøtta er ikke gyldig."
+					+ "	Gå til innstillinger og dobbletsjekk at disse er korrekt." 
+					+ "	Bildene vil ikke lagres i bøtta før informasjonen er korrekt.");
+			alert.showAndWait();
+			
+		}
 	}
 	
 	// TODO: if image exist, change name

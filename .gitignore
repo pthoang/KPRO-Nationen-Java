@@ -1,6 +1,6 @@
 /bin/
 
-src/images/*
+images/*
 
 ./idea
 #

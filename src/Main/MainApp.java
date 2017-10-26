@@ -17,7 +17,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import model.AmazonBucketUploader;
 import model.ScoringList;
+import model.Settings;
 
 public class MainApp extends Application {
 
@@ -30,7 +32,10 @@ public class MainApp extends Application {
 	private SettingsController settingsController;
 
 	private ScoringList scoringList;
+	private Settings settings;
 
+	private AmazonBucketUploader bucketUploader;
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -41,6 +46,7 @@ public class MainApp extends Application {
 		this.primaryStage.setTitle("Nationen - Maktkampen");
 
 		initRootLayout();
+		settings = new Settings();
 
 		newList();
 
@@ -49,6 +55,15 @@ public class MainApp extends Application {
 		// During testing
 		scoringList.createFromNameList("resources/NameListTest.txt");
 		updateView();
+		
+		bucketUploader = new AmazonBucketUploader(
+				settings.getBucketName(),
+				settings.getFolderName(),
+				settings.getBucketAccessKey(),
+				settings.getBucketSecretKey()
+				);
+		
+		scoringListController.setBucketUploader(bucketUploader);
 	}
 
 	/**
@@ -90,6 +105,7 @@ public class MainApp extends Application {
 
 			scoringListController = loader.getController();
 			scoringListController.setMainApp(this);
+			scoringListController.setBucketUploader(bucketUploader);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -126,6 +142,8 @@ public class MainApp extends Application {
 
 			settingsController = loader.getController();
 			settingsController.setMainApp(this);
+			System.out.println("Setting settings in showSettingsView: " + settings);
+			settingsController.setSettings(settings);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -177,7 +195,13 @@ public class MainApp extends Application {
 	}
 	
 	public void setNumCandidates(int numCandidates) {
-		scoringList.setMaxLength(numCandidates);
-		
+		scoringList.setMaxLength(numCandidates);	
 	}
+	
+	public void updateAmazonBucketUploader() {
+		bucketUploader.setBucketName(settings.getBucketName());
+		bucketUploader.setFolderName(settings.getFolderName());
+		bucketUploader.setKeys(settings.getBucketAccessKey(), settings.getBucketSecretKey());
+	}
+	
 }

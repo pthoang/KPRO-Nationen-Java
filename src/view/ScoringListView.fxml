@@ -66,7 +66,6 @@
 					<Button fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDelete" text="Slett kandidat" />
 					<Button fx:id="saveCandidateButton" mnemonicParsing="false" onAction="#handleSaveChangesToCandidate" text="Lagre kandidat" />
 					<Button fx:id="newCandidateButton" mnemonicParsing="false" onAction="#handleNewCandidate" text="Ny kandidat" />
-					<Button fx:id="changeImageButton" mnemonicParsing="false" onAction="#handleChangeImage" text="Endre bilde" />
 				<Button fx:id="addConnectionButton" mnemonicParsing="false" onAction="#handleAddConnection" text="Legg til nettverk" />
 				</items>
 			</ToolBar>

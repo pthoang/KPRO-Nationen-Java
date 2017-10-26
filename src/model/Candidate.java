@@ -18,6 +18,7 @@ public class Candidate extends Person {
 	private SimpleStringProperty description = new SimpleStringProperty();
 	private SimpleIntegerProperty rank;
 	private SimpleIntegerProperty previousYearRank;
+	private String status;
 
 	private ArrayList organizations;
 
@@ -42,6 +43,7 @@ public class Candidate extends Person {
 		this.name = new SimpleStringProperty(name);
 		this.rank = new SimpleIntegerProperty(rank);
 		this.previousYearRank = new SimpleIntegerProperty(rank);
+		this.status = "";
 	}
 
 	/**
@@ -272,5 +274,11 @@ public class Candidate extends Person {
 		return connections;
 	}
 
+	public void setStatus(String status){
+		this.status = status;
+	}
 
+	public String getStatus(){
+		return status;
+	}
 }

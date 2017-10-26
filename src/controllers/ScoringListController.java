@@ -1,33 +1,24 @@
 package controllers;
 
-import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Optional;
 import java.util.regex.Pattern;
-
 import javax.imageio.ImageIO;
-
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.util.Callback;
 import javafx.util.Pair;
@@ -42,6 +33,7 @@ public class ScoringListController {
 
 	@FXML
 	private Button backButton;
+
 	@FXML
 	private Button saveButton;
 
@@ -169,6 +161,55 @@ public class ScoringListController {
 		networkTable.getSelectionModel().selectedItemProperty().addListener(
 				(observable, oldValue, newValue) -> connectionDialog(newValue));
 
+
+		/**
+		 * Adding listeners to the textfields for feedback handling
+		 */
+		nameField.textProperty().addListener((observable, oldValue, newValue) -> {
+			markAsDoneButton.setDisable(false);
+			saveCandidateButton.setDisable(false);
+		});
+
+		previousYearRankField.textProperty().addListener((observable, oldValue, newValue) -> {
+			markAsDoneButton.setDisable(false);
+			saveCandidateButton.setDisable(false);
+		});
+
+		rankField.textProperty().addListener((observable, oldValue, newValue) -> {
+			markAsDoneButton.setDisable(false);
+			saveCandidateButton.setDisable(false);
+		});
+
+		municipalityField.textProperty().addListener((observable, oldValue, newValue) -> {
+			markAsDoneButton.setDisable(false);
+			saveCandidateButton.setDisable(false);
+		});
+
+		descriptionField.textProperty().addListener((observable, oldValue, newValue) -> {
+			markAsDoneButton.setDisable(false);
+			saveCandidateButton.setDisable(false);
+		});
+
+		animalsPGField.textProperty().addListener((observable, oldValue, newValue) -> {
+			markAsDoneButton.setDisable(false);
+			saveCandidateButton.setDisable(false);
+		});
+
+		hiredHelpPGField.textProperty().addListener((observable, oldValue, newValue) -> {
+			markAsDoneButton.setDisable(false);
+			saveCandidateButton.setDisable(false);
+		});
+
+		farmingPGField.textProperty().addListener((observable, oldValue, newValue) -> {
+			markAsDoneButton.setDisable(false);
+			saveCandidateButton.setDisable(false);
+		});
+
+		imageView.imageProperty().addListener((observable, oldValue, newValue) -> {
+			markAsDoneButton.setDisable(false);
+			saveCandidateButton.setDisable(false);
+		});
+
 	}
 
 	public void refreshTable() {
@@ -195,6 +236,7 @@ public class ScoringListController {
 	@FXML
 	public void handleSaveChangesToCandidate() {
 		int fieldsMissing = 0;
+		saveCandidateButton.setDisable(true);
 
 		if (candidate == null) {
 			createAndAddEmptyCandidate();
@@ -240,6 +282,7 @@ public class ScoringListController {
 			int hiredHelpPG = Integer.parseInt(hiredHelpPGField.getText());
 			candidate.setHiredHelpPG(new SimpleIntegerProperty(hiredHelpPG));
 		} catch (NumberFormatException e) {
+			fieldsMissing++;
 			System.out.println("Candidate don't have a hiredHelpPG");
 		}
 
@@ -247,6 +290,7 @@ public class ScoringListController {
 			int farmingPG = Integer.parseInt(farmingPGField.getText());
 			candidate.setFarmingPG(new SimpleIntegerProperty(farmingPG));
 		} catch (NumberFormatException e) {
+			fieldsMissing++;
 			System.out.println("Candidate don't have a farmingPG");
 		}
 
@@ -258,33 +302,6 @@ public class ScoringListController {
 
 		// Network
 		// TODO
-
-/*
-		nameColumn.setCellFactory(column -> {
-			return new TableCell<Candidate, String>() {
-				@Override
-				protected void updateItem(String name, boolean empty) {
-					super.updateItem(name, empty);
-					setText(empty ? "" : name);
-
-					TableRow currentRow = getTableRow();
-					Candidate candidate = candidateTable.getFocusModel().getFocusedItem();
-
-					if(candidate.getName().equals(name)){
-						candidateColor.put(name, 2);
-					}
-
-					if(candidateColor.get(name) == 2){
-						setStyle("-fx-text-fill:lightcoral");
-					} else if(candidateColor.get(name) == 1) {
-						currentRow.setStyle("-fx-background-color:#feff98");
-					} else {
-						currentRow.setStyle("-fx-background-color:lightgreen");
-					}
-				}
-			};
-		});*/
-
 	}
 
 	private void createAndAddEmptyCandidate() {
@@ -583,15 +600,8 @@ public class ScoringListController {
 				protected void updateItem(String item, boolean empty)
 				{
 					super.updateItem(item, empty);
-
-					if (getIndex() != -1 && getIndex() == editingIndex) {
-						setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-					} else {
-						setText(empty ? null : item);
-						setContentDisplay(ContentDisplay.TEXT_ONLY);
-					}
-
-					System.out.println(this.getIndex());
+					setText(item);
+					setContentDisplay(ContentDisplay.TEXT_ONLY);
 
 					if(this.getIndex() > -1 && this.getIndex()<55){
 
@@ -621,7 +631,6 @@ public class ScoringListController {
 
 				@Override
 				public void cancelEdit() {
-					//setText(getTableView().getItems().get(editingIndex));
 					editingIndex = -1 ;
 					super.cancelEdit();
 				}

@@ -168,6 +168,7 @@ public class ScoringListController {
 		nameField.textProperty().addListener((observable, oldValue, newValue) -> {
 			markAsDoneButton.setDisable(false);
 			saveCandidateButton.setDisable(false);
+
 		});
 
 		previousYearRankField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -263,6 +264,9 @@ public class ScoringListController {
 
 		// Municipality
 		String newMunicipality = municipalityField.getText();
+		if(newMunicipality == null){
+			fieldsMissing++;
+		}
 		candidate.setMunicipality(new SimpleStringProperty(newMunicipality));
 
 		// Description
@@ -274,7 +278,7 @@ public class ScoringListController {
 			int animalsPG = Integer.parseInt(animalsPGField.getText());
 			candidate.setAnimalsPG(new SimpleIntegerProperty(animalsPG));
 		} catch (NumberFormatException e) {
-			fieldsMissing++;
+			//fieldsMissing++;
 			System.out.println("Candidate don't have a animalsPG");
 		}
 
@@ -282,7 +286,7 @@ public class ScoringListController {
 			int hiredHelpPG = Integer.parseInt(hiredHelpPGField.getText());
 			candidate.setHiredHelpPG(new SimpleIntegerProperty(hiredHelpPG));
 		} catch (NumberFormatException e) {
-			fieldsMissing++;
+			//fieldsMissing++;
 			System.out.println("Candidate don't have a hiredHelpPG");
 		}
 
@@ -290,16 +294,16 @@ public class ScoringListController {
 			int farmingPG = Integer.parseInt(farmingPGField.getText());
 			candidate.setFarmingPG(new SimpleIntegerProperty(farmingPG));
 		} catch (NumberFormatException e) {
-			fieldsMissing++;
+			//fieldsMissing++;
 			System.out.println("Candidate don't have a farmingPG");
 		}
 
 		if(fieldsMissing > 0){
 			candidate.setStatus("unfinished");
-			candidateTable.refresh();
+		} else {
+			candidate.setStatus("");
 		}
-
-
+		candidateTable.refresh();
 		// Network
 		// TODO
 	}
@@ -611,6 +615,8 @@ public class ScoringListController {
 							getTableRow().setStyle("-fx-background-color: rgb(53,109,48);");
 						} else if (status.equals("unfinished")){
 							getTableRow().setStyle("-fx-background-color: rgb(156,156,59);");
+						} else if (status.equals("unvalidFields")){
+							getTableRow().setStyle("-fx-background-color: rgb(157,57,68);");
 						} else {
 							getTableRow().setStyle("");
 						}

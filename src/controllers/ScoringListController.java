@@ -236,6 +236,10 @@ public class ScoringListController {
 	 */
 	@FXML
 	public void handleSaveChangesToCandidate() {
+		municipalityField.setStyle("");
+		networkTable.setStyle("");
+
+		candidate.setStatus("");
 		int fieldsMissing = 0;
 		saveCandidateButton.setDisable(true);
 
@@ -264,9 +268,6 @@ public class ScoringListController {
 
 		// Municipality
 		String newMunicipality = municipalityField.getText();
-		if(newMunicipality == null){
-			fieldsMissing++;
-		}
 		candidate.setMunicipality(new SimpleStringProperty(newMunicipality));
 
 		// Description
@@ -278,7 +279,6 @@ public class ScoringListController {
 			int animalsPG = Integer.parseInt(animalsPGField.getText());
 			candidate.setAnimalsPG(new SimpleIntegerProperty(animalsPG));
 		} catch (NumberFormatException e) {
-			//fieldsMissing++;
 			System.out.println("Candidate don't have a animalsPG");
 		}
 
@@ -286,7 +286,6 @@ public class ScoringListController {
 			int hiredHelpPG = Integer.parseInt(hiredHelpPGField.getText());
 			candidate.setHiredHelpPG(new SimpleIntegerProperty(hiredHelpPG));
 		} catch (NumberFormatException e) {
-			//fieldsMissing++;
 			System.out.println("Candidate don't have a hiredHelpPG");
 		}
 
@@ -294,14 +293,31 @@ public class ScoringListController {
 			int farmingPG = Integer.parseInt(farmingPGField.getText());
 			candidate.setFarmingPG(new SimpleIntegerProperty(farmingPG));
 		} catch (NumberFormatException e) {
-			//fieldsMissing++;
 			System.out.println("Candidate don't have a farmingPG");
 		}
 
-		if(fieldsMissing > 0){
-			candidate.setStatus("unfinished");
-		} else {
-			candidate.setStatus("");
+
+
+		//Field handling only needed with persons
+		if(candidate.getisPerson()) {
+			//Checks if network table is empty, if so give a warning
+			if(networkTable.getItems().size() < 1){
+				fieldsMissing++;
+				networkTable.setStyle("-fx-border-color: #ffff65");
+			}
+
+
+			if(newMunicipality == null){
+				fieldsMissing++;
+				municipalityField.setStyle("-fx-border-color: #ffff65");
+			}
+
+			//Checks if there are any fields empty, if so set the candidate to "unfinished"
+			if(fieldsMissing > 0){
+				candidate.setStatus("unfinished");
+			} else {
+				candidate.setStatus("");
+			}
 		}
 		candidateTable.refresh();
 		// Network
@@ -390,6 +406,7 @@ public class ScoringListController {
 			alert.setHeaderText("Felter til kandidaten er ikke korrekt utfylt.");
 			alert.setContentText(errorMessage);
 			alert.showAndWait();
+			candidate.setStatus("invalidFields");
 		} else {
 			saveCandidate();
 			refreshTable();
@@ -428,11 +445,18 @@ public class ScoringListController {
 
 	@FXML
 	public void markAsDone(){
-		if(!nameField.getText().isEmpty()){
-			getCandidateByName(nameField.getText()).setStatus("finished");
+		if(markAsDoneButton.getText().equals("Marker komplett")){
+			if(!nameField.getText().isEmpty()){
+				markAsDoneButton.setText("Marker ukomplett");
+				getCandidateByName(nameField.getText()).setStatus("finished");
+			}
+		}else{
+			if(!nameField.getText().isEmpty()){
+				markAsDoneButton.setText("Marker komplett");
+				getCandidateByName(nameField.getText()).setStatus("");
+			}
 		}
 		candidateTable.refresh();
-		markAsDoneButton.setDisable(true);
 	}
 
 	/**
@@ -448,6 +472,8 @@ public class ScoringListController {
 	 * Sets all the fields to the candidate.
 	 */
 	public void setFields() {
+		networkTable.setStyle("");
+		municipalityField.setStyle("");
 		File file = new File(candidate.getImageURL());
 		setImageField(file);
 
@@ -459,8 +485,23 @@ public class ScoringListController {
 		animalsPGField.setText(Integer.toString(candidate.getAnimalsPG()));
 		hiredHelpPGField.setText(Integer.toString(candidate.getHiredHelpPG()));
 		farmingPGField.setText(Integer.toString(candidate.getFarmingPG()));
-		
-		networkTable.setItems(candidate.getConnections());
+
+		if(candidate.getStatus().equals("isFinished")){
+			markAsDoneButton.setText("Marker ukomplett");
+		}else{
+			markAsDoneButton.setText("Marker komplett");
+		}
+
+		if(candidate.getisPerson()) {
+			if (municipalityField.getText() == null) {
+				municipalityField.setStyle("-fx-border-color: #ffff65");
+			}
+
+			networkTable.setItems(candidate.getConnections());
+			if (networkTable.getItems().size() < 1) {
+				networkTable.setStyle("-fx-border-color: #ffff65");
+			}
+		}
 	}
 
 	public void cleanFields() {
@@ -524,6 +565,7 @@ public class ScoringListController {
 	}
 	
 	private void connectionDialog(Connection connection) {
+		saveCandidateButton.setDisable(false);
 		// Create the custom dialog.
 		Dialog<Pair<Person, String>> dialog = new Dialog<>();
 		dialog.setTitle("Nettverks kobling");
@@ -588,7 +630,6 @@ public class ScoringListController {
 			connection.setImageURL(imageURL.getText());
 		}
 		
-
 		updateNetworkList();
 	}
 
@@ -605,7 +646,6 @@ public class ScoringListController {
 				{
 					super.updateItem(item, empty);
 					setText(item);
-					setContentDisplay(ContentDisplay.TEXT_ONLY);
 
 					if(this.getIndex() > -1 && this.getIndex()<55){
 
@@ -615,7 +655,7 @@ public class ScoringListController {
 							getTableRow().setStyle("-fx-background-color: rgb(53,109,48);");
 						} else if (status.equals("unfinished")){
 							getTableRow().setStyle("-fx-background-color: rgb(156,156,59);");
-						} else if (status.equals("unvalidFields")){
+						} else if (status.equals("invalidFields")){
 							getTableRow().setStyle("-fx-background-color: rgb(157,57,68);");
 						} else {
 							getTableRow().setStyle("");

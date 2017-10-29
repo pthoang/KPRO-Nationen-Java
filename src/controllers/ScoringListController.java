@@ -307,7 +307,7 @@ public class ScoringListController {
 			}
 
 
-			if(newMunicipality == null){
+			if(newMunicipality == null || newMunicipality.equals("")){
 				fieldsMissing++;
 				municipalityField.setStyle("-fx-border-color: #ffff65");
 			}
@@ -316,7 +316,7 @@ public class ScoringListController {
 			if(fieldsMissing > 0){
 				candidate.setStatus("unfinished");
 			} else {
-				candidate.setStatus("");
+				candidate.setStatus("allFields");
 			}
 		}
 		candidateTable.refresh();
@@ -629,7 +629,7 @@ public class ScoringListController {
 			connection.setDescription(description.getText());
 			connection.setImageURL(imageURL.getText());
 		}
-		
+
 		updateNetworkList();
 	}
 
@@ -657,6 +657,8 @@ public class ScoringListController {
 							getTableRow().setStyle("-fx-background-color: rgb(156,156,59);");
 						} else if (status.equals("invalidFields")){
 							getTableRow().setStyle("-fx-background-color: rgb(157,57,68);");
+						} else if (status.equals("allFields")) {
+							getTableRow().setStyle("-fx-background-color: rgb(108,139,68);");
 						} else {
 							getTableRow().setStyle("");
 						}

@@ -133,17 +133,17 @@ public class ScoringListController {
 		Candidate firstCandidate = candidates.get(0);
 		setCandidate(firstCandidate);
 
-		for(Candidate c : candidates){
-			if(!candidateColor.containsKey(c.getName())){
-				candidateColor.put(c.getName(), 0);
+		for(Candidate candidate : candidates){
+			if(!candidateColor.containsKey(candidate.getName())){
+				candidateColor.put(candidate.getName(), 0);
 			}
 		}
 	}
 
 	public Candidate getCandidateByName(String name){
-		for(Candidate c : candidates){
-			if(c.getName().equals(name)){
-				return c;
+		for(Candidate candidate : candidates){
+			if(candidate.getName().equals(name)){
+				return candidate;
 			}
 		}
 		return null;
@@ -158,9 +158,9 @@ public class ScoringListController {
 		rankColumn.setCellValueFactory(new PropertyValueFactory<Candidate, Integer>("rank"));
 		nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 
-		nameColumn.setOnEditCommit(e -> {
-			int row = e.getTablePosition().getRow();
-			candidateTable.getItems().set(row, getCandidateByName(e.getNewValue()));
+		nameColumn.setOnEditCommit(cell -> {
+			int row = cell.getTablePosition().getRow();
+			candidateTable.getItems().set(row, getCandidateByName(cell.getNewValue()));
 		});
 
 		candidateTable.getSelectionModel().selectedItemProperty().addListener(

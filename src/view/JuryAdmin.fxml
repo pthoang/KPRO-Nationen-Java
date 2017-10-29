@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<?import javafx.geometry.Insets?>
+<GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddJuryController" alignment="center" hgap="10" vgap="10">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="20"/>
+    </padding>
+    <children>
+
+        <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="0" text="Navn"/>
+
+
+        <TextField fx:id="descriptionField" GridPane.columnIndex="1" GridPane.rowIndex="1" text="Beskrivelse" />
+
+        <Button fx:id="chooseImageButton" GridPane.columnIndex="1" GridPane.rowIndex="3" mnemonicParsing="false" onAction="#fileChooser" text="Legg til Bilde" />
+        <Button fx:id="addJuryMember" GridPane.columnIndex="1" GridPane.rowIndex="4" mnemonicParsing="false" onAction="#addMember" text="Legg til Jury medlem" />
+       <ToolBar GridPane.columnIndex="0" GridPane.rowIndex="4" prefHeight="40.0" prefWidth="200.0">
+            <items>
+                <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" text="Tilbake" />
+                <Button fx:id="nextButton" mnemonicParsing="false" onAction="#handleNext" text="Lagre Juryen" />
+            </items>
+        </ToolBar>
+    </children>
+    <columnConstraints>
+        <ColumnConstraints percentWidth="20" hgrow="SOMETIMES" halignment="LEFT" />
+        <ColumnConstraints percentWidth="30" hgrow="SOMETIMES" halignment="LEFT" />
+        <ColumnConstraints percentWidth="50" hgrow="SOMETIMES" halignment="LEFT" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />
+        <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />
+        <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />
+        <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />
+        <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />
+    </rowConstraints>
+</GridPane>

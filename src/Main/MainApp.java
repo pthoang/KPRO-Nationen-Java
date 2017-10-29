@@ -5,10 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
-import controllers.AddSourcesController;
-import controllers.RootController;
-import controllers.ScoringListController;
-import controllers.SettingsController;
+import controllers.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -31,6 +28,7 @@ public class MainApp extends Application {
 	private ScoringListController scoringListController;
 	private AddSourcesController addSourcesController;
 	private SettingsController settingsController;
+	private AddJuryController addjurycontroller;
 
 	private ScoringList scoringList;
 	private Settings settings;
@@ -145,6 +143,21 @@ public class MainApp extends Application {
 			settingsController.setMainApp(this);
 			System.out.println("Setting settings in showSettingsView: " + settings);
 			settingsController.setSettings(settings);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void showJuryAdmin() {
+		try {
+			FXMLLoader loader= new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("../view/JuryAdmin.fxml"));
+			GridPane JuryAdminView = (GridPane) loader.load();
+
+			rootLayout.setCenter(JuryAdminView);
+
+			addjurycontroller = loader.getController();
+			addjurycontroller.setMainApp(this);;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

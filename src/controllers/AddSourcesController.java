@@ -14,6 +14,7 @@ import java.util.*;
 
 import Main.MainApp;
 
+import com.sun.org.apache.xpath.internal.operations.And;
 import com.sun.org.apache.xpath.internal.operations.Or;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -80,6 +81,8 @@ public class AddSourcesController {
 
 	public void handleNext() {
 
+		this.candidates = this.mainApp.getScoringList().getCandidates();
+
 
 
 
@@ -96,7 +99,7 @@ public class AddSourcesController {
 						// use comma as separator
 						String[] sub_organization = line.split(cvsSplitBy);
 						System.out.println("Navn: " + sub_organization[1]);
-						this.candidates = this.mainApp.getScoringList().getCandidates();
+
 						for (Candidate candidate : this.candidates) {
 							java.util.List<Organization> organizations = candidate.getOrganizations();
 							for (Organization organization : organizations){
@@ -148,6 +151,17 @@ public class AddSourcesController {
 				}
 		}
 		//End of subsidies loading
+
+		for (Candidate candidate : this.candidates) {
+				if (candidate.getAnimalsPG()>0){
+					for (Candidate candidate2 : this.candidates){
+						if (candidate2.getAnimalsPG()>0 && candidate.getName() != candidate2.getName()) {
+							candidate.addConnection(candidate2,candidate2.getName()+" har også");
+						}
+				}
+
+				}
+			}
 
 	}
 

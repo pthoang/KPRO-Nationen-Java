@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.AmazonBucketUploader;
@@ -192,6 +193,11 @@ public class MainApp extends Application {
 		FileChooser fileChooser = new FileChooser();
 		File file = fileChooser.showOpenDialog(primaryStage);
 		return file;
+	}
+	public File choseFolderAndGetFiles() {
+		DirectoryChooser chooser = new DirectoryChooser();
+		File selectedDirectory = chooser.showDialog(primaryStage);
+		return selectedDirectory;
 	}
 	
 	public void setNumCandidates(int numCandidates) {

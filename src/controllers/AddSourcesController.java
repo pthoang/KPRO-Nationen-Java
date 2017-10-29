@@ -8,7 +8,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-
+import java.io.FileNotFoundException;
 
 
 import Main.MainApp;
@@ -59,25 +59,41 @@ public class AddSourcesController {
 	}
 	@FXML
 	private void fileChooser_tilskudd() {
-		File file = mainApp.choseFileAndGetFile();
-		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 
-			String line = "";
-			String cvsSplitBy = ";";
+		BufferedReader bufferedReader = null;
+		try {
+			File folder = mainApp.choseFolderAndGetFiles();
+			if (folder.isDirectory()) {
+				for (File file : folder.listFiles()) {
+					FileReader fileReader = new FileReader(file);
+					bufferedReader = new BufferedReader(fileReader);
+					String line = "";
+					String cvsSplitBy = ";";
 
-			while ((line = br.readLine()) != null) {
+					while ((line = bufferedReader.readLine()) != null) {
 
-				// use comma as separator
-				String[] organization = line.split(cvsSplitBy);
+						// use comma as separator
+						String[] organization = line.split(cvsSplitBy);
 
-				System.out.println("Navn: "+ organization[1]);
+						System.out.println("Navn: " + organization[1]);
 
+					}
+				}
 			}
-
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		} finally {
+			if (null != bufferedReader)
+				try {
+					bufferedReader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 
+
+		}
 	}
 
 	public void handleBack() {

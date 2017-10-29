@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="500.0" prefWidth="400.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+   <children>
+      <ToolBar layoutX="200.0" layoutY="440.0" prefHeight="40.0" prefWidth="200.0">
+        <items>
+          <Button mnemonicParsing="false" onAction="#handleSave" text="Lagre" />
+            <Button mnemonicParsing="false" onAction="#handleCancel" text="Lukk" />
+        </items>
+      </ToolBar>
+      <Label layoutX="57.0" layoutY="73.0" text="Navn" />
+      <Label layoutX="56.0" layoutY="116.0" text="Kobling" />
+      <TextField fx:id="nameField" layoutX="129.0" layoutY="68.0" />
+      <TextField fx:id="descriptionField" layoutX="129.0" layoutY="111.0" />
+      <Button layoutX="238.0" layoutY="175.0" mnemonicParsing="false" onAction="#handleLoadImage" text="Bilde" />
+   </children>
+</AnchorPane>

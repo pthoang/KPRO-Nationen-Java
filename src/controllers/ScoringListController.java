@@ -15,6 +15,13 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -22,6 +29,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.util.Callback;
 import javafx.util.Pair;
+import model.AmazonBucketUploader;
 import model.Candidate;
 import model.Connection;
 import model.Person;
@@ -97,7 +105,7 @@ public class ScoringListController {
 
 	private HashMap<String, Integer> candidateColor = new HashMap<>();
 
-
+	private AmazonBucketUploader bucketUploader;
 
 	public ScoringListController() {
 	}
@@ -113,6 +121,10 @@ public class ScoringListController {
 		if (candidates.size() > 0) {
 			fillTable();
 		}
+	}
+	
+	public void setBucketUploader(AmazonBucketUploader bucketUploader) {
+		this.bucketUploader = bucketUploader;
 	}
 
 	public void fillTable() {
@@ -296,8 +308,6 @@ public class ScoringListController {
 			System.out.println("Candidate don't have a farmingPG");
 		}
 
-
-
 		//Field handling only needed with persons
 		if(candidate.getisPerson()) {
 			//Checks if network table is empty, if so give a warning
@@ -322,6 +332,9 @@ public class ScoringListController {
 		candidateTable.refresh();
 		// Network
 		// TODO
+		handleErrorMessage(); 
+		uploadToBucket();
+
 	}
 
 	private void createAndAddEmptyCandidate() {
@@ -632,7 +645,6 @@ public class ScoringListController {
 
 		updateNetworkList();
 	}
-
 	public static class CellFactory implements Callback<TableColumn<Candidate, String>, TableCell<Candidate, String>> {
 
 		private int editingIndex = -1 ;
@@ -686,6 +698,11 @@ public class ScoringListController {
 			};
 		}
 	}
-
-
+	
+	public void uploadToBucket() {
+		String imagePath = candidate.getImageURL();
+		File image = new File(imagePath);
+		String fileName = image.getName();
+		bucketUploader.uploadFile(image, fileName);
+	}
 }

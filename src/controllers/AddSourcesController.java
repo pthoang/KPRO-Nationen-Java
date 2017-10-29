@@ -110,8 +110,9 @@ public class AddSourcesController {
 
 		for (Candidate candidate:
 			 candidates) {
-			candidates_shareholderInformation.put(candidate.getName().toLowerCase(), new ArrayList<>());
-
+			String[] candidateNameSplit = candidate.getName().split(" ");
+			String hashKey = candidateNameSplit[0] + " " + candidateNameSplit[candidateNameSplit.length-1];
+			candidates_shareholderInformation.put(hashKey.toLowerCase(), new ArrayList<>());
 		}
 
 
@@ -126,13 +127,14 @@ public class AddSourcesController {
 			int totalStocksIndex = fieldsList.indexOf("aksjer_totalt_selskapet");
 			int stocksCandidateIndex = fieldsList.indexOf("aksjer_antall");
 			int shareholderNameIndex = fieldsList.indexOf("aksjonr_navn");
-			System.out.println(shareholderNameIndex);
 			String line;
 			while((line = br.readLine()) != null) {
 
 				String[] information = line.split(csvSplit);
-				String shareholderName = information[shareholderNameIndex].toLowerCase();
-
+				String[] shareholderNameSplit = information[shareholderNameIndex].split(" ");
+				String shareholderName = (shareholderNameSplit[0] + " " +
+						shareholderNameSplit[shareholderNameSplit.length-1]).toLowerCase();
+				
 				if(candidates_shareholderInformation.containsKey(shareholderName)) {
 					ShareholderInformation shareholderInformation =
 							new ShareholderInformation(information[orgNoIndex], information[orgNameIndex],

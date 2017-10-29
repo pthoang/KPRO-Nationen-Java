@@ -5,10 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
-import controllers.AddSourcesController;
-import controllers.RootController;
-import controllers.ScoringListController;
-import controllers.SettingsController;
+import controllers.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -30,6 +27,8 @@ public class MainApp extends Application {
 	private SettingsController settingsController;
 
 	private ScoringList scoringList;
+
+	private DataSources ds = new DataSources();
 
 	public static void main(String[] args) {
 		launch(args);
@@ -126,6 +125,9 @@ public class MainApp extends Application {
 
 			settingsController = loader.getController();
 			settingsController.setMainApp(this);
+
+			settingsController.refreshRegisterSelectors(getDataSourcesController().getDsList());
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -179,5 +181,9 @@ public class MainApp extends Application {
 	public void setNumCandidates(int numCandidates) {
 		scoringList.setMaxLength(numCandidates);
 		
+	}
+
+	public DataSources getDataSourcesController() {
+		return ds;
 	}
 }

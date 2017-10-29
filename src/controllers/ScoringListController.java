@@ -459,7 +459,7 @@ public class ScoringListController {
 	@FXML
 	public void markAsDone(){
 		if(markAsDoneButton.getText().equals("Marker komplett")){
-			if(!nameField.getText().isEmpty()){
+			if(!nameField.getText().isEmpty()) {
 				markAsDoneButton.setText("Marker ukomplett");
 				getCandidateByName(nameField.getText()).setStatus("finished");
 			}
@@ -499,11 +499,12 @@ public class ScoringListController {
 		hiredHelpPGField.setText(Integer.toString(candidate.getHiredHelpPG()));
 		farmingPGField.setText(Integer.toString(candidate.getFarmingPG()));
 
-		if(candidate.getStatus().equals("isFinished")){
+		if(candidate.getStatus().equals("finished")){
 			markAsDoneButton.setText("Marker ukomplett");
 		}else{
 			markAsDoneButton.setText("Marker komplett");
 		}
+
 
 		if(candidate.getisPerson()) {
 			if (municipalityField.getText() == null) {

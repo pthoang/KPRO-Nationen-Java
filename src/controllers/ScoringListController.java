@@ -3,10 +3,9 @@ package controllers;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.regex.Pattern;
-
 import javax.imageio.ImageIO;
-
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -14,8 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -29,6 +27,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.util.Callback;
 import javafx.util.Pair;
 import model.AmazonBucketUploader;
 import model.Candidate;
@@ -42,8 +41,12 @@ public class ScoringListController {
 
 	@FXML
 	private Button backButton;
+
 	@FXML
 	private Button saveButton;
+
+	@FXML
+	private Button markAsDoneButton;
 
 	// Related to table view
 	@FXML
@@ -54,7 +57,7 @@ public class ScoringListController {
 	private TableColumn<Candidate, String> nameColumn;
 
 	private ScoringList scoringList;
-	private ObservableList<Candidate> candidates;
+	private static ObservableList<Candidate> candidates;
 
 	// Related to candidate view 
 	@FXML
@@ -99,8 +102,11 @@ public class ScoringListController {
 	private String errorMessage;
 
 	private MainApp mainApp;
+
+	private HashMap<String, Integer> candidateColor = new HashMap<>();
+
 	private AmazonBucketUploader bucketUploader;
-	
+
 	public ScoringListController() {
 	}
 
@@ -126,22 +132,97 @@ public class ScoringListController {
 
 		Candidate firstCandidate = candidates.get(0);
 		setCandidate(firstCandidate);
+
+		for(Candidate candidate : candidates){
+			if(!candidateColor.containsKey(candidate.getName())){
+				candidateColor.put(candidate.getName(), 0);
+			}
+		}
+	}
+
+	public Candidate getCandidateByName(String name){
+		for(Candidate candidate : candidates){
+			if(candidate.getName().equals(name)){
+				return candidate;
+			}
+		}
+		return null;
 	}
 
 	@FXML 
 	private void initialize() {
+		candidateTable.setEditable(true);
+
+		nameColumn.setCellFactory(new CellFactory());
+
 		rankColumn.setCellValueFactory(new PropertyValueFactory<Candidate, Integer>("rank"));
 		nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 
+		nameColumn.setOnEditCommit(cell -> {
+			int row = cell.getTablePosition().getRow();
+			candidateTable.getItems().set(row, getCandidateByName(cell.getNewValue()));
+		});
+
 		candidateTable.getSelectionModel().selectedItemProperty().addListener(
 				(observable, oldValue, newValue) -> setCandidate(newValue));
+
 			
 		networkNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 		networkDescriptionColumn.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
 		
 		networkTable.getSelectionModel().selectedItemProperty().addListener(
 				(observable, oldValue, newValue) -> connectionDialog(newValue));
-		
+
+
+		/**
+		 * Adding listeners to the textfields for feedback handling
+		 */
+		nameField.textProperty().addListener((observable, oldValue, newValue) -> {
+			markAsDoneButton.setDisable(false);
+			saveCandidateButton.setDisable(false);
+
+		});
+
+		previousYearRankField.textProperty().addListener((observable, oldValue, newValue) -> {
+			markAsDoneButton.setDisable(false);
+			saveCandidateButton.setDisable(false);
+		});
+
+		rankField.textProperty().addListener((observable, oldValue, newValue) -> {
+			markAsDoneButton.setDisable(false);
+			saveCandidateButton.setDisable(false);
+		});
+
+		municipalityField.textProperty().addListener((observable, oldValue, newValue) -> {
+			markAsDoneButton.setDisable(false);
+			saveCandidateButton.setDisable(false);
+		});
+
+		descriptionField.textProperty().addListener((observable, oldValue, newValue) -> {
+			markAsDoneButton.setDisable(false);
+			saveCandidateButton.setDisable(false);
+		});
+
+		animalsPGField.textProperty().addListener((observable, oldValue, newValue) -> {
+			markAsDoneButton.setDisable(false);
+			saveCandidateButton.setDisable(false);
+		});
+
+		hiredHelpPGField.textProperty().addListener((observable, oldValue, newValue) -> {
+			markAsDoneButton.setDisable(false);
+			saveCandidateButton.setDisable(false);
+		});
+
+		farmingPGField.textProperty().addListener((observable, oldValue, newValue) -> {
+			markAsDoneButton.setDisable(false);
+			saveCandidateButton.setDisable(false);
+		});
+
+		imageView.imageProperty().addListener((observable, oldValue, newValue) -> {
+			markAsDoneButton.setDisable(false);
+			saveCandidateButton.setDisable(false);
+		});
+
 	}
 
 	public void refreshTable() {
@@ -167,6 +248,13 @@ public class ScoringListController {
 	 */
 	@FXML
 	public void handleSaveChangesToCandidate() {
+		municipalityField.setStyle("");
+		networkTable.setStyle("");
+
+		candidate.setStatus("");
+		int fieldsMissing = 0;
+		saveCandidateButton.setDisable(true);
+
 		if (candidate == null) {
 			createAndAddEmptyCandidate();
 		}
@@ -192,7 +280,7 @@ public class ScoringListController {
 
 		// Municipality
 		String newMunicipality = municipalityField.getText();
-		candidate.setMunicipality(new SimpleStringProperty(newMunicipality));;
+		candidate.setMunicipality(new SimpleStringProperty(newMunicipality));
 
 		// Description
 		String description = descriptionField.getText();
@@ -220,11 +308,33 @@ public class ScoringListController {
 			System.out.println("Candidate don't have a farmingPG");
 		}
 
-		// Network
-		// TODO	
+		//Field handling only needed with persons
+		if(candidate.getisPerson()) {
+			//Checks if network table is empty, if so give a warning
+			if(networkTable.getItems().size() < 1){
+				fieldsMissing++;
+				networkTable.setStyle("-fx-border-color: #ffff65");
+			}
 
+
+			if(newMunicipality == null || newMunicipality.equals("")){
+				fieldsMissing++;
+				municipalityField.setStyle("-fx-border-color: #ffff65");
+			}
+
+			//Checks if there are any fields empty, if so set the candidate to "unfinished"
+			if(fieldsMissing > 0){
+				candidate.setStatus("unfinished");
+			} else {
+				candidate.setStatus("allFields");
+			}
+		}
+		candidateTable.refresh();
+		// Network
+		// TODO
 		handleErrorMessage(); 
 		uploadToBucket();
+
 	}
 
 	private void createAndAddEmptyCandidate() {
@@ -309,6 +419,7 @@ public class ScoringListController {
 			alert.setHeaderText("Felter til kandidaten er ikke korrekt utfylt.");
 			alert.setContentText(errorMessage);
 			alert.showAndWait();
+			candidate.setStatus("invalidFields");
 		} else {
 			saveCandidate();
 			refreshTable();
@@ -344,6 +455,23 @@ public class ScoringListController {
 		cleanFields();
 	}
 
+
+	@FXML
+	public void markAsDone(){
+		if(markAsDoneButton.getText().equals("Marker komplett")){
+			if(!nameField.getText().isEmpty()) {
+				markAsDoneButton.setText("Marker ukomplett");
+				getCandidateByName(nameField.getText()).setStatus("finished");
+			}
+		}else{
+			if(!nameField.getText().isEmpty()){
+				markAsDoneButton.setText("Marker komplett");
+				getCandidateByName(nameField.getText()).setStatus("");
+			}
+		}
+		candidateTable.refresh();
+	}
+
 	/**
 	 * Get the candidate to be set in the fields, and then fill inn the fields.
 	 * @param candidate
@@ -357,6 +485,8 @@ public class ScoringListController {
 	 * Sets all the fields to the candidate.
 	 */
 	public void setFields() {
+		networkTable.setStyle("");
+		municipalityField.setStyle("");
 		File file = new File(candidate.getImageURL());
 		setImageField(file);
 
@@ -368,8 +498,24 @@ public class ScoringListController {
 		animalsPGField.setText(Integer.toString(candidate.getAnimalsPG()));
 		hiredHelpPGField.setText(Integer.toString(candidate.getHiredHelpPG()));
 		farmingPGField.setText(Integer.toString(candidate.getFarmingPG()));
-		
-		networkTable.setItems(candidate.getConnections());
+
+		if(candidate.getStatus().equals("finished")){
+			markAsDoneButton.setText("Marker ukomplett");
+		}else{
+			markAsDoneButton.setText("Marker komplett");
+		}
+
+
+		if(candidate.getisPerson()) {
+			if (municipalityField.getText() == null) {
+				municipalityField.setStyle("-fx-border-color: #ffff65");
+			}
+
+			networkTable.setItems(candidate.getConnections());
+			if (networkTable.getItems().size() < 1) {
+				networkTable.setStyle("-fx-border-color: #ffff65");
+			}
+		}
 	}
 
 	public void cleanFields() {
@@ -426,14 +572,14 @@ public class ScoringListController {
 		}
 		return false;
 	}
-	
-	
+
 	@FXML
 	public void handleAddConnection() {
 		connectionDialog(null);
 	}
 	
 	private void connectionDialog(Connection connection) {
+		saveCandidateButton.setDisable(false);
 		// Create the custom dialog.
 		Dialog<Pair<Person, String>> dialog = new Dialog<>();
 		dialog.setTitle("Nettverks kobling");
@@ -497,9 +643,61 @@ public class ScoringListController {
 			connection.setDescription(description.getText());
 			connection.setImageURL(imageURL.getText());
 		}
-		
 
 		updateNetworkList();
+	}
+	public static class CellFactory implements Callback<TableColumn<Candidate, String>, TableCell<Candidate, String>> {
+
+		private int editingIndex = -1 ;
+
+		@Override
+		public TableCell<Candidate, String> call(TableColumn<Candidate, String> param) {
+			return new TableCell<Candidate, String>() {
+
+				@Override
+				protected void updateItem(String item, boolean empty)
+				{
+					super.updateItem(item, empty);
+					setText(item);
+
+					if(this.getIndex() > -1 && this.getIndex()<55){
+
+						String status = candidates.get(this.getIndex()).getStatus();
+
+						if(status.equals("finished")){
+							getTableRow().setStyle("-fx-background-color: rgb(53,109,48);");
+						} else if (status.equals("unfinished")){
+							getTableRow().setStyle("-fx-background-color: rgb(156,156,59);");
+						} else if (status.equals("invalidFields")){
+							getTableRow().setStyle("-fx-background-color: rgb(157,57,68);");
+						} else if (status.equals("allFields")) {
+							getTableRow().setStyle("-fx-background-color: rgb(108,139,68);");
+						} else {
+							getTableRow().setStyle("");
+						}
+					}
+				}
+
+				@Override
+				public void startEdit() {
+					editingIndex = getIndex();
+					super.startEdit();
+				}
+
+				@Override
+				public void commitEdit(String newValue) {
+					editingIndex = -1 ;
+					super.commitEdit(newValue);
+				}
+
+				@Override
+				public void cancelEdit() {
+					editingIndex = -1 ;
+					super.cancelEdit();
+				}
+
+			};
+		}
 	}
 	
 	public void uploadToBucket() {

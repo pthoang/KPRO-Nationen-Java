@@ -18,6 +18,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import model.Settings;
+
 public class SettingsController {
 
 	@FXML
@@ -31,16 +33,38 @@ public class SettingsController {
 	@FXML
 	private GridPane gpSettings;
 	
+	@FXML
+	private TextField bucketAccessKeyField;
+	@FXML
+	private TextField bucketSecretKeyField;
+	@FXML
+	private TextField bucketNameField;
+	@FXML
+	private TextField folderNameField;
+	
 	private MainApp mainApp;
+	private Settings settings;
 	
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 	}
 	
+	public void setSettings(Settings settings) {
+		this.settings = settings;
+		
+		setDefaultSettings();
+	}
+	
 	@FXML
 	private void handleSave() {
 		int numCandidates = Integer.parseInt(numCandidatesField.getText());
-		mainApp.setNumCandidates(numCandidates);
+		settings.setNumCandidates(numCandidates);
+		settings.setBucketAccessKey(bucketAccessKeyField.getText());
+		settings.setBucketSecretKey(bucketSecretKeyField.getText());
+		settings.setBucketName(bucketNameField.getText());
+		settings.setFolderName(folderNameField.getText());
+		
+		mainApp.updateAmazonBucketUploader();
 		mainApp.showScoringListView();
 	}
 	
@@ -94,6 +118,15 @@ public class SettingsController {
 			}
 		}
 
+	}
+	
+	private void setDefaultSettings() {
+		String numCandidates = Integer.toString(settings.getNumCandidates());
+		numCandidatesField.setText(numCandidates);
+		bucketAccessKeyField.setText(settings.getBucketAccessKey());
+		bucketSecretKeyField.setText(settings.getBucketSecretKey());
+		bucketNameField.setText(settings.getBucketName());
+		folderNameField.setText(settings.getFolderName());
 	}
 	
 }

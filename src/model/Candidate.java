@@ -2,12 +2,15 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.Organization;
 
 public class Candidate extends Person {
 
@@ -19,7 +22,7 @@ public class Candidate extends Person {
 	private SimpleIntegerProperty rank;
 	private SimpleIntegerProperty previousYearRank;
 
-	private ArrayList organizations;
+	private ObservableList<Organization> organizations = FXCollections.observableArrayList();
 
 
 	// PG stands for ProductionGrants
@@ -270,6 +273,9 @@ public class Candidate extends Person {
 
 	public ObservableList<Connection> getConnections() {
 		return connections;
+	}
+	public ObservableList<Organization> getOrganizations() {
+		return organizations;
 	}
 
 

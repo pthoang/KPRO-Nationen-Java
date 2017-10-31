@@ -45,7 +45,6 @@ public class Candidate extends Person {
 		this.rank = new SimpleIntegerProperty(rank);
 		this.previousYearRank = new SimpleIntegerProperty(rank);
 		this.status = "";
-		//this.isPerson = true;
 	}
 
 	/**
@@ -284,8 +283,6 @@ public class Candidate extends Person {
 	public String getStatus(){
 		return status;
 	}
-
-	//public void setisPerson(boolean isPerson){ this.isPerson = isPerson; }
 
 	public boolean getIsPerson(){ 
 		if (gender.equals("F") || gender.equals("M")) {

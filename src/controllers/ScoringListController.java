@@ -112,9 +112,6 @@ public class ScoringListController {
 	private AmazonBucketUploader bucketUploader;
 
 	public ScoringListController() {
-		//genderChoiceBox.getItems().addAll(FXCollections.observableArrayList("", "Kvinne", "Mann", "Annet"));
-		System.out.println("Choices " + genderChoiceBox.getItems());
-		
 	}
 
 	/**
@@ -230,7 +227,6 @@ public class ScoringListController {
 			saveCandidateButton.setDisable(false);
 		});
 
-		System.out.println("Choices " + genderChoiceBox.getItems());
 		genderChoiceBox.getItems().addAll(FXCollections.observableArrayList("", "Kvinne", "Mann", "Annet"));
 		
 	}
@@ -258,8 +254,6 @@ public class ScoringListController {
 	 */
 	@FXML
 	public void handleSaveChangesToCandidate() {
-		System.out.println("Choices when saving " + genderChoiceBox.getItems());
-		
 		municipalityField.setStyle("");
 		networkTable.setStyle("");
 
@@ -515,6 +509,7 @@ public class ScoringListController {
 		municipalityField.setText(candidate.getMunicipality());
 		rankField.setText(Integer.toString(candidate.getRank()));
 		previousYearRankField.setText(Integer.toString(candidate.getPreviousYearRank()));
+		genderChoiceBox.getSelectionModel().select(setGenderChoice(candidate));;
 		descriptionField.setText(candidate.getDescription());
 		animalsPGField.setText(Integer.toString(candidate.getAnimalsPG()));
 		hiredHelpPGField.setText(Integer.toString(candidate.getHiredHelpPG()));
@@ -729,7 +724,7 @@ public class ScoringListController {
 	}
 	
 	private String getSelectedGender() {
-		String gender = genderChoiceBox.getSelectionModel().selectedIndexProperty().getName();
+		String gender = genderChoiceBox.getValue();
 		if (gender.equals("Kvinne")) {
 			return "F";
 		} else if (gender.equals("Mann")) {
@@ -738,5 +733,17 @@ public class ScoringListController {
 			return "O";
 		}
 		return "";
+	}
+	
+	private int setGenderChoice(Candidate candidate) {
+		String gender = candidate.getGender();
+		if (gender.equals("F")) {
+			return 1;
+		} else if (gender.equals("M")) {
+			return 2;
+		} else if (gender.equals("O")) {
+			return 3;
+		} 
+		return 0;
 	}
 }

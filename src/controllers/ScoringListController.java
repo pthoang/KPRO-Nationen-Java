@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -679,8 +680,24 @@ public class ScoringListController {
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.initOwner(mainApp.getStage());
         VBox dialogVbox = new VBox(20);
+        
+        Stage primaryStage = new Stage();
+
+        Parent root = FXMLLoader.load(getClass().getResource("../view/ConnectionView.fxml"));
+                         Scene scene = new Scene(root, 500, 350);
+                             primaryStage.setScene(scene);
+                                primaryStage.show();
+        
+        
+        
         //dialogVbox.getChildren().add(new Text("This is a Dialog"));
-        Scene dialogScene = new Scene(dialogVbox, 300, 200);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(MainApp.class.getResource("../view/ConnectionView.fxml"));
+        GridPane connectionView = (GridPane) loader.load();
+        ConnectionController connectionController = loader.getController();
+        connectionController.setMainApp(mainApp);
+        
+        Scene dialogScene = new Scene(connectionView);
         dialog.setScene(dialogScene);
         dialog.show();
 	}

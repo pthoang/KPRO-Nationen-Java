@@ -13,8 +13,10 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
@@ -29,6 +31,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Pair;
 import model.AmazonBucketUploader;
@@ -591,7 +596,8 @@ public class ScoringListController {
 
 	@FXML
 	public void handleAddConnection() {
-		connectionDialog(null);
+		//connectionDialog(null);
+		connectionStage(null);
 	}
 	
 	private void connectionDialog(Connection connection) {
@@ -604,8 +610,19 @@ public class ScoringListController {
 		// Set the button types.
 		ButtonType addButtonType = new ButtonType("Legg til", ButtonData.OK_DONE);
 		ButtonType cancelButtonType = new ButtonType("Avslutt", ButtonData.CANCEL_CLOSE);
-		dialog.getDialogPane().getButtonTypes().addAll(addButtonType, cancelButtonType);
+		ButtonType deleteButtonType = new ButtonType("Slett", ButtonData.NO);
+		
+		
+		dialog.getDialogPane().getButtonTypes().addAll(addButtonType, cancelButtonType, deleteButtonType);
 
+		System.out.println(dialog.getDialogPane().lookupButton(ButtonType.NO));
+		final Button delete = (Button) dialog.getDialogPane().lookupButton(ButtonType.NO);
+		delete.addEventFilter(ActionEvent.ACTION, event ->
+		    candidate.deleteConnection(connection)
+		);
+		
+		//ButtonType addImageButtonType = new ButtonType("Legg til bilde", ButtonData.OK_DONE);
+		
 		// Create the username and password labels and fields.
 		GridPane grid = new GridPane();
 		grid.setHgap(50);
@@ -637,14 +654,8 @@ public class ScoringListController {
 		grid.add(new Label("Link til bilde:"), 0, 2);
 		grid.add(imageURL, 1, 2);
 
-		// Enable/Disable login button depending on whether a username was entered.
 		Node addButton = dialog.getDialogPane().lookupButton(addButtonType);
 		addButton.setDisable(true);
-
-		// Do some validation (using the Java 8 lambda syntax).
-		name.textProperty().addListener((observable, oldValue, newValue) -> {
-		    addButton.setDisable(newValue.trim().isEmpty());
-		});
 
 		dialog.getDialogPane().setContent(grid);
 
@@ -662,6 +673,18 @@ public class ScoringListController {
 
 		updateNetworkList();
 	}
+	
+	private void connectionStage(Connection connection) {
+		final Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(mainApp.getStage());
+        VBox dialogVbox = new VBox(20);
+        //dialogVbox.getChildren().add(new Text("This is a Dialog"));
+        Scene dialogScene = new Scene(dialogVbox, 300, 200);
+        dialog.setScene(dialogScene);
+        dialog.show();
+	}
+	
 	public static class CellFactory implements Callback<TableColumn<Candidate, String>, TableCell<Candidate, String>> {
 
 		private int editingIndex = -1 ;

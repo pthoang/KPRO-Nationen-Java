@@ -275,6 +275,11 @@ public class Candidate extends Person {
 	public ObservableList<Connection> getConnections() {
 		return connections;
 	}
+	
+	public void deleteConnection(Connection connection) {
+		connections.remove(connection);
+		System.out.println("Delete connection");
+	}
 
 	public void setStatus(String status){
 		this.status = status;

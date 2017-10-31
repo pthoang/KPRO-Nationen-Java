@@ -4,11 +4,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
@@ -82,6 +84,8 @@ public class ScoringListController {
 	@FXML
 	private TextField municipalityField  = new TextField();
 	@FXML
+	private ChoiceBox<String> genderChoiceBox = new ChoiceBox<String>(FXCollections.observableArrayList("", "Kvinne", "Mann", "Annet"));
+	@FXML
 	private TextField animalsPGField = new TextField();
 	@FXML
 	private TextField hiredHelpPGField = new TextField();
@@ -108,6 +112,9 @@ public class ScoringListController {
 	private AmazonBucketUploader bucketUploader;
 
 	public ScoringListController() {
+		//genderChoiceBox.getItems().addAll(FXCollections.observableArrayList("", "Kvinne", "Mann", "Annet"));
+		System.out.println("Choices " + genderChoiceBox.getItems());
+		
 	}
 
 	/**
@@ -223,6 +230,9 @@ public class ScoringListController {
 			saveCandidateButton.setDisable(false);
 		});
 
+		System.out.println("Choices " + genderChoiceBox.getItems());
+		genderChoiceBox.getItems().addAll(FXCollections.observableArrayList("", "Kvinne", "Mann", "Annet"));
+		
 	}
 
 	public void refreshTable() {
@@ -248,6 +258,8 @@ public class ScoringListController {
 	 */
 	@FXML
 	public void handleSaveChangesToCandidate() {
+		System.out.println("Choices when saving " + genderChoiceBox.getItems());
+		
 		municipalityField.setStyle("");
 		networkTable.setStyle("");
 
@@ -282,6 +294,10 @@ public class ScoringListController {
 		String newMunicipality = municipalityField.getText();
 		candidate.setMunicipality(new SimpleStringProperty(newMunicipality));
 
+		// Gender
+		String gender = getSelectedGender();
+		// validateGender(gender);
+		candidate.setGender(gender);
 		// Description
 		String description = descriptionField.getText();
 		// validateDescription(description);
@@ -309,7 +325,7 @@ public class ScoringListController {
 		}
 
 		//Field handling only needed with persons
-		if(candidate.getisPerson()) {
+		if(candidate.getIsPerson()) {
 			//Checks if network table is empty, if so give a warning
 			if(networkTable.getItems().size() < 1){
 				fieldsMissing++;
@@ -382,6 +398,11 @@ public class ScoringListController {
 		}
 	}
 
+	private void validateGender(String gender) {
+		if (gender == "") {
+			errorMessage += "\n Du må velge et kjønn. Velg 'Annet' om kandidaten ikke er et menneske.";
+		}
+	}
 
 	private void validateDescription(String description) {
 		if (description.length() <= 5) {
@@ -506,7 +527,7 @@ public class ScoringListController {
 		}
 
 
-		if(candidate.getisPerson()) {
+		if(candidate.getIsPerson()) {
 			if (municipalityField.getText() == null) {
 				municipalityField.setStyle("-fx-border-color: #ffff65");
 			}
@@ -705,5 +726,17 @@ public class ScoringListController {
 		File image = new File(imagePath);
 		String fileName = image.getName();
 		bucketUploader.uploadFile(image, fileName);
+	}
+	
+	private String getSelectedGender() {
+		String gender = genderChoiceBox.getSelectionModel().selectedIndexProperty().getName();
+		if (gender.equals("Kvinne")) {
+			return "F";
+		} else if (gender.equals("Mann")) {
+			return "M";
+		} else if (gender.equals("Annet")) {
+			return "O";
+		}
+		return "";
 	}
 }

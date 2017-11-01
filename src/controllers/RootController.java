@@ -8,6 +8,7 @@ import Main.MainApp;
 import model.ScoringList;
 
 public class RootController {
+	private SettingsController settingsController;
 
 	private MainApp mainApp;
 

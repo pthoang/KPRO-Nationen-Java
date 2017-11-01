@@ -3,6 +3,7 @@ package model;
 import interfaces.DataSourceInterface;
 import model.Candidate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataSources {
@@ -11,7 +12,15 @@ public class DataSources {
     private List<DataSourceInterface> dsList;
 
     public DataSources() {
-        throw new UnsupportedOperationException("not implemented");
+        MockRegister test = new MockRegister();
+        dsList.add(test);
+
+        MockRegister test2 = new MockRegister();
+        dsList.add(test2);
+    }
+
+    public List<DataSourceInterface> getDsList() {
+        return dsList;
     }
 
     void getDataFromAll(Candidate candidate) {

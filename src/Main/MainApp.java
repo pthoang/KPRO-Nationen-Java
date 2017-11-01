@@ -16,20 +16,20 @@ import javafx.stage.Stage;
 import model.AmazonBucketUploader;
 import model.ScoringList;
 import model.Settings;
+import model.DataSources;
 
 public class MainApp extends Application {
 
 	private Stage primaryStage;
 	private BorderPane rootLayout;
-
 	private RootController rootController;
 	private EditListController editListController;
 	private AddSourcesController addSourcesController;
 	private SettingsController settingsController;
-
 	private AmazonBucketUploader bucketUploader;
 	private ScoringList scoringList;
 	private Settings settings;
+	private DataSources ds = new DataSources();
 
 	public static void main(String[] args) {
 		launch(args);
@@ -136,7 +136,11 @@ public class MainApp extends Application {
 
 			settingsController = loader.getController();
 			settingsController.setMainApp(this);
+
+			settingsController.refreshRegisterSelectors(getDataSourcesController().getDsList());
+
 			settingsController.setSettings(settings);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -186,10 +190,14 @@ public class MainApp extends Application {
 		return fileChooser.showOpenDialog(primaryStage);
 	}
 
+	public DataSources getDataSourcesController() {
+		return ds;
+	}
+
 	public void updateAmazonBucketUploader() {
 		bucketUploader.setBucketName(settings.getBucketName());
 		bucketUploader.setFolderName(settings.getFolderName());
 		bucketUploader.setKeys(settings.getBucketAccessKey(), settings.getBucketSecretKey());
 	}
-	
+
 }

@@ -31,6 +31,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -113,6 +114,7 @@ public class ScoringListController {
 
 	private MainApp mainApp;
 
+	Stage connectionDialog;
 	private HashMap<String, Integer> candidateColor = new HashMap<>();
 
 	private AmazonBucketUploader bucketUploader;
@@ -679,27 +681,28 @@ public class ScoringListController {
 		final Stage dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.initOwner(mainApp.getStage());
-        VBox dialogVbox = new VBox(20);
-        
-        Stage primaryStage = new Stage();
-
-        Parent root = FXMLLoader.load(getClass().getResource("../view/ConnectionView.fxml"));
-                         Scene scene = new Scene(root, 500, 350);
-                             primaryStage.setScene(scene);
-                                primaryStage.show();
-        
-        
-        
-        //dialogVbox.getChildren().add(new Text("This is a Dialog"));
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(MainApp.class.getResource("../view/ConnectionView.fxml"));
-        GridPane connectionView = (GridPane) loader.load();
-        ConnectionController connectionController = loader.getController();
-        connectionController.setMainApp(mainApp);
-        
+        loader.setLocation(MainApp.class.getResource("../view/ConnectionV.fxml"));
+
+		GridPane connectionView = null;
+		try {
+			connectionView = (GridPane) loader.load();
+		} catch (IOException e) {
+			System.out.println("Error when loading connectionVIew");
+			e.printStackTrace();
+		}
+		ConnectionController connectionController = loader.getController();
+		connectionController.setMainApp(mainApp);
+		connectionController.setParent(this);
+
         Scene dialogScene = new Scene(connectionView);
-        dialog.setScene(dialogScene);
+	    dialog.setScene(dialogScene);
+	    connectionDialog = dialog;
         dialog.show();
+	}
+
+	public void closeDialog() {
+		connectionDialog.close();
 	}
 	
 	public static class CellFactory implements Callback<TableColumn<Candidate, String>, TableCell<Candidate, String>> {

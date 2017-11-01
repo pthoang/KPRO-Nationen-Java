@@ -5,10 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
-import controllers.AddSourcesController;
-import controllers.RootController;
-import controllers.ScoringListController;
-import controllers.SettingsController;
+import controllers.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -25,17 +22,16 @@ public class MainApp extends Application {
 
 	private Stage primaryStage;
 	private BorderPane rootLayout;
-
 	private RootController rootController;
 	private ScoringListController scoringListController;
 	private AddSourcesController addSourcesController;
 	private SettingsController settingsController;
-
 	private ScoringList scoringList;
 	private Settings settings;
-
+	private DataSources ds = new DataSources();
 	private AmazonBucketUploader bucketUploader;
 	
+
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -142,8 +138,10 @@ public class MainApp extends Application {
 
 			settingsController = loader.getController();
 			settingsController.setMainApp(this);
+			settingsController.refreshRegisterSelectors(getDataSourcesController().getDsList());
 			System.out.println("Setting settings in showSettingsView: " + settings);
 			settingsController.setSettings(settings);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -197,11 +195,15 @@ public class MainApp extends Application {
 	public void setNumCandidates(int numCandidates) {
 		scoringList.setMaxLength(numCandidates);	
 	}
-	
+
+	public DataSources getDataSourcesController() {
+		return ds;
+	}
+
 	public void updateAmazonBucketUploader() {
 		bucketUploader.setBucketName(settings.getBucketName());
 		bucketUploader.setFolderName(settings.getFolderName());
 		bucketUploader.setKeys(settings.getBucketAccessKey(), settings.getBucketSecretKey());
 	}
-	
+
 }

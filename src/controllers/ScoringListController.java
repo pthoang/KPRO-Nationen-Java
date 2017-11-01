@@ -65,6 +65,8 @@ public class ScoringListController {
 	private Button saveListButton;
 	@FXML
 	private Button changeImageButton;
+	@FXML
+	private Button analyzeButton;
 
 	@FXML
 	private ImageView imageView = new ImageView();
@@ -198,6 +200,8 @@ public class ScoringListController {
 		String description = descriptionField.getText();
 		// validateDescription(description);
 
+
+		/*
 		// ProductionGrants
 		try {
 			int animalsPG = Integer.parseInt(animalsPGField.getText());
@@ -218,7 +222,7 @@ public class ScoringListController {
 			candidate.setFarmingPG(new SimpleIntegerProperty(farmingPG));
 		} catch (NumberFormatException e) {
 			System.out.println("Candidate don't have a farmingPG");
-		}
+		}*/
 
 		// Network
 		// TODO	
@@ -365,10 +369,13 @@ public class ScoringListController {
 		rankField.setText(Integer.toString(candidate.getRank()));
 		previousYearRankField.setText(Integer.toString(candidate.getPreviousYearRank()));
 		descriptionField.setText(candidate.getDescription());
+		/*
 		animalsPGField.setText(Integer.toString(candidate.getAnimalsPG()));
 		hiredHelpPGField.setText(Integer.toString(candidate.getHiredHelpPG()));
 		farmingPGField.setText(Integer.toString(candidate.getFarmingPG()));
-		
+
+		*/
+
 		networkTable.setItems(candidate.getConnections());
 	}
 
@@ -507,5 +514,10 @@ public class ScoringListController {
 		File image = new File(imagePath);
 		String fileName = image.getName();
 		bucketUploader.uploadFile(image, fileName);
+	}
+
+	@FXML
+	public void handleAnalyzeAll() {
+		mainApp.generateAll();
 	}
 }

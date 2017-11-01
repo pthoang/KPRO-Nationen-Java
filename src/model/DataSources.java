@@ -1,4 +1,4 @@
-package controllers;
+package model;
 
 import interfaces.DataSourceInterface;
 import model.Candidate;
@@ -8,8 +8,8 @@ import java.util.List;
 
 public class DataSources {
 
-    //a list containing all the data sources that is available
-    private List<DataSourceInterface> dsList = new ArrayList<>();
+    // A list containing all the data sources that is available
+    private List<DataSourceInterface> dsList;
 
     public DataSources() {
         MockRegister test = new MockRegister();

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ConnectionController">
+    <children>
+        <ToolBar prefHeight="322.0" prefWidth="379.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <items>
+                <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleSave" text="Lagre" />
+                <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancel" text="Avbryt" />
+                <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDelete" text="Slett" />
+                <Button fx:id="addImageButton" mnemonicParsing="false" onAction="#handleAddImage" text="Legg til bilde" />
+            </items>
+        </ToolBar>
+        <Label text="Beskrivelse" GridPane.rowIndex="3" />
+        <Label text="Navn" GridPane.rowIndex="1" />
+        <Label text="Bilde" GridPane.rowIndex="2" />
+        <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <TextField fx:id="descriptionField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+    </children>
+   <columnConstraints>
+      <ColumnConstraints maxWidth="235.0" minWidth="81.0" prefWidth="213.0" />
+      <ColumnConstraints maxWidth="511.0" minWidth="357.0" prefWidth="379.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints maxHeight="260.0" minHeight="34.0" prefHeight="44.0" />
+      <RowConstraints maxHeight="279.0" minHeight="34.0" prefHeight="174.0" />
+      <RowConstraints maxHeight="314.0" minHeight="33.0" prefHeight="133.0" />
+      <RowConstraints maxHeight="315.0" minHeight="34.0" prefHeight="49.0" />
+   </rowConstraints>
+</GridPane>

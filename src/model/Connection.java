@@ -6,7 +6,6 @@ public class Connection {
 	
 	private Candidate candidate;
 	private Person person;
-	
 	private SimpleStringProperty description;
 	
 	public Connection(Candidate candidate, Person person, String description) {
@@ -14,36 +13,24 @@ public class Connection {
 		this.person = person;
 		this.description = new SimpleStringProperty(description);	
 	}
-	
-	public SimpleStringProperty nameProperty() {
+
+	public SimpleStringProperty getNameProperty() {
 		return person.getNameProperty();
 	}
-	
-	public void setName(String name) {
-		person.setName(name);
-	}
-	
-	public SimpleStringProperty descriptionProperty() {
+
+	public SimpleStringProperty getDescriptionProperty() {
 		return description;
 	}
 	
 	public void setDescription(String description) {
 		this.description = new SimpleStringProperty(description);
 	}
-	
-	public String getName() {
-		return person.getName();
-	}
-	
+
 	public String getDescription() {
 		return description.get();
 	}
-	
-	public String getImageURL() {
-		return person.getImageURL();
-	}
-	
-	public void setImageURL(String imageURL) {
-		person.setImageURL(imageURL);
+
+	public Person getPerson() {
+		return person;
 	}
 }

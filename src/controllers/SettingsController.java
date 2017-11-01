@@ -23,11 +23,6 @@ import model.Settings;
 public class SettingsController {
 
 	@FXML
-	private Button saveButton;
-	@FXML
-	private Button cancelButton;
-	
-	@FXML
 	private TextField numCandidatesField;
 
 	@FXML
@@ -51,7 +46,6 @@ public class SettingsController {
 	
 	public void setSettings(Settings settings) {
 		this.settings = settings;
-		
 		setDefaultSettings();
 	}
 	
@@ -65,12 +59,12 @@ public class SettingsController {
 		settings.setFolderName(folderNameField.getText());
 		
 		mainApp.updateAmazonBucketUploader();
-		mainApp.showScoringListView();
+		mainApp.showEditListView();
 	}
 	
 	@FXML
 	private void handleCancel() {
-		mainApp.showScoringListView();
+		mainApp.showEditListView();
 	}
 
 	//this is the function that is supposed to spawn a file chooser and update the filepath for required files
@@ -101,7 +95,7 @@ public class SettingsController {
 					@Override
 					public void handle(javafx.event.ActionEvent event) {
 						//opens file chooser
-						File file = mainApp.choseFileAndGetFile();
+						File file = mainApp.chooseAndGetFile();
 						//makes sure that we didnt hit cancel
 						if (file != null) {
 							//sets the path of the chosen file to the text input field

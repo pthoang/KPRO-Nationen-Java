@@ -8,7 +8,6 @@ import java.util.Calendar;
 import controllers.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -17,20 +16,20 @@ import javafx.stage.Stage;
 import model.AmazonBucketUploader;
 import model.ScoringList;
 import model.Settings;
+import model.DataSources;
 
 public class MainApp extends Application {
 
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 	private RootController rootController;
-	private ScoringListController scoringListController;
+	private EditListController editListController;
 	private AddSourcesController addSourcesController;
 	private SettingsController settingsController;
+	private AmazonBucketUploader bucketUploader;
 	private ScoringList scoringList;
 	private Settings settings;
 	private DataSources ds = new DataSources();
-	private AmazonBucketUploader bucketUploader;
-	
 
 	public static void main(String[] args) {
 		launch(args);
@@ -45,8 +44,7 @@ public class MainApp extends Application {
 		settings = new Settings();
 
 		newList();
-
-		showScoringListView();
+		showEditListView();
 		
 		// During testing
 		scoringList.createFromNameList("resources/NameListTest.txt");
@@ -59,19 +57,18 @@ public class MainApp extends Application {
 				settings.getBucketSecretKey()
 				);
 		
-		scoringListController.setBucketUploader(bucketUploader);
+		editListController.setBucketUploader(bucketUploader);
 	}
 
 	/**
 	 * Initializes the root layout
-	 * @param
 	 */
-	public void initRootLayout() {
+	private void initRootLayout() {
 		try {
 			// Load root layout from fxml file.
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("../view/RootLayout.fxml"));
-			rootLayout = (BorderPane) loader.load();
+			rootLayout = loader.load();
 
 			rootController = loader.getController();
 			rootController.setMainApp(this);
@@ -91,22 +88,23 @@ public class MainApp extends Application {
 	/**
 	 * Shows the view for the final list.
 	 */
-	public void showScoringListView() {
+	public void showEditListView() {
 		try {
 			FXMLLoader loader= new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("../view/ScoringListView.fxml"));
-			GridPane scoringListView = (GridPane) loader.load();
+			loader.setLocation(MainApp.class.getResource("../view/EditListView.fxml"));
+			GridPane editListView = loader.load();
 
-			rootLayout.setCenter(scoringListView);
+			rootLayout.setCenter(editListView);
 
-			scoringListController = loader.getController();
-			scoringListController.setMainApp(this);
-			scoringListController.setBucketUploader(bucketUploader);
+			editListController = loader.getController();
+			editListController.setMainApp(this);
+			editListController.setBucketUploader(bucketUploader);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
+
 	/**
 	 * Shows the view for adding databases.
 	 */
@@ -114,7 +112,7 @@ public class MainApp extends Application {
 		try {
 			FXMLLoader loader= new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("../view/AddSourcesView.fxml"));
-			GridPane addSourcesView = (GridPane) loader.load();
+			GridPane addSourcesView = loader.load();
 
 			rootLayout.setCenter(addSourcesView);
 
@@ -124,7 +122,7 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Shows the view for settings.
 	 */
@@ -132,14 +130,15 @@ public class MainApp extends Application {
 		try {
 			FXMLLoader loader= new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("../view/SettingsView.fxml"));
-			GridPane settingsView = (GridPane) loader.load();
+			GridPane settingsView = loader.load();
 
 			rootLayout.setCenter(settingsView);
 
 			settingsController = loader.getController();
 			settingsController.setMainApp(this);
+
 			settingsController.refreshRegisterSelectors(getDataSourcesController().getDsList());
-			System.out.println("Setting settings in showSettingsView: " + settings);
+
 			settingsController.setSettings(settings);
 
 		} catch (IOException e) {
@@ -175,7 +174,7 @@ public class MainApp extends Application {
 	 * Updates the scoringListView (refresh the table)
 	 */
 	public void updateView() {
-		scoringListController.fillTable();
+		editListController.fillTable();
 	}
 
 	/**
@@ -186,14 +185,9 @@ public class MainApp extends Application {
 		scoringList = new ScoringList(year);
 	}
 	
-	public File choseFileAndGetFile() {
+	public File chooseAndGetFile() {
 		FileChooser fileChooser = new FileChooser();
-		File file = fileChooser.showOpenDialog(primaryStage);
-		return file;
-	}
-	
-	public void setNumCandidates(int numCandidates) {
-		scoringList.setMaxLength(numCandidates);	
+		return fileChooser.showOpenDialog(primaryStage);
 	}
 
 	public DataSources getDataSourcesController() {

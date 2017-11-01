@@ -12,7 +12,6 @@ public class Person {
 		this.imageURL = new SimpleStringProperty(imageURL);
 	}
 
-	
 	public SimpleStringProperty getNameProperty() {
 		return name;
 	}

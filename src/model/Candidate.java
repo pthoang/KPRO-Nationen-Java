@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.google.gson.JsonObject;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -20,6 +21,7 @@ public class Candidate extends Person {
 	private SimpleIntegerProperty previousYearRank;
 	private String status;
 	private boolean isPerson;
+	private JsonObject rawData;
 
 	private ArrayList organizations;
 
@@ -288,4 +290,9 @@ public class Candidate extends Person {
 	public void setisPerson(boolean isPerson){ this.isPerson = isPerson; }
 
 	public boolean getisPerson(){ return this.isPerson; }
+
+	public void setRawData(JsonObject rawData) {
+		this.rawData = rawData;
+	}
+
 }

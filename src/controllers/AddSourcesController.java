@@ -16,6 +16,7 @@ import java.io.IOException;
 
 
 import Main.MainApp;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.gson.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -100,16 +101,31 @@ public class AddSourcesController {
 
 
 
-
 	//Leaving this here for now, not sure where to put this
-	private HashMap<String, ArrayList<ShareholderInformation>>
+	public void mapCandidateExternalData(List<Candidate> candidates, HashMap<String, String> paths) throws Exception {
+		HashMap<String, ArrayList<String>> shareholderData =
+				extractShareholderData(candidates, new FileReader(paths.get("shareholderRegister")));
+		Map<String, String> politicalData = extractPoliticInformation(candidates);
+
+		for (Candidate candidate :
+				candidates) {
+			String[] candidateNameSplit = candidate.getName().split(" ");
+			String candidateName= candidateNameSplit[0] + " " + candidateNameSplit[candidateNameSplit.length-1];
+		}
+
+
+
+	}
+
+
+	private HashMap<String, ArrayList<String>>
 	extractShareholderData(List<Candidate> candidates, FileReader fileReader){
 
-		HashMap<String, ArrayList<ShareholderInformation>>candidates_shareholderInformation = new HashMap<>();
+		HashMap<String, ArrayList<String>>candidates_shareholderInformation = new HashMap<>();
 
 
 		for (Candidate candidate:
-			 candidates) {
+				candidates) {
 			String[] candidateNameSplit = candidate.getName().split(" ");
 			String hashKey = candidateNameSplit[0] + " " + candidateNameSplit[candidateNameSplit.length-1];
 			candidates_shareholderInformation.put(hashKey.toLowerCase(), new ArrayList<>());
@@ -127,6 +143,9 @@ public class AddSourcesController {
 			int totalStocksIndex = fieldsList.indexOf("aksjer_totalt_selskapet");
 			int stocksCandidateIndex = fieldsList.indexOf("aksjer_antall");
 			int shareholderNameIndex = fieldsList.indexOf("aksjonr_navn");
+
+			Gson gson = new Gson();
+
 			String line;
 			while((line = br.readLine()) != null) {
 
@@ -134,16 +153,17 @@ public class AddSourcesController {
 				String[] shareholderNameSplit = information[shareholderNameIndex].split(" ");
 				String shareholderName = (shareholderNameSplit[0] + " " +
 						shareholderNameSplit[shareholderNameSplit.length-1]).toLowerCase();
-				
+
 				if(candidates_shareholderInformation.containsKey(shareholderName)) {
 					ShareholderInformation shareholderInformation =
 							new ShareholderInformation(information[orgNoIndex], information[orgNameIndex],
-													new BigInteger(information[totalStocksIndex]),
-													Integer.parseInt(information[stocksCandidateIndex]));
-					candidates_shareholderInformation.get(shareholderName).add(shareholderInformation);
+									new BigInteger(information[totalStocksIndex]),
+									Integer.parseInt(information[stocksCandidateIndex]));
+					String json = gson.toJson(shareholderInformation);
+					candidates_shareholderInformation.get(shareholderName).add(json);
 				}
 			}
-			
+
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -153,7 +173,7 @@ public class AddSourcesController {
 		return candidates_shareholderInformation;
 	}
 
-	private Map<String, PoliticInformation>
+	private Map<String, String>
 	extractPoliticInformation(List<Candidate> candidates) throws Exception {
 		HashMap<String, PoliticInformation> candidate_politicInformation = new HashMap<>();
 
@@ -178,6 +198,7 @@ public class AddSourcesController {
 						.map(committee -> committee.navn).collect(Collectors.toList());
 				PoliticInformation politicInformation =
 						new PoliticInformation(null, rep.parti.navn, committees, null);
+				String json = gson.toJson(politicInformation);
 				candidate_politicInformation.put(repFullName, politicInformation);
 			}
 		}
@@ -204,7 +225,7 @@ public class AddSourcesController {
 		}
 
 		return candidate_politicInformation.entrySet().stream()
-				.filter(map -> map.getValue() != null).collect(Collectors.toMap(p->p.getKey(), p->p.getValue()));
+				.collect(Collectors.toMap(p->p.getKey(), p->gson.toJson(p.getValue())));
 	}
 
 	private static String readUrl(String urlString) throws Exception {
@@ -280,6 +301,7 @@ public class AddSourcesController {
 		candidates.add(new Candidate("Erlend Larsen", null, null, 1));
 		candidates.add(new Candidate("Siv Jensen", null, null, 1));
 		candidates.add(new Candidate("Phi Thien Hoang", null, null, 1));
+		candidates.add(new Candidate("Jon Georg Dale", null, null, 1));
 
 		System.out.println(cont.extractPoliticInformation(candidates));
 

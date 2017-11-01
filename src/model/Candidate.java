@@ -21,6 +21,8 @@ public class Candidate extends Person {
 	private SimpleStringProperty description = new SimpleStringProperty();
 	private SimpleIntegerProperty rank;
 	private SimpleIntegerProperty previousYearRank;
+	private String status;
+	private boolean isPerson;
 
 	private ObservableList<Organization> organizations = FXCollections.observableArrayList();
 
@@ -45,6 +47,8 @@ public class Candidate extends Person {
 		this.name = new SimpleStringProperty(name);
 		this.rank = new SimpleIntegerProperty(rank);
 		this.previousYearRank = new SimpleIntegerProperty(rank);
+		this.status = "";
+		this.isPerson = true;
 	}
 
 	/**
@@ -63,6 +67,7 @@ public class Candidate extends Person {
 
 		this.imageURL = new SimpleStringProperty(imageURL);
 		this.description.setValue(despcription);
+
 	}
 
 	/**
@@ -278,5 +283,15 @@ public class Candidate extends Person {
 		return organizations;
 	}
 
+	public void setStatus(String status){
+		this.status = status;
+	}
 
+	public String getStatus(){
+		return status;
+	}
+
+	public void setisPerson(boolean isPerson){ this.isPerson = isPerson; }
+
+	public boolean getisPerson(){ return this.isPerson; }
 }

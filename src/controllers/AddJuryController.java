@@ -59,7 +59,7 @@ public class AddJuryController {
     @FXML
     private void fileChooser() {
         File file = mainApp.choseFileAndGetFile();
-        setImageField(file);
+        //setImageField(file);
     }
 
     //TODO - lage en generell metode?

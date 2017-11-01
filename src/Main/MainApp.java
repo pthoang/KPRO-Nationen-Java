@@ -211,9 +211,7 @@ public class MainApp extends Application {
 	public void generateAll() {
 
 		for (DataSourceInterface datasource : ds.getDsList()) {
-			for (Candidate candidate : scoringList.getCandidates()) {
-				System.out.println(datasource.getData(candidate));
-			}
+			datasource.getData(scoringList.getCandidates());
 		}
 
 

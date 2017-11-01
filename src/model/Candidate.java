@@ -99,6 +99,10 @@ public class Candidate extends Person {
 		return rawData;
 	}
 
+	public void addData(String name, JsonElement element) {
+		rawData.add(name, element);
+	}
+
 	/**
 	 * Get name as string
 	 *

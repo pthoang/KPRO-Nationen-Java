@@ -95,7 +95,7 @@ public class SettingsController {
 					@Override
 					public void handle(javafx.event.ActionEvent event) {
 						//opens file chooser
-						File file = mainApp.choseFileAndGetFile();
+						File file = mainApp.chooseAndGetFile();
 						//makes sure that we didnt hit cancel
 						if (file != null) {
 							//sets the path of the chosen file to the text input field

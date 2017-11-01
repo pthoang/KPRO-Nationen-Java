@@ -1,5 +1,6 @@
 package model;
 
+import controllers.MockRegister;
 import interfaces.DataSourceInterface;
 import model.Candidate;
 
@@ -12,6 +13,8 @@ public class DataSources {
     private List<DataSourceInterface> dsList;
 
     public DataSources() {
+
+        dsList = new ArrayList<DataSourceInterface>();
         MockRegister test = new MockRegister();
         dsList.add(test);
 

@@ -1,41 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.AnchorPane?>
 
 <?import javafx.geometry.Insets?>
-<GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddJuryController" alignment="center" hgap="10" vgap="10">
+<?import javafx.scene.image.ImageView?>
+<GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddJuryController">
     <padding>
-        <Insets top="10" right="10" bottom="10" left="20"/>
+        <Insets top="20" right="40" bottom="20" left="40"/>
     </padding>
     <children>
-
-        <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="0" text="Navn"/>
-
-
-        <TextField fx:id="descriptionField" GridPane.columnIndex="1" GridPane.rowIndex="1" text="Beskrivelse" />
-
-        <Button fx:id="chooseImageButton" GridPane.columnIndex="1" GridPane.rowIndex="3" mnemonicParsing="false" onAction="#fileChooser" text="Legg til Bilde" />
-        <Button fx:id="addJuryMember" GridPane.columnIndex="1" GridPane.rowIndex="4" mnemonicParsing="false" onAction="#addMember" text="Legg til Jury medlem" />
-       <ToolBar GridPane.columnIndex="0" GridPane.rowIndex="4" prefHeight="40.0" prefWidth="200.0">
+        <TableView fx:id="juryTable" maxHeight="800" prefWidth="300" GridPane.columnIndex="0" GridPane.rowIndex="0">
+            <columns>
+                <TableColumn fx:id="juryNameColumn" text="Navn" prefWidth="290"/>
+            </columns>
+        </TableView>
+        <ToolBar GridPane.columnIndex="0" GridPane.rowIndex="1">
             <items>
                 <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" text="Tilbake" />
                 <Button fx:id="nextButton" mnemonicParsing="false" onAction="#handleNext" text="Lagre Juryen" />
             </items>
         </ToolBar>
+        <GridPane GridPane.columnIndex="1" GridPane.rowIndex="0">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+        <children>
+
+            <Label text="Navn:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="nameField" minWidth="5" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+
+            <Label text="Beskrivelse:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <TextArea fx:id="descriptionField" minWidth="10" minHeight="10" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.rowSpan="2" GridPane.columnSpan="2" />
+
+            <ImageView fx:id="juryImageView" fitHeight="150.0" fitWidth="150.0" onMouseClicked="#fileChooser" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.rowSpan="3" />
+
+            <Button fx:id="addJuryMember" GridPane.columnIndex="0" GridPane.rowIndex="6" mnemonicParsing="false" onAction="#addMember" text="Legg til Jury medlem" />
+        </children>
+        <columnConstraints>
+            <ColumnConstraints percentWidth="50" hgrow="ALWAYS" halignment="LEFT" />
+            <ColumnConstraints percentWidth="50" hgrow="ALWAYS" halignment="LEFT" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints vgrow="ALWAYS" valignment="BOTTOM" percentHeight="5"/>
+            <RowConstraints vgrow="ALWAYS" valignment="CENTER" percentHeight="10"/>
+            <RowConstraints vgrow="ALWAYS" valignment="BOTTOM" percentHeight="5"/>
+            <RowConstraints vgrow="ALWAYS" valignment="CENTER" percentHeight="20"/>
+            <RowConstraints vgrow="ALWAYS" valignment="CENTER" percentHeight="10"/>
+            <RowConstraints vgrow="ALWAYS" valignment="BOTTOM" percentHeight="10"/>
+        </rowConstraints>
+    </GridPane>
     </children>
     <columnConstraints>
-        <ColumnConstraints percentWidth="20" hgrow="SOMETIMES" halignment="LEFT" />
-        <ColumnConstraints percentWidth="30" hgrow="SOMETIMES" halignment="LEFT" />
-        <ColumnConstraints percentWidth="50" hgrow="SOMETIMES" halignment="LEFT" />
+        <ColumnConstraints percentWidth="30" hgrow="ALWAYS" halignment="CENTER" />
+        <ColumnConstraints percentWidth="70" hgrow="ALWAYS" halignment="CENTER" />
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />
-        <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />
-        <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />
-        <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />
-        <RowConstraints vgrow="SOMETIMES" valignment="CENTER" />
+        <RowConstraints vgrow="ALWAYS" valignment="CENTER"/>
+        <RowConstraints vgrow="ALWAYS" valignment="CENTER"/>
     </rowConstraints>
 </GridPane>

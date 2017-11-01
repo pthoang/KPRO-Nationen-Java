@@ -48,23 +48,21 @@ public class ConnectionController {
 
 	@FXML
 	public void handleDelete() {
-		System.out.println("Deleting conneciton");
 		candidate.deleteConnection(connection);
 		parent.closeDialog();
 	}
 
 	@FXML
 	public void handleSave() {
-		System.out.println("Saving connection");
 		if (connection == null) {
 			// TODO: imagePath
 			Person person = new Person(nameField.getText(), imageURL);
-
+			System.out.println("Candidate in connection: " + candidate);
 			candidate.addConnection(person, descriptionField.getText());
 		} else {
-			connection.setName(nameField.getText());
+			connection.getPerson().setName(nameField.getText());
 			connection.setDescription(descriptionField.getText());
-			connection.setImageURL(imageURL);
+			connection.getPerson().setImageURL(imageURL);
 		}
 		saveImageToFile();
 		parent.closeDialog();
@@ -117,7 +115,7 @@ public class ConnectionController {
 	}
 
 	private void setFields() {
-		nameField.setText(connection.getName());
+		nameField.setText(connection.getPerson().getName());
 		descriptionField.setText(connection.getDescription());
 		System.out.println("Image url when setting: " + connection.getPerson().getImageURL());
 		File file = new File(connection.getPerson().getImageURL());

@@ -86,8 +86,8 @@ public class CandidateController {
 
     @FXML
     private void initialize() {
-        networkNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        networkDescriptionColumn.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
+        networkNameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
+        networkDescriptionColumn.setCellValueFactory(cellData -> cellData.getValue().getDescriptionProperty());
 
         networkTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> connectionDialog(newValue));
@@ -145,16 +145,16 @@ public class CandidateController {
 
     private String getSelectedGender() {
         String gender = genderChoiceBox.getValue();
-        if (gender.equals("Kvinne")) {
-            return "F";
-        } else if (gender.equals("Mann")) {
-            return "M";
-        } else if (gender.equals("Annet")) {
-            return "O";
+        switch (gender) {
+            case "Kvinne":
+                return "F";
+            case "Mann":
+                return "M";
+            case "Annet":
+                return "O";
         }
         return "";
     }
-
 
     private int setGenderChoice(Candidate candidate) {
         String gender = candidate.getGender();
@@ -169,10 +169,6 @@ public class CandidateController {
     }
 
     // Button actions
-    /**
-     * Updates the candidates based on the changes in the fields.
-     * Then refresh the table.
-     */
     @FXML
     public void handleSaveChangesToCandidate() {
         municipalityField.setStyle("");
@@ -188,22 +184,6 @@ public class CandidateController {
 
         String errorMessage = "";
 
-        // Name
-        String newName = nameField.getText();
-
-        // PreviousYearRank
-        String newPreviousYearRank = previousYearRankField.getText();
-
-        // Rank
-        String newRank = rankField.getText();
-
-        // Gender
-        String gender = getSelectedGender();
-        candidate.setGender(gender);
-
-        // Description
-        String description = descriptionField.getText();
-
         errorMessage += validateCandidate();
 
         // Municipality
@@ -211,6 +191,7 @@ public class CandidateController {
         candidate.setMunicipality(new SimpleStringProperty(newMunicipality));
 
         // ProductionGrants
+        // TODO: this should be moved to SaveCandidate, and here it should be some validation
         try {
             int animalsPG = Integer.parseInt(animalsPGField.getText());
             candidate.setAnimalsPG(new SimpleIntegerProperty(animalsPG));
@@ -232,14 +213,13 @@ public class CandidateController {
             System.out.println("Candidate don't have a farmingPG");
         }
 
-        //Field handling only needed with persons
-        if(candidate.getIsPerson()) {
+        // Field handling only needed with persons
+        if (candidate.getIsPerson()) {
             //Checks if network table is empty, if so give a warning
             if(networkTable.getItems().size() < 1){
                 fieldsMissing++;
                 networkTable.setStyle("-fx-border-color: #ffff65");
             }
-
 
             if(newMunicipality == null || newMunicipality.equals("")){
                 fieldsMissing++;
@@ -301,8 +281,7 @@ public class CandidateController {
         connectionDialog(null);
     }
 
-    @FXML
-    public Candidate getCandidateByName(String name) {
+    private Candidate getCandidateByName(String name) {
         for (Candidate candidate: parent.getCandidates()) {
             if (candidate.getName().equals(name)) {
                 return candidate;
@@ -330,6 +309,7 @@ public class CandidateController {
         return errorMessage;
     }
 
+    // TODO: not saving all the other fields?
     private void saveCandidate() {
         String newName = nameField.getText();
         candidate.setName(newName);
@@ -337,23 +317,14 @@ public class CandidateController {
         String description = descriptionField.getText();
         candidate.setDescription(new SimpleStringProperty(description));
 
-        try {
-            int rank = Integer.parseInt(rankField.getText());
-            candidate.setRank(new SimpleIntegerProperty(rank));
-        } catch (NumberFormatException e) {
-            System.out.println("Candidate don't have a rank");
-        }
+        int rank = Integer.parseInt(rankField.getText());
+        candidate.setRank(new SimpleIntegerProperty(rank));
 
-        try {
-            int previousYearRank = Integer.parseInt(previousYearRankField.getText());
-            candidate.setPreviousYearRank(new SimpleIntegerProperty(previousYearRank));
-        } catch (NumberFormatException e) {
-            System.out.println("Candidate don't have a previousYear rank");
-        }
+        int previousYearRank = Integer.parseInt(previousYearRankField.getText());
+        candidate.setPreviousYearRank(new SimpleIntegerProperty(previousYearRank));
     }
 
     private void handleErrorMessage(String errorMessage) {
-
         if (errorMessage.length() != 0) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Feilmeldinger");
@@ -367,15 +338,9 @@ public class CandidateController {
         }
     }
 
-
-    /**
-     * Sets all the fields to the candidate.
-     */
     public void setFields() {
         //networkTable.setStyle("");
         //municipalityField.setStyle("");
-        System.out.println("Candidate: " + candidate);
-        System.out.println("Filepath: " + candidate.getImageURL());
         File file = new File(candidate.getImageURL());
         setImageField(file);
 
@@ -389,10 +354,8 @@ public class CandidateController {
         hiredHelpPGField.setText(Integer.toString(candidate.getHiredHelpPG()));
         farmingPGField.setText(Integer.toString(candidate.getFarmingPG()));
 
-
         setCompleteButton();
         handleIfPersonOrNot();
-
     }
 
     private void setCompleteButton() {
@@ -403,7 +366,7 @@ public class CandidateController {
         }
     }
 
-    // TODO: can be expanded
+    // TODO: can be expanded to exclude/deactivate fields
     private void handleIfPersonOrNot() {
         if (candidate.getIsPerson()) {
             if (municipalityField.getText() == null) {
@@ -417,7 +380,7 @@ public class CandidateController {
         }
     }
 
-    public void cleanFields() {
+    private void cleanFields() {
         File file = new File("images/standard.png");
         setImageField(file);
 
@@ -432,7 +395,6 @@ public class CandidateController {
     }
 
     // Related to image
-
     private String createAndGetImagePath() {
         String imageName = candidate.getName();
         imageName = imageName.replace(" ",  "");
@@ -462,7 +424,7 @@ public class CandidateController {
         }
     }
 
-    public void uploadToBucket() {
+    private void uploadToBucket() {
         String imagePath = candidate.getImageURL();
         File image = new File(imagePath);
         String fileName = image.getName();
@@ -473,9 +435,9 @@ public class CandidateController {
     private void connectionDialog(Connection connection) {
         final Stage dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(mainApp.getStage());
+        dialog.initOwner(parent.getMainApp().getStage());
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(MainApp.class.getResource("../view/ConnectionV.fxml"));
+        loader.setLocation(MainApp.class.getResource("../view/ConnectionView.fxml"));
 
         GridPane connectionView = null;
         try {
@@ -485,9 +447,10 @@ public class CandidateController {
             e.printStackTrace();
         }
         ConnectionController connectionController = loader.getController();
-        connectionController.setMainApp(mainApp);
+        connectionController.setMainApp(parent.getMainApp());
         connectionController.setParent(this);
         connectionController.setCandidate(candidate);
+        System.out.println("Candidate when setting in connectionController: " + candidate);
         connectionController.setConnection(connection);
 
         Scene dialogScene = new Scene(connectionView);
@@ -501,7 +464,7 @@ public class CandidateController {
         connectionDialog.close();
     }
 
-    public void updateNetworkList() {
+    private void updateNetworkList() {
         networkTable.setItems(candidate.getConnections());
         networkTable.refresh();
     }

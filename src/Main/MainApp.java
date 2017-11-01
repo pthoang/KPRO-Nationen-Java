@@ -44,9 +44,7 @@ public class MainApp extends Application {
 		settings = new Settings();
 
 		newList();
-
 		showEditListView();
-		System.out.println("After showScoringListView");
 		
 		// During testing
 		scoringList.createFromNameList("resources/NameListTest.txt");
@@ -64,14 +62,13 @@ public class MainApp extends Application {
 
 	/**
 	 * Initializes the root layout
-	 * @param
 	 */
-	public void initRootLayout() {
+	private void initRootLayout() {
 		try {
 			// Load root layout from fxml file.
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("../view/RootLayout.fxml"));
-			rootLayout = (BorderPane) loader.load();
+			rootLayout = loader.load();
 
 			rootController = loader.getController();
 			rootController.setMainApp(this);
@@ -95,20 +92,19 @@ public class MainApp extends Application {
 		try {
 			FXMLLoader loader= new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("../view/EditListView.fxml"));
-			GridPane editListView = (GridPane) loader.load();
+			GridPane editListView = loader.load();
 
 			rootLayout.setCenter(editListView);
 
 			editListController = loader.getController();
-			System.out.println("EditLIstController in mainAPp: " + editListController);
 			editListController.setMainApp(this);
 			editListController.setBucketUploader(bucketUploader);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("After show edit LIst view");
 	}
-	
+
+
 	/**
 	 * Shows the view for adding databases.
 	 */
@@ -116,7 +112,7 @@ public class MainApp extends Application {
 		try {
 			FXMLLoader loader= new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("../view/AddSourcesView.fxml"));
-			GridPane addSourcesView = (GridPane) loader.load();
+			GridPane addSourcesView = loader.load();
 
 			rootLayout.setCenter(addSourcesView);
 
@@ -126,7 +122,7 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Shows the view for settings.
 	 */
@@ -134,13 +130,12 @@ public class MainApp extends Application {
 		try {
 			FXMLLoader loader= new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("../view/SettingsView.fxml"));
-			GridPane settingsView = (GridPane) loader.load();
+			GridPane settingsView = loader.load();
 
 			rootLayout.setCenter(settingsView);
 
 			settingsController = loader.getController();
 			settingsController.setMainApp(this);
-			System.out.println("Setting settings in showSettingsView: " + settings);
 			settingsController.setSettings(settings);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -188,14 +183,9 @@ public class MainApp extends Application {
 	
 	public File chooseAndGetFile() {
 		FileChooser fileChooser = new FileChooser();
-		File file = fileChooser.showOpenDialog(primaryStage);
-		return file;
+		return fileChooser.showOpenDialog(primaryStage);
 	}
-	
-	public void setNumCandidates(int numCandidates) {
-		scoringList.setMaxLength(numCandidates);	
-	}
-	
+
 	public void updateAmazonBucketUploader() {
 		bucketUploader.setBucketName(settings.getBucketName());
 		bucketUploader.setFolderName(settings.getFolderName());

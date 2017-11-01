@@ -24,10 +24,6 @@ public class Person {
 		return name.get();
 	}
 	
-	public SimpleStringProperty getImageURLProperty() {
-		return imageURL;
-	}
-	
 	public String getImageURL() {
 		return imageURL.get();
 	}
@@ -40,7 +36,6 @@ public class Person {
 		this.imageURL = new SimpleStringProperty(imageURL); 
 	}
 
-	// TODO: validate name
 	protected String validateName(String name) {
 		Pattern pattern = Pattern.compile("^[A-ZÆØÅa-zæøå. \\-]++$");
 		String errorMessage = "";
@@ -54,10 +49,4 @@ public class Person {
 
 		return errorMessage;
 	}
-	
-	// TODO: validate imageURL
-	
-
-	
-
 }

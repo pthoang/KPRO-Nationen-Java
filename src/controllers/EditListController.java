@@ -44,7 +44,10 @@ public class EditListController {
 		scoringListViewController.setScoringList(scoringList);
 
 		candidateViewController.setParentController(this);
+	}
 
+	public MainApp getMainApp() {
+		return mainApp;
 	}
 	
 	@FXML

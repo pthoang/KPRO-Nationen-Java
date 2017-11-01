@@ -9,13 +9,7 @@ import model.Settings;
 public class SettingsController {
 
 	@FXML
-	private Button saveButton;
-	@FXML
-	private Button cancelButton;
-	
-	@FXML
 	private TextField numCandidatesField;
-	
 	@FXML
 	private TextField bucketAccessKeyField;
 	@FXML
@@ -34,7 +28,6 @@ public class SettingsController {
 	
 	public void setSettings(Settings settings) {
 		this.settings = settings;
-		
 		setDefaultSettings();
 	}
 	

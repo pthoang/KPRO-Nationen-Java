@@ -24,7 +24,7 @@ public class RootController {
 
 	@FXML
 	private void showLoadList() {
-		File file = mainApp.choseFileAndGetFile();
+		File file = mainApp.chooseAndGetFile();
 		String filePath = file.getAbsolutePath();
 
 		ScoringList scoringList = mainApp.getScoringList();

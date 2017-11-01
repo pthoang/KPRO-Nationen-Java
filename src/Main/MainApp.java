@@ -5,13 +5,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
-import controllers.AddSourcesController;
-import controllers.RootController;
-import controllers.ScoringListController;
-import controllers.SettingsController;
+import controllers.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -27,15 +23,14 @@ public class MainApp extends Application {
 	private BorderPane rootLayout;
 
 	private RootController rootController;
-	private ScoringListController scoringListController;
+	private EditListController editListController;
 	private AddSourcesController addSourcesController;
 	private SettingsController settingsController;
 
+	private AmazonBucketUploader bucketUploader;
 	private ScoringList scoringList;
 	private Settings settings;
 
-	private AmazonBucketUploader bucketUploader;
-	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -50,7 +45,8 @@ public class MainApp extends Application {
 
 		newList();
 
-		showScoringListView();
+		showEditListView();
+		System.out.println("After showScoringListView");
 		
 		// During testing
 		scoringList.createFromNameList("resources/NameListTest.txt");
@@ -63,7 +59,7 @@ public class MainApp extends Application {
 				settings.getBucketSecretKey()
 				);
 		
-		scoringListController.setBucketUploader(bucketUploader);
+		editListController.setBucketUploader(bucketUploader);
 	}
 
 	/**
@@ -95,20 +91,22 @@ public class MainApp extends Application {
 	/**
 	 * Shows the view for the final list.
 	 */
-	public void showScoringListView() {
+	public void showEditListView() {
 		try {
 			FXMLLoader loader= new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("../view/ScoringListView.fxml"));
-			GridPane scoringListView = (GridPane) loader.load();
+			loader.setLocation(MainApp.class.getResource("../view/EditListView.fxml"));
+			GridPane editListView = (GridPane) loader.load();
 
-			rootLayout.setCenter(scoringListView);
+			rootLayout.setCenter(editListView);
 
-			scoringListController = loader.getController();
-			scoringListController.setMainApp(this);
-			scoringListController.setBucketUploader(bucketUploader);
+			editListController = loader.getController();
+			System.out.println("EditLIstController in mainAPp: " + editListController);
+			editListController.setMainApp(this);
+			editListController.setBucketUploader(bucketUploader);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println("After show edit LIst view");
 	}
 	
 	/**
@@ -177,7 +175,7 @@ public class MainApp extends Application {
 	 * Updates the scoringListView (refresh the table)
 	 */
 	public void updateView() {
-		scoringListController.fillTable();
+		editListController.fillTable();
 	}
 
 	/**
@@ -188,7 +186,7 @@ public class MainApp extends Application {
 		scoringList = new ScoringList(year);
 	}
 	
-	public File choseFileAndGetFile() {
+	public File chooseAndGetFile() {
 		FileChooser fileChooser = new FileChooser();
 		File file = fileChooser.showOpenDialog(primaryStage);
 		return file;

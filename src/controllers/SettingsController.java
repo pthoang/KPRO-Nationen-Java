@@ -48,12 +48,12 @@ public class SettingsController {
 		settings.setFolderName(folderNameField.getText());
 		
 		mainApp.updateAmazonBucketUploader();
-		mainApp.showScoringListView();
+		mainApp.showEditListView();
 	}
 	
 	@FXML
 	private void handleCancel() {
-		mainApp.showScoringListView();
+		mainApp.showEditListView();
 	}
 	
 	private void setDefaultSettings() {

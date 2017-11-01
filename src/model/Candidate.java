@@ -11,10 +11,7 @@ import javafx.collections.ObservableList;
 
 public class Candidate extends Person {
 
-
-	private SimpleStringProperty name;
 	private SimpleStringProperty municipality = new SimpleStringProperty();
-	private SimpleStringProperty imageURL = new SimpleStringProperty("resources/standard.png");
 	private SimpleStringProperty description = new SimpleStringProperty();
 	private SimpleIntegerProperty rank;
 	private SimpleIntegerProperty previousYearRank;
@@ -41,7 +38,7 @@ public class Candidate extends Person {
 	 */
 	public Candidate(String name, int rank, int previousYearRank) {
 		super(name, null);
-		this.name = new SimpleStringProperty(name);
+		//this.name = new SimpleStringProperty(name);
 		this.rank = new SimpleIntegerProperty(rank);
 		this.previousYearRank = new SimpleIntegerProperty(rank);
 		this.status = "";
@@ -57,47 +54,16 @@ public class Candidate extends Person {
 	 */
 	public Candidate(String name, String imageURL, String despcription, int rank) {
 		super(name, imageURL);
-		this.name = new SimpleStringProperty(name);
+		//this.name = new SimpleStringProperty(name);
 		this.rank = new SimpleIntegerProperty(rank);
 		this.previousYearRank = new SimpleIntegerProperty(rank);
 
-		this.imageURL = new SimpleStringProperty(imageURL);
+		//this.imageURL = new SimpleStringProperty(imageURL);
 		this.description.setValue(despcription);
 
 	}
 
-	/**
-	 * Get name as string
-	 *
-	 * @return String The name
-	 */
-	public String getName() {
-		return name.get();
-	}
 
-	/**
-	 * Get nameProperty
-	 *
-	 * @return SimpleStringProperty The name
-	 */
-	public SimpleStringProperty nameProperty() {
-		return name;
-	}
-
-	/**
-	 * Set name
-	 *
-	 * @param name
-	 */
-	public void setName(SimpleStringProperty name) {
-		this.name = name;
-	}
-
-	/**
-	 * Get municipality as string
-	 *
-	 * @return String The municipality
-	 */
 	public String getMunicipality() {
 		return municipality.get();
 	}
@@ -118,33 +84,6 @@ public class Candidate extends Person {
 	 */
 	public void setMunicipality(SimpleStringProperty municipality) {
 		this.municipality = municipality;
-	}
-
-	/**
-	 * Get imageName as String
-	 *
-	 * @return String The imageName
-	 */
-	public String getImageURL() {
-		return imageURL.get();
-	}
-
-	/**
-	 * Set imageName
-	 *
-	 * @return SimpleStringProperty The imageName
-	 */
-	public SimpleStringProperty imageNavnProperty() {
-		return imageURL;
-	}
-
-	/**
-	 * Set imageName
-	 *
-	 */
-	public void setImageURLProperty(SimpleStringProperty imageURL) {
-
-		this.imageURL = imageURL;
 	}
 
 	/**
@@ -303,5 +242,55 @@ public class Candidate extends Person {
 	public String getGender() {
 		return gender;
 	}
-	
+
+	// Validation
+	public String validate(String name, String rank, String previousYearRank, String gender, String description) {
+		String errorMessage = "";
+		errorMessage += super.validateName(name);
+
+		errorMessage += validateRank(rank);
+		errorMessage += validatePreviousYearRank(previousYearRank);
+		errorMessage += validateGender(gender);
+		errorMessage += validateDescription(description);
+
+		return errorMessage;
+	}
+
+	private String validateRank(String rankString) {
+		try {
+			int rank = Integer.parseInt(rankString);
+			if (rank < 1 || rank > 100) {
+				return "\n Plasseringen må være mellom 1 og 100";
+			}
+		} catch (NumberFormatException e) {
+			return "\n Plasseringen er ikke et tall";
+		}
+		return "";
+	}
+
+	private String validatePreviousYearRank(String rankString) {
+		try {
+			int rank = Integer.parseInt(rankString);
+			if (rank < 1 || rank > 100) {
+				return "\n FJorårets plasseringen må være mellom 1 og 100";
+			}
+		} catch (NumberFormatException e) {
+			return "\n Fjorårets plasseringen er ikke et tall";
+		}
+		return "";
+	}
+
+	private String validateGender(String gender) {
+		if (gender == "") {
+			return "\n Du må velge et kjønn. Velg 'Annet' om kandidaten ikke er et menneske.";
+		}
+		return "";
+	}
+
+	private String validateDescription(String description) {
+		if (description.length() <= 5) {
+			return "\n Beskrivelse mangler:";
+		}
+		return "";
+	}
 }

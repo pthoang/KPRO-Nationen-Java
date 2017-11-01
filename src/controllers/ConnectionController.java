@@ -4,7 +4,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.image.ImageView;
 
 import javax.imageio.ImageIO;
@@ -30,7 +29,7 @@ public class ConnectionController {
 	private Connection connection;
 	private Candidate candidate;
 	private MainApp mainApp;
-	private ScoringListController parent;
+	private CandidateController parent;
 
 	private Image newImage;
 	private String imageURL = "resources/standard.png";
@@ -39,8 +38,8 @@ public class ConnectionController {
 		this.mainApp = mainApp;
 	}
 
-	public void setParent(ScoringListController scoringListController) {
-		this.parent = scoringListController;
+	public void setParent(CandidateController candidateController) {
+		this.parent = candidateController;
 	}
 
 	public void setCandidate(Candidate candidate) {
@@ -79,7 +78,7 @@ public class ConnectionController {
 
 		imageURL = "images/" + imageName + ".png";
 
-		File file = mainApp.choseFileAndGetFile();
+		File file = mainApp.chooseAndGetFile();
 		try {
 			BufferedImage bufferedImage = ImageIO.read(file);
 			newImage = SwingFXUtils.toFXImage(bufferedImage, null);

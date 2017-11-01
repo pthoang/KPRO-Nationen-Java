@@ -569,7 +569,6 @@ public class ScoringListController {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-
 	}
 
 	private void setImageField(File file) {
@@ -600,84 +599,10 @@ public class ScoringListController {
 	@FXML
 	public void handleAddConnection() {
 		//connectionDialog(null);
-		connectionStage(null);
+		connectionDialog(null);
 	}
-	
+
 	private void connectionDialog(Connection connection) {
-		saveCandidateButton.setDisable(false);
-		// Create the custom dialog.
-		Dialog<Pair<Person, String>> dialog = new Dialog<>();
-		dialog.setTitle("Nettverks kobling");
-		dialog.setHeaderText("Legg inn navn og en kort beskrivelse for koblingen, samt link til bilde");
-
-		// Set the button types.
-		ButtonType addButtonType = new ButtonType("Legg til", ButtonData.OK_DONE);
-		ButtonType cancelButtonType = new ButtonType("Avslutt", ButtonData.CANCEL_CLOSE);
-		ButtonType deleteButtonType = new ButtonType("Slett", ButtonData.NO);
-		
-		
-		dialog.getDialogPane().getButtonTypes().addAll(addButtonType, cancelButtonType, deleteButtonType);
-
-		System.out.println(dialog.getDialogPane().lookupButton(ButtonType.NO));
-		final Button delete = (Button) dialog.getDialogPane().lookupButton(ButtonType.NO);
-		delete.addEventFilter(ActionEvent.ACTION, event ->
-		    candidate.deleteConnection(connection)
-		);
-		
-		//ButtonType addImageButtonType = new ButtonType("Legg til bilde", ButtonData.OK_DONE);
-		
-		// Create the username and password labels and fields.
-		GridPane grid = new GridPane();
-		grid.setHgap(50);
-		grid.setVgap(20);
-		
-		TextField name = new TextField();
-		TextField description = new TextField();
-		TextField imageURL = new TextField();
-		
-		if (connection == null) {
-			name.setPromptText("");
-			description.setPromptText("");
-			imageURL.setPromptText("");
-			
-			// Request focus on the name field by default.
-			Platform.runLater(() -> name.requestFocus());
-			
-		} else {
-			name.setText(connection.getName());
-			description.setText(connection.getDescription());
-			// TODO
-			imageURL.setText(connection.getImageURL());
-		}
-		
-		grid.add(new Label("Navn:"), 0, 0);
-		grid.add(name, 1, 0);
-		grid.add(new Label("Beskrivelse:"), 0, 1);
-		grid.add(description, 1, 1);
-		grid.add(new Label("Link til bilde:"), 0, 2);
-		grid.add(imageURL, 1, 2);
-
-		Node addButton = dialog.getDialogPane().lookupButton(addButtonType);
-		addButton.setDisable(true);
-
-		dialog.getDialogPane().setContent(grid);
-
-		dialog.showAndWait();
-
-		if (connection == null) {
-			Person person = new Person(name.getText(), imageURL.getText());
-		
-			candidate.addConnection(person, description.getText());
-		} else {
-			connection.setName(name.getText());
-			connection.setDescription(description.getText());
-			connection.setImageURL(imageURL.getText());
-		}
-
-		updateNetworkList();
-	}
-	
-	private void connectionStage(Connection connection) {
 		final Stage dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.initOwner(mainApp.getStage());
@@ -694,6 +619,8 @@ public class ScoringListController {
 		ConnectionController connectionController = loader.getController();
 		connectionController.setMainApp(mainApp);
 		connectionController.setParent(this);
+		connectionController.setCandidate(candidate);
+		connectionController.setConnection(connection);
 
         Scene dialogScene = new Scene(connectionView);
 	    dialog.setScene(dialogScene);
@@ -702,6 +629,7 @@ public class ScoringListController {
 	}
 
 	public void closeDialog() {
+		updateNetworkList();
 		connectionDialog.close();
 	}
 	

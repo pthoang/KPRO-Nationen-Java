@@ -38,7 +38,11 @@ public class Connection {
 	public String getDescription() {
 		return description.get();
 	}
-	
+
+	public Person getPerson() {
+		return person;
+	}
+
 	public String getImageURL() {
 		return person.getImageURL();
 	}

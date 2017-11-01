@@ -1,9 +1,10 @@
 package controllers;
 
-import java.awt.TextField;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
+import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.image.ImageView;
 
 import javax.imageio.ImageIO;
@@ -11,10 +12,11 @@ import javax.imageio.ImageIO;
 import Main.MainApp;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import model.Candidate;
 import model.Connection;
-import model.ScoringList;
+import model.Person;
 
 public class ConnectionController {
 	
@@ -28,60 +30,106 @@ public class ConnectionController {
 	private Connection connection;
 	private Candidate candidate;
 	private MainApp mainApp;
-
 	private ScoringListController parent;
-	
+
+	private Image newImage;
+	private String imageURL = "resources/standard.png";
 
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 	}
+
 	public void setParent(ScoringListController scoringListController) {
 		this.parent = scoringListController;
-	}
-
-	@FXML
-	public void handleDelete() {
-		System.out.println("Deleting conneciton");
-		candidate.deleteConnection(connection);
-	}
-	
-	@FXML
-	public void handleSave() {
-		System.out.println("Saving connection");
-		connection.setName(nameField.getText());
-		connection.setDescription(descriptionField.getText());
-		//connection.setImageURL(imageURLField.getText());
-	}
-	
-	@FXML
-	public void handleAddImage() {
-		System.out.println("Adding image to connection");
-		File file = mainApp.choseFileAndGetFile();
-		try {
-			BufferedImage bufferedImage = ImageIO.read(file);
-			Image newImage = SwingFXUtils.toFXImage(bufferedImage, null);
-			//imageView.setImage(newImage);
-		} catch (IOException ex) {
-			System.out.println("Error when loading image: " + ex);
-		}
-	}
-	
-	@FXML
-	public void handleCancel() {
-		parent.closeDialog();
-	}
-	
-	public void setConnection(Connection connection) {
-		this.connection = connection;
 	}
 
 	public void setCandidate(Candidate candidate) {
 		this.candidate = candidate;
 	}
 
+	@FXML
+	public void handleDelete() {
+		System.out.println("Deleting conneciton");
+		candidate.deleteConnection(connection);
+		parent.closeDialog();
+	}
+
+	@FXML
+	public void handleSave() {
+		System.out.println("Saving connection");
+		if (connection == null) {
+			// TODO: imagePath
+			Person person = new Person(nameField.getText(), imageURL);
+
+			candidate.addConnection(person, descriptionField.getText());
+		} else {
+			connection.setName(nameField.getText());
+			connection.setDescription(descriptionField.getText());
+			connection.setImageURL(imageURL);
+		}
+		saveImageToFile();
+		parent.closeDialog();
+	}
+
+	@FXML
+	public void handleAddImage() {
+		System.out.println("Adding image to connection");
+		String imageName = nameField.getText();
+		imageName = imageName.replace(" ",  "");
+
+		imageURL = "images/" + imageName + ".png";
+
+		File file = mainApp.choseFileAndGetFile();
+		try {
+			BufferedImage bufferedImage = ImageIO.read(file);
+			newImage = SwingFXUtils.toFXImage(bufferedImage, null);
+			imageView.setImage(newImage);
+		} catch (IOException ex) {
+			System.out.println("Error when loading image: " + ex);
+		}
+	}
+
+	private void saveImageToFile() {
+		// TODO: set as ID instead
+		String imageName = nameField.getText();
+		imageName = imageName.replace(" ",  "");
+
+		imageURL = "images/" + imageName + ".png";
+		File outputFile = new File(imageURL);
+		BufferedImage bImage = SwingFXUtils.fromFXImage(newImage,  null);
+		try {
+			ImageIO.write(bImage,  "png", outputFile);
+
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@FXML
+	public void handleCancel() {
+		parent.closeDialog();
+	}
+
+	public void setConnection(Connection connection) {
+		this.connection = connection;
+		if (connection != null) {
+			setFields();
+		}
+	}
+
 	private void setFields() {
 		nameField.setText(connection.getName());
 		descriptionField.setText(connection.getDescription());
+		System.out.println("Image url when setting: " + connection.getPerson().getImageURL());
+		File file = new File(connection.getPerson().getImageURL());
+		try {
+			BufferedImage bufferedImage = ImageIO.read(file);
+			Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+			imageView.setImage(image);
+		} catch (IOException ex) {
+			System.out.println("Error when loading image: " + ex);
+		}
+
 	}
 	
 	

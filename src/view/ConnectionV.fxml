@@ -22,8 +22,8 @@
         <Label text="Beskrivelse" GridPane.rowIndex="3" />
         <Label text="Navn" GridPane.rowIndex="1" />
         <Label text="Bilde" GridPane.rowIndex="2" />
-        <TextField fx:id="conNameField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-        <TextField fx:id="conDescriptionField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <TextField fx:id="descriptionField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
         <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
     </children>
    <columnConstraints>

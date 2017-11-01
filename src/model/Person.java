@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 public class Person {
 	
 	private SimpleStringProperty name;
-	private SimpleStringProperty imageURL;
+	private SimpleStringProperty imageURL = new SimpleStringProperty("resources/standard.png");
 	
 	public Person(String name, String imageURL) {
 		this.name = new SimpleStringProperty(name);
@@ -36,6 +36,7 @@ public class Person {
 	public void setImageURL(String imageURL) {
 		this.imageURL = new SimpleStringProperty(imageURL); 
 	}
+
 	// TODO: validate name
 	
 	// TODO: validate imageURL

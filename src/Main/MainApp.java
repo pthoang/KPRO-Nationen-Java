@@ -67,7 +67,7 @@ public class MainApp extends Application {
 		try {
 			// Load root layout from fxml file.
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("../view/RootLayout.fxml"));
+			loader.setLocation(MainApp.class.getResource("../view/RootLayout2.fxml"));
 			rootLayout = loader.load();
 
 			rootController = loader.getController();
@@ -129,7 +129,7 @@ public class MainApp extends Application {
 	public void showSettingsView() {
 		try {
 			FXMLLoader loader= new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("../view/SettingsView.fxml"));
+			loader.setLocation(MainApp.class.getResource("../view/SettingsView2.fxml"));
 			GridPane settingsView = loader.load();
 
 			rootLayout.setCenter(settingsView);

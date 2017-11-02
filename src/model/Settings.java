@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 public class Settings {
 	
 	private int numCandidates = 100;
+	private int numConnections = 10;
 	private String bucketAccessKey;
 	private String bucketSecretKey;
 	private String bucketName = "tunmedia";
@@ -26,6 +27,14 @@ public class Settings {
 	
 	public void setNumCandidates(int numCandidates) {
 		this.numCandidates = numCandidates;
+	}
+
+	public int getNumConnections() {
+		return numConnections;
+	}
+
+	public void setNumConnections(int numConnections) {
+		this.numConnections = numConnections;
 	}
 	
 	public String getBucketAccessKey() {

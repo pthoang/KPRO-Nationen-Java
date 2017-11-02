@@ -12,12 +12,10 @@ public class RootController {
 
 	private MainApp mainApp;
 
-	public RootController() {
-		super();
-	}
 
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
+		System.out.println("Setting mainApp in rootController");
 	}	
 
 	@FXML

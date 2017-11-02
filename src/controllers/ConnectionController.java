@@ -91,6 +91,7 @@ public class ConnectionController {
 
 	@FXML
 	public void handleChooseAsNetwork() {
+		handleSave();
 		parent.chooseConnection();
 	}
 

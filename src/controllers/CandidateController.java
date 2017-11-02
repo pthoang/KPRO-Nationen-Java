@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import model.AmazonBucketUploader;
 import model.Candidate;
 import model.Connection;
@@ -92,10 +93,7 @@ public class CandidateController {
 
         networkTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> connectionDialog(newValue));
-        // Can select multiple
-        networkTable.getSelectionModel().setSelectionMode(
-                SelectionMode.MULTIPLE
-        );
+
         /**
          * Adding listeners to the textfields for feedback handling
          */
@@ -485,12 +483,97 @@ public class CandidateController {
         reorderConnectionList(selectedConnection);
 
         // Mark them
+        markSelectedConnections();
     }
 
     private void reorderConnectionList(Connection selectedConnection) {
         candidate.getConnections().remove(selectedConnection);
         candidate.getConnections().add(0, selectedConnection);
         updateNetworkList();
+    }
+
+    private void markSelectedConnections() {
+        String color = "-fx-background-color: rgb(53,109,48);";
+        networkTable.setRowFactory(new Callback<TableView<Connection>, TableRow<Connection>>() {
+            @Override
+            public TableRow<Connection> call(TableView<Connection> tableView) {
+                final TableRow<Connection> row = new TableRow<Connection>() {
+                    @Override
+                    protected void updateItem(Connection connection, boolean empty){
+                        super.updateItem(connection, empty);
+                        System.out.println("Index: " + getIndex());
+                        int maxConnections = mainApp.getSettings().getNumConnections();
+                        int actualConnections = candidate.getConnections().size();
+                        int numConnToColor = Math.min(maxConnections, actualConnections);
+                        System.out.println("Min value: " + numConnToColor);
+                        if (getIndex() < numConnToColor) {
+                            setStyle(color);
+                        } else {
+                            setStyle("");
+                        }
+                    }
+                };
+                /*
+                highlightRows.addListener(new ListChangeListener<Integer>() {
+                    @Override
+                    public void onChanged(Change<? extends Integer> change) {
+                        if (highlightRows.contains(row.getIndex())) {
+                            if (! row.getStyleClass().contains("highlightedRow")) {
+                                row.getStyleClass().add("highlightedRow");
+                            }
+                        } else {
+                            row.getStyleClass().removeAll(Collections.singleton("highlightedRow"));
+                        }
+                    }
+                });
+                */
+                return row;
+            }
+        });
+
+
+    }
+
+    public static class CellFactory implements Callback<TableColumn<Candidate, String>, TableCell<Candidate, String>> {
+
+        private int editingIndex = 0 ;
+
+        @Override
+        public TableCell<Candidate, String> call(TableColumn<Candidate, String> param) {
+            return new TableCell<Candidate, String>() {
+
+                @Override
+                protected void updateItem(String item, boolean empty)
+                {
+                    super.updateItem(item, empty);
+                    setText(item);
+                    int numConnections = 10;
+
+                    if(this.getIndex() >= 0 && this.getIndex() <= numConnections){
+                        getTableRow().setStyle("-fx-background-color: rgb(53,109,48);");
+                    }
+                }
+
+                @Override
+                public void startEdit() {
+                    editingIndex = getIndex();
+                    super.startEdit();
+                }
+
+                @Override
+                public void commitEdit(String newValue) {
+                    editingIndex = -1 ;
+                    super.commitEdit(newValue);
+                }
+
+                @Override
+                public void cancelEdit() {
+                    editingIndex = -1 ;
+                    super.cancelEdit();
+                }
+
+            };
+        }
     }
 
 

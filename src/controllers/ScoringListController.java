@@ -105,7 +105,7 @@ public class ScoringListController {
 
                     if(this.getIndex() > -1 && this.getIndex()<55){
 
-                        String status = candidates.get(this.getIndex()).getStatus();
+                        String status =  candidates.get(this.getIndex()).getStatus();
 
                         if(status.equals("finished")){
                             getTableRow().setStyle("-fx-background-color: rgb(53,109,48);");

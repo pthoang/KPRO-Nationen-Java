@@ -200,4 +200,8 @@ public class MainApp extends Application {
 		bucketUploader.setKeys(settings.getBucketAccessKey(), settings.getBucketSecretKey());
 	}
 
+	public Settings getSettings() {
+		return settings;
+	}
+
 }

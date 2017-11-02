@@ -11,12 +11,13 @@
 
 <GridPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ConnectionController">
     <children>
-        <ToolBar prefHeight="322.0" prefWidth="379.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+        <ToolBar prefHeight="49.0" prefWidth="418.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
             <items>
                 <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleSave" text="Lagre" />
                 <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancel" text="Avbryt" />
                 <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDelete" text="Slett" />
                 <Button fx:id="addImageButton" mnemonicParsing="false" onAction="#handleAddImage" text="Legg til bilde" />
+            <Button mnemonicParsing="false" onAction="#handleChooseAsNetwork" text="Velg som nettverk" />
             </items>
         </ToolBar>
         <Label text="Beskrivelse" GridPane.rowIndex="3" />
@@ -27,8 +28,8 @@
         <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
     </children>
    <columnConstraints>
-      <ColumnConstraints maxWidth="235.0" minWidth="81.0" prefWidth="213.0" />
-      <ColumnConstraints maxWidth="511.0" minWidth="357.0" prefWidth="379.0" />
+      <ColumnConstraints maxWidth="235.0" minWidth="81.0" prefWidth="127.0" />
+      <ColumnConstraints maxWidth="511.0" minWidth="357.0" prefWidth="465.0" />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints />

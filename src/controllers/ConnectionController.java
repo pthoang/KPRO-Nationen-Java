@@ -34,6 +34,9 @@ public class ConnectionController {
 	private Image newImage;
 	private String imageURL = "resources/standard.png";
 
+	public ConnectionController() {
+	}
+
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 	}
@@ -86,6 +89,11 @@ public class ConnectionController {
 		}
 	}
 
+	@FXML
+	public void handleChooseAsNetwork() {
+		parent.chooseConnection();
+	}
+
 	private void saveImageToFile() {
 		// TODO: set as ID instead
 		String imageName = nameField.getText();
@@ -111,6 +119,17 @@ public class ConnectionController {
 		this.connection = connection;
 		if (connection != null) {
 			setFields();
+		}
+	}
+
+	public void setImageField() {
+		File file = new File(imageURL);
+		try {
+			BufferedImage bufferedImage = ImageIO.read(file);
+			newImage = SwingFXUtils.toFXImage(bufferedImage, null);
+			imageView.setImage(newImage);
+		} catch (IOException ex) {
+			System.out.println("Error when loading image: " + ex);
 		}
 	}
 

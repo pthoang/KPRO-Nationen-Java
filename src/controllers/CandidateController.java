@@ -438,6 +438,7 @@ public class CandidateController {
 
     // Connection dialog
     private void connectionDialog(Connection connection) {
+        System.out.println("Open connection dialog");
         final Stage dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.initOwner(parent.getMainApp().getStage());
@@ -457,6 +458,7 @@ public class CandidateController {
         connectionController.setCandidate(candidate);
         System.out.println("Candidate when setting in connectionController: " + candidate);
         connectionController.setConnection(connection);
+        connectionController.setImageField();
 
         Scene dialogScene = new Scene(connectionView);
         dialog.setScene(dialogScene);
@@ -474,33 +476,21 @@ public class CandidateController {
         networkTable.refresh();
     }
 
-    @FXML
-    public void handleChooseConnections() {
+    public void chooseConnection() {
 
-        // Get the selected once
-        ObservableList<Connection> selectedConnections = FXCollections.observableArrayList();
-        for (Connection connection : networkTable.getSelectionModel().getSelectedItems()) {
-            selectedConnections.add(connection);
-        }
+        // Get the selected one
+        Connection selectedConnection = networkTable.getSelectionModel().getSelectedItem();
 
         // Move them to the top
-        reorderConnectionList(selectedConnections);
+        reorderConnectionList(selectedConnection);
 
         // Mark them
     }
 
-    private void reorderConnectionList(ObservableList<Connection> selectedConnections) {
-        ObservableList<Connection> newList = FXCollections.observableArrayList();
-
-        ObservableList<Connection> oldList = candidate.getConnections();
-
-        for (Connection connection : selectedConnections) {
-            newList.add(connection);
-            oldList.remove(connection);
-        }
-        newList.addAll(oldList);
-
-        networkTable.setItems(newList);
+    private void reorderConnectionList(Connection selectedConnection) {
+        candidate.getConnections().remove(selectedConnection);
+        candidate.getConnections().add(0, selectedConnection);
+        updateNetworkList();
     }
 
 

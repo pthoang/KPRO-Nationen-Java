@@ -67,6 +67,8 @@ public class Candidate extends Person {
 		this.imageURL = new SimpleStringProperty(imageURL);
 		this.description.setValue(despcription);
 
+		this.rawData = new JsonObject();
+
 	}
 
 	/**
@@ -291,8 +293,8 @@ public class Candidate extends Person {
 
 	public boolean getisPerson(){ return this.isPerson; }
 
-	public void setRawData(JsonObject rawData) {
-		this.rawData = rawData;
+	public void addRawData(String field, String data) {
+		this.rawData.addProperty(field, data);
 	}
 
 }

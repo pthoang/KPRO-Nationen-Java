@@ -8,6 +8,7 @@ import model.DataSourceFile;
 import javax.sql.DataSource;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 /*
  * This class is just used to test the input of files for the datasources. It can also be considered an example file.
@@ -41,8 +42,8 @@ public class MockRegister implements DataSourceInterface {
 
     //returns the data that we want
     @Override
-    public void getData(Candidate candidate) {
-        System.out.println("Getting data about " + candidate);
+    public void getData(List<Candidate> candidates) {
+        System.out.println("Getting data about " + candidates);
 
     }
 

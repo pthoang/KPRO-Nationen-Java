@@ -102,76 +102,7 @@ public class AddSourcesController {
 
 
 	//Leaving this here for now, not sure where to put this
-	public void mapCandidateExternalData(List<Candidate> candidates, HashMap<String, String> paths) throws Exception {
-		HashMap<String, ArrayList<String>> shareholderData =
-				extractShareholderData(candidates, new FileReader(paths.get("shareholderRegister")));
-		Map<String, String> politicalData = extractPoliticInformation(candidates);
 
-		for (Candidate candidate :
-				candidates) {
-			String[] candidateNameSplit = candidate.getName().split(" ");
-			String candidateName= candidateNameSplit[0] + " " + candidateNameSplit[candidateNameSplit.length-1];
-		}
-
-
-
-	}
-
-
-	private HashMap<String, ArrayList<String>>
-	extractShareholderData(List<Candidate> candidates, FileReader fileReader){
-
-		HashMap<String, ArrayList<String>>candidates_shareholderInformation = new HashMap<>();
-
-
-		for (Candidate candidate:
-				candidates) {
-			String[] candidateNameSplit = candidate.getName().split(" ");
-			String hashKey = candidateNameSplit[0] + " " + candidateNameSplit[candidateNameSplit.length-1];
-			candidates_shareholderInformation.put(hashKey.toLowerCase(), new ArrayList<>());
-		}
-
-
-		try (BufferedReader br = new BufferedReader(fileReader)) {
-
-			String csvSplit = ";";
-			String[] fields = br.readLine().replaceAll("[^a-zA-Z0-9;_]+", "").split(csvSplit);
-			List<String> fieldsList = Arrays.asList(fields);
-
-			int orgNoIndex = fieldsList.indexOf("selskap_orgnr");
-			int orgNameIndex = fieldsList.indexOf("selskap_navn");
-			int totalStocksIndex = fieldsList.indexOf("aksjer_totalt_selskapet");
-			int stocksCandidateIndex = fieldsList.indexOf("aksjer_antall");
-			int shareholderNameIndex = fieldsList.indexOf("aksjonr_navn");
-
-			Gson gson = new Gson();
-
-			String line;
-			while((line = br.readLine()) != null) {
-
-				String[] information = line.split(csvSplit);
-				String[] shareholderNameSplit = information[shareholderNameIndex].split(" ");
-				String shareholderName = (shareholderNameSplit[0] + " " +
-						shareholderNameSplit[shareholderNameSplit.length-1]).toLowerCase();
-
-				if(candidates_shareholderInformation.containsKey(shareholderName)) {
-					ShareholderInformation shareholderInformation =
-							new ShareholderInformation(information[orgNoIndex], information[orgNameIndex],
-									new BigInteger(information[totalStocksIndex]),
-									Integer.parseInt(information[stocksCandidateIndex]));
-					String json = gson.toJson(shareholderInformation);
-					candidates_shareholderInformation.get(shareholderName).add(json);
-				}
-			}
-
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-
-		return candidates_shareholderInformation;
-	}
 
 	private Map<String, String>
 	extractPoliticInformation(List<Candidate> candidates) throws Exception {
@@ -306,8 +237,6 @@ public class AddSourcesController {
 		System.out.println(cont.extractPoliticInformation(candidates));
 
 
-		System.out.println(cont.extractShareholderData(candidates,
-				new FileReader("C:/Users/vicen/Downloads/AR2015.csv")));
 
 	}
 

@@ -59,6 +59,7 @@
         <Label maxWidth="200" text="Jordbruk" GridPane.rowIndex="8" />
         <ChoiceBox fx:id="genderChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
         <Label text="Kjønn" GridPane.rowIndex="5" />
+      <Button mnemonicParsing="false" onAction="#handleChooseConnections" text="Velg koblinger" GridPane.columnIndex="2" GridPane.rowIndex="9" />
 
 
     </children>

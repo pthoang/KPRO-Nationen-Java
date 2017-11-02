@@ -4,6 +4,7 @@ import Main.MainApp;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -91,6 +92,10 @@ public class CandidateController {
 
         networkTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> connectionDialog(newValue));
+        // Can select multiple
+        networkTable.getSelectionModel().setSelectionMode(
+                SelectionMode.MULTIPLE
+        );
         /**
          * Adding listeners to the textfields for feedback handling
          */
@@ -469,8 +474,34 @@ public class CandidateController {
         networkTable.refresh();
     }
 
+    @FXML
+    public void handleChooseConnections() {
 
+        // Get the selected once
+        ObservableList<Connection> selectedConnections = FXCollections.observableArrayList();
+        for (Connection connection : networkTable.getSelectionModel().getSelectedItems()) {
+            selectedConnections.add(connection);
+        }
 
+        // Move them to the top
+        reorderConnectionList(selectedConnections);
+
+        // Mark them
+    }
+
+    private void reorderConnectionList(ObservableList<Connection> selectedConnections) {
+        ObservableList<Connection> newList = FXCollections.observableArrayList();
+
+        ObservableList<Connection> oldList = candidate.getConnections();
+
+        for (Connection connection : selectedConnections) {
+            newList.add(connection);
+            oldList.remove(connection);
+        }
+        newList.addAll(oldList);
+
+        networkTable.setItems(newList);
+    }
 
 
     // TODO: is this in use? Switch out with newCandidate?

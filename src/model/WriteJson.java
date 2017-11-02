@@ -1,4 +1,4 @@
-package controllers;
+package model;
 
 import com.google.gson.JsonElement;
 

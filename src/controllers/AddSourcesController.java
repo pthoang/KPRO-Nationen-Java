@@ -1,5 +1,6 @@
 package controllers;
 
+
 import java.awt.*;
 
 import java.io.File;
@@ -21,10 +22,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
+
 import javafx.stage.Stage;
 import model.Candidate;
 import model.ScoringList;
 import model.Organization;
+
 
 public class AddSourcesController {
 
@@ -64,15 +67,12 @@ public class AddSourcesController {
 	 */
 	@FXML
 	private void fileChooser() {
-
-		File file = mainApp.choseFileAndGetFile();
+		File file = mainApp.chooseAndGetFile();
 		System.out.println("Trying to add source");
 	}
 	@FXML
 	private void fileChooser_tilskudd() {
-
 		this.folder = mainApp.choseFolderAndGetFiles();
-
 	}
 
 	public void handleBack() {

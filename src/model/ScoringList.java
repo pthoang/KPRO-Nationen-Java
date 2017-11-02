@@ -9,7 +9,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import com.google.gson.*;
@@ -23,58 +22,25 @@ public class ScoringList {
 
 	private int maxLength = 100;
 
-	/** 
-	 * Create the ScoringList object.
-	 * @param id
-	 * @param year
-	 */
 	public ScoringList(int year) {
 		this.year = new SimpleIntegerProperty(year);
 		candidates = FXCollections.observableArrayList();
 	}
 
-	/**
-	 * Get year
-	 * @return int The year
-	 */
 	public int getYear() {
 		return year.get();
 	}
 
-	/** 
-	 * Get year
-	 * @return SimpleIntegerProperty The year as a property
-	 */
 	public SimpleIntegerProperty yearProperty() {
 		return year;
 	}
 
-	/**
-	 * Add candidate
-	 * @param candidate
-	 */
-	public void addCandidate(Candidate candidate) {
-		candidates.add(candidate);
-	}
-
-	/**
-	 * Get the length of the list with candidates
-	 * @return int The size of the list
-	 */
 	public int getLength() {
 		return candidates.size();
 	}
 
-	/**
-	 * Get if the list is full based on MAX_LENGTH
-	 * @return boolean If the length is MAX_LENGTH
-	 */
 	public boolean isFull() {
 		return getLength() == maxLength;
-	}
-
-	public SimpleStringProperty numberOfCandidatesProperty() {
-		return new SimpleStringProperty(getLength() + "/" + maxLength);
 	}
 
 	public void createFromNameList(String filePath) {
@@ -88,10 +54,13 @@ public class ScoringList {
 	public void createFromPreviousList(String filePath) {
 		try {
 			readJson(filePath);
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void addCandidate(Candidate candidate) {
+		candidates.add(candidate);
 	}
 
 	public ObservableList<Candidate> getCandidates() {
@@ -100,13 +69,6 @@ public class ScoringList {
 
 	public void deleteCandidate(Candidate candidate) {
 		candidates.remove(candidate);
-	}
-
-	// To  help during development
-	public void printCandidates() {
-		for (int i = 0; i < candidates.size(); i++) {
-			System.out.println(candidates.get(i).getName());
-		}
 	}
 
 	private void readNameList(Stream<String> stream) throws IOException {
@@ -119,42 +81,48 @@ public class ScoringList {
 	}
 
 	private void readJson(String filepath) throws IOException {
-		//loads the whole file into memory
+		// Loads the whole file into memory
 		String content = new String(Files.readAllBytes(Paths.get(filepath)));
 
-		//starts the parserto create json objects we can work with
+		// Starts the parser to create json objects we can work with
 		JsonParser parser = new JsonParser();
 		JsonElement data = parser.parse(content);
 
-		//this gets the list of people from the
+		// Gets the list of people from the
 		JsonArray people = (JsonArray)data.getAsJsonObject().get("people");
 
 		int rank = 1;
 
-		//loops trough the list and creates basic information for candidates
+		// Loops trough the list and creates basic information for candidates
 		for (JsonElement jsonCandidate : people) {
-			//System.out.println(jsonCandidate.getAsJsonObject().get("firstName"));
 			String name = jsonCandidate.getAsJsonObject().get("firstName").toString();
-			//System.out.println(jsonCandidate.getAsJsonObject().get("lastYear"));
 
-			//this is just a quickfix. needs error handling when they dont have a value from before
+			// TODO
+			//this is just a quickfix. needs error handling when they don't have a value from before
 			int lastYear = 0; //Integer.parseInt(jsonCandidate.getAsJsonObject().get("lastYear").toString());
 
-			//creates and add the candidate
+			// Creates and add the candidate
 			Candidate newCandidate = new Candidate(name, rank, lastYear);
 			candidates.add(newCandidate);
 
 			rank++;
-			System.out.println(jsonCandidate.getAsJsonObject().get("firstName"));
 		}
-
 	}
 
 	public void saveList(File filepath) {
-		throw new UnsupportedOperationException("not implemented");
+		// TODO
+		// throw new UnsupportedOperationException("not implemented");
 	}
 	
 	public void setMaxLength(int maxLength) {
 		this.maxLength = maxLength;
+	}
+
+	public void setJury(Jury jury) {
+		this.jury = jury;
+	}
+
+	public Jury getJury() {
+		return jury;
 	}
 }

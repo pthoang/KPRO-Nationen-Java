@@ -57,19 +57,18 @@ public class Settings {
 	}
 	
 	public void setFolderName(String folderName) {
-		System.out.println("Foldername " + folderName + " in " + this);
 		this.folderName = folderName;
 	}
-	
+
+	// TODO: remove after testing
 	// Just under testing
 	private void setDefaultKeys() {
 		try (Stream<String> stream = Files.lines(Paths.get("rootkey.csv"))) {
 			List<String> keys = stream.collect(Collectors.toList());
 			bucketAccessKey = keys.get(0).split("=")[1];
-			bucketSecretKey = keys.get(1).split("=")[1];				
+			bucketSecretKey = keys.get(1).split("=")[1];
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
 }

@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -21,15 +23,10 @@ public class Candidate extends Person {
 	private SimpleIntegerProperty previousYearRank;
 	private String status;
 	private boolean isPerson;
-	private JsonObject rawData;
 
 	private ArrayList organizations;
 
-
-	// PG stands for ProductionGrants
-	private SimpleIntegerProperty animalsPG = new SimpleIntegerProperty(0);
-	private SimpleIntegerProperty hiredHelpPG = new SimpleIntegerProperty(0);
-	private SimpleIntegerProperty farmingPG = new SimpleIntegerProperty(0);
+	private JsonObject rawData = new JsonObject();
 
 	private ObservableList<Connection> connections =  FXCollections.observableArrayList();
 
@@ -69,6 +66,48 @@ public class Candidate extends Person {
 
 		this.rawData = new JsonObject();
 
+	}
+
+
+	//appends test organizations
+	public void testOrg() {
+		JsonObject testData1 = new JsonObject();
+		JsonObject testData2 = new JsonObject();
+
+		int org = 975938883;
+		String name = "BJØRN RUNE KYNNINGSRUD";
+		int stocks = 131;
+		int value = 4;
+
+
+		int org1 = 984566077;
+		String name1 = "BEST MELK SAMDRIFT DA";
+		int stocks1 = 149;
+		int value1 = 11;
+
+		testData1.addProperty("org", org);
+		testData1.addProperty("name", name);
+		testData1.addProperty("stocks", stocks);
+		testData1.addProperty("value", value);
+
+		testData2.addProperty("org", org1);
+		testData2.addProperty("name", name);
+		testData2.addProperty("stocks", stocks);
+		testData2.addProperty("value", value);
+
+		JsonArray returnObject = new JsonArray();
+		returnObject.add(testData1);
+		returnObject.add(testData2);
+
+		this.rawData.add("stocks", returnObject);
+	}
+
+	public JsonObject getRawData() {
+		return rawData;
+	}
+
+	public void addData(String name, JsonElement element) {
+		rawData.add(name, element);
 	}
 
 	/**
@@ -231,42 +270,6 @@ public class Candidate extends Person {
 	 */
 	public void setPreviousYearRank(SimpleIntegerProperty previousYearRank) {
 		this.previousYearRank = previousYearRank;
-	}
-
-	public int getAnimalsPG() {
-		return animalsPG.get();
-	}
-
-	public IntegerProperty getAnimalsPGProperty() {
-		return animalsPG;
-	}
-
-	public void setAnimalsPG(SimpleIntegerProperty animalsPG) {
-		this.animalsPG = animalsPG;
-	}
-
-	public int getHiredHelpPG() {
-		return hiredHelpPG.get();
-	}
-
-	public IntegerProperty getHiredHelpPGProperty() {
-		return hiredHelpPG;
-	}
-
-	public void setHiredHelpPG(SimpleIntegerProperty hiredHelpPG) {
-		this.hiredHelpPG = hiredHelpPG;
-	}
-
-	public int getFarmingPG() {
-		return farmingPG.get();
-	}
-
-	public IntegerProperty getFarmingPGProperty() {
-		return farmingPG;
-	}
-
-	public void setFarmingPG(SimpleIntegerProperty farmingPG) {
-		this.farmingPG = farmingPG;
 	}
 
 	// TODO

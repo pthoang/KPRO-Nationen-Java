@@ -68,6 +68,8 @@ public class ScoringListController {
 	private Button saveListButton;
 	@FXML
 	private Button changeImageButton;
+	@FXML
+	private Button analyzeButton;
 
 	@FXML
 	private ImageView imageView = new ImageView();
@@ -286,6 +288,8 @@ public class ScoringListController {
 		String description = descriptionField.getText();
 		// validateDescription(description);
 
+
+		/*
 		// ProductionGrants
 		try {
 			int animalsPG = Integer.parseInt(animalsPGField.getText());
@@ -306,7 +310,7 @@ public class ScoringListController {
 			candidate.setFarmingPG(new SimpleIntegerProperty(farmingPG));
 		} catch (NumberFormatException e) {
 			System.out.println("Candidate don't have a farmingPG");
-		}
+		}*/
 
 		//Field handling only needed with persons
 		if(candidate.getisPerson()) {
@@ -495,27 +499,14 @@ public class ScoringListController {
 		rankField.setText(Integer.toString(candidate.getRank()));
 		previousYearRankField.setText(Integer.toString(candidate.getPreviousYearRank()));
 		descriptionField.setText(candidate.getDescription());
+		/*
 		animalsPGField.setText(Integer.toString(candidate.getAnimalsPG()));
 		hiredHelpPGField.setText(Integer.toString(candidate.getHiredHelpPG()));
 		farmingPGField.setText(Integer.toString(candidate.getFarmingPG()));
 
-		if(candidate.getStatus().equals("finished")){
-			markAsDoneButton.setText("Marker ukomplett");
-		}else{
-			markAsDoneButton.setText("Marker komplett");
-		}
+		*/
 
-
-		if(candidate.getisPerson()) {
-			if (municipalityField.getText() == null) {
-				municipalityField.setStyle("-fx-border-color: #ffff65");
-			}
-
-			networkTable.setItems(candidate.getConnections());
-			if (networkTable.getItems().size() < 1) {
-				networkTable.setStyle("-fx-border-color: #ffff65");
-			}
-		}
+		networkTable.setItems(candidate.getConnections());
 	}
 
 	public void cleanFields() {
@@ -705,5 +696,10 @@ public class ScoringListController {
 		File image = new File(imagePath);
 		String fileName = image.getName();
 		bucketUploader.uploadFile(image, fileName);
+	}
+
+	@FXML
+	public void handleAnalyzeAll() {
+		mainApp.generateAll();
 	}
 }

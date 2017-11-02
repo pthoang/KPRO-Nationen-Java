@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ScoringListController">
+<GridPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ScoringListController">
 	<children>
 
 		<GridPane GridPane.columnIndex="0" GridPane.rowIndex="0">
@@ -25,7 +30,8 @@
 				</TableView>
 				<ToolBar GridPane.columnIndex="0" GridPane.rowIndex="1">
 					<items>
-						<Button fx:id="nextButton" mnemonicParsing="false" onAction="#handleSaveList" text="Lagre" />
+						<Button fx:id="nextButton" mnemonicParsing="false" onMouseReleased="#handleSaveList" text="Lagre" />
+                  		<Button fx:id="analyzeButton" mnemonicParsing="false" onAction="#handleAnalyzeAll" text="Analyser alle" />
 					</items>
 				</ToolBar>
 			</children>
@@ -60,7 +66,7 @@
 			<Label maxWidth="200" text="Nettverk:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
 			<TableView fx:id="networkTable" maxHeight="200" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.rowSpan="3">
 			 <columns>
-				<TableColumn fx:id="networkNameColumn" prefWidth="100.0" minWidth="110" text="Navn" />
+				<TableColumn fx:id="networkNameColumn" minWidth="110" prefWidth="100.0" text="Navn" />
 				<TableColumn fx:id="networkDescriptionColumn" minWidth="250" text="Beskrivelse" />
 			 </columns></TableView>
 

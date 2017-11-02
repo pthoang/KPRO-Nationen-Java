@@ -1,6 +1,9 @@
-package controllers;
+package controllers.datasources;
 
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import interfaces.DataSourceInterface;
 import model.Candidate;
 import model.DataSourceFile;
@@ -41,20 +44,22 @@ public class MockRegister implements DataSourceInterface {
     }
 
     //returns the data that we want
-    @Override
-    public void getData(List<Candidate> candidates) {
-        System.out.println("Getting data about " + candidates);
 
-    }
+    /*@Override
+    public JsonObject getData(Candidate candidate) {
+        System.out.println("Getting data about " + candidate);
+        JsonObject returnData = new JsonObject();
+
+
+        return returnData;
+    }*/
 
     public ArrayList<DataSourceFile> getRequiredFiles(){
         return requiredFiles;
     }
 
-    //used to store the file path to the file that we are going to extract data from
     @Override
-    public void setFilePath(File path) {
-        System.out.println("Set file path" + path);
+    public void getData(List<Candidate> candidates) {
 
     }
 

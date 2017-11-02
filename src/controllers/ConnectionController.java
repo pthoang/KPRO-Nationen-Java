@@ -60,7 +60,6 @@ public class ConnectionController {
 		if (connection == null) {
 			// TODO: imagePath
 			Person person = new Person(nameField.getText(), imageURL);
-			System.out.println("Candidate in connection: " + candidate);
 			candidate.addConnection(person, descriptionField.getText());
 		} else {
 			connection.getPerson().setName(nameField.getText());
@@ -68,6 +67,7 @@ public class ConnectionController {
 			connection.getPerson().setImageURL(imageURL);
 		}
 		saveImageToFile();
+		System.out.println("Handle save connection");
 		parent.closeDialog();
 	}
 

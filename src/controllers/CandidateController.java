@@ -484,6 +484,9 @@ public class CandidateController {
 
         // Mark them
         markSelectedConnections();
+        System.out.println("After markedSelected");
+
+        closeDialog();
     }
 
     private void reorderConnectionList(Connection selectedConnection) {
@@ -497,36 +500,29 @@ public class CandidateController {
         networkTable.setRowFactory(new Callback<TableView<Connection>, TableRow<Connection>>() {
             @Override
             public TableRow<Connection> call(TableView<Connection> tableView) {
+                System.out.println("First");
                 final TableRow<Connection> row = new TableRow<Connection>() {
                     @Override
                     protected void updateItem(Connection connection, boolean empty){
                         super.updateItem(connection, empty);
+                        System.out.println("Connection: ");
+                        System.out.println(connection);
+                        System.out.println("Connection name: " + connection.getNameProperty());
                         System.out.println("Index: " + getIndex());
                         int maxConnections = mainApp.getSettings().getNumConnections();
                         int actualConnections = candidate.getConnections().size();
                         int numConnToColor = Math.min(maxConnections, actualConnections);
-                        System.out.println("Min value: " + numConnToColor);
-                        if (getIndex() < numConnToColor) {
+                        System.out.println("Min value: " + numConnToColor + " of " + actualConnections + " and " + maxConnections);
+                        if (getIndex() <  numConnToColor) {
                             setStyle(color);
                         } else {
                             setStyle("");
                         }
+                        System.out.println("After coloring");
                     }
+
                 };
-                /*
-                highlightRows.addListener(new ListChangeListener<Integer>() {
-                    @Override
-                    public void onChanged(Change<? extends Integer> change) {
-                        if (highlightRows.contains(row.getIndex())) {
-                            if (! row.getStyleClass().contains("highlightedRow")) {
-                                row.getStyleClass().add("highlightedRow");
-                            }
-                        } else {
-                            row.getStyleClass().removeAll(Collections.singleton("highlightedRow"));
-                        }
-                    }
-                });
-                */
+                System.out.println("Before return");
                 return row;
             }
         });
@@ -534,47 +530,6 @@ public class CandidateController {
 
     }
 
-    public static class CellFactory implements Callback<TableColumn<Candidate, String>, TableCell<Candidate, String>> {
-
-        private int editingIndex = 0 ;
-
-        @Override
-        public TableCell<Candidate, String> call(TableColumn<Candidate, String> param) {
-            return new TableCell<Candidate, String>() {
-
-                @Override
-                protected void updateItem(String item, boolean empty)
-                {
-                    super.updateItem(item, empty);
-                    setText(item);
-                    int numConnections = 10;
-
-                    if(this.getIndex() >= 0 && this.getIndex() <= numConnections){
-                        getTableRow().setStyle("-fx-background-color: rgb(53,109,48);");
-                    }
-                }
-
-                @Override
-                public void startEdit() {
-                    editingIndex = getIndex();
-                    super.startEdit();
-                }
-
-                @Override
-                public void commitEdit(String newValue) {
-                    editingIndex = -1 ;
-                    super.commitEdit(newValue);
-                }
-
-                @Override
-                public void cancelEdit() {
-                    editingIndex = -1 ;
-                    super.cancelEdit();
-                }
-
-            };
-        }
-    }
 
 
     // TODO: is this in use? Switch out with newCandidate?

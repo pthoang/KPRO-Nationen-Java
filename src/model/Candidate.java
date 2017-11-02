@@ -2,8 +2,12 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import java.util.List;
+
 import java.util.Objects;
 import java.util.Set;
+
 
 import com.google.common.collect.ImmutableSet;
 import javafx.beans.property.IntegerProperty;
@@ -11,6 +15,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.Organization;
 
 public class Candidate extends Person {
 
@@ -22,7 +27,7 @@ public class Candidate extends Person {
 	private String status;
 	private String gender = "";
 
-	private ArrayList organizations;
+	private ObservableList<Organization> organizations = FXCollections.observableArrayList();
 
 	// PG stands for ProductionGrants
 	private SimpleIntegerProperty animalsPG = new SimpleIntegerProperty(0);
@@ -111,7 +116,11 @@ public class Candidate extends Person {
 	public ObservableList<Connection> getConnections() {
 		return connections;
 	}
-	
+
+	public ObservableList<Organization> getOrganizations() {
+		return organizations;
+  }
+  
 	public void deleteConnection(Connection connection) {
 		connections.remove(connection);
 		System.out.println("Delete connection");

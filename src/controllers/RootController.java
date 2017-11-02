@@ -50,6 +50,11 @@ public class RootController {
 	}
 
 	@FXML
+	private void showAddJury() {
+		mainApp.showJuryAdmin();
+	}
+
+	@FXML
 	private void showNewAndEmpty() {
 		mainApp.newList();
 	}

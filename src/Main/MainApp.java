@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.AmazonBucketUploader;
@@ -26,10 +27,10 @@ public class MainApp extends Application {
 	private EditListController editListController;
 	private AddSourcesController addSourcesController;
 	private SettingsController settingsController;
+	private AddJuryController addjurycontroller;
 	private AmazonBucketUploader bucketUploader;
 	private ScoringList scoringList;
 	private Settings settings;
-	private DataSources ds = new DataSources();
 
 	public static void main(String[] args) {
 		launch(args);
@@ -145,6 +146,21 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
+
+	public void showJuryAdmin() {
+		try {
+			FXMLLoader loader= new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("../view/JuryAdmin.fxml"));
+			GridPane JuryAdminView = (GridPane) loader.load();
+
+			rootLayout.setCenter(JuryAdminView);
+
+			addjurycontroller = loader.getController();
+			addjurycontroller.setMainApp(this);;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * Returns the primaryStage
@@ -190,8 +206,14 @@ public class MainApp extends Application {
 		return fileChooser.showOpenDialog(primaryStage);
 	}
 
-	public DataSources getDataSourcesController() {
-		return ds;
+	public File choseFolderAndGetFiles() {
+		DirectoryChooser chooser = new DirectoryChooser();
+		File selectedDirectory = chooser.showDialog(primaryStage);
+		return selectedDirectory;
+	}
+	
+	public void setNumCandidates(int numCandidates) {
+		scoringList.setMaxLength(numCandidates);	
 	}
 
 	public void updateAmazonBucketUploader() {

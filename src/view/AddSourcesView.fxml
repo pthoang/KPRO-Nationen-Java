@@ -21,8 +21,7 @@
 
 
             <Label GridPane.columnIndex="0" GridPane.rowIndex="2" text="Tilskuddsdatabasen" />
-            <TextField fx:id="loadedFileNameField2" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Button fx:id="chooseFileButton2" GridPane.columnIndex="2" GridPane.rowIndex="2" mnemonicParsing="false" onAction="#fileChooser_tilskudd" text="Last inn" />
+            <Button fx:id="chooseFileButton2" GridPane.columnIndex="2" GridPane.rowIndex="2" mnemonicParsing="false" onAction="#fileChooser_tilskudd" text="Last inn mappe med tilskuddfiler" />
 
             <Label GridPane.columnIndex="0" GridPane.rowIndex="3" text="Eiendsomsbasen" />
             <TextField fx:id="loadedFileNameField3" GridPane.columnIndex="1" GridPane.rowIndex="3" />

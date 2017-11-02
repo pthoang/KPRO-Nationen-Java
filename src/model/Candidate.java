@@ -11,6 +11,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import sun.java2d.pipe.SpanShapeRenderer;
 
 public class Candidate extends Person {
 
@@ -21,6 +22,7 @@ public class Candidate extends Person {
 	private SimpleStringProperty description = new SimpleStringProperty();
 	private SimpleIntegerProperty rank;
 	private SimpleIntegerProperty previousYearRank;
+	private SimpleStringProperty twitterLink = new SimpleStringProperty();
 
 	private ArrayList organizations;
 
@@ -264,6 +266,15 @@ public class Candidate extends Person {
 	public void setPreviousYearRank(SimpleIntegerProperty previousYearRank) {
 		this.previousYearRank = previousYearRank;
 	}
+
+	public void setTwitter(SimpleStringProperty twitter) {
+		this.twitterLink = twitter;
+	}
+
+	public String getTwitter() {
+		return twitterLink.get();
+	}
+
 
 	// TODO
 	// Missing functions to validate rank etc

@@ -87,6 +87,8 @@ public class ScoringListController {
 	@FXML
 	private TextField farmingPGField = new TextField();
 	@FXML
+	private TextField twitterField = new TextField();
+	@FXML
 	private TableView<Connection> networkTable;
 	@FXML
 	private TableColumn<Connection, String> networkNameColumn;
@@ -290,6 +292,9 @@ public class ScoringListController {
 		String description = descriptionField.getText();
 		candidate.setDescription(new SimpleStringProperty(description));
 
+		String twitter = twitterField.getText();
+		candidate.setTwitter(new SimpleStringProperty(twitter));
+
 		try {
 			int rank = Integer.parseInt(rankField.getText());
 			candidate.setRank(new SimpleIntegerProperty(rank));
@@ -369,6 +374,7 @@ public class ScoringListController {
 		rankField.setText(Integer.toString(candidate.getRank()));
 		previousYearRankField.setText(Integer.toString(candidate.getPreviousYearRank()));
 		descriptionField.setText(candidate.getDescription());
+		twitterField.setText(candidate.getTwitter());
 		/*
 		animalsPGField.setText(Integer.toString(candidate.getAnimalsPG()));
 		hiredHelpPGField.setText(Integer.toString(candidate.getHiredHelpPG()));
@@ -388,9 +394,11 @@ public class ScoringListController {
 		rankField.setText("");
 		previousYearRankField.setText("");
 		descriptionField.setText("");
+		twitterField.setText("");
 		animalsPGField.setText("");
 		hiredHelpPGField.setText("");
 		farmingPGField.setText("");
+
 	}
 
 	private void saveImageToFile() {

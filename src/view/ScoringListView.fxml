@@ -46,28 +46,28 @@
 				<Insets bottom="10" left="30" right="10" top="10" />
 			</padding>
 		<children>
-			<ImageView fx:id="imageView" fitHeight="150.0" fitWidth="150.0" onMouseClicked="#handleChangeImage" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="0" GridPane.rowSpan="3" />
+			<ImageView fx:id="imageView" fitHeight="150.0" fitWidth="150.0" onMouseClicked="#handleChangeImage" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowSpan="3" />
 
-			<TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+			<TextField fx:id="nameField" GridPane.columnIndex="1" />
 			<TextField fx:id="previousYearRankField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 			<TextField fx:id="rankField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-			<Label maxWidth="200" text="Beskrivelse:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
-			<TextArea fx:id="descriptionField" maxHeight="200" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="8" />
+			<Label maxWidth="200" text="Beskrivelse:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+			<TextArea fx:id="descriptionField" maxHeight="200" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="9" />
 
 			<TextField fx:id="municipalityField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-			<TextField fx:id="animalsPGField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-			<TextField fx:id="hiredHelpPGField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-			<TextField fx:id="farmingPGField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+			<TextField fx:id="animalsPGField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+			<TextField fx:id="hiredHelpPGField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+			<TextField fx:id="farmingPGField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
 			<Label maxWidth="200" text="Nettverk:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-			<TableView fx:id="networkTable" maxHeight="200" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.rowSpan="3">
+			<TableView fx:id="networkTable" maxHeight="200" GridPane.columnIndex="2" GridPane.rowIndex="5" GridPane.rowSpan="3">
 			 <columns>
 				<TableColumn fx:id="networkNameColumn" minWidth="110" prefWidth="100.0" text="Navn" />
 				<TableColumn fx:id="networkDescriptionColumn" minWidth="250" text="Beskrivelse" />
 			 </columns></TableView>
 
-			<ToolBar GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="9">
+			<ToolBar GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="10">
 				<items>
 					<Button fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDelete" text="Slett kandidat" />
 					<Button fx:id="saveCandidateButton" mnemonicParsing="false" onAction="#handleSaveChangesToCandidate" text="Lagre kandidat" />
@@ -76,14 +76,16 @@
 				</items>
 			</ToolBar>
 
-			<Label maxWidth="200" text="Navn" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+			<Label maxWidth="200" text="Navn" GridPane.columnIndex="0" />
 			<Label maxWidth="200" text="Fjorårets rangering" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 			<Label maxWidth="200" text="Årets rangering" GridPane.columnIndex="0" GridPane.rowIndex="2" />
 
 			<Label maxWidth="200" text="Kommune" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-			<Label maxWidth="200" text="Dyr" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-			<Label maxWidth="200" text="Avløser" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-			<Label maxWidth="200" text="Jordbruk" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+			<Label maxWidth="200" text="Dyr" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+			<Label maxWidth="200" text="Avløser" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+			<Label maxWidth="200" text="Jordbruk" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+            <Label text="Twitter" GridPane.rowIndex="4" />
+            <TextField fx:id="twitterField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
 		</children>
 		<columnConstraints>
@@ -96,6 +98,7 @@
 			<RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
 			<RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
 			<RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
 			<RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
 			<RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
 			<RowConstraints valignment="CENTER" vgrow="SOMETIMES" />

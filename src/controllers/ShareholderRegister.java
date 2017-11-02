@@ -1,6 +1,9 @@
 package controllers;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import interfaces.DataSourceInterface;
 import model.Candidate;
 import model.DataSourceFile;
@@ -20,20 +23,28 @@ import java.util.List;
  * Created by vicen on 01-Nov-17.
  */
 public class ShareholderRegister implements DataSourceInterface {
-    private File path;
 
+    private String name="shareholderregister";
+    private ArrayList<DataSourceFile> requiredFiles;
+    private DataSourceFile shareholderFile;
+
+    public ShareholderRegister() {
+        requiredFiles = new ArrayList<>();
+        shareholderFile = new DataSourceFile("Shareholder register");
+        requiredFiles.add(shareholderFile);
+    }
 
     public void getData(List<Candidate> candidates) {
-        HashMap<String, ArrayList<String>> candidateShareholderInformation = new HashMap<>();
+        HashMap<String, JsonArray> candidateShareholderInformation = new HashMap<>();
 
         for (Candidate candidate :
                 candidates) {
             String[] candidateNameSplit = candidate.getName().split(" ");
             String hashKey = candidateNameSplit[0] + " " + candidateNameSplit[candidateNameSplit.length-1];
-            candidateShareholderInformation.put(hashKey.toLowerCase(), new ArrayList<>());
+            candidateShareholderInformation.put(hashKey.toLowerCase(), new JsonArray());
         }
 
-        try (BufferedReader br = new BufferedReader(new FileReader(this.path))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(this.shareholderFile.getFilepath()))) {
 
             String csvSplit = ";";
             String[] fields = br.readLine().replaceAll("[^a-zA-Z0-9;_]+", "").split(csvSplit);
@@ -45,7 +56,10 @@ public class ShareholderRegister implements DataSourceInterface {
             int stocksCandidateIndex = fieldsList.indexOf("aksjer_antall");
             int shareholderNameIndex = fieldsList.indexOf("aksjonr_navn");
 
+            System.out.println(this.shareholderFile.getFilepath());
             Gson gson = new Gson();
+
+            JsonParser jsonParser = new JsonParser();
 
             String line;
             while((line = br.readLine()) != null) {
@@ -59,7 +73,7 @@ public class ShareholderRegister implements DataSourceInterface {
                             new ShareholderInformation(information[orgNoIndex], information[orgNameIndex],
                                     new BigInteger(information[totalStocksIndex]),
                                     Integer.parseInt(information[stocksCandidateIndex]));
-                    String json = gson.toJson(shareholderInformation);
+                    JsonObject json = (JsonObject) jsonParser.parse(gson.toJson(shareholderInformation));
                     candidateShareholderInformation.get(shareholderName).add(json);
                 }
             }
@@ -68,7 +82,9 @@ public class ShareholderRegister implements DataSourceInterface {
                     candidates) {
                 String[] candidateNameSplit = candidate.getName().split(" ");
                 String hashKey = candidateNameSplit[0] + " " + candidateNameSplit[candidateNameSplit.length-1];
-                String data = gson.toJson(candidateShareholderInformation.get(hashKey));
+                JsonArray data = candidateShareholderInformation.get(hashKey.toLowerCase());
+                System.out.println(data);
+                System.out.println(candidateShareholderInformation);
                 candidate.addRawData("stocks", data);
             }
 
@@ -78,16 +94,13 @@ public class ShareholderRegister implements DataSourceInterface {
 
     }
 
-    public void setFilePath(File path) {
-        this.path = path;
-    }
 
     public String getNameOfRegister() {
-        return null;
+        return this.name;
     }
 
     public ArrayList<DataSourceFile> getRequiredFiles() {
-        return null;
+        return this.requiredFiles;
     }
 
 

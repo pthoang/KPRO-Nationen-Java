@@ -15,6 +15,8 @@ public class DataSources {
 
     public DataSources() {
         SupportDb supportDb = new SupportDb();
+        ShareholderRegister shareholderRegister = new ShareholderRegister();
+        dsList.add(shareholderRegister);
         dsList.add(supportDb);
     }
 

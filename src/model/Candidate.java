@@ -296,8 +296,8 @@ public class Candidate extends Person {
 
 	public boolean getisPerson(){ return this.isPerson; }
 
-	public void addRawData(String field, String data) {
-		this.rawData.addProperty(field, data);
+	public void addRawData(String field, JsonElement data) {
+		this.rawData.add(field, data);
 	}
 
 }

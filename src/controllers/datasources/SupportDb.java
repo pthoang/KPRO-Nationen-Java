@@ -32,8 +32,6 @@ public class SupportDb implements DataSourceInterface {
         for (Candidate candidate : candidates) {
             JsonObject returnData = new JsonObject();
 
-            //todo. this is just to add test data before stock register is implemented.
-            candidate.testOrg();
 
             JsonObject rawData = candidate.getRawData();
 
@@ -47,7 +45,7 @@ public class SupportDb implements DataSourceInterface {
             //gets all organization id numbers
             ArrayList<String> org = new ArrayList<String>();
             for (JsonElement stock : dataToAnalyze) {
-                org.add(stock.getAsJsonObject().get("org").getAsString());
+                org.add(stock.getAsJsonObject().get("orgNo").getAsString());
             }
 
 

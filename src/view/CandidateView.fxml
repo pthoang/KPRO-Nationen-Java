@@ -14,7 +14,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
+<?import javafx.geometry.Insets?>
 <GridPane alignment="center" hgap="10" vgap="10" GridPane.columnIndex="1" GridPane.rowIndex="0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CandidateController">
+    <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
     <children>
 
         <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="150.0" onMouseClicked="#handleChangeImage" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="0" GridPane.rowSpan="3" />
@@ -28,11 +30,14 @@
         <TextArea fx:id="descriptionField" maxHeight="200" GridPane.columnSpan="3" GridPane.rowIndex="10" />
 
         <TextField fx:id="municipalityField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+        <ChoiceBox fx:id="genderChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
         <TextField fx:id="animalsPGField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
         <TextField fx:id="hiredHelpPGField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
         <TextField fx:id="farmingPGField" GridPane.columnIndex="1" GridPane.rowIndex="8" />
 
-        <Label maxWidth="200" text="Nettverk:" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+
+        <Label maxWidth="200" alignment="BASELINE_LEFT" text="Nettverk:" GridPane.columnIndex="2" GridPane.rowIndex="4" />
         <TableView fx:id="networkTable" maxHeight="200" GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.rowSpan="3">
             <columns>
                 <TableColumn fx:id="networkNameColumn" minWidth="110" prefWidth="100.0" text="Navn" />
@@ -54,12 +59,10 @@
         <Label maxWidth="200" text="Årets rangering" GridPane.rowIndex="3" />
 
         <Label maxWidth="200" text="Kommune" GridPane.rowIndex="4" />
+        <Label maxWidth="200" text="Kjønn" GridPane.rowIndex="5" />
         <Label maxWidth="200" text="Dyr" GridPane.rowIndex="6" />
         <Label maxWidth="200" text="Avløser" GridPane.rowIndex="7" />
         <Label maxWidth="200" text="Jordbruk" GridPane.rowIndex="8" />
-        <ChoiceBox fx:id="genderChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-        <Label text="Kjønn" GridPane.rowIndex="5" />
-
 
     </children>
     <columnConstraints>
@@ -73,8 +76,8 @@
         <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
         <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
         <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="93.0" minHeight="10.0" prefHeight="44.0" valignment="CENTER" vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="112.0" minHeight="0.0" prefHeight="95.0" valignment="CENTER" vgrow="SOMETIMES" />
+        <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+        <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
         <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
         <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
         <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />

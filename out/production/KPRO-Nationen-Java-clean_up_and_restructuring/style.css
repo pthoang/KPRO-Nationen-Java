@@ -9,7 +9,6 @@
 
 }
 
-
 .anchorPane {
     -fx-background-color: #363636;
 }
@@ -26,6 +25,13 @@
     -fx-background-color: #489853;
     -fx-border-color: #3c7f45;
     -fx-text-fill: #1d1d1d;
+}
+
+
+
+.button:hover {
+    -fx-background-color: #35703d;
+    -fx-border-color: #28552e;
 }
 
 
@@ -49,6 +55,11 @@
     -fx-border-color: #404040;
 }
 
+.table-row-cell:selected {
+    -fx-background-color: #4c7192;
+    -fx-background-insets: 0;
+    -fx-background-radius: 1;
+}
 
 .tool-bar {
     -fx-background-color: #363636;

@@ -1,4 +1,4 @@
-package controllers;
+package controllers.datasources;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -55,8 +55,9 @@ public class ShareholderRegister implements DataSourceInterface {
             int totalStocksIndex = fieldsList.indexOf("aksjer_totalt_selskapet");
             int stocksCandidateIndex = fieldsList.indexOf("aksjer_antall");
             int shareholderNameIndex = fieldsList.indexOf("aksjonr_navn");
+            int zipCodeIndex = fieldsList.indexOf("aksjonr_postnr");
+            int cityIndex = fieldsList.indexOf("aksjonr_poststed");
 
-            System.out.println(this.shareholderFile.getFilepath());
             Gson gson = new Gson();
 
             JsonParser jsonParser = new JsonParser();
@@ -72,9 +73,11 @@ public class ShareholderRegister implements DataSourceInterface {
                     ShareholderInformation shareholderInformation =
                             new ShareholderInformation(information[orgNoIndex], information[orgNameIndex],
                                     new BigInteger(information[totalStocksIndex]),
-                                    Integer.parseInt(information[stocksCandidateIndex]));
-                    JsonObject json = (JsonObject) jsonParser.parse(gson.toJson(shareholderInformation));
-                    candidateShareholderInformation.get(shareholderName).add(json);
+                                    Integer.parseInt(information[stocksCandidateIndex]),
+                                    information[zipCodeIndex],
+                                    information[cityIndex]);
+                    JsonObject jsonObject = (JsonObject) jsonParser.parse(gson.toJson(shareholderInformation));
+                    candidateShareholderInformation.get(shareholderName).add(jsonObject);
                 }
             }
 
@@ -83,8 +86,6 @@ public class ShareholderRegister implements DataSourceInterface {
                 String[] candidateNameSplit = candidate.getName().split(" ");
                 String hashKey = candidateNameSplit[0] + " " + candidateNameSplit[candidateNameSplit.length-1];
                 JsonArray data = candidateShareholderInformation.get(hashKey.toLowerCase());
-                System.out.println(data);
-                System.out.println(candidateShareholderInformation);
                 candidate.addRawData("stocks", data);
             }
 

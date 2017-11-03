@@ -1,6 +1,7 @@
 package controllers;
 
-import controllers.datasources.MockRegister;
+import controllers.datasources.ShareholderRegister;
+import controllers.datasources.StortingetDb;
 import controllers.datasources.SupportDb;
 import interfaces.DataSourceInterface;
 import model.Candidate;
@@ -16,8 +17,11 @@ public class DataSources {
     public DataSources() {
         SupportDb supportDb = new SupportDb();
         ShareholderRegister shareholderRegister = new ShareholderRegister();
+        StortingetDb stortingetDb = new StortingetDb();
         dsList.add(shareholderRegister);
+        dsList.add(stortingetDb);
         dsList.add(supportDb);
+
     }
 
     public List<DataSourceInterface> getDsList() {

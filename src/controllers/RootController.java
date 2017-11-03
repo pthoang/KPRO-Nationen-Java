@@ -8,7 +8,6 @@ import Main.MainApp;
 import model.ScoringList;
 
 public class RootController {
-	private SettingsController settingsController;
 
 	private MainApp mainApp;
 
@@ -22,8 +21,6 @@ public class RootController {
 		File file = mainApp.chooseAndGetFile();
 		createScoringListBasedOnFileType(file);
 
-		// TODO: think this can be removed
-		//mainApp.setScoringList(scoringList);
 		mainApp.updateView();
 	}
 

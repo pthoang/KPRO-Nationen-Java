@@ -93,7 +93,7 @@ public class ConnectionController {
 		parent.chooseConnection(connection);
 	}
 
-	// Is also in Person. Should find a way to reuse it
+	// TODO: Is also in Person. Should find a way to reuse it
 	private String validateName(String name) {
 		Pattern pattern = Pattern.compile("^[A-ZÆØÅa-zæøå. \\-]++$");
 		String errorMessage = "";

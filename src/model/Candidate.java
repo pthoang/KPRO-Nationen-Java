@@ -103,7 +103,7 @@ public class Candidate extends Person {
 	}
 
 	public void addConnection(Person person, String description) {
-		Connection newConnection = new Connection(this, person, description);
+		Connection newConnection = new Connection(person, description);
 		connections.add(newConnection);
 	}
 

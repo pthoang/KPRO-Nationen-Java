@@ -11,8 +11,7 @@ import java.util.stream.Stream;
 public class Settings {
 	
 	private int numCandidates = 100;
-	// TODO: change to 10 before production
-	private int numConnections = 3;
+	private int numConnections = 10;
 	private String bucketAccessKey;
 	private String bucketSecretKey;
 	private String bucketName = "tunmedia";

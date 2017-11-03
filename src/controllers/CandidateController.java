@@ -6,14 +6,12 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -26,8 +24,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.ArrayList;
 
 public class CandidateController {
 
@@ -66,12 +62,10 @@ public class CandidateController {
     @FXML
     private Button markAsDoneButton;
 
-
-
-    private Image newImage;
     private final String IMAGE_PATH = "images/";
     private final String STANDARD_IMAGE_PATH = "images/standard.png";
     private AmazonBucketUploader bucketUploader;
+    private Image newImage;
     private Candidate candidate;
     private MainApp mainApp;
     private Stage connectionDialog;
@@ -164,7 +158,6 @@ public class CandidateController {
 
     private String getSelectedGender() {
         String gender = genderChoiceBox.getValue();
-        System.out.println("Gender: " + gender);
         switch (gender) {
             case "Kvinne":
                 return "F";
@@ -338,12 +331,10 @@ public class CandidateController {
         String description = descriptionField.getText();
         errorMessage += candidate.validate(name, rank, previousYearRank, gender, description);
 
-        // TODO
-        /*
-        if (nameExistInList(name)) {
+        if (parent.nameExistInList(name)) {
             errorMessage += "\n Det eksisterer allerede noen med det for- og etternavnet";
         }
-        */
+
         return errorMessage;
     }
 
@@ -380,10 +371,10 @@ public class CandidateController {
         }
     }
 
-    public void setFields() {
+    private void setFields() {
         // TODO: move to its own function? What do they do?
-        //networkTable.setStyle("");
-        //municipalityField.setStyle("");
+        networkTable.setStyle("");
+        municipalityField.setStyle("");
 
         File file = new File(candidate.getImageURL());
         setImageField(file);
@@ -392,7 +383,7 @@ public class CandidateController {
         municipalityField.setText(candidate.getMunicipality());
         rankField.setText(Integer.toString(candidate.getRank()));
         previousYearRankField.setText(Integer.toString(candidate.getPreviousYearRank()));
-        genderChoiceBox.getSelectionModel().select(setGenderChoice(candidate));;
+        genderChoiceBox.getSelectionModel().select(setGenderChoice(candidate));
         descriptionField.setText(candidate.getDescription());
         animalsPGField.setText(Integer.toString(candidate.getAnimalsPG()));
         hiredHelpPGField.setText(Integer.toString(candidate.getHiredHelpPG()));
@@ -436,14 +427,6 @@ public class CandidateController {
         animalsPGField.setText("");
         hiredHelpPGField.setText("");
         farmingPGField.setText("");
-    }
-
-    // Related to image
-    private String createAndGetImagePath() {
-        String imageName = candidate.getName();
-        imageName = imageName.replace(" ",  "");
-
-        return IMAGE_PATH + imageName + ".png";
     }
 
     private void setImageField(File file) {
@@ -530,7 +513,7 @@ public class CandidateController {
         networkTable.setRowFactory(new Callback<TableView<Connection>, TableRow<Connection>>() {
             @Override
             public TableRow<Connection> call(TableView<Connection> tableView) {
-                final TableRow<Connection> row = new TableRow<Connection>() {
+                return new TableRow<Connection>() {
                     @Override
                     protected void updateItem(Connection connection, boolean empty){
                         super.updateItem(connection, empty);
@@ -545,7 +528,6 @@ public class CandidateController {
                     }
 
                 };
-                return row;
             }
         });
     }

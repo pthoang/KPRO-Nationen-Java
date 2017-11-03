@@ -436,7 +436,6 @@ public class CandidateController {
 
     // Connection dialog
     private void connectionDialog(Connection connection) {
-        System.out.println("Open connection dialog");
         final Stage dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.initOwner(parent.getMainApp().getStage());
@@ -454,7 +453,6 @@ public class CandidateController {
         connectionController.setMainApp(parent.getMainApp());
         connectionController.setParent(this);
         connectionController.setCandidate(candidate);
-        System.out.println("Candidate when setting in connectionController: " + candidate);
         connectionController.setConnection(connection);
         connectionController.setImageField();
 
@@ -474,12 +472,8 @@ public class CandidateController {
         networkTable.refresh();
     }
 
-    public void chooseConnection() {
-
-        // Get the selected one
-        Connection selectedConnection = networkTable.getSelectionModel().getSelectedItem();
-
-        // Move them to the top
+    public void chooseConnection(Connection selectedConnection) {
+         // Move them to the top
         reorderConnectionList(selectedConnection);
 
         // Mark them
@@ -500,29 +494,21 @@ public class CandidateController {
         networkTable.setRowFactory(new Callback<TableView<Connection>, TableRow<Connection>>() {
             @Override
             public TableRow<Connection> call(TableView<Connection> tableView) {
-                System.out.println("First");
                 final TableRow<Connection> row = new TableRow<Connection>() {
                     @Override
                     protected void updateItem(Connection connection, boolean empty){
                         super.updateItem(connection, empty);
-                        System.out.println("Connection: ");
-                        System.out.println(connection);
-                        System.out.println("Connection name: " + connection.getNameProperty());
-                        System.out.println("Index: " + getIndex());
                         int maxConnections = mainApp.getSettings().getNumConnections();
                         int actualConnections = candidate.getConnections().size();
                         int numConnToColor = Math.min(maxConnections, actualConnections);
-                        System.out.println("Min value: " + numConnToColor + " of " + actualConnections + " and " + maxConnections);
-                        if (getIndex() <  numConnToColor) {
+                         if (getIndex() <  numConnToColor) {
                             setStyle(color);
                         } else {
                             setStyle("");
                         }
-                        System.out.println("After coloring");
                     }
 
                 };
-                System.out.println("Before return");
                 return row;
             }
         });

@@ -3,7 +3,9 @@ package controllers;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
+import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 
 import javax.imageio.ImageIO;
@@ -57,23 +59,16 @@ public class ConnectionController {
 
 	@FXML
 	public void handleSave() {
-		if (connection == null) {
-			// TODO: imagePath
-			Person person = new Person(nameField.getText(), imageURL);
-			candidate.addConnection(person, descriptionField.getText());
-		} else {
-			connection.getPerson().setName(nameField.getText());
-			connection.setDescription(descriptionField.getText());
-			connection.getPerson().setImageURL(imageURL);
-		}
-		saveImageToFile();
-		System.out.println("Handle save connection");
-		parent.closeDialog();
+		String errorMessage = "";
+
+		errorMessage += validateName(nameField.getText());
+		errorMessage += validateDescription(descriptionField.getText());
+
+		handleErrorMessage(errorMessage);
 	}
 
 	@FXML
 	public void handleAddImage() {
-		System.out.println("Adding image to connection");
 		String imageName = nameField.getText();
 		imageName = imageName.replace(" ",  "");
 
@@ -92,7 +87,61 @@ public class ConnectionController {
 	@FXML
 	public void handleChooseAsNetwork() {
 		handleSave();
-		parent.chooseConnection();
+		if (connection == null) {
+			connection = candidate.getConnections().get(candidate.getConnections().size()-1);
+		}
+		parent.chooseConnection(connection);
+	}
+
+	// Is also in Person. Should find a way to reuse it
+	private String validateName(String name) {
+		Pattern pattern = Pattern.compile("^[A-ZÆØÅa-zæøå. \\-]++$");
+		String errorMessage = "";
+
+		if (name.length() <= 2) {
+			errorMessage += "\n Navn må være lengre enn 2 bokstaver.";
+		}
+		if (!pattern.matcher(name).matches()) {
+			errorMessage += "\n Navnet inneholder ugyldige bokstaver. Tillatt er: a-å, ., og -";
+		}
+
+		return errorMessage;
+	}
+
+	// Is also in Candidate. Should find a way to reuse it
+	private String validateDescription(String description) {
+		if (description.length() <= 5 || description.equals(null)) {
+			return "\n Beskrivelse mangler";
+		}
+		return "";
+	}
+
+	// Is also in CandidateController. Should find a way to reuse it
+	private void handleErrorMessage(String errorMessage) {
+		if (errorMessage.length() != 0) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Feilmeldinger");
+			alert.setHeaderText("Felter til koblingen er ikke korrekt utfylt.");
+			alert.setContentText(errorMessage);
+			alert.showAndWait();
+			candidate.setStatus("invalidFields");
+		} else {
+			saveConnection();
+		}
+	}
+
+	private void saveConnection() {
+		if (connection == null) {
+			// TODO: imagePath
+			Person person = new Person(nameField.getText(), imageURL);
+			candidate.addConnection(person, descriptionField.getText());
+		} else {
+			connection.getPerson().setName(nameField.getText());
+			connection.setDescription(descriptionField.getText());
+			connection.getPerson().setImageURL(imageURL);
+		}
+		saveImageToFile();
+		parent.closeDialog();
 	}
 
 	private void saveImageToFile() {
@@ -137,7 +186,6 @@ public class ConnectionController {
 	private void setFields() {
 		nameField.setText(connection.getPerson().getName());
 		descriptionField.setText(connection.getDescription());
-		System.out.println("Image url when setting: " + connection.getPerson().getImageURL());
 		File file = new File(connection.getPerson().getImageURL());
 		try {
 			BufferedImage bufferedImage = ImageIO.read(file);

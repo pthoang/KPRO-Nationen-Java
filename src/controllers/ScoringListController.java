@@ -30,8 +30,8 @@ public class ScoringListController {
 
     public void setParentController(EditListController editListController) {
         this.parentController = editListController;
-        System.out.println("Sat parent controler to scoring list: " + parentController);
     }
+
     public void setScoringList(ScoringList scoringList) {
         this.scoringList = scoringList;
 
@@ -39,15 +39,9 @@ public class ScoringListController {
     }
 
     public void fillTable() {
-
-        System.out.println("Candidates: " + candidates);
-        System.out.println("Candidatetable: " + candidateTable);
-
         candidateTable.setItems(candidates);
 
         Candidate firstCandidate = candidates.get(0);
-        System.out.println("Parent controller. " + parentController);
-        System.out.println("Candidate: " + firstCandidate);
         parentController.setCandidate(firstCandidate);
 
         for(Candidate candidate : candidates){

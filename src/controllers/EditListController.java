@@ -25,9 +25,6 @@ public class EditListController {
 
 	private static ObservableList<Candidate> candidates;
 
-	public EditListController() {
-	}
-
 	/**
 	 * Set mainApp in super, then gets the candidates and shows them in the table.
 	 * @params mainApp
@@ -53,9 +50,6 @@ public class EditListController {
 	
 	@FXML
 	private void initialize() {
-
-		System.out.println("EditLIstController in initialize: " + this);
-
 	}
 
 	public void updateLists() {

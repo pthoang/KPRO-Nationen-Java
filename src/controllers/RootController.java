@@ -15,7 +15,6 @@ public class RootController {
 
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
-		System.out.println("Setting mainApp in rootController");
 	}	
 
 	@FXML

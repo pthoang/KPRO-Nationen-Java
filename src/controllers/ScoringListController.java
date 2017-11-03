@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
+import javafx.scene.paint.Color;
 import model.Candidate;
 import model.ScoringList;
 import Main.MainApp;
@@ -19,8 +20,6 @@ public class ScoringListController {
     private TableColumn<Candidate, Integer> rankColumn;
     @FXML
     private TableColumn<Candidate, String> nameColumn;
-    @FXML
-    private Button exportFileButton;
     @FXML
     private Label countLabel = new Label();
 
@@ -57,7 +56,7 @@ public class ScoringListController {
             }
         }
 
-        updateCountLaben();
+        updateCountLabel();
     }
 
     public Candidate getCandidateByName(String name){
@@ -90,13 +89,19 @@ public class ScoringListController {
     public void refreshTable() {
         parentController.updateLists();
         candidateTable.refresh();
-        updateCountLaben();
+        updateCountLabel();
     }
 
-    private void updateCountLaben() {
+    private void updateCountLabel() {
         int max = mainApp.getSettings().getNumCandidates();
         int actualLength = scoringList.getLength();
         countLabel.setText(actualLength + "/" + max);
+
+        if (actualLength > max) {
+            countLabel.setStyle("-fx-text-fill: #d44c3d");
+        } else {
+            countLabel.setStyle("-fx-text-fill: #fafafa");
+        }
     }
 
     public static class CellFactory implements Callback<TableColumn<Candidate, String>, TableCell<Candidate, String>> {

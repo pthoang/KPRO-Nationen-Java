@@ -33,7 +33,6 @@ public class Candidate extends Person {
 
 	public Candidate(String name, int rank, int previousYearRank) {
 		super(name, null);
-		//this.name = new SimpleStringProperty(name);
 		this.rank = new SimpleIntegerProperty(rank);
 		this.previousYearRank = new SimpleIntegerProperty(rank);
 		this.status = "";

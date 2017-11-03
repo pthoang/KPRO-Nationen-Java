@@ -67,8 +67,6 @@ public class AddSourcesController {
 				// use comma as separator
 				String[] organization = line.split(cvsSplitBy);
 
-				System.out.println("Navn: "+ organization[1]);
-
 			}
 
 		} catch (IOException e) {

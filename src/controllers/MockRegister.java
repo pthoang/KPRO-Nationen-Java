@@ -24,7 +24,6 @@ public class MockRegister implements DataSourceInterface {
 
 
     public MockRegister() {
-        System.out.println("mockregister initialized");
 
         requiredFiles = new ArrayList<DataSourceFile>();
 
@@ -42,6 +41,7 @@ public class MockRegister implements DataSourceInterface {
     //returns the data that we want
     @Override
     public void getData(Candidate candidate) {
+        // TODO
         System.out.println("Getting data about " + candidate);
 
     }

@@ -317,6 +317,9 @@ public class CandidateController {
         String newName = nameField.getText();
         candidate.setName(newName);
 
+        String gender = getSelectedGender();
+        candidate.setGender(gender);
+
         String description = descriptionField.getText();
         candidate.setDescription(new SimpleStringProperty(description));
 
@@ -351,7 +354,7 @@ public class CandidateController {
         municipalityField.setText(candidate.getMunicipality());
         rankField.setText(Integer.toString(candidate.getRank()));
         previousYearRankField.setText(Integer.toString(candidate.getPreviousYearRank()));
-        genderChoiceBox.getSelectionModel().select(setGenderChoice(candidate));;
+        genderChoiceBox.getSelectionModel().select(setGenderChoice(candidate));
         descriptionField.setText(candidate.getDescription());
         animalsPGField.setText(Integer.toString(candidate.getAnimalsPG()));
         hiredHelpPGField.setText(Integer.toString(candidate.getHiredHelpPG()));
@@ -478,7 +481,6 @@ public class CandidateController {
 
         // Mark them
         markSelectedConnections();
-        System.out.println("After markedSelected");
 
         closeDialog();
     }

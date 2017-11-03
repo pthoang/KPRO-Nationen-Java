@@ -39,6 +39,7 @@ public class EditListController {
 
 		scoringListViewController.setParentController(this);
 		scoringListViewController.setScoringList(scoringList);
+		scoringListViewController.setMainApp(mainApp);
 
 		candidateViewController.setParentController(this);
 		candidateViewController.setMainApp(mainApp);

@@ -25,9 +25,6 @@ public class EditListController {
 
 	private static ObservableList<Candidate> candidates;
 
-	public EditListController() {
-	}
-
 	/**
 	 * Set mainApp in super, then gets the candidates and shows them in the table.
 	 * @params mainApp
@@ -36,14 +33,16 @@ public class EditListController {
 		this.mainApp = mainApp;
 		updateLists();
 
+		scoringListViewController.setParentController(this);
+		scoringListViewController.setScoringList(scoringList);
+		scoringListViewController.setMainApp(mainApp);
+
+		candidateViewController.setParentController(this);
+		candidateViewController.setMainApp(mainApp);
+
 		if (candidates.size() > 0) {
 			scoringListViewController.fillTable();
 		}
-
-		scoringListViewController.setParentController(this);
-		scoringListViewController.setScoringList(scoringList);
-
-		candidateViewController.setParentController(this);
 	}
 
 	public MainApp getMainApp() {
@@ -52,9 +51,6 @@ public class EditListController {
 	
 	@FXML
 	private void initialize() {
-
-		System.out.println("EditLIstController in initialize: " + this);
-
 	}
 
 	public void updateLists() {
@@ -63,6 +59,7 @@ public class EditListController {
 	}
 
 	public void setCandidate(Candidate candidate) {
+		this.candidate = candidate;
 		candidateViewController.setCandidate(candidate);
 	}
 
@@ -85,14 +82,11 @@ public class EditListController {
 	}
 
 	// TODO: can be made more complex
-	private boolean nameExistInList(String name) {
-		String[] names = name.split(" ");
-		int numberOfNames = names.length;
+	public boolean nameExistInList(String name) {
 		for (int i = 0; i < candidates.size(); i++) {
 			Candidate c = candidates.get(i);
 			String candidateName = c.getName();
-			
-			if (name.equals(candidateName)) {
+			if (name.equals(candidateName) && candidate != c) {
 				return true;
 			}
 		}

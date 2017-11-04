@@ -4,6 +4,7 @@ import Main.MainApp;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import model.AmazonBucketUploader;
 import model.Candidate;
 import model.Connection;
@@ -24,6 +26,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class CandidateController {
+
+    private ObservableList GENDER_CHOICES = FXCollections.observableArrayList("", "Kvinne", "Mann", "Annet");
 
     @FXML
     private ImageView imageView = new ImageView();
@@ -38,7 +42,7 @@ public class CandidateController {
     @FXML
     private TextField municipalityField  = new TextField();
     @FXML
-    private ChoiceBox<String> genderChoiceBox = new ChoiceBox<String>(FXCollections.observableArrayList("", "Kvinne", "Mann", "Annet"));
+    private ChoiceBox<String> genderChoiceBox = new ChoiceBox<String>(GENDER_CHOICES);
     @FXML
     private TextField animalsPGField = new TextField();
     @FXML
@@ -60,14 +64,18 @@ public class CandidateController {
     @FXML
     private Button markAsDoneButton;
 
-
-    private Image newImage;
     private final String IMAGE_PATH = "images/";
+    private final String STANDARD_IMAGE_PATH = "images/standard.png";
     private AmazonBucketUploader bucketUploader;
+    private Image newImage;
     private Candidate candidate;
     private MainApp mainApp;
     private Stage connectionDialog;
     private EditListController parent;
+
+    // TODO: do with all colors used
+    private final String GREEN = "-fx-background-color: rgb(53,109,48);";
+
 
     public void setBucketUploader(AmazonBucketUploader bucketUploader) {
         this.bucketUploader = bucketUploader;
@@ -93,53 +101,52 @@ public class CandidateController {
 
         networkTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> connectionDialog(newValue));
+
         /**
          * Adding listeners to the textfields for feedback handling
          */
         // TODO: can't this be done in a loop?
         nameField.textProperty().addListener((observable, oldValue, newValue) -> {
-            markAsDoneButton.setDisable(false);
-            saveCandidateButton.setDisable(false);
+            disableButtons(false);
         });
 
         previousYearRankField.textProperty().addListener((observable, oldValue, newValue) -> {
-            markAsDoneButton.setDisable(false);
-            saveCandidateButton.setDisable(false);
+            disableButtons(false);
         });
 
         rankField.textProperty().addListener((observable, oldValue, newValue) -> {
-            markAsDoneButton.setDisable(false);
-            saveCandidateButton.setDisable(false);
+            disableButtons(false);
+        });
+
+        genderChoiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            disableButtons(false);
+            boolean isPerson = newValue.intValue() == 3;
+            disableFieldsIfNotPerson(isPerson);
         });
 
         municipalityField.textProperty().addListener((observable, oldValue, newValue) -> {
-            markAsDoneButton.setDisable(false);
-            saveCandidateButton.setDisable(false);
+            disableButtons(false);
         });
 
         descriptionField.textProperty().addListener((observable, oldValue, newValue) -> {
-            markAsDoneButton.setDisable(false);
-            saveCandidateButton.setDisable(false);
+            disableButtons(false);
         });
 
+        // TODO: Move to its own class
         animalsPGField.textProperty().addListener((observable, oldValue, newValue) -> {
-            markAsDoneButton.setDisable(false);
-            saveCandidateButton.setDisable(false);
+            disableButtons(false);
         });
 
         hiredHelpPGField.textProperty().addListener((observable, oldValue, newValue) -> {
-            markAsDoneButton.setDisable(false);
-            saveCandidateButton.setDisable(false);
+            disableButtons(false);
         });
 
         farmingPGField.textProperty().addListener((observable, oldValue, newValue) -> {
-            markAsDoneButton.setDisable(false);
-            saveCandidateButton.setDisable(false);
+            disableButtons(false);
         });
 
         imageView.imageProperty().addListener((observable, oldValue, newValue) -> {
-            markAsDoneButton.setDisable(false);
-            saveCandidateButton.setDisable(false);
+            disableButtons(false);
         });
         
         yearOfBirthField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -147,7 +154,13 @@ public class CandidateController {
             saveCandidateButton.setDisable(false);
         });
 
-        genderChoiceBox.getItems().addAll(FXCollections.observableArrayList("", "Kvinne", "Mann", "Annet"));
+        genderChoiceBox.getItems().addAll(GENDER_CHOICES);
+        genderChoiceBox.setValue("");
+    }
+
+    private void disableButtons(boolean disable) {
+        markAsDoneButton.setDisable(disable);
+        saveCandidateButton.setDisable(disable);
     }
 
     private String getSelectedGender() {
@@ -165,12 +178,13 @@ public class CandidateController {
 
     private int setGenderChoice(Candidate candidate) {
         String gender = candidate.getGender();
-        if (gender.equals("F")) {
-            return 1;
-        } else if (gender.equals("M")) {
-            return 2;
-        } else if (gender.equals("O")) {
-            return 3;
+        switch (gender) {
+            case "F":
+                return 1;
+            case "M":
+                return 2;
+            case "O":
+                return 3;
         }
         return 0;
     }
@@ -178,6 +192,7 @@ public class CandidateController {
     // Button actions
     @FXML
     public void handleSaveChangesToCandidate() {
+        // TODO: called multiple times - change to a function?
         municipalityField.setStyle("");
         networkTable.setStyle("");
 
@@ -198,6 +213,7 @@ public class CandidateController {
 //        candidate.setYearOfBirth(newYearOfBirth);
 
         // Municipality
+        // TODO: missing validation
         String newMunicipality = municipalityField.getText();
         candidate.setMunicipality(new SimpleStringProperty(newMunicipality));
 
@@ -238,12 +254,14 @@ public class CandidateController {
             }
 
             //Checks if there are any fields empty, if so set the candidate to "unfinished"
+            // TODO: should use enum instead of strings to tell the status
             if(fieldsMissing > 0){
                 candidate.setStatus("unfinished");
             } else {
                 candidate.setStatus("allFields");
             }
         }
+
         parent.refreshTable();
         // Network
         // TODO: save the temporarily network connection list
@@ -251,6 +269,16 @@ public class CandidateController {
         handleErrorMessage(errorMessage);
         // TODO: not upload if not approved
         uploadToBucket();
+    }
+
+    private void disableFieldsIfNotPerson(boolean notPerson) {
+        if (notPerson) {
+            municipalityField.setDisable(true);
+            // TODO: disable fields from other sources
+        } else {
+            municipalityField.setDisable(false);
+            // TODO: not disable fields from other sources
+        }
     }
 
     @FXML
@@ -261,8 +289,9 @@ public class CandidateController {
 
     @FXML
     public void handleNewCandidate() {
-        candidate = null;
+        //candidate = null;
         cleanFields();
+        createAndAddEmptyCandidate();
     }
 
     @FXML
@@ -276,12 +305,14 @@ public class CandidateController {
         if(markAsDoneButton.getText().equals("Marker komplett")){
             if(!nameField.getText().isEmpty()) {
                 markAsDoneButton.setText("Marker ukomplett");
-                getCandidateByName(nameField.getText()).setStatus("finished");
+                //getCandidateByName(nameField.getText()).setStatus("finished");
+                candidate.setStatus("finished");
             }
         }else{
             if(!nameField.getText().isEmpty()){
                 markAsDoneButton.setText("Marker komplett");
-                getCandidateByName(nameField.getText()).setStatus("");
+                //getCandidateByName(nameField.getText()).setStatus("");
+                candidate.setStatus("");
             }
         }
         parent.refreshTable();
@@ -291,7 +322,7 @@ public class CandidateController {
     public void handleAddConnection() {
         connectionDialog(null);
     }
-
+    /*
     private Candidate getCandidateByName(String name) {
         for (Candidate candidate: parent.getCandidates()) {
             if (candidate.getName().equals(name)) {
@@ -300,6 +331,7 @@ public class CandidateController {
         }
         return null;
     }
+    */
 
     private String validateCandidate() {
         String errorMessage = "";
@@ -311,22 +343,25 @@ public class CandidateController {
         String description = descriptionField.getText();
         errorMessage += candidate.validate(name, rank, previousYearRank, gender, description);
 
-        // TODO
-        /*
-        if (nameExistInList(name)) {
+        if (parent.nameExistInList(name)) {
             errorMessage += "\n Det eksisterer allerede noen med det for- og etternavnet";
         }
-        */
+
         return errorMessage;
     }
 
-    // TODO: not saving all the other fields?
     private void saveCandidate() {
-        String newName = nameField.getText();
-        candidate.setName(newName);
+        String name = nameField.getText();
+        candidate.setName(name);
+
+        String gender = getSelectedGender();
+        candidate.setGender(gender);
 
         String description = descriptionField.getText();
         candidate.setDescription(new SimpleStringProperty(description));
+
+        String municipality = municipalityField.getText();
+        candidate.setMunicipality(new SimpleStringProperty(municipality));
 
         int rank = Integer.parseInt(rankField.getText());
         candidate.setRank(new SimpleIntegerProperty(rank));
@@ -336,6 +371,8 @@ public class CandidateController {
         
         String newYearOfBirth = yearOfBirthField.getText();
         candidate.setYearOfBirth(newYearOfBirth);
+
+        // TODO: Save all the fields related to the different sources
     }
 
     private void handleErrorMessage(String errorMessage) {
@@ -352,9 +389,11 @@ public class CandidateController {
         }
     }
 
-    public void setFields() {
-        //networkTable.setStyle("");
-        //municipalityField.setStyle("");
+    private void setFields() {
+        // TODO: move to its own function? What do they do?
+        networkTable.setStyle("");
+        municipalityField.setStyle("");
+
         File file = new File(candidate.getImageURL());
         setImageField(file);
 
@@ -362,7 +401,7 @@ public class CandidateController {
         municipalityField.setText(candidate.getMunicipality());
         rankField.setText(Integer.toString(candidate.getRank()));
         previousYearRankField.setText(Integer.toString(candidate.getPreviousYearRank()));
-        genderChoiceBox.getSelectionModel().select(setGenderChoice(candidate));;
+        genderChoiceBox.getSelectionModel().select(setGenderChoice(candidate));
         descriptionField.setText(candidate.getDescription());
         animalsPGField.setText(Integer.toString(candidate.getAnimalsPG()));
         hiredHelpPGField.setText(Integer.toString(candidate.getHiredHelpPG()));
@@ -396,7 +435,7 @@ public class CandidateController {
     }
 
     private void cleanFields() {
-        File file = new File("images/standard.png");
+        File file = new File(STANDARD_IMAGE_PATH);
         setImageField(file);
 
         nameField.setText("");
@@ -410,26 +449,6 @@ public class CandidateController {
         yearOfBirthField.setText("");
     }
 
-    // Related to image
-    private String createAndGetImagePath() {
-        String imageName = candidate.getName();
-        imageName = imageName.replace(" ",  "");
-
-        return IMAGE_PATH + imageName + ".png";
-    }
-    /*
-    private void saveImageToFile() {
-        File outputFile = new File(createAndGetImagePath());
-        BufferedImage bImage = SwingFXUtils.fromFXImage(newImage,  null);
-        try {
-            ImageIO.write(bImage,  "png", outputFile);
-            candidate.setImageURLProperty(new SimpleStringProperty(createAndGetImagePath()));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    */
-
     private void setImageField(File file) {
         try {
             BufferedImage bufferedImage = ImageIO.read(file);
@@ -438,6 +457,15 @@ public class CandidateController {
         } catch (IOException ex) {
             System.out.println("Error when loading image: " + ex);
         }
+    }
+
+    private void createAndAddEmptyCandidate() {
+        int nextCandidateRank = parent.getCandidates().size() + 1;
+
+        rankField.setText(Integer.toString(nextCandidateRank));
+        candidate = new Candidate("", nextCandidateRank, 0);
+
+        parent.addCandidate(candidate);
     }
 
     private void uploadToBucket() {
@@ -462,12 +490,13 @@ public class CandidateController {
             System.out.println("Error when loading connectionVIew");
             e.printStackTrace();
         }
+
         ConnectionController connectionController = loader.getController();
         connectionController.setMainApp(parent.getMainApp());
         connectionController.setParent(this);
         connectionController.setCandidate(candidate);
-        System.out.println("Candidate when setting in connectionController: " + candidate);
         connectionController.setConnection(connection);
+        connectionController.setImageField();
 
         Scene dialogScene = new Scene(connectionView);
         dialog.setScene(dialogScene);
@@ -485,18 +514,42 @@ public class CandidateController {
         networkTable.refresh();
     }
 
+    public void chooseConnection(Connection selectedConnection) {
+         // Move them to the top
+        reorderConnectionList(selectedConnection);
 
+        markSelectedConnections();
 
+        closeDialog();
+    }
 
+    private void reorderConnectionList(Connection selectedConnection) {
+        candidate.getConnections().remove(selectedConnection);
+        candidate.getConnections().add(0, selectedConnection);
+        updateNetworkList();
+    }
 
-    // TODO: is this in use? Switch out with newCandidate?
-    private void createAndAddEmptyCandidate() {
-        int nextCandidateRank = parent.getCandidates().size() + 1;
+    private void markSelectedConnections() {
+        networkTable.setRowFactory(new Callback<TableView<Connection>, TableRow<Connection>>() {
+            @Override
+            public TableRow<Connection> call(TableView<Connection> tableView) {
+                return new TableRow<Connection>() {
+                    @Override
+                    protected void updateItem(Connection connection, boolean empty){
+                        super.updateItem(connection, empty);
+                        int maxConnections = mainApp.getSettings().getNumConnections();
+                        int actualConnections = candidate.getConnections().size();
+                        int numConnToColor = Math.min(maxConnections, actualConnections);
+                         if (getIndex() <  numConnToColor) {
+                            setStyle(GREEN);
+                        } else {
+                            setStyle("");
+                        }
+                    }
 
-        rankField.setText(Integer.toString(nextCandidateRank));
-        candidate = new Candidate("", nextCandidateRank, 0);
-
-        parent.addCandidate(candidate);
+                };
+            }
+        });
     }
 
 }

@@ -2,13 +2,13 @@ package controllers;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
+import javafx.scene.paint.Color;
 import model.Candidate;
 import model.ScoringList;
+import Main.MainApp;
 
 import java.util.HashMap;
 
@@ -20,10 +20,13 @@ public class ScoringListController {
     private TableColumn<Candidate, Integer> rankColumn;
     @FXML
     private TableColumn<Candidate, String> nameColumn;
+    @FXML
+    private Label countLabel = new Label();
 
     private EditListController parentController;
 
     private ScoringList scoringList;
+    private MainApp mainApp;
     private static ObservableList<Candidate> candidates;
     private HashMap<String, Integer> candidateColor = new HashMap<>();
 
@@ -38,6 +41,9 @@ public class ScoringListController {
         candidates = scoringList.getCandidates();
     }
 
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
+    }
     public void fillTable() {
         candidateTable.setItems(candidates);
 
@@ -49,6 +55,8 @@ public class ScoringListController {
                 candidateColor.put(candidate.getName(), 0);
             }
         }
+
+        updateCountLabel();
     }
 
     public Candidate getCandidateByName(String name){
@@ -81,6 +89,19 @@ public class ScoringListController {
     public void refreshTable() {
         parentController.updateLists();
         candidateTable.refresh();
+        updateCountLabel();
+    }
+
+    private void updateCountLabel() {
+        int max = mainApp.getSettings().getNumCandidates();
+        int actualLength = scoringList.getLength();
+        countLabel.setText(actualLength + "/" + max);
+
+        if (actualLength > max) {
+            countLabel.setStyle("-fx-text-fill: #d44c3d");
+        } else {
+            countLabel.setStyle("-fx-text-fill: #fafafa");
+        }
     }
 
     public static class CellFactory implements Callback<TableColumn<Candidate, String>, TableCell<Candidate, String>> {
@@ -135,5 +156,30 @@ public class ScoringListController {
 
             };
         }
+    }
+
+    @FXML
+    public void handleExportFile() {
+        String errorMessage = validateList();
+        handleErrorMessage(errorMessage);
+    }
+
+    private void handleErrorMessage(String errorMessage) {
+        if (errorMessage.length() != 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Feilmeldinger");
+            alert.setHeaderText("Listen har feil");
+            alert.setContentText(errorMessage);
+            alert.showAndWait();
+        } else {
+            // TODO: export the file
+        }
+    }
+    private String validateList() {
+        if (scoringList.getLength() > mainApp.getSettings().getNumCandidates()) {
+            return "Det er for mange kandidater i listen. Fjern kandidater eller endre antallet aksepterte i 'Instillinger'";
+        }
+        // TODO: also validate if some of the candidates has fields missing?
+        return "";
     }
 }

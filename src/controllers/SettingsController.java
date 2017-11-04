@@ -23,11 +23,12 @@ import model.Settings;
 public class SettingsController {
 
 	@FXML
-	private TextField numCandidatesField;
+	private GridPane gpSettings;
 
 	@FXML
-	private GridPane gpSettings;
-	
+	private TextField numCandidatesField;
+	@FXML
+	private TextField numConnectionsField;
 	@FXML
 	private TextField bucketAccessKeyField;
 	@FXML
@@ -53,6 +54,8 @@ public class SettingsController {
 	private void handleSave() {
 		int numCandidates = Integer.parseInt(numCandidatesField.getText());
 		settings.setNumCandidates(numCandidates);
+		int numConnections = Integer.parseInt(numConnectionsField.getText());
+		settings.setNumConnections(numConnections);
 		settings.setBucketAccessKey(bucketAccessKeyField.getText());
 		settings.setBucketSecretKey(bucketSecretKeyField.getText());
 		settings.setBucketName(bucketNameField.getText());
@@ -117,6 +120,8 @@ public class SettingsController {
 	private void setDefaultSettings() {
 		String numCandidates = Integer.toString(settings.getNumCandidates());
 		numCandidatesField.setText(numCandidates);
+		String numConnections = Integer.toString(settings.getNumConnections());
+		numConnectionsField.setText(numConnections);
 		bucketAccessKeyField.setText(settings.getBucketAccessKey());
 		bucketSecretKeyField.setText(settings.getBucketSecretKey());
 		bucketNameField.setText(settings.getBucketName());

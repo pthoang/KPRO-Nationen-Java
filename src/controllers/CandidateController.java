@@ -4,6 +4,7 @@ import Main.MainApp;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import model.AmazonBucketUploader;
 import model.Candidate;
 import model.Connection;
@@ -91,6 +93,7 @@ public class CandidateController {
 
         networkTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> connectionDialog(newValue));
+
         /**
          * Adding listeners to the textfields for feedback handling
          */
@@ -450,8 +453,8 @@ public class CandidateController {
         connectionController.setMainApp(parent.getMainApp());
         connectionController.setParent(this);
         connectionController.setCandidate(candidate);
-        System.out.println("Candidate when setting in connectionController: " + candidate);
         connectionController.setConnection(connection);
+        connectionController.setImageField();
 
         Scene dialogScene = new Scene(connectionView);
         dialog.setScene(dialogScene);
@@ -469,7 +472,49 @@ public class CandidateController {
         networkTable.refresh();
     }
 
+    public void chooseConnection(Connection selectedConnection) {
+         // Move them to the top
+        reorderConnectionList(selectedConnection);
 
+        // Mark them
+        markSelectedConnections();
+        System.out.println("After markedSelected");
+
+        closeDialog();
+    }
+
+    private void reorderConnectionList(Connection selectedConnection) {
+        candidate.getConnections().remove(selectedConnection);
+        candidate.getConnections().add(0, selectedConnection);
+        updateNetworkList();
+    }
+
+    private void markSelectedConnections() {
+        String color = "-fx-background-color: rgb(53,109,48);";
+        networkTable.setRowFactory(new Callback<TableView<Connection>, TableRow<Connection>>() {
+            @Override
+            public TableRow<Connection> call(TableView<Connection> tableView) {
+                final TableRow<Connection> row = new TableRow<Connection>() {
+                    @Override
+                    protected void updateItem(Connection connection, boolean empty){
+                        super.updateItem(connection, empty);
+                        int maxConnections = mainApp.getSettings().getNumConnections();
+                        int actualConnections = candidate.getConnections().size();
+                        int numConnToColor = Math.min(maxConnections, actualConnections);
+                         if (getIndex() <  numConnToColor) {
+                            setStyle(color);
+                        } else {
+                            setStyle("");
+                        }
+                    }
+
+                };
+                return row;
+            }
+        });
+
+
+    }
 
 
 

@@ -59,6 +59,7 @@ public class EditListController {
 	}
 
 	public void setCandidate(Candidate candidate) {
+		this.candidate = candidate;
 		candidateViewController.setCandidate(candidate);
 	}
 
@@ -81,14 +82,11 @@ public class EditListController {
 	}
 
 	// TODO: can be made more complex
-	private boolean nameExistInList(String name) {
-		String[] names = name.split(" ");
-		int numberOfNames = names.length;
+	public boolean nameExistInList(String name) {
 		for (int i = 0; i < candidates.size(); i++) {
 			Candidate c = candidates.get(i);
 			String candidateName = c.getName();
-			
-			if (name.equals(candidateName)) {
+			if (name.equals(candidateName) && candidate != c) {
 				return true;
 			}
 		}

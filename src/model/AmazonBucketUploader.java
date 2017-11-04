@@ -78,7 +78,4 @@ public class AmazonBucketUploader {
 			alert.showAndWait();
 		}
 	}
-	
-	// TODO: if image exist, change name
-	
 }

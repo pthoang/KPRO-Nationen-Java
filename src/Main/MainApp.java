@@ -49,6 +49,7 @@ public class MainApp extends Application {
 		// During testing
 		scoringList.createFromNameList("resources/NameListTest.txt");
 		updateView();
+		editListController.setCandidate(scoringList.getCandidates().get(0));
 		
 		bucketUploader = new AmazonBucketUploader(
 				settings.getBucketName(),

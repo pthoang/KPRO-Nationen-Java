@@ -83,8 +83,6 @@ public class EditListController {
 
 	// TODO: can be made more complex
 	public boolean nameExistInList(String name) {
-		String[] names = name.split(" ");
-		int numberOfNames = names.length;
 		for (int i = 0; i < candidates.size(); i++) {
 			Candidate c = candidates.get(i);
 			String candidateName = c.getName();

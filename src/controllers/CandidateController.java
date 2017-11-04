@@ -278,8 +278,9 @@ public class CandidateController {
 
     @FXML
     public void handleNewCandidate() {
-        candidate = null;
+        //candidate = null;
         cleanFields();
+        createAndAddEmptyCandidate();
     }
 
     @FXML

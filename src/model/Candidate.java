@@ -114,7 +114,6 @@ public class Candidate extends Person {
 	
 	public void deleteConnection(Connection connection) {
 		connections.remove(connection);
-		System.out.println("Delete connection");
 	}
 
 	public void setStatus(String status){

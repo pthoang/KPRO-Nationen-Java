@@ -28,7 +28,6 @@ public class MockRegister implements DataSourceInterface {
 
 
     public MockRegister() {
-        System.out.println("mockregister initialized");
 
         requiredFiles = new ArrayList<DataSourceFile>();
 
@@ -43,17 +42,6 @@ public class MockRegister implements DataSourceInterface {
         requiredFiles.add(file2);
     }
 
-    //returns the data that we want
-    /*@Override
-    public JsonObject getData(Candidate candidate) {
-        System.out.println("Getting data about " + candidate);
-        JsonObject returnData = new JsonObject();
-
-
-
-
-        return returnData;
-    }*/
 
     public ArrayList<DataSourceFile> getRequiredFiles(){
         return requiredFiles;

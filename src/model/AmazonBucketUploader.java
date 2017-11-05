@@ -1,13 +1,6 @@
 package model;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Calendar;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -59,16 +52,14 @@ public class AmazonBucketUploader {
 		getClient();
 	}
 		
-	public void getClient() {
+	private void getClient() {
 		BasicAWSCredentials creds = new BasicAWSCredentials(accessKey, secretKey);
 		s3Client = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(creds)).withRegion("us-east-2").build();
 	}
 			
-	public void createOrGetBucket() {
+	private void createOrGetBucket() {
 		if(!(s3Client.doesBucketExist(bucketName))) {
 			s3Client.createBucket(new CreateBucketRequest(bucketName));
-		} else {
-			System.out.println("Bucket exists");
 		}
 	}
 	public void uploadFile(File file, String fileName) {
@@ -85,10 +76,6 @@ public class AmazonBucketUploader {
 					+ "	Gå til innstillinger og dobbletsjekk at disse er korrekt." 
 					+ "	Bildene vil ikke lagres i bøtta før informasjonen er korrekt.");
 			alert.showAndWait();
-			
 		}
 	}
-	
-	// TODO: if image exist, change name
-	
 }

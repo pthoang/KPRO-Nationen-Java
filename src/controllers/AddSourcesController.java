@@ -1,7 +1,5 @@
 package controllers;
 
-import java.awt.Desktop;
-
 import java.io.File;
 
 import java.io.BufferedReader;
@@ -16,7 +14,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 public class AddSourcesController {
 
@@ -54,12 +51,12 @@ public class AddSourcesController {
 	@FXML
 	private void fileChooser() {
 
-		File file = mainApp.choseFileAndGetFile();
+		File file = mainApp.chooseAndGetFile();
 		System.out.println("Trying to add source");
 	}
 	@FXML
 	private void fileChooser_tilskudd() {
-		File file = mainApp.choseFileAndGetFile();
+		File file = mainApp.chooseAndGetFile();
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 
 			String line = "";
@@ -69,8 +66,6 @@ public class AddSourcesController {
 
 				// use comma as separator
 				String[] organization = line.split(cvsSplitBy);
-
-				System.out.println("Navn: "+ organization[1]);
 
 			}
 

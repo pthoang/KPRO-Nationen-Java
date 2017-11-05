@@ -7,10 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.layout.GridPane;
-import javafx.stage.FileChooser;
 import model.DataSourceFile;
 
 import java.awt.event.ActionEvent;
@@ -23,16 +20,12 @@ import model.Settings;
 public class SettingsController {
 
 	@FXML
-	private Button saveButton;
-	@FXML
-	private Button cancelButton;
-	
-	@FXML
-	private TextField numCandidatesField;
+	private GridPane gpSettings;
 
 	@FXML
-	private GridPane gpSettings;
-	
+	private TextField numCandidatesField;
+	@FXML
+	private TextField numConnectionsField;
 	@FXML
 	private TextField bucketAccessKeyField;
 	@FXML
@@ -51,7 +44,6 @@ public class SettingsController {
 	
 	public void setSettings(Settings settings) {
 		this.settings = settings;
-		
 		setDefaultSettings();
 	}
 	
@@ -59,52 +51,56 @@ public class SettingsController {
 	private void handleSave() {
 		int numCandidates = Integer.parseInt(numCandidatesField.getText());
 		settings.setNumCandidates(numCandidates);
+		int numConnections = Integer.parseInt(numConnectionsField.getText());
+		settings.setNumConnections(numConnections);
 		settings.setBucketAccessKey(bucketAccessKeyField.getText());
 		settings.setBucketSecretKey(bucketSecretKeyField.getText());
 		settings.setBucketName(bucketNameField.getText());
 		settings.setFolderName(folderNameField.getText());
 		
 		mainApp.updateAmazonBucketUploader();
-		mainApp.showScoringListView();
+		mainApp.showEditListView();
 	}
 	
 	@FXML
 	private void handleCancel() {
-		mainApp.showScoringListView();
+		mainApp.showEditListView();
 	}
 
 	//this is the function that is supposed to spawn a file chooser and update the filepath for required files
+	// TODO
 	@FXML private void handleLoadFile(ActionEvent event) throws IOException {
 		System.out.println("event " + event);
 	}
 
 	public void refreshRegisterSelectors(List<DataSourceInterface> dsList) {
-		//loops trough all DataSources. not quite sure why this needs to start at 1, but it looks a whole lot prettier
+		// Loops trough all DataSources. not quite sure why this needs to start at 1, but it looks a whole lot prettier
 		int currentRow = 1;
 		for (DataSourceInterface ds : dsList) {
 
-			//loops trough all required inputs
+			// Loops trough all required inputs
 			for (DataSourceFile dsf : ds.getRequiredFiles()) {
-				//creates a description for the input
+				// Creates a description for the input
 				Label dsfName = new Label(dsf.getName());
 
 				//creates a textfield
+
 				TextField dsfFilePath = new TextField();
 				dsfFilePath.textProperty().addListener((observable, oldValue, newValue) -> {
 					dsf.setFilepath(newValue);
 				});
 
-				//creates the button for the file chooser
+				// Creates the button for the file chooser
 				Button dsfFileChooserButton = new Button("Velg fil");
-				//sets the path of the chosen file to the textfield
+				// Sets the path of the chosen file to the textfield
 				dsfFileChooserButton.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
 					@Override
 					public void handle(javafx.event.ActionEvent event) {
-						//opens file chooser
-						File file = mainApp.choseFileAndGetFile();
-						//makes sure that we didnt hit cancel
+						// Opens file chooser
+						File file = mainApp.chooseAndGetFile();
+						// Makes sure that we didn't hit cancel
 						if (file != null) {
-							//sets the path of the chosen file to the text input field
+							// Sets the path of the chosen file to the text input field
 							dsfFilePath.setText(file.getAbsolutePath());
 						}
 					}
@@ -117,12 +113,15 @@ public class SettingsController {
 				currentRow++;
 			}
 		}
-
 	}
 	
 	private void setDefaultSettings() {
 		String numCandidates = Integer.toString(settings.getNumCandidates());
 		numCandidatesField.setText(numCandidates);
+
+		String numConnections = Integer.toString(settings.getNumConnections());
+		numConnectionsField.setText(numConnections);
+
 		bucketAccessKeyField.setText(settings.getBucketAccessKey());
 		bucketSecretKeyField.setText(settings.getBucketSecretKey());
 		bucketNameField.setText(settings.getBucketName());

@@ -1,12 +1,5 @@
 package controllers;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.regex.Pattern;
-
-import javax.imageio.ImageIO;
-
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -14,47 +7,29 @@ import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.util.Callback;
+import javafx.scene.paint.Color;
 import javafx.util.Pair;
-import model.AmazonBucketUploader;
-import model.Candidate;
-import model.Connection;
-import model.Person;
-import model.ScoringList;
-
+import model.*;
 import Main.MainApp;
 
-public class ScoringListController {
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.regex.Pattern;
 
+public class ScoringListController {
 	@FXML
 	private Button backButton;
 	@FXML
 	private Button saveButton;
-
-	// Related to table view
-	@FXML
-	private TableView<Candidate> candidateTable;
-	@FXML
-	private TableColumn<Candidate, Integer> rankColumn;
-	@FXML
-	private TableColumn<Candidate, String> nameColumn;
-
-	private ScoringList scoringList;
-	private ObservableList<Candidate> candidates;
 
 	// Related to candidate view 
 	@FXML
@@ -100,55 +75,13 @@ public class ScoringListController {
 	private final String IMAGE_PATH = "images/";
 	private String errorMessage;
 
-	private MainApp mainApp;
 	private AmazonBucketUploader bucketUploader;
 	
 	public ScoringListController() {
 	}
-
-	/**
-	 * Set mainApp in super, then gets the candidates and shows them in the table.
-	 * @params mainApp
-	 */
-	public void setMainApp(MainApp mainApp) {
-		this.mainApp = mainApp;
-		updateLists();
-
-		if (candidates.size() > 0) {
-			fillTable();
-		}
-	}
 	
 	public void setBucketUploader(AmazonBucketUploader bucketUploader) {
 		this.bucketUploader = bucketUploader;
-	}
-
-	public void fillTable() {
-		candidateTable.setItems(candidates);
-
-		Candidate firstCandidate = candidates.get(0);
-		setCandidate(firstCandidate);
-	}
-
-	@FXML 
-	private void initialize() {
-		rankColumn.setCellValueFactory(new PropertyValueFactory<Candidate, Integer>("rank"));
-		nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-
-		candidateTable.getSelectionModel().selectedItemProperty().addListener(
-				(observable, oldValue, newValue) -> setCandidate(newValue));
-			
-		networkNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-		networkDescriptionColumn.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
-		
-		networkTable.getSelectionModel().selectedItemProperty().addListener(
-				(observable, oldValue, newValue) -> connectionDialog(newValue));
-		
-	}
-
-	public void refreshTable() {
-		updateLists();
-		candidateTable.refresh();
 	}
 
 	public void updateLists() {
@@ -308,7 +241,7 @@ public class ScoringListController {
 
 	private void handleErrorMessage() {
 		if (errorMessage.length() != 0) {
-			Alert alert = new Alert(AlertType.ERROR);
+			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("Feilmeldinger");
 			alert.setHeaderText("Felter til kandidaten er ikke korrekt utfylt.");
 			alert.setContentText(errorMessage);
@@ -321,7 +254,7 @@ public class ScoringListController {
 
 	@FXML
 	private void handleChangeImage() {
-		File file = mainApp.choseFileAndGetFile();
+		File file = mainApp.chooseAndGetFile();
 		setImageField(file);
 	}
 
@@ -447,8 +380,8 @@ public class ScoringListController {
 		dialog.setHeaderText("Legg inn navn og en kort beskrivelse for koblingen, samt link til bilde");
 
 		// Set the button types.
-		ButtonType addButtonType = new ButtonType("Legg til", ButtonData.OK_DONE);
-		ButtonType cancelButtonType = new ButtonType("Avslutt", ButtonData.CANCEL_CLOSE);
+		ButtonType addButtonType = new ButtonType("Legg til", ButtonBar.ButtonData.OK_DONE);
+		ButtonType cancelButtonType = new ButtonType("Avslutt", ButtonBar.ButtonData.CANCEL_CLOSE);
 		dialog.getDialogPane().getButtonTypes().addAll(addButtonType, cancelButtonType);
 
 		// Create the username and password labels and fields.
@@ -520,4 +453,172 @@ public class ScoringListController {
 	public void handleAnalyzeAll() {
 		mainApp.generateAll();
 	}
+    @FXML
+    private TableView<Candidate> candidateTable;
+    @FXML
+    private TableColumn<Candidate, Integer> rankColumn;
+    @FXML
+    private TableColumn<Candidate, String> nameColumn;
+    @FXML
+    private Label countLabel = new Label();
+
+    private EditListController parentController;
+
+    private ScoringList scoringList;
+    private MainApp mainApp;
+    private static ObservableList<Candidate> candidates;
+    private HashMap<String, Integer> candidateColor = new HashMap<>();
+
+
+    public void setParentController(EditListController editListController) {
+        this.parentController = editListController;
+    }
+
+    public void setScoringList(ScoringList scoringList) {
+        this.scoringList = scoringList;
+
+        candidates = scoringList.getCandidates();
+    }
+
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
+    }
+    public void fillTable() {
+        candidateTable.setItems(candidates);
+
+        Candidate firstCandidate = candidates.get(0);
+        parentController.setCandidate(firstCandidate);
+
+        for(Candidate candidate : candidates){
+            if(!candidateColor.containsKey(candidate.getName())){
+                candidateColor.put(candidate.getName(), 0);
+            }
+        }
+
+        updateCountLabel();
+    }
+
+    public Candidate getCandidateByName(String name){
+        for(Candidate candidate : candidates){
+            if(candidate.getName().equals(name)){
+                return candidate;
+            }
+        }
+        return null;
+    }
+
+    @FXML
+    private void initialize() {
+        candidateTable.setEditable(true);
+
+        nameColumn.setCellFactory(new ScoringListController.CellFactory());
+
+        rankColumn.setCellValueFactory(new PropertyValueFactory<Candidate, Integer>("rank"));
+        nameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
+
+        nameColumn.setOnEditCommit(cell -> {
+            int row = cell.getTablePosition().getRow();
+            candidateTable.getItems().set(row, getCandidateByName(cell.getNewValue()));
+        });
+
+        candidateTable.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> parentController.setCandidate(newValue));
+    }
+
+    public void refreshTable() {
+        parentController.updateLists();
+        candidateTable.refresh();
+        updateCountLabel();
+    }
+
+    private void updateCountLabel() {
+        int max = mainApp.getSettings().getNumCandidates();
+        int actualLength = scoringList.getLength();
+        countLabel.setText(actualLength + "/" + max);
+
+        if (actualLength > max) {
+            countLabel.setStyle("-fx-text-fill: #d44c3d");
+        } else {
+            countLabel.setStyle("-fx-text-fill: #fafafa");
+        }
+    }
+
+    public static class CellFactory implements Callback<TableColumn<Candidate, String>, TableCell<Candidate, String>> {
+
+        private int editingIndex = -1 ;
+
+        @Override
+        public TableCell<Candidate, String> call(TableColumn<Candidate, String> param) {
+            return new TableCell<Candidate, String>() {
+
+                @Override
+                protected void updateItem(String item, boolean empty)
+                {
+                    super.updateItem(item, empty);
+                    setText(item);
+
+                    if(this.getIndex() > -1 && this.getIndex()<55){
+
+                        String status =  candidates.get(this.getIndex()).getStatus();
+
+                        if(status.equals("finished")){
+                            getTableRow().setStyle("-fx-background-color: rgb(53,109,48);");
+                        } else if (status.equals("unfinished")){
+                            getTableRow().setStyle("-fx-background-color: rgb(156,156,59);");
+                        } else if (status.equals("invalidFields")){
+                            getTableRow().setStyle("-fx-background-color: rgb(157,57,68);");
+                        } else if (status.equals("allFields")) {
+                            getTableRow().setStyle("-fx-background-color: rgb(108,139,68);");
+                        } else {
+                            getTableRow().setStyle("");
+                        }
+                    }
+                }
+
+                @Override
+                public void startEdit() {
+                    editingIndex = getIndex();
+                    super.startEdit();
+                }
+
+                @Override
+                public void commitEdit(String newValue) {
+                    editingIndex = -1 ;
+                    super.commitEdit(newValue);
+                }
+
+                @Override
+                public void cancelEdit() {
+                    editingIndex = -1 ;
+                    super.cancelEdit();
+                }
+
+            };
+        }
+    }
+
+    @FXML
+    public void handleExportFile() {
+        String errorMessage = validateList();
+        handleErrorMessage(errorMessage);
+    }
+
+    private void handleErrorMessage(String errorMessage) {
+        if (errorMessage.length() != 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Feilmeldinger");
+            alert.setHeaderText("Listen har feil");
+            alert.setContentText(errorMessage);
+            alert.showAndWait();
+        } else {
+            // TODO: export the file
+        }
+    }
+    private String validateList() {
+        if (scoringList.getLength() > mainApp.getSettings().getNumCandidates()) {
+            return "Det er for mange kandidater i listen. Fjern kandidater eller endre antallet aksepterte i 'Instillinger'";
+        }
+        // TODO: also validate if some of the candidates has fields missing?
+        return "";
+    }
 }

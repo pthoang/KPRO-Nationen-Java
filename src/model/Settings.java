@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 public class Settings {
 	
 	private int numCandidates = 100;
+	private int numConnections = 10;
 	private String bucketAccessKey;
 	private String bucketSecretKey;
 	private String bucketName = "tunmedia";
@@ -26,6 +27,14 @@ public class Settings {
 	
 	public void setNumCandidates(int numCandidates) {
 		this.numCandidates = numCandidates;
+	}
+
+	public int getNumConnections() {
+		return numConnections;
+	}
+
+	public void setNumConnections(int numConnections) {
+		this.numConnections = numConnections;
 	}
 	
 	public String getBucketAccessKey() {
@@ -57,19 +66,18 @@ public class Settings {
 	}
 	
 	public void setFolderName(String folderName) {
-		System.out.println("Foldername " + folderName + " in " + this);
 		this.folderName = folderName;
 	}
-	
+
+	// TODO: remove after testing
 	// Just under testing
 	private void setDefaultKeys() {
 		try (Stream<String> stream = Files.lines(Paths.get("rootkey.csv"))) {
 			List<String> keys = stream.collect(Collectors.toList());
 			bucketAccessKey = keys.get(0).split("=")[1];
-			bucketSecretKey = keys.get(1).split("=")[1];				
+			bucketSecretKey = keys.get(1).split("=")[1];
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
 }

@@ -3,47 +3,48 @@ package model;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Connection {
-	
-	private Candidate candidate;
+
 	private Person person;
-	
 	private SimpleStringProperty description;
 	
-	public Connection(Candidate candidate, Person person, String description) {
-		this.candidate = candidate;
+	public Connection(Person person, String description) {
 		this.person = person;
 		this.description = new SimpleStringProperty(description);	
 	}
-	
-	public SimpleStringProperty nameProperty() {
+
+	public SimpleStringProperty getNameProperty() {
 		return person.getNameProperty();
 	}
-	
-	public void setName(String name) {
-		person.setName(name);
-	}
-	
-	public SimpleStringProperty descriptionProperty() {
+
+	public SimpleStringProperty getDescriptionProperty() {
 		return description;
 	}
 	
 	public void setDescription(String description) {
 		this.description = new SimpleStringProperty(description);
 	}
-	
-	public String getName() {
-		return person.getName();
-	}
-	
+
 	public String getDescription() {
 		return description.get();
 	}
-	
-	public String getImageURL() {
-		return person.getImageURL();
+
+	public Person getPerson() {
+		return person;
 	}
-	
+
+    public String getImageURL() {
+        return this.person.getImageURL();
+    }
+
+	public String getName() {
+		return this.person.getName();
+	}
+
+	public void setName(String name) {
+		this.person.setName(name);
+	}
+
 	public void setImageURL(String imageURL) {
-		person.setImageURL(imageURL);
+		this.person.setImageURL(imageURL);
 	}
 }

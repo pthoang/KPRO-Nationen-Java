@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane alignment="center" hgap="10" vgap="10" GridPane.columnIndex="1" GridPane.rowIndex="0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CandidateController">
+<GridPane alignment="center" hgap="10" vgap="10" GridPane.columnIndex="1" GridPane.rowIndex="0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CandidateController">
     <children>
 
         <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="150.0" onMouseClicked="#handleChangeImage" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.rowSpan="3" />
@@ -24,16 +24,16 @@
         <TextField fx:id="previousYearRankField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
         <TextField fx:id="rankField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-        <Label maxWidth="200" text="Beskrivelse:" GridPane.rowIndex="10" />
-        <TextArea fx:id="descriptionField" maxHeight="200" GridPane.columnSpan="3" GridPane.rowIndex="11" />
+        <Label maxWidth="200" text="Beskrivelse:" GridPane.rowIndex="11" />
+        <TextArea fx:id="descriptionField" maxHeight="200" GridPane.columnSpan="3" GridPane.rowIndex="12" />
 
         <TextField fx:id="municipalityField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-        <TextField fx:id="animalsPGField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-        <TextField fx:id="hiredHelpPGField" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-        <TextField fx:id="farmingPGField" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+        <TextField fx:id="animalsPGField" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+        <TextField fx:id="hiredHelpPGField" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+        <TextField fx:id="farmingPGField" GridPane.columnIndex="1" GridPane.rowIndex="10" />
 
         <Label maxWidth="200" text="Nettverk:" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-        <TableView fx:id="networkTable" maxHeight="200" GridPane.columnIndex="2" GridPane.rowIndex="7" GridPane.rowSpan="3">
+        <TableView fx:id="networkTable" maxHeight="200" GridPane.columnIndex="2" GridPane.rowIndex="8" GridPane.rowSpan="3">
 
 <!--         <Label maxWidth="200" text="Nettverk:" GridPane.columnIndex="2" GridPane.rowIndex="5" /> -->
 <!--         <TableView fx:id="networkTable" maxHeight="200" GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.rowSpan="3"> -->
@@ -43,7 +43,7 @@
                 <TableColumn fx:id="networkDescriptionColumn" minWidth="250" text="Beskrivelse" />
             </columns></TableView>
 
-        <ToolBar GridPane.columnSpan="3" GridPane.rowIndex="12">
+        <ToolBar GridPane.columnSpan="3" GridPane.rowIndex="13">
             <items>
                 <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDelete" text="Slett kandidat" />
                 <Button fx:id="saveCandidateButton" mnemonicParsing="false" onAction="#handleSaveChangesToCandidate" text="Lagre kandidat" />
@@ -58,13 +58,15 @@
         <Label maxWidth="200" text="Årets rangering" GridPane.rowIndex="3" />
 
         <Label maxWidth="200" text="Kommune" GridPane.rowIndex="4" />
-        <Label maxWidth="200" text="Dyr" GridPane.rowIndex="7" />
-        <Label maxWidth="200" text="Avløser" GridPane.rowIndex="8" />
-        <Label maxWidth="200" text="Jordbruk" GridPane.rowIndex="9" />
+        <Label maxWidth="200" text="Dyr" GridPane.rowIndex="8" />
+        <Label maxWidth="200" text="Avløser" GridPane.rowIndex="9" />
+        <Label maxWidth="200" text="Jordbruk" GridPane.rowIndex="10" />
         <ChoiceBox fx:id="genderChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
         <Label text="Kjønn" GridPane.rowIndex="5" />
       <Label maxWidth="200.0" text="Fødselsår" GridPane.rowIndex="6" />
       <TextField fx:id="yearOfBirthField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+      <TextField fx:id="twitterField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+      <Label text="Twitter" GridPane.rowIndex="7" />
 
     </children>
     <columnConstraints>
@@ -80,6 +82,7 @@
         <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="93.0" minHeight="10.0" prefHeight="44.0" valignment="CENTER" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="93.0" minHeight="10.0" prefHeight="44.0" valignment="CENTER" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="112.0" minHeight="10.0" prefHeight="95.0" valignment="CENTER" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="112.0" minHeight="0.0" prefHeight="95.0" valignment="CENTER" vgrow="SOMETIMES" />
         <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
         <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />

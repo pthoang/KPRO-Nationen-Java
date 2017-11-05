@@ -214,5 +214,4 @@ public class MainApp extends Application {
 		return settings;
 
 	}
-
 }

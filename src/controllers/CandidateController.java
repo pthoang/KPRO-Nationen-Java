@@ -51,6 +51,8 @@ public class CandidateController {
     private TextField farmingPGField = new TextField();
     @FXML
     private TextField yearOfBirthField = new TextField();
+    @FXML
+    private TextField twitterField = new TextField();
 
     @FXML
     private TableView<Connection> networkTable;
@@ -372,6 +374,9 @@ public class CandidateController {
         String newYearOfBirth = yearOfBirthField.getText();
         candidate.setYearOfBirth(newYearOfBirth);
 
+        String twitter = twitterField.getText();
+        candidate.setTwitter(new SimpleStringProperty(twitter));
+
         // TODO: Save all the fields related to the different sources
     }
 
@@ -407,6 +412,7 @@ public class CandidateController {
         hiredHelpPGField.setText(Integer.toString(candidate.getHiredHelpPG()));
         farmingPGField.setText(Integer.toString(candidate.getFarmingPG()));
         yearOfBirthField.setText(candidate.getYearOfBirth());
+        twitterField.setText(candidate.getTwitter());
 
         setCompleteButton();
         handleIfPersonOrNot();
@@ -447,6 +453,7 @@ public class CandidateController {
         hiredHelpPGField.setText("");
         farmingPGField.setText("");
         yearOfBirthField.setText("");
+        twitterField.setText("");
     }
 
     private void setImageField(File file) {

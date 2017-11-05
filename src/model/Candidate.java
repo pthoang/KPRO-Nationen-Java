@@ -21,6 +21,7 @@ public class Candidate extends Person {
 	private SimpleIntegerProperty previousYearRank;
 	private String status;
 	private String gender = "";
+	private String yearOfBirth;
 
 	private ArrayList organizations;
 
@@ -137,6 +138,15 @@ public class Candidate extends Person {
 	public String getGender() {
 		return gender;
 	}
+
+	public String getYearOfBirth() {
+		return yearOfBirth;
+	}
+
+	public void setYearOfBirth(String yearOfBirth) {
+		this.yearOfBirth = yearOfBirth;
+	}
+
 
 	// Validation
 	public String validate(String name, String rank, String previousYearRank, String gender, String description) {

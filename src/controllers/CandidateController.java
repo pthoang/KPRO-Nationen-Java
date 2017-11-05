@@ -49,6 +49,8 @@ public class CandidateController {
     private TextField hiredHelpPGField = new TextField();
     @FXML
     private TextField farmingPGField = new TextField();
+    @FXML
+    private TextField yearOfBirthField = new TextField();
 
     @FXML
     private TableView<Connection> networkTable;
@@ -146,6 +148,11 @@ public class CandidateController {
         imageView.imageProperty().addListener((observable, oldValue, newValue) -> {
             disableButtons(false);
         });
+        
+        yearOfBirthField.textProperty().addListener((observable, oldValue, newValue) -> {
+        	markAsDoneButton.setDisable(false);
+            saveCandidateButton.setDisable(false);
+        });
 
         genderChoiceBox.getItems().addAll(GENDER_CHOICES);
         genderChoiceBox.setValue("");
@@ -200,6 +207,10 @@ public class CandidateController {
         String errorMessage = "";
 
         errorMessage += validateCandidate();
+        
+//        //Year of Birth
+//        String newYearOfBirth = yearOfBirthField.getText();
+//        candidate.setYearOfBirth(newYearOfBirth);
 
         // Municipality
         // TODO: missing validation
@@ -357,6 +368,9 @@ public class CandidateController {
 
         int previousYearRank = Integer.parseInt(previousYearRankField.getText());
         candidate.setPreviousYearRank(new SimpleIntegerProperty(previousYearRank));
+        
+        String newYearOfBirth = yearOfBirthField.getText();
+        candidate.setYearOfBirth(newYearOfBirth);
 
         // TODO: Save all the fields related to the different sources
     }
@@ -392,6 +406,7 @@ public class CandidateController {
         animalsPGField.setText(Integer.toString(candidate.getAnimalsPG()));
         hiredHelpPGField.setText(Integer.toString(candidate.getHiredHelpPG()));
         farmingPGField.setText(Integer.toString(candidate.getFarmingPG()));
+        yearOfBirthField.setText(candidate.getYearOfBirth());
 
         setCompleteButton();
         handleIfPersonOrNot();
@@ -431,6 +446,7 @@ public class CandidateController {
         animalsPGField.setText("");
         hiredHelpPGField.setText("");
         farmingPGField.setText("");
+        yearOfBirthField.setText("");
     }
 
     private void setImageField(File file) {

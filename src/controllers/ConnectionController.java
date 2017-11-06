@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import java.util.List;
 import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 
@@ -14,6 +17,7 @@ import Main.MainApp;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import model.Candidate;
 import model.Connection;
@@ -27,6 +31,13 @@ public class ConnectionController {
 	private TextField descriptionField;
 	@FXML
 	private ImageView imageView = new ImageView();
+
+	@FXML
+	private Button saveButton;
+	@FXML
+	private Button deleteButton;
+	@FXML
+	private Button chooseButton;
 
 	private Connection connection;
 	private Candidate candidate;
@@ -49,6 +60,28 @@ public class ConnectionController {
 
 	public void setCandidate(Candidate candidate) {
 		this.candidate = candidate;
+	}
+
+	@FXML
+	public void initialize() {
+		System.out.println("Initialize ConnectionController");
+		nameField.textProperty().addListener((observable, oldValue, newValue) -> {
+			saveButton.setDisable(false);
+		});
+
+		descriptionField.textProperty().addListener((observable, oldValue, newValue) -> {
+			saveButton.setDisable(false);
+		});
+
+		/*
+		imageView.imageProperty().addListener((observable, oldValue, newValue) -> {
+			saveButton.setDisable(false);
+		});
+		*/
+
+		saveButton.setDisable(true);
+		deleteButton.setDisable(true);
+		System.out.println("Disabled save: " + saveButton.isDisabled());
 	}
 
 	@FXML
@@ -162,18 +195,20 @@ public class ConnectionController {
 
 	@FXML
 	public void handleCancel() {
-		System.out.println("Cancel");
 		parent.closeDialog();
 	}
 
 	public void setConnection(Connection connection) {
-		this.connection = connection;
-		if (connection != null) {
-			setFields();
-		}
-	}
+        this.connection = connection;
+        if (connection != null) {
+            setFields();
+        } else {
+            setImageField(imageURL);
+            saveButton.setDisable(true);
+        }
+    }
 
-	public void setImageField() {
+	public void setImageField(String imageURL) {
 		File file = new File(imageURL);
 		try {
 			BufferedImage bufferedImage = ImageIO.read(file);
@@ -187,17 +222,24 @@ public class ConnectionController {
 	private void setFields() {
 		nameField.setText(connection.getPerson().getName());
 		descriptionField.setText(connection.getDescription());
-		File file = new File(connection.getPerson().getImageURL());
-		try {
-			BufferedImage bufferedImage = ImageIO.read(file);
-			Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-			imageView.setImage(image);
-		} catch (IOException ex) {
-			System.out.println("Error when loading image: " + ex);
-		}
+		setImageField(connection.getPerson().getImageURL());
 
+		deleteButton.setDisable(false);
+		if (isChosen()) {
+			chooseButton.setDisable(true);
+		}
+        saveButton.setDisable(true);
 	}
-	
-	
+
+	private boolean isChosen() {
+	    int num = Math.min(candidate.getConnections().size(), 10);
+		for (int i = 0; i < num; i++) {
+		    Connection c = candidate.getConnections().get(i);
+			if (connection == c) {
+                return true;
+            }
+		}
+		return false;
+	}
 }
 

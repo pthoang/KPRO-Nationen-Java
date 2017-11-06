@@ -120,6 +120,9 @@ public class CandidateController {
             return row;
         });
         */
+
+        networkTable.setPlaceholder(new Label("Ingen koblinger å vise"));
+        markSelectedConnections();
         /**
          * Adding listeners to the textfields for feedback handling
          */
@@ -514,19 +517,13 @@ public class CandidateController {
         connectionController.setParent(this);
         connectionController.setCandidate(candidate);
         connectionController.setConnection(connection);
-        connectionController.setImageField();
 
         Scene dialogScene = new Scene(connectionView);
         dialog.setScene(dialogScene);
         connectionDialog = dialog;
         if (open || connection != null) {
             dialog.show();
-        } else {
-            System.out.println("Don't open dialog");
         }
-        System.out.println("Selected: " + networkTable.getSelectionModel().getSelectedItem());
-        System.out.println("Connection: " + connection);
-        System.out.println("OPending dialog");
     }
 
     @FXML

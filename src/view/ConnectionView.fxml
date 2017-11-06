@@ -17,7 +17,7 @@
                 <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancel" text="Avbryt" />
                 <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDelete" text="Slett" />
                 <Button fx:id="addImageButton" mnemonicParsing="false" onAction="#handleAddImage" text="Legg til bilde" />
-            <Button mnemonicParsing="false" onAction="#handleChooseAsNetwork" text="Velg som nettverk" />
+                <Button fx:id="chooseButton" mnemonicParsing="false" onAction="#handleChooseAsNetwork" text="Velg som nettverk" />
             </items>
         </ToolBar>
         <Label text="Beskrivelse" GridPane.rowIndex="3" />

@@ -13,6 +13,8 @@
 
 .choice-box {
     -fx-background-color: #4e4e4e;
+    -fx-control-inner-background: #616161;
+    -fx-text-fill: white;
 }
 
 .choice-box:hover {

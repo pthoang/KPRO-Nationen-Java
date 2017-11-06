@@ -24,6 +24,9 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import javafx.scene.input.MouseEvent;
+
+import java.beans.EventHandler;
 
 public class CandidateController {
 
@@ -99,9 +102,24 @@ public class CandidateController {
         networkNameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
         networkDescriptionColumn.setCellValueFactory(cellData -> cellData.getValue().getDescriptionProperty());
 
-        networkTable.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> connectionDialog(newValue, false));
+        //networkTable.getSelectionModel().selectedItemProperty().addListener(
+        //        (observable, oldValue, newValue) -> connectionDialog(newValue, false));
 
+        /*
+        networkTable.setRowFactory(connection -> {
+            TableRow<Connection> row = new TableRow<>();
+            row.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                        Connection connection = row.getItem();
+                        connectionDialog(connection, true);
+                    }
+                }
+            });
+            return row;
+        });
+        */
         /**
          * Adding listeners to the textfields for feedback handling
          */
@@ -509,6 +527,18 @@ public class CandidateController {
         System.out.println("Selected: " + networkTable.getSelectionModel().getSelectedItem());
         System.out.println("Connection: " + connection);
         System.out.println("OPending dialog");
+    }
+
+    @FXML
+    public void openConnection(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            Connection connection = networkTable.getSelectionModel().getSelectedItem();
+            System.out.println("Conneciton: " + connection);
+            if (connection != null) {
+
+                connectionDialog(connection, true);
+            }
+        }
     }
 
 

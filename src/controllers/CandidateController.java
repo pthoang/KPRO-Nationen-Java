@@ -68,7 +68,6 @@ public class CandidateController {
     private Button markAsDoneButton;
 
     private final String IMAGE_PATH = "images/";
-    private final String STANDARD_IMAGE_PATH = "images/standard.png";
     private AmazonBucketUploader bucketUploader;
     private Image newImage;
     private Candidate candidate;
@@ -438,7 +437,8 @@ public class CandidateController {
     }
 
     private void cleanFields() {
-        File file = new File(STANDARD_IMAGE_PATH);
+        String standardImagePath = "images/standard.png";
+        File file = new File(standardImagePath);
         setImageField(file);
 
         nameField.setText("");
@@ -512,15 +512,12 @@ public class CandidateController {
     public void openConnection(MouseEvent event) {
         if (event.getClickCount() == 2) {
             Connection connection = networkTable.getSelectionModel().getSelectedItem();
-            System.out.println("Conneciton: " + connection);
             if (connection != null) {
 
                 connectionDialog(connection, true);
             }
         }
     }
-
-
 
     public void closeDialog() {
         System.out.println("Calling close dialog");
@@ -530,12 +527,8 @@ public class CandidateController {
 
     private void updateNetworkList() {
         networkTable.setItems(candidate.getConnections());
-        System.out.println("Update networkList: set Items");
         networkTable.refresh();
-        System.out.println("Refresh networktable");
-        // TODO: open the dialog again
         networkTable.getSelectionModel().clearSelection();
-        System.out.println("Clear selection");
     }
 
     public void chooseConnection(Connection selectedConnection) {

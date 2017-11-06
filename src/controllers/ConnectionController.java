@@ -5,9 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import java.util.List;
 import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 
@@ -64,7 +61,6 @@ public class ConnectionController {
 
 	@FXML
 	public void initialize() {
-		System.out.println("Initialize ConnectionController");
 		nameField.textProperty().addListener((observable, oldValue, newValue) -> {
 			saveButton.setDisable(false);
 		});
@@ -73,15 +69,8 @@ public class ConnectionController {
 			saveButton.setDisable(false);
 		});
 
-		/*
-		imageView.imageProperty().addListener((observable, oldValue, newValue) -> {
-			saveButton.setDisable(false);
-		});
-		*/
-
 		saveButton.setDisable(true);
 		deleteButton.setDisable(true);
-		System.out.println("Disabled save: " + saveButton.isDisabled());
 	}
 
 	@FXML

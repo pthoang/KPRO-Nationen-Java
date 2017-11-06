@@ -100,7 +100,7 @@ public class CandidateController {
         networkDescriptionColumn.setCellValueFactory(cellData -> cellData.getValue().getDescriptionProperty());
 
         networkTable.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> connectionDialog(newValue));
+                (observable, oldValue, newValue) -> connectionDialog(newValue, false));
 
         /**
          * Adding listeners to the textfields for feedback handling
@@ -320,7 +320,7 @@ public class CandidateController {
 
     @FXML
     public void handleAddConnection() {
-        connectionDialog(null);
+        connectionDialog(null, true);
     }
     /*
     private Candidate getCandidateByName(String name) {
@@ -476,7 +476,7 @@ public class CandidateController {
     }
 
     // Connection dialog
-    private void connectionDialog(Connection connection) {
+    private void connectionDialog(Connection connection, boolean open) {
         final Stage dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.initOwner(parent.getMainApp().getStage());
@@ -501,17 +501,32 @@ public class CandidateController {
         Scene dialogScene = new Scene(connectionView);
         dialog.setScene(dialogScene);
         connectionDialog = dialog;
-        dialog.show();
+        if (open || connection != null) {
+            dialog.show();
+        } else {
+            System.out.println("Don't open dialog");
+        }
+        System.out.println("Selected: " + networkTable.getSelectionModel().getSelectedItem());
+        System.out.println("Connection: " + connection);
+        System.out.println("OPending dialog");
     }
 
+
+
     public void closeDialog() {
-        updateNetworkList();
+        System.out.println("Calling close dialog");
         connectionDialog.close();
+        updateNetworkList();
     }
 
     private void updateNetworkList() {
         networkTable.setItems(candidate.getConnections());
+        System.out.println("Update networkList: set Items");
         networkTable.refresh();
+        System.out.println("Refresh networktable");
+        // TODO: open the dialog again
+        networkTable.getSelectionModel().clearSelection();
+        System.out.println("Clear selection");
     }
 
     public void chooseConnection(Connection selectedConnection) {

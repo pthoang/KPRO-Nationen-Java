@@ -162,6 +162,7 @@ public class ConnectionController {
 
 	@FXML
 	public void handleCancel() {
+		System.out.println("Cancel");
 		parent.closeDialog();
 	}
 

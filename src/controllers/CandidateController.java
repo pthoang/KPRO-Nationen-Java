@@ -95,6 +95,8 @@ public class CandidateController {
     public void setCandidate(Candidate candidate) {
         this.candidate = candidate;
         setFields();
+        updateNetworkList();
+        markSelectedConnections();
     }
 
     @FXML
@@ -102,31 +104,11 @@ public class CandidateController {
         networkNameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
         networkDescriptionColumn.setCellValueFactory(cellData -> cellData.getValue().getDescriptionProperty());
 
-        //networkTable.getSelectionModel().selectedItemProperty().addListener(
-        //        (observable, oldValue, newValue) -> connectionDialog(newValue, false));
-
-        /*
-        networkTable.setRowFactory(connection -> {
-            TableRow<Connection> row = new TableRow<>();
-            row.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                        Connection connection = row.getItem();
-                        connectionDialog(connection, true);
-                    }
-                }
-            });
-            return row;
-        });
-        */
-
         networkTable.setPlaceholder(new Label("Ingen koblinger å vise"));
-        markSelectedConnections();
+
         /**
          * Adding listeners to the textfields for feedback handling
          */
-        // TODO: can't this be done in a loop?
         nameField.textProperty().addListener((observable, oldValue, newValue) -> {
             disableButtons(false);
         });
@@ -153,6 +135,18 @@ public class CandidateController {
             disableButtons(false);
         });
 
+        imageView.imageProperty().addListener((observable, oldValue, newValue) -> {
+            disableButtons(false);
+        });
+        
+        yearOfBirthField.textProperty().addListener((observable, oldValue, newValue) -> {
+        	markAsDoneButton.setDisable(false);
+            saveCandidateButton.setDisable(false);
+        });
+
+        genderChoiceBox.getItems().addAll(GENDER_CHOICES);
+        genderChoiceBox.setValue("");
+
         // TODO: Move to its own class
         animalsPGField.textProperty().addListener((observable, oldValue, newValue) -> {
             disableButtons(false);
@@ -165,18 +159,6 @@ public class CandidateController {
         farmingPGField.textProperty().addListener((observable, oldValue, newValue) -> {
             disableButtons(false);
         });
-
-        imageView.imageProperty().addListener((observable, oldValue, newValue) -> {
-            disableButtons(false);
-        });
-        
-        yearOfBirthField.textProperty().addListener((observable, oldValue, newValue) -> {
-        	markAsDoneButton.setDisable(false);
-            saveCandidateButton.setDisable(false);
-        });
-
-        genderChoiceBox.getItems().addAll(GENDER_CHOICES);
-        genderChoiceBox.setValue("");
     }
 
     private void disableButtons(boolean disable) {

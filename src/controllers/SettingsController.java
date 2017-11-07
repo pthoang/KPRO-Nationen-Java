@@ -83,7 +83,8 @@ public class SettingsController {
 				// Creates a description for the input
 				Label dsfName = new Label(dsf.getName());
 
-				// Creates a textfield. Todo. add update handler
+				//creates a textfield
+
 				TextField dsfFilePath = new TextField();
 				dsfFilePath.textProperty().addListener((observable, oldValue, newValue) -> {
 					dsf.setFilepath(newValue);

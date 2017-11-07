@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class Person {
 	
-	private SimpleStringProperty name;
+	public SimpleStringProperty name;
 	private SimpleStringProperty imageURL = new SimpleStringProperty("resources/standard.png");
 	
 	public Person(String name, String imageURL) {
@@ -49,4 +49,8 @@ public class Person {
 
 		return errorMessage;
 	}
+
+    public void setImageURLProperty(SimpleStringProperty imageURLProperty) {
+        this.imageURL = imageURLProperty;
+    }
 }

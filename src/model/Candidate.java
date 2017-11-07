@@ -22,6 +22,7 @@ public class Candidate extends Person {
 	private String status;
 	private String gender = "";
 	private String yearOfBirth;
+	private String profession;
 
 	private ArrayList organizations;
 
@@ -145,6 +146,14 @@ public class Candidate extends Person {
 
 	public void setYearOfBirth(String yearOfBirth) {
 		this.yearOfBirth = yearOfBirth;
+	}
+
+	public String getProfession() {
+		return profession;
+	}
+
+	public void setProfession(String profession) {
+		this.profession = profession;
 	}
 
 

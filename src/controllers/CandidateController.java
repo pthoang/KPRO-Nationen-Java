@@ -55,6 +55,7 @@ public class CandidateController {
     @FXML
     private TextField yearOfBirthField = new TextField();
     @FXML
+    private TextField twitterField = new TextField();
 	private TextField professionField = new TextField();
 
     @FXML
@@ -387,6 +388,9 @@ public class CandidateController {
         String newProfession = professionField.getText();
         candidate.setProfession(newProfession);
 
+        String twitter = twitterField.getText();
+        candidate.setTwitter(new SimpleStringProperty(twitter));
+
         // TODO: Save all the fields related to the different sources
     }
 
@@ -422,6 +426,7 @@ public class CandidateController {
         hiredHelpPGField.setText(Integer.toString(candidate.getHiredHelpPG()));
         farmingPGField.setText(Integer.toString(candidate.getFarmingPG()));
         yearOfBirthField.setText(candidate.getYearOfBirth());
+        twitterField.setText(candidate.getTwitter());
         professionField.setText(candidate.getProfession());
 
         setCompleteButton();
@@ -464,6 +469,7 @@ public class CandidateController {
         hiredHelpPGField.setText("");
         farmingPGField.setText("");
         yearOfBirthField.setText("");
+        twitterField.setText("");
         professionField.setText("");
     }
 

@@ -21,6 +21,7 @@ public class Candidate extends Person {
 	private SimpleStringProperty description = new SimpleStringProperty("");
 	private SimpleIntegerProperty rank;
 	private SimpleIntegerProperty previousYearRank;
+	private SimpleStringProperty twitterLink = new SimpleStringProperty();
 	private String status;
 	private String gender = "";
 	private String yearOfBirth;
@@ -161,6 +162,13 @@ public class Candidate extends Person {
 		this.previousYearRank = previousYearRank;
 	}
 
+	public void setTwitter(SimpleStringProperty twitterLink) {
+		this.twitterLink = twitterLink;
+	}
+
+	public String getTwitter() {
+		return this.twitterLink.get();
+	}
 
 	// TODO
 	// Missing functions to validate rank etc

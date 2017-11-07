@@ -24,6 +24,9 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import javafx.scene.input.MouseEvent;
+
+import java.beans.EventHandler;
 
 public class CandidateController {
 
@@ -67,7 +70,6 @@ public class CandidateController {
     private Button markAsDoneButton;
 
     private final String IMAGE_PATH = "images/";
-    private final String STANDARD_IMAGE_PATH = "images/standard.png";
     private AmazonBucketUploader bucketUploader;
     private Image newImage;
     private Candidate candidate;
@@ -94,6 +96,8 @@ public class CandidateController {
     public void setCandidate(Candidate candidate) {
         this.candidate = candidate;
         setFields();
+        updateNetworkList();
+        markSelectedConnections();
     }
 
     @FXML
@@ -101,13 +105,11 @@ public class CandidateController {
         networkNameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
         networkDescriptionColumn.setCellValueFactory(cellData -> cellData.getValue().getDescriptionProperty());
 
-        networkTable.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> connectionDialog(newValue));
+        networkTable.setPlaceholder(new Label("Ingen koblinger å vise"));
 
         /**
          * Adding listeners to the textfields for feedback handling
          */
-        // TODO: can't this be done in a loop?
         nameField.textProperty().addListener((observable, oldValue, newValue) -> {
             disableButtons(false);
         });
@@ -134,6 +136,22 @@ public class CandidateController {
             disableButtons(false);
         });
 
+        imageView.imageProperty().addListener((observable, oldValue, newValue) -> {
+            disableButtons(false);
+        });
+        
+        yearOfBirthField.textProperty().addListener((observable, oldValue, newValue) -> {
+        	markAsDoneButton.setDisable(false);
+            saveCandidateButton.setDisable(false);
+        });
+
+        genderChoiceBox.getItems().addAll(GENDER_CHOICES);
+        genderChoiceBox.setValue("");
+
+        professionField.textProperty().addListener((observable, oldValue, newValue) -> {
+        	disableButtons(false);
+        });
+      
         // TODO: Move to its own class
         animalsPGField.textProperty().addListener((observable, oldValue, newValue) -> {
             disableButtons(false);
@@ -146,21 +164,10 @@ public class CandidateController {
         farmingPGField.textProperty().addListener((observable, oldValue, newValue) -> {
             disableButtons(false);
         });
-
-        imageView.imageProperty().addListener((observable, oldValue, newValue) -> {
-            disableButtons(false);
-        });
         
-        yearOfBirthField.textProperty().addListener((observable, oldValue, newValue) -> {
-        	disableButtons(false);
-        });
-        
-        professionField.textProperty().addListener((observable, oldValue, newValue) -> {
-        	disableButtons(false);
-        });
-
         genderChoiceBox.getItems().addAll(GENDER_CHOICES);
         genderChoiceBox.setValue("");
+
     }
 
     private void disableButtons(boolean disable) {
@@ -325,7 +332,7 @@ public class CandidateController {
 
     @FXML
     public void handleAddConnection() {
-        connectionDialog(null);
+        connectionDialog(null, true);
     }
     /*
     private Candidate getCandidateByName(String name) {
@@ -444,7 +451,8 @@ public class CandidateController {
     }
 
     private void cleanFields() {
-        File file = new File(STANDARD_IMAGE_PATH);
+        String standardImagePath = "images/standard.png";
+        File file = new File(standardImagePath);
         setImageField(file);
 
         nameField.setText("");
@@ -486,7 +494,7 @@ public class CandidateController {
     }
 
     // Connection dialog
-    private void connectionDialog(Connection connection) {
+    private void connectionDialog(Connection connection, boolean open) {
         final Stage dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.initOwner(parent.getMainApp().getStage());
@@ -506,22 +514,36 @@ public class CandidateController {
         connectionController.setParent(this);
         connectionController.setCandidate(candidate);
         connectionController.setConnection(connection);
-        connectionController.setImageField();
 
         Scene dialogScene = new Scene(connectionView);
         dialog.setScene(dialogScene);
         connectionDialog = dialog;
-        dialog.show();
+        if (open || connection != null) {
+            dialog.show();
+        }
+    }
+
+    @FXML
+    public void openConnection(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            Connection connection = networkTable.getSelectionModel().getSelectedItem();
+            if (connection != null) {
+
+                connectionDialog(connection, true);
+            }
+        }
     }
 
     public void closeDialog() {
-        updateNetworkList();
+        System.out.println("Calling close dialog");
         connectionDialog.close();
+        updateNetworkList();
     }
 
     private void updateNetworkList() {
         networkTable.setItems(candidate.getConnections());
         networkTable.refresh();
+        networkTable.getSelectionModel().clearSelection();
     }
 
     public void chooseConnection(Connection selectedConnection) {

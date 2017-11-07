@@ -3,6 +3,7 @@
 images/*
 
 ./idea
+out/
 #
 # Project specific excludes. copied from https://gist.github.com/chhh/4961200
 #

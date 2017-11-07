@@ -1,16 +1,16 @@
 package interfaces;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import model.Candidate;
 import model.DataSourceFile;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public interface DataSourceInterface {
-    //the return type here needs to change to something. todo
-    public void getData(Candidate candidate);
-
-    public void setFilePath(File path);
+    public void getData(List<Candidate> candidates);
 
     public String getNameOfRegister();
 

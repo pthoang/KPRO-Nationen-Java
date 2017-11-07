@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Calendar;
 
 import controllers.*;
+import interfaces.DataSourceInterface;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.AmazonBucketUploader;
+import model.Candidate;
 import model.ScoringList;
 import model.Settings;
 import model.DataSources;
@@ -202,8 +204,16 @@ public class MainApp extends Application {
 		bucketUploader.setKeys(settings.getBucketAccessKey(), settings.getBucketSecretKey());
 	}
 
+	public void generateAll() {
+
+		for (DataSourceInterface datasource : ds.getDsList()) {
+			datasource.getData(scoringList.getCandidates());
+		}
+	}
+
 	public Settings getSettings() {
 		return settings;
+
 	}
 
 }

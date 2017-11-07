@@ -31,4 +31,20 @@ public class Connection {
 	public Person getPerson() {
 		return person;
 	}
+
+    public String getImageURL() {
+        return this.person.getImageURL();
+    }
+
+	public String getName() {
+		return this.person.getName();
+	}
+
+	public void setName(String name) {
+		this.person.setName(name);
+	}
+
+	public void setImageURL(String imageURL) {
+		this.person.setImageURL(imageURL);
+	}
 }

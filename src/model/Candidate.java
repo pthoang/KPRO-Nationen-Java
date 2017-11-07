@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Set;
-
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.common.collect.ImmutableSet;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -26,10 +28,14 @@ public class Candidate extends Person {
 
 	private ArrayList organizations;
 
+
+	private JsonObject rawData = new JsonObject();
+
 	// PG stands for ProductionGrants
 	private SimpleIntegerProperty animalsPG = new SimpleIntegerProperty(0);
 	private SimpleIntegerProperty hiredHelpPG = new SimpleIntegerProperty(0);
 	private SimpleIntegerProperty farmingPG = new SimpleIntegerProperty(0);
+
 
 	private ObservableList<Connection> connections =  FXCollections.observableArrayList();
 
@@ -47,6 +53,81 @@ public class Candidate extends Person {
 		this.previousYearRank = new SimpleIntegerProperty(rank);
 		this.description.setValue(despcription);
 	}
+
+	//appends test organizations
+	public void testOrg() {
+		JsonObject testData1 = new JsonObject();
+		JsonObject testData2 = new JsonObject();
+
+		int org = 975938883;
+		String name = "BJØRN RUNE KYNNINGSRUD";
+		int stocks = 131;
+		int value = 4;
+
+
+		int org1 = 984566077;
+		String name1 = "BEST MELK SAMDRIFT DA";
+		int stocks1 = 149;
+		int value1 = 11;
+
+		testData1.addProperty("org", org);
+		testData1.addProperty("name", name);
+		testData1.addProperty("stocks", stocks);
+		testData1.addProperty("value", value);
+
+		testData2.addProperty("org", org1);
+		testData2.addProperty("name", name);
+		testData2.addProperty("stocks", stocks);
+		testData2.addProperty("value", value);
+
+		JsonArray returnObject = new JsonArray();
+		returnObject.add(testData1);
+		returnObject.add(testData2);
+
+		this.rawData.add("stocks", returnObject);
+	}
+
+	public JsonObject getRawData() {
+		return rawData;
+	}
+
+	public void addData(String name, JsonElement element) {
+		rawData.add(name, element);
+	}
+
+	/**
+	 * Get name as string
+	 *
+	 * @return String The name
+	 */
+	public String getName() {
+		return name.get();
+	}
+
+	/**
+	 * Get nameProperty
+	 *
+	 * @return SimpleStringProperty The name
+	 */
+	public SimpleStringProperty nameProperty() {
+		return name;
+	}
+
+	/**
+	 * Set name
+	 *
+	 * @param name
+	 */
+	public void setName(SimpleStringProperty name) {
+		this.name = name;
+	}
+
+	/**
+	 * Get municipality as string
+	 *
+	 * @return String The municipality
+	 */
+
 
 	public String getMunicipality() {
 		return municipality.get();
@@ -79,6 +160,10 @@ public class Candidate extends Person {
 	public void setPreviousYearRank(SimpleIntegerProperty previousYearRank) {
 		this.previousYearRank = previousYearRank;
 	}
+
+
+	// TODO
+	// Missing functions to validate rank etc
 
 	public int getAnimalsPG() {
 		return animalsPG.get();

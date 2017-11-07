@@ -54,6 +54,8 @@ public class CandidateController {
     private TextField farmingPGField = new TextField();
     @FXML
     private TextField yearOfBirthField = new TextField();
+    @FXML
+	private TextField professionField = new TextField();
 
     @FXML
     private TableView<Connection> networkTable;
@@ -146,6 +148,10 @@ public class CandidateController {
         genderChoiceBox.getItems().addAll(GENDER_CHOICES);
         genderChoiceBox.setValue("");
 
+        professionField.textProperty().addListener((observable, oldValue, newValue) -> {
+        	disableButtons(false);
+        });
+      
         // TODO: Move to its own class
         animalsPGField.textProperty().addListener((observable, oldValue, newValue) -> {
             disableButtons(false);
@@ -158,6 +164,10 @@ public class CandidateController {
         farmingPGField.textProperty().addListener((observable, oldValue, newValue) -> {
             disableButtons(false);
         });
+        
+        genderChoiceBox.getItems().addAll(GENDER_CHOICES);
+        genderChoiceBox.setValue("");
+
     }
 
     private void disableButtons(boolean disable) {
@@ -373,6 +383,9 @@ public class CandidateController {
         
         String newYearOfBirth = yearOfBirthField.getText();
         candidate.setYearOfBirth(newYearOfBirth);
+        
+        String newProfession = professionField.getText();
+        candidate.setProfession(newProfession);
 
         // TODO: Save all the fields related to the different sources
     }
@@ -409,6 +422,7 @@ public class CandidateController {
         hiredHelpPGField.setText(Integer.toString(candidate.getHiredHelpPG()));
         farmingPGField.setText(Integer.toString(candidate.getFarmingPG()));
         yearOfBirthField.setText(candidate.getYearOfBirth());
+        professionField.setText(candidate.getProfession());
 
         setCompleteButton();
         handleIfPersonOrNot();
@@ -450,6 +464,7 @@ public class CandidateController {
         hiredHelpPGField.setText("");
         farmingPGField.setText("");
         yearOfBirthField.setText("");
+        professionField.setText("");
     }
 
     private void setImageField(File file) {

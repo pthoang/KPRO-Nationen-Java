@@ -3,6 +3,7 @@
 images/*
 
 ./idea
+out/
 #
 # Project specific excludes. copied from https://gist.github.com/chhh/4961200
 #
@@ -51,6 +52,9 @@ nbactions.xml
 nb-configuration.xml
 
 out/*
+
+out/*
+
 
 # OS
 .DS_Store

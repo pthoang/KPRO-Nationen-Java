@@ -17,7 +17,6 @@ public class SupportDb implements DataSourceInterface {
     private DataSourceFile part1;
 
     public SupportDb() {
-        System.out.println("SupportDb initialized");
 
         requiredFiles = new ArrayList<DataSourceFile>();
 
@@ -102,13 +101,8 @@ public class SupportDb implements DataSourceInterface {
                             //Increase Hired help
                             hiredHelpSubsidies += Integer.parseInt(fields[11]);
                         }
-
-                        System.out.println("WE WON!!!!");
                     }
                 }
-
-                System.out.println("done");
-
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

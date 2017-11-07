@@ -31,6 +31,7 @@ public class MainApp extends Application {
 	private AmazonBucketUploader bucketUploader;
 	private ScoringList scoringList;
 	private Settings settings;
+
 	private DataSources ds = new DataSources();
 
 	public static void main(String[] args) {

@@ -13,17 +13,25 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.util.Callback;
-import javafx.scene.paint.Color;
 import javafx.util.Pair;
 import model.*;
 import Main.MainApp;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import javafx.stage.FileChooser;
+import model.Candidate;
+import model.ScoringList;
+
+import java.io.FileWriter;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.regex.Pattern;
+
+import org.hildan.fxgson.FxGson;
+
+import com.google.gson.Gson;
 
 public class ScoringListController {
 	@FXML
@@ -606,8 +614,42 @@ public class ScoringListController {
 
     @FXML
     public void handleExportFile() {
-        String errorMessage = validateList();
-        handleErrorMessage(errorMessage);
+    	
+    	/**
+		 * Gson creates unnecessary fields in the json because of the property "SimpleStringProperty".
+		 * FxGson is a library which removes the unnecessary fields and generates the required JSON format.
+		 */
+		Gson fxGson = FxGson.create();
+		String json = fxGson.toJson(scoringList); //Serialize an object to json string
+		System.out.println(json);
+		
+		FileChooser fileChooser = new FileChooser();
+        //Set extension filter
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.JSON)", "*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+        //Show save file dialog
+        File file = fileChooser.showSaveDialog(mainApp.getStage());
+        if(file != null){
+            SaveFile(json, file);
+        }
+//		
+//        String errorMessage = validateList();
+//        handleErrorMessage(errorMessage);
+    }
+    
+    /**
+	 * Save the content of gson object as string in a file.
+	 */
+	private void SaveFile(String content, File file){
+        try {
+            FileWriter fileWriter = null;
+            
+            fileWriter = new FileWriter(file);
+            fileWriter.write(content);
+            fileWriter.close();
+        } catch (IOException ex) {
+            
+        }
     }
 
     private void handleErrorMessage(String errorMessage) {

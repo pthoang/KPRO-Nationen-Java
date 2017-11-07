@@ -20,7 +20,7 @@
         </TableView>
       <HBox prefHeight="0.0" prefWidth="248.0" GridPane.rowIndex="1">
          <children>
-            <Button mnemonicParsing="false" onAction="#handleExportFile" prefHeight="26.0" prefWidth="108.0" text="Eksporter fil" />
+            <Button fx:id="exportJsonField" mnemonicParsing="false" onAction="#handleExportFile" prefHeight="26.0" prefWidth="108.0" text="Eksporter fil" />
             <Label fx:id="countLabel" text="0/100" />
          </children>
       </HBox>

@@ -30,7 +30,6 @@ public class Candidate extends Person {
 	private ArrayList organizations;
 
 
-
 	private JsonObject rawData = new JsonObject();
 
 	// PG stands for ProductionGrants

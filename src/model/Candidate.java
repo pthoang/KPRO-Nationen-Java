@@ -300,4 +300,8 @@ public class Candidate extends Person {
 		}
 		return "";
 	}
+
+	public void addRawData(String field, JsonElement data) {
+		this.rawData.add(field, data);
+	}
 }

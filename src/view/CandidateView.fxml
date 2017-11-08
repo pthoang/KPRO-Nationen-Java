@@ -32,8 +32,9 @@
         <TextField fx:id="hiredHelpPGField" GridPane.columnIndex="1" GridPane.rowIndex="9" />
         <TextField fx:id="farmingPGField" GridPane.columnIndex="1" GridPane.rowIndex="10" />
 
-        <Label maxWidth="200" text="Nettverk:" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-        <TableView fx:id="networkTable" maxHeight="200" onMouseClicked="#openConnection" GridPane.columnIndex="2" GridPane.rowIndex="8" GridPane.rowSpan="3">
+        <Label maxWidth="200" text="Nettverk:" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+        <TableView fx:id="networkTable" maxHeight="200" GridPane.columnIndex="2" GridPane.rowIndex="7" GridPane.rowSpan="3">
+
             <columns>
                 <TableColumn fx:id="networkNameColumn" minWidth="110" prefWidth="100.0" text="Navn" />
                 <TableColumn fx:id="networkDescriptionColumn" minWidth="250" text="Beskrivelse" />
@@ -63,10 +64,10 @@
       <Label maxWidth="200.0" text="Fødselsår" GridPane.rowIndex="6" />
       <TextField fx:id="yearOfBirthField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
-      <TextField fx:id="twitterField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-      <Label text="Twitter" GridPane.rowIndex="7" />
+      <TextField fx:id="twitterField" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+      <Label text="Twitter" GridPane.rowIndex="8" />
 
-      <!-- <TextField fx:id="professionField" GridPane.columnIndex="1" GridPane.rowIndex="7" /> -->
+      <TextField fx:id="professionField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
       <Label maxWidth="200.0" text="Yrke" GridPane.rowIndex="7" />
 
 
@@ -84,6 +85,9 @@
         <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="93.0" minHeight="10.0" prefHeight="44.0" valignment="CENTER" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="93.0" minHeight="10.0" prefHeight="44.0" valignment="CENTER" vgrow="SOMETIMES" />
+
+        <RowConstraints maxHeight="93.0" minHeight="10.0" prefHeight="44.0" valignment="CENTER" vgrow="SOMETIMES" />
+
         <RowConstraints maxHeight="112.0" minHeight="0.0" prefHeight="95.0" valignment="CENTER" vgrow="SOMETIMES" />
         <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
         <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />

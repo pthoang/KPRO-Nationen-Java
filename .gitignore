@@ -52,6 +52,7 @@ nbactions.xml
 nb-configuration.xml
 
 out/*
+out/**
 
 # OS
 .DS_Store

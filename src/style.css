@@ -115,3 +115,19 @@
     -fx-background-color: #616161;
     -fx-text-fill: white;
 }
+
+.finished {
+    -fx-background-color: rgb(53,109,48);
+}
+
+.unfinished {
+    -fx-background-color: rgb(156,156,59);
+}
+
+.invalidFields {
+    -fx-background-color: rgb(157,57,68);
+}
+
+.allFields {
+    -fx-background-color: rgb(108,139,68);"
+}

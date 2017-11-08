@@ -13,7 +13,6 @@ public class EditListController {
 
 	@FXML
 	private Button saveListButton;
-
 	@FXML
 	private CandidateController candidateViewController;
 	@FXML

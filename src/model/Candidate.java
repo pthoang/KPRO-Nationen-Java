@@ -29,6 +29,22 @@ public class Candidate extends Person {
 
 	private ArrayList organizations;
 
+	/*
+		The fieldStatus represent the color of the TextField for the candidate.
+		This is the sequence of the fields:
+		[name, lastYearsRank, Rank, Municipality, gender, birthyear, profession, twitter, animals, hiredhelp, farming,
+		description and network]
+		The numbers represent:
+		0 - not checked
+		1 - missing data
+		2 - contains correct data
+		3 - wrong input
+		For example, if municipality is missing fields, fieldStatus[3] will be 1
+
+		This array is used for colourcoding
+	 */
+	private int[] fieldStatus = new int[13];
+
 
 	private JsonObject rawData = new JsonObject();
 
@@ -267,9 +283,11 @@ public class Candidate extends Person {
 		try {
 			int rank = Integer.parseInt(rankString);
 			if (rank < 1 || rank > 100) {
+				fieldStatus[2] = 3;
 				return "\n Plasseringen må være mellom 1 og 100";
 			}
 		} catch (NumberFormatException e) {
+			fieldStatus[2] = 3;
 			return "\n Plasseringen er ikke et tall";
 		}
 		return "";
@@ -279,9 +297,11 @@ public class Candidate extends Person {
 		try {
 			int rank = Integer.parseInt(rankString);
 			if (rank < 1 || rank > 100) {
+				fieldStatus[1] = 3;
 				return "\n Fjorårets plasseringen må være mellom 1 og 100";
 			}
 		} catch (NumberFormatException e) {
+			fieldStatus[1] = 3;
 			return "\n Fjorårets plasseringen er ikke et tall";
 		}
 		return "";
@@ -289,6 +309,7 @@ public class Candidate extends Person {
 
 	private String validateGender(String gender) {
 		if (gender.equals("")) {
+			fieldStatus[1] = 3;
 			return "\n Du må velge et kjønn. Velg 'Annet' om kandidaten ikke er et menneske.";
 		}
 		return "";
@@ -296,6 +317,7 @@ public class Candidate extends Person {
 
 	private String validateDescription(String description) {
 		if (description.length() <= 5 || description.equals(null)) {
+			fieldStatus[11] = 3;
 			return "\n Beskrivelse mangler:";
 		}
 		return "";
@@ -303,5 +325,13 @@ public class Candidate extends Person {
 
 	public void addRawData(String field, JsonElement data) {
 		this.rawData.add(field, data);
+	}
+
+	public int[] getFieldStatus() {
+		return fieldStatus;
+	}
+
+	public void setFieldStatus(int field, int status) {
+		fieldStatus[field] = status;
 	}
 }

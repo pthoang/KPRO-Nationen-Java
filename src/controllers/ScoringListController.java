@@ -577,15 +577,15 @@ public class ScoringListController {
                         String status =  candidates.get(this.getIndex()).getStatus();
 
                         if(status.equals("finished")){
-                            getTableRow().setStyle("-fx-background-color: rgb(53,109,48);");
+                            getTableRow().getStyleClass().add("finished");
                         } else if (status.equals("unfinished")){
-                            getTableRow().setStyle("-fx-background-color: rgb(156,156,59);");
+							getTableRow().getStyleClass().add("finished");
                         } else if (status.equals("invalidFields")){
-                            getTableRow().setStyle("-fx-background-color: rgb(157,57,68);");
+							getTableRow().getStyleClass().add("finished");
                         } else if (status.equals("allFields")) {
-                            getTableRow().setStyle("-fx-background-color: rgb(108,139,68);");
+							getTableRow().getStyleClass().add("finished");
                         } else {
-                            getTableRow().setStyle("");
+                            getTableRow().getStyleClass().removeAll("finished", "unfinished", "invalidFields", "allFields");
                         }
                     }
                 }

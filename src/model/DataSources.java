@@ -1,6 +1,6 @@
 package model;
 
-import controllers.MockRegister;
+import controllers.datasources.SupportDb;
 import interfaces.DataSourceInterface;
 import model.Candidate;
 
@@ -13,13 +13,15 @@ public class DataSources {
     private List<DataSourceInterface> dsList;
 
     public DataSources() {
-
         dsList = new ArrayList<DataSourceInterface>();
-        MockRegister test = new MockRegister();
-        dsList.add(test);
 
-        MockRegister test2 = new MockRegister();
-        dsList.add(test2);
+        //initializes the supportDb
+        SupportDb supportDb = new SupportDb();
+        dsList.add(supportDb);
+
+
+
+
     }
 
     public List<DataSourceInterface> getDsList() {

@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane alignment="center" hgap="10" vgap="10" GridPane.columnIndex="1" GridPane.rowIndex="0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CandidateController">
+<GridPane alignment="center" hgap="10" vgap="10" GridPane.columnIndex="1" GridPane.rowIndex="0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CandidateController">
     <children>
 
         <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="150.0" onMouseClicked="#handleChangeImage" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.rowSpan="3" />
@@ -69,8 +69,13 @@
         <Label text="Kjønn" GridPane.rowIndex="5" />
       <Label maxWidth="200.0" text="Fødselsår" GridPane.rowIndex="6" />
       <TextField fx:id="yearOfBirthField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+      <TextField fx:id="twitterField" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+      <Label text="Twitter" GridPane.rowIndex="8" />
+
       <TextField fx:id="professionField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
       <Label maxWidth="200.0" text="Yrke" GridPane.rowIndex="7" />
+
 
     </children>
     <columnConstraints>
@@ -86,6 +91,7 @@
         <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="93.0" minHeight="10.0" prefHeight="44.0" valignment="CENTER" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="93.0" minHeight="10.0" prefHeight="44.0" valignment="CENTER" vgrow="SOMETIMES" />
+
         <RowConstraints maxHeight="93.0" minHeight="10.0" prefHeight="44.0" valignment="CENTER" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="112.0" minHeight="0.0" prefHeight="95.0" valignment="CENTER" vgrow="SOMETIMES" />
         <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />

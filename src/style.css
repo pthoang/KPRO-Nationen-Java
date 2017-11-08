@@ -158,3 +158,19 @@
 .allFields:hover {
     -fx-background-color: #4c7192;
 }
+
+.listToLong {
+    -fx-text-fill: #d44c3d
+}
+
+.listToShort {
+    -fx-text-fill: #fafafa
+}
+
+.emptyField {
+    -fx-border-color: #ffff65;
+}
+
+.errorField {
+    -fx-border-color: #d44c3d;
+}

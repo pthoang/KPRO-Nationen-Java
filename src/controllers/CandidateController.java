@@ -76,8 +76,6 @@ public class CandidateController {
     private Stage connectionDialog;
     private EditListController parent;
 
-    // TODO: do with all colors used
-    private final String GREEN = "-fx-background-color: rgb(53,109,48);";
 
     public CandidateController() {
         instance = this;
@@ -282,11 +280,21 @@ public class CandidateController {
 
     private void disableFieldsIfNotPerson(boolean notPerson) {
         if (notPerson) {
+            twitterField.setDisable(true);
+            networkTable.setDisable(true);
+            animalsPGField.setDisable(true);
+            hiredHelpPGField.setDisable(true);
+            farmingPGField.setDisable(true);
+            yearOfBirthField.setDisable(true);
             municipalityField.setDisable(true);
-            // TODO: disable fields from other sources
         } else {
+            twitterField.setDisable(false);
+            networkTable.setDisable(false);
+            animalsPGField.setDisable(false);
+            hiredHelpPGField.setDisable(false);
+            farmingPGField.setDisable(false);
+            yearOfBirthField.setDisable(false);
             municipalityField.setDisable(false);
-            // TODO: not disable fields from other sources
         }
     }
 
@@ -391,10 +399,6 @@ public class CandidateController {
     }
 
     private void setFields() {
-        // TODO: move to its own function? What do they do?
-        networkTable.setStyle("");
-        municipalityField.setStyle("");
-
         File file = new File(candidate.getImageName());
         System.out.println("File when setFields in candidateC: " + file);
         setImageField(file);
@@ -427,14 +431,10 @@ public class CandidateController {
     // TODO: can be expanded to exclude/deactivate fields
     private void handleIfPersonOrNot() {
         if (candidate.getIsPerson()) {
-            if (municipalityField.getText() == null) {
-                municipalityField.setStyle("-fx-border-color: #ffff65");
-            }
 
-            networkTable.setItems(candidate.getConnections());
-            if (networkTable.getItems().size() < 1) {
-                networkTable.setStyle("-fx-border-color: #ffff65");
-            }
+
+        } else {
+            municipalityField.getStyleClass().add("emptyField");
         }
     }
 
@@ -560,9 +560,9 @@ public class CandidateController {
                         int actualConnections = candidate.getConnections().size();
                         int numConnToColor = Math.min(maxConnections, actualConnections);
                          if (getIndex() <  numConnToColor) {
-                            setStyle(GREEN);
+                            getStyleClass().add("finished");
                         } else {
-                            setStyle("");
+                            getStyleClass().removeAll("finished");
                         }
                     }
 

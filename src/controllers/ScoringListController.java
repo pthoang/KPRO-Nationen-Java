@@ -110,11 +110,9 @@ public class ScoringListController {
         countLabel.setText(actualLength + "/" + max);
 
         if (actualLength > max) {
-            // TODO: set as color-variables
-            countLabel.setStyle("-fx-text-fill: #d44c3d");
+            countLabel.getStyleClass().add("listToLong");
         } else {
-            // TODO: set as color-variables
-            countLabel.setStyle("-fx-text-fill: #fafafa");
+            countLabel.getStyleClass().add("listToShort");
         }
     }
 
@@ -128,10 +126,7 @@ public class ScoringListController {
                 {
                     super.updateItem(item, empty);
                     setText(item);
-
-                    // TODO: why 55? Would it be more correct with scoringList.size()?
-                    if(this.getIndex() > -1 && this.getIndex()<55){
-
+                    if(this.getIndex() > -1 && this.getIndex()<candidates.size()){
                         String status =  candidates.get(this.getIndex()).getStatus();
 
                         if(status.equals("finished")){

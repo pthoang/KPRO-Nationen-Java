@@ -119,9 +119,6 @@ public class ScoringListController {
     }
 
     public static class CellFactory implements Callback<TableColumn<Candidate, String>, TableCell<Candidate, String>> {
-
-        private int editingIndex = -1 ;
-
         @Override
         public TableCell<Candidate, String> call(TableColumn<Candidate, String> param) {
             return new TableCell<Candidate, String>() {
@@ -150,25 +147,6 @@ public class ScoringListController {
                         }
                     }
                 }
-
-                @Override
-                public void startEdit() {
-                    editingIndex = getIndex();
-                    super.startEdit();
-                }
-
-                @Override
-                public void commitEdit(String newValue) {
-                    editingIndex = -1 ;
-                    super.commitEdit(newValue);
-                }
-
-                @Override
-                public void cancelEdit() {
-                    editingIndex = -1 ;
-                    super.cancelEdit();
-                }
-
             };
         }
     }

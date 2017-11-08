@@ -11,6 +11,8 @@ import Main.MainApp;
 
 public class EditListController {
 
+	public static EditListController instance = null;
+
 	@FXML
 	private Button saveListButton;
 
@@ -19,20 +21,21 @@ public class EditListController {
 	@FXML
 	private ScoringListController scoringListViewController;
 
-	private ScoringList scoringList;
 	private Candidate candidate;
 	private MainApp mainApp;
 
 	private static ObservableList<Candidate> candidates;
 
-	/**
-	 * Set mainApp in super, then gets the candidates and shows them in the table.
-	 * @params mainApp
-	 */
-	public void setMainApp(MainApp mainApp) {
-		this.mainApp = mainApp;
+	public EditListController() {
+		instance = this;
+		mainApp = MainApp.getInstance();
 		updateLists();
 
+		scoringListViewController = ScoringListController.getOrCreateInstance();
+		candidateViewController = CandidateController.getOrCreateInstance();
+
+
+		/*
 		scoringListViewController.setParentController(this);
 		scoringListViewController.setScoringList(scoringList);
 		//scoringListViewController.setMainApp(mainApp);
@@ -43,19 +46,42 @@ public class EditListController {
 		if (candidates.size() > 0) {
 			scoringListViewController.fillTable();
 		}
+		*/
+
+
 	}
 
-	public MainApp getMainApp() {
-		return mainApp;
+	public void setScoringListViewController(ScoringListController scoringListViewController) {
+		System.out.println("Setting scoringListControler in editList: " + scoringListViewController);
+		this.scoringListViewController = scoringListViewController;
+		//scoringListViewController.setParentController(this);
+		//scoringListViewController.setScoringList(scoringList);
+		//scoringListViewController.setMainApp(mainApp);
 	}
-	
+
+	public void setCandidateViewController(CandidateController candidateViewController) {
+		this.candidateViewController = candidateViewController;
+		//candidateViewController.setParentController(this);
+		if (candidates.size() > 0) {
+			scoringListViewController.fillTable();
+		}
+	}
+
+	public static EditListController getOrCreateInstance() {
+		if (instance == null) {
+			System.out.println("EditListController is null");
+			instance = new EditListController();
+		}
+		return instance;
+	}
+
 	@FXML
 	private void initialize() {
 	}
 
 	public void updateLists() {
-		scoringList = mainApp.getScoringList();
-		candidates = scoringList.getCandidates();
+		// scoringList = ScoringList.getOrCreateInstance();
+		candidates = ScoringList.getOrCreateInstance().getCandidates();
 	}
 
 	public void setCandidate(Candidate candidate) {
@@ -93,11 +119,8 @@ public class EditListController {
 		return false;
 	}
 
-	public void setBucketUploader(AmazonBucketUploader bucketUploader) {
-		candidateViewController.setBucketUploader(bucketUploader);
-	}
-
 	public void fillTable() {
+		System.out.println("ScoringListViewController in editLIstC: " + scoringListViewController);
 		scoringListViewController.fillTable();
 	}
 
@@ -105,6 +128,7 @@ public class EditListController {
 		scoringListViewController.refreshTable();
 	}
 
+	/*
 	public void addCandidate(Candidate candidate) {
 		scoringList.addCandidate(candidate);
 	}
@@ -112,4 +136,5 @@ public class EditListController {
 	public void deleteCandidate(Candidate candidate) {
 		scoringList.deleteCandidate(candidate);
 	}
+	*/
 }

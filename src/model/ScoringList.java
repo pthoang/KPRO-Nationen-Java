@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
@@ -15,23 +16,25 @@ import com.google.gson.*;
 
 public class ScoringList {
 
+	private static ScoringList instance = null;
+
 	private final SimpleIntegerProperty year;
 	private ObservableList<Candidate> candidates;
 	private Jury jury;
 
 	private int maxLength = 100;
 
-	public ScoringList(int year) {
+	public ScoringList() {
+		int year = Calendar.getInstance().get(Calendar.YEAR);
 		this.year = new SimpleIntegerProperty(year);
 		candidates = FXCollections.observableArrayList();
 	}
 
-	public int getYear() {
-		return year.get();
-	}
-
-	public SimpleIntegerProperty yearProperty() {
-		return year;
+	public static ScoringList getOrCreateInstance() {
+		if (instance == null) {
+			instance = new ScoringList();
+		}
+		return instance;
 	}
 
 	public int getLength() {
@@ -124,4 +127,8 @@ public class ScoringList {
 	public Jury getJury() {
 		return jury;
 	}
+
+	public void empty() {
+	    // TODO
+    }
 }

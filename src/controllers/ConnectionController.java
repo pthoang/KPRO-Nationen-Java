@@ -21,6 +21,8 @@ import model.Connection;
 import model.Person;
 
 public class ConnectionController {
+
+	public static ConnectionController instance = null;
 	
 	@FXML
 	private TextField nameField;
@@ -44,7 +46,17 @@ public class ConnectionController {
 	private Image newImage;
 	private String imageURL = "resources/standard.png";
 
+
 	public ConnectionController() {
+		mainApp = MainApp.getInstance();
+		parent = CandidateController.getOrCreateInstance();
+	}
+
+	public static ConnectionController getOrCreateInstance() {
+		if (instance == null) {
+			instance = new ConnectionController();
+		}
+		return instance;
 	}
 
 	public void setMainApp(MainApp mainApp) {

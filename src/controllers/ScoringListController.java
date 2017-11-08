@@ -34,12 +34,7 @@ import org.hildan.fxgson.FxGson;
 import com.google.gson.Gson;
 
 public class ScoringListController {
-	@FXML
-	private Button backButton;
-	@FXML
-	private Button saveButton;
 
-	// Related to candidate view 
 	@FXML
 	private Button deleteButton;
 	@FXML
@@ -86,27 +81,37 @@ public class ScoringListController {
 	private String errorMessage;
 
 	private AmazonBucketUploader bucketUploader;
-	
-	public ScoringListController() {
-		System.out.println(("Get mainAPp in ScoringListC"));
-		mainApp = MainApp.getInstance();
-	}
-	
-	public void setBucketUploader(AmazonBucketUploader bucketUploader) {
-		this.bucketUploader = bucketUploader;
+
+	private static ScoringListController instance = null;
+
+	public static ScoringListController getOrCreateInstance() {
+		if (instance == null) {
+			instance = new ScoringListController();
+		}
+		return instance;
 	}
 
+	public ScoringListController() {
+		instance = this;
+		mainApp = MainApp.getInstance();
+		bucketUploader = AmazonBucketUploader.getOrCreateInstance();
+		scoringList = ScoringList.getOrCreateInstance();
+		candidates = scoringList.getCandidates();
+		parentController = EditListController.getOrCreateInstance();
+	}
+
+    /*
 	public void updateLists() {
-		scoringList = mainApp.getScoringList();
+		// TODO: maybe not necessary
+		//scoringList = ScoringList.getOrCreateInstance();
 		candidates = scoringList.getCandidates();
 	}
+	*/
 	
 	public void updateNetworkList() {
 		networkTable.setItems(candidate.getConnections());		
 		networkTable.refresh();
 	}
-	
-	// Related to candidate view
 
 	/**
 	 * Updates the candidates based on the changes in the fields.
@@ -487,13 +492,13 @@ public class ScoringListController {
     private HashMap<String, Integer> candidateColor = new HashMap<>();
 
 
+
     public void setParentController(EditListController editListController) {
         this.parentController = editListController;
     }
 
     public void setScoringList(ScoringList scoringList) {
-        this.scoringList = scoringList;
-
+        this.scoringList = ScoringList.getOrCreateInstance();
         candidates = scoringList.getCandidates();
     }
 	/*
@@ -502,6 +507,8 @@ public class ScoringListController {
     }
     */
     public void fillTable() {
+        System.out.println("CandidateTable: " + candidateTable);
+        System.out.println("Candidates: " + candidates);
         candidateTable.setItems(candidates);
 
         Candidate firstCandidate = candidates.get(0);

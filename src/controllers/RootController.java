@@ -26,7 +26,7 @@ public class RootController {
 
 	private void createScoringListBasedOnFileType(File file) {
 		String filePath = file.getAbsolutePath();
-		ScoringList scoringList = mainApp.getScoringList();
+		ScoringList scoringList = ScoringList.getOrCreateInstance();
 
 		if (filePath.toLowerCase().endsWith(".json")) {
 			scoringList.createFromPreviousList(filePath);

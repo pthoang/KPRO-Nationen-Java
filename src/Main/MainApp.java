@@ -27,6 +27,8 @@ public class MainApp extends Application {
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 	private EditListController editListController;
+	private ScoringListController scoringListViewController;
+	private CandidateController candidateViewController;
 	private AmazonBucketUploader bucketUploader;
 	private ScoringList scoringList;
 	private Settings settings;
@@ -52,7 +54,7 @@ public class MainApp extends Application {
 		initRootLayout();
 		settings = Settings.getOrCreateInstance();
 
-		newList();
+		scoringList = ScoringList.getOrCreateInstance();
 		showEditListView();
 		
 		// TODO: During testing
@@ -70,7 +72,7 @@ public class MainApp extends Application {
 		*/
 		bucketUploader = AmazonBucketUploader.getOrCreateInstance();
 
-		editListController.setBucketUploader(bucketUploader);
+		// editListController.setBucketUploader(bucketUploader);
 	}
 
 	/**
@@ -108,15 +110,13 @@ public class MainApp extends Application {
 			FXMLLoader loader= new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("../view/EditListView.fxml"));
 			GridPane editListView = loader.load();
-			System.out.println("editListView: " + editListView);
-
-			System.out.println("MainAPp in showEdit: " + this);
-			System.out.println("ROotLayout in showEdit: " + rootLayout);
 			rootLayout.setCenter(editListView);
 
 			editListController = loader.getController();
-			editListController.setMainApp(this);
-			editListController.setBucketUploader(bucketUploader);
+            // editListController.setScoringListViewController(scoringListViewController);
+            // editListController.setCandidateViewController(candidateViewController);
+			//editListController.setMainApp(this);
+			//editListController.setBucketUploader(bucketUploader);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -176,32 +176,41 @@ public class MainApp extends Application {
 	 * Get the scoringList
 	 * @return scoringList
 	 */
+	/*
 	public ScoringList getScoringList() {
 		return scoringList;
 	}
-	
+    */
+
 	/**
 	 * Sets the scoringList
 	 * @param scoringList The ScoringList
 	 */
+	/*
 	public void setScoringList(ScoringList scoringList) {
 		this.scoringList = scoringList;
 	}
+	*/
 
 	/**
 	 * Updates the scoringListView (refresh the table)
 	 */
 	public void updateView() {
-		editListController.fillTable();
+        editListController = EditListController.getOrCreateInstance();
+        System.out.println("editListController: " + editListController);
+        editListController.fillTable();
 	}
+
 
 	/**
 	 * Creates a new and empty list
 	 */
+
 	public void newList() {
 		int year = Calendar.getInstance().get(Calendar.YEAR);
-		scoringList = new ScoringList(year);
+		scoringList.empty();
 	}
+
 	
 	public File chooseAndGetFile() {
 		FileChooser fileChooser = new FileChooser();

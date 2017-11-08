@@ -16,10 +16,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import model.AmazonBucketUploader;
-import model.Candidate;
-import model.Connection;
-import model.Settings;
+import model.*;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -29,6 +26,7 @@ import javafx.scene.input.MouseEvent;
 
 public class CandidateController {
 
+    private static CandidateController instance = null;
     private ObservableList GENDER_CHOICES = FXCollections.observableArrayList("", "Kvinne", "Mann", "Annet");
 
     @FXML
@@ -82,13 +80,24 @@ public class CandidateController {
     private final String GREEN = "-fx-background-color: rgb(53,109,48);";
 
     public CandidateController() {
-        System.out.println("Get mainApp in candidateC");
+        instance = this;
         mainApp = MainApp.getInstance();
+        bucketUploader = AmazonBucketUploader.getOrCreateInstance();
+        parent = EditListController.getOrCreateInstance();
     }
 
+    public static CandidateController getOrCreateInstance() {
+        if (instance == null) {
+            instance = new CandidateController();
+        }
+        return instance;
+    }
+
+    /*
     public void setBucketUploader(AmazonBucketUploader bucketUploader) {
         this.bucketUploader = bucketUploader;
     }
+    */
 
     /*
     public void setMainApp(MainApp mainApp) {
@@ -314,7 +323,7 @@ public class CandidateController {
 
     @FXML
     public void handleDelete() {
-        parent.deleteCandidate(candidate);
+        ScoringList.getOrCreateInstance().deleteCandidate(candidate);
         cleanFields();
     }
 
@@ -493,8 +502,7 @@ public class CandidateController {
 
         rankField.setText(Integer.toString(nextCandidateRank));
         candidate = new Candidate("", nextCandidateRank, 0);
-
-        parent.addCandidate(candidate);
+        ScoringList.getOrCreateInstance().addCandidate(candidate);
     }
 
     private void uploadToBucket() {
@@ -508,7 +516,7 @@ public class CandidateController {
     private void connectionDialog(Connection connection, boolean open) {
         final Stage dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(parent.getMainApp().getStage());
+        dialog.initOwner(MainApp.getInstance().getStage());
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(MainApp.class.getResource("../view/ConnectionView.fxml"));
 
@@ -521,10 +529,10 @@ public class CandidateController {
         }
 
         ConnectionController connectionController = loader.getController();
-        connectionController.setMainApp(parent.getMainApp());
-        connectionController.setParent(this);
-        connectionController.setCandidate(candidate);
-        connectionController.setConnection(connection);
+        //connectionController.setMainApp(parent.getMainApp());
+        //connectionController.setParent(this);
+        //connectionController.setCandidate(candidate);
+        //connectionController.setConnection(connection);
 
         Scene dialogScene = new Scene(connectionView);
         dialog.setScene(dialogScene);

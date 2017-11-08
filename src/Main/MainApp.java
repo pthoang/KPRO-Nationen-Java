@@ -70,8 +70,6 @@ public class MainApp extends Application {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("../view/RootLayout2.fxml"));
 			rootLayout = loader.load();
-			System.out.println("MainAPp in initRoot: " + this);
-			System.out.println("ROotLayout in initRoo: " + rootLayout);
 
 			RootController rootController = loader.getController();
 			rootController.setMainApp(this);

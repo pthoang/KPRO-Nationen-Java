@@ -24,7 +24,6 @@ public class EditListController {
 	private static ObservableList<Candidate> candidates;
 
 	public EditListController() {
-		System.out.println("Edit list controller constructor");
 		instance = this;
 		mainApp = MainApp.getInstance();
 /*

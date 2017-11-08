@@ -23,7 +23,6 @@ public class Settings {
 		if (instance == null) {
 			instance = new Settings();
 		}
-		System.out.println("Instance of settings: " + instance);
 		return instance;
 	}
 

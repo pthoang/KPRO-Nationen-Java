@@ -155,7 +155,6 @@ public class ConnectionController {
 	}
 
 	private void setImageField(String imageURL) {
-	    System.out.println("Set image field in connectionC: " + imageURL);
 	    if (! imageURL.endsWith(".png")) {
 	        imageURL += ".png";
         }

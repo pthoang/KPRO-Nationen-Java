@@ -57,8 +57,6 @@ public class ScoringListController {
 	}
 
     public void fillTable() {
-	    System.out.println("CandidateTable: " + candidateTable);
-	    System.out.println("Candidates: " + candidates);
         candidateTable.setItems(candidates);
 
         Candidate firstCandidate = candidates.get(0);

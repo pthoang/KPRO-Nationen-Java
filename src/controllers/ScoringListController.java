@@ -547,7 +547,7 @@ public class ScoringListController {
     }
 
     private void updateCountLabel() {
-        int max = mainApp.getSettings().getNumCandidates();
+        int max = Settings.getOrCreateInstance().getNumCandidates();
         int actualLength = scoringList.getLength();
         countLabel.setText(actualLength + "/" + max);
 
@@ -664,7 +664,7 @@ public class ScoringListController {
         }
     }
     private String validateList() {
-        if (scoringList.getLength() > mainApp.getSettings().getNumCandidates()) {
+        if (scoringList.getLength() > Settings.getOrCreateInstance().getNumCandidates()) {
             return "Det er for mange kandidater i listen. Fjern kandidater eller endre antallet aksepterte i 'Instillinger'";
         }
         // TODO: also validate if some of the candidates has fields missing?

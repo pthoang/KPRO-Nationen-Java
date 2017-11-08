@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Settings {
+
+	private static Settings instance = null;
 	
 	private int numCandidates = 100;
 	private int numConnections = 10;
@@ -16,8 +18,16 @@ public class Settings {
 	private String bucketSecretKey;
 	private String bucketName = "tunmedia";
 	private String folderName = "maktkaring_" + Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
-	
-	public Settings() {
+
+	public static Settings getOrCreateInstance() {
+		if (instance == null) {
+			instance = new Settings();
+		}
+		System.out.println("Instance of settings: " + instance);
+		return instance;
+	}
+
+	protected Settings() {
 		setDefaultKeys();
 	}
 	

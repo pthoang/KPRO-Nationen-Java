@@ -44,7 +44,7 @@ public class MainApp extends Application {
 		this.primaryStage.setTitle("Nationen - Maktkampen");
 
 		initRootLayout();
-		settings = new Settings();
+		settings = Settings.getOrCreateInstance();
 
 		newList();
 		showEditListView();
@@ -211,8 +211,10 @@ public class MainApp extends Application {
 		}
 	}
 
+	/*
 	public Settings getSettings() {
 		return settings;
 
 	}
+	*/
 }

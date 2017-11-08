@@ -19,6 +19,7 @@ import javafx.util.Callback;
 import model.AmazonBucketUploader;
 import model.Candidate;
 import model.Connection;
+import model.Settings;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -575,7 +576,7 @@ public class CandidateController {
                     @Override
                     protected void updateItem(Connection connection, boolean empty){
                         super.updateItem(connection, empty);
-                        int maxConnections = mainApp.getSettings().getNumConnections();
+                        int maxConnections = Settings.getOrCreateInstance().getNumConnections();
                         int actualConnections = candidate.getConnections().size();
                         int numConnToColor = Math.min(maxConnections, actualConnections);
                          if (getIndex() <  numConnToColor) {

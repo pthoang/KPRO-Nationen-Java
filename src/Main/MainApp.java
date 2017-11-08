@@ -27,6 +27,7 @@ public class MainApp extends Application {
 	private RootController rootController;
 	private EditListController editListController;
 	private AddSourcesController addSourcesController;
+	private AddJuryController addjurycontroller;
 	private SettingsController settingsController;
 	private AmazonBucketUploader bucketUploader;
 	private ScoringList scoringList;
@@ -37,6 +38,22 @@ public class MainApp extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+
+
+	public void showJuryAdmin() {
+		try {
+			FXMLLoader loader= new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("../view/JuryAdmin.fxml"));
+			GridPane JuryAdminView = (GridPane) loader.load();
+			rootLayout.setCenter(JuryAdminView);
+			addjurycontroller = loader.getController();
+			addjurycontroller.setMainApp(this);
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+
 
 	@Override
 	public void start(Stage primaryStage) {

@@ -14,6 +14,7 @@
                	  <MenuItem mnemonicParsing="false" onAction="#showNewAndEmpty" text="Ny tom liste" />
                   <MenuItem mnemonicParsing="false" onAction="#showLoadList" text="Last inn liste" />
                   <MenuItem mnemonicParsing="false" onAction="#showLoadSources" text="Last inn kilder" />
+                   <MenuItem mnemonicParsing="false" onAction="#showAddJury" text="Administrer Jury" />
                </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Hjelp">

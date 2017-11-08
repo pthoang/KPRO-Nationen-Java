@@ -37,6 +37,11 @@ public class RootController {
 			System.out.println("Error: invalid file");
 		}
 	}
+
+	@FXML
+	private void showAddJury(){
+		mainApp.showJuryAdmin();
+	}
 	
 	@FXML
 	private void showLoadSources() {

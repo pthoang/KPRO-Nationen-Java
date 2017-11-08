@@ -22,10 +22,10 @@ public class Candidate extends Person {
 	private SimpleIntegerProperty rank;
 	private SimpleIntegerProperty previousYearRank;
 	private SimpleStringProperty twitterLink = new SimpleStringProperty();
-	private String status;
 	private String gender = "";
 	private String yearOfBirth;
 	private String profession;
+	private String status;
 
 	private ArrayList organizations;
 
@@ -283,11 +283,11 @@ public class Candidate extends Person {
 		try {
 			int rank = Integer.parseInt(rankString);
 			if (rank < 1 || rank > 100) {
-				fieldStatus[2] = 3;
+				fieldStatus[2] = 2;
 				return "\n Plasseringen må være mellom 1 og 100";
 			}
 		} catch (NumberFormatException e) {
-			fieldStatus[2] = 3;
+			fieldStatus[2] = 2;
 			return "\n Plasseringen er ikke et tall";
 		}
 		return "";
@@ -297,11 +297,11 @@ public class Candidate extends Person {
 		try {
 			int rank = Integer.parseInt(rankString);
 			if (rank < 1 || rank > 100) {
-				fieldStatus[1] = 3;
+				fieldStatus[1] = 2;
 				return "\n Fjorårets plasseringen må være mellom 1 og 100";
 			}
 		} catch (NumberFormatException e) {
-			fieldStatus[1] = 3;
+			fieldStatus[1] = 2;
 			return "\n Fjorårets plasseringen er ikke et tall";
 		}
 		return "";
@@ -309,7 +309,7 @@ public class Candidate extends Person {
 
 	private String validateGender(String gender) {
 		if (gender.equals("")) {
-			fieldStatus[1] = 3;
+			fieldStatus[1] = 2;
 			return "\n Du må velge et kjønn. Velg 'Annet' om kandidaten ikke er et menneske.";
 		}
 		return "";
@@ -317,7 +317,7 @@ public class Candidate extends Person {
 
 	private String validateDescription(String description) {
 		if (description.length() <= 5 || description.equals(null)) {
-			fieldStatus[11] = 3;
+			fieldStatus[11] = 2;
 			return "\n Beskrivelse mangler:";
 		}
 		return "";

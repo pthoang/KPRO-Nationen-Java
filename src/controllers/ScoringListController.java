@@ -127,7 +127,7 @@ public class ScoringListController {
                     super.updateItem(item, empty);
                     setText(item);
                     if(this.getIndex() > -1 && this.getIndex()<candidates.size()){
-                        String status =  candidates.get(this.getIndex()).getStatus();
+                        String status = candidates.get(this.getIndex()).getStatus();
 
                         if(status.equals("finished")){
                             getTableRow().getStyleClass().add("finished");

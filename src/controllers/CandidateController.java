@@ -10,6 +10,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -19,9 +23,14 @@ import javafx.util.Callback;
 import model.*;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javafx.scene.input.MouseEvent;
 
 public class CandidateController {
@@ -75,6 +84,10 @@ public class CandidateController {
     private MainApp mainApp;
     private Stage connectionDialog;
     private EditListController parent;
+
+    private List<Object> inputFields = new ArrayList<>(Arrays.asList(nameField, previousYearRankField, rankField,
+            municipalityField, genderChoiceBox, yearOfBirthField, professionField, twitterField, animalsPGField,
+            hiredHelpPGField, farmingPGField, descriptionField, networkTable));
 
 
     public CandidateController() {
@@ -203,7 +216,6 @@ public class CandidateController {
         networkTable.setStyle("");
 
         candidate.setStatus("");
-        int fieldsMissing = 0;
         saveCandidateButton.setDisable(true);
 
         if (candidate == null) {
@@ -251,22 +263,51 @@ public class CandidateController {
         if (candidate.getIsPerson()) {
             //Checks if network table is empty, if so give a warning
             if(networkTable.getItems().size() < 1){
-                fieldsMissing++;
-                networkTable.setStyle("-fx-border-color: #ffff65");
+                candidate.setFieldStatus(12, 1);
             }
 
             if(newMunicipality == null || newMunicipality.equals("")){
-                fieldsMissing++;
-                municipalityField.setStyle("-fx-border-color: #ffff65");
+                candidate.setFieldStatus(3, 1);
             }
 
             //Checks if there are any fields empty, if so set the candidate to "unfinished"
             // TODO: should use enum instead of strings to tell the status
-            if(fieldsMissing > 0){
-                candidate.setStatus("unfinished");
-            } else {
-                candidate.setStatus("allFields");
+            int[] candidateFields = candidate.getFieldStatus();
+            for(int i = 0; i < candidateFields.length; i++){
+                if(candidateFields[i] == 1){
+                    if(inputFields.get(i).equals(TextField.class)){
+                        ((TextField) inputFields.get(i)).getStyleClass().add("emptyField");
+                    } else if (inputFields.get(i).equals(TextArea.class)){
+                        ((TextArea) inputFields.get(i)).getStyleClass().add("emptyField");
+                    } else if (inputFields.get(i).equals(ChoiceBox.class)){
+                        ((ChoiceBox) inputFields.get(i)).getStyleClass().add("emptyField");
+                    } else if (inputFields.get(i).equals(TableView.class)){
+                        ((TableView) inputFields.get(i)).getStyleClass().add("emptyField");
+                    }
+
+                } else if (candidateFields[i] == 2){
+                    if(inputFields.get(i).equals(TextField.class)){
+                        ((TextField) inputFields.get(i)).getStyleClass().add("errorField");
+                    } else if (inputFields.get(i).equals(TextArea.class)){
+                        ((TextArea) inputFields.get(i)).getStyleClass().add("errorField");
+                    } else if (inputFields.get(i).equals(ChoiceBox.class)){
+                        ((ChoiceBox) inputFields.get(i)).getStyleClass().add("errorField");
+                    } else if (inputFields.get(i).equals(TableView.class)){
+                        ((TableView) inputFields.get(i)).getStyleClass().add("errorField");
+                    }
+                } else {
+                    if(inputFields.get(i).equals(TextField.class)){
+                        ((TextField) inputFields.get(i)).getStyleClass().removeAll("errorField", "emptyField");
+                    } else if (inputFields.get(i).equals(TextArea.class)){
+                        ((TextArea) inputFields.get(i)).getStyleClass().removeAll("errorField", "emptyField");
+                    } else if (inputFields.get(i).equals(ChoiceBox.class)){
+                        ((ChoiceBox) inputFields.get(i)).getStyleClass().removeAll("errorField", "emptyField");
+                    } else if (inputFields.get(i).equals(TableView.class)){
+                        ((TableView) inputFields.get(i)).getStyleClass().removeAll("errorField", "emptyField");
+                    }
+                }
             }
+
         }
 
         ScoringListController.getOrCreateInstance().refreshTable();

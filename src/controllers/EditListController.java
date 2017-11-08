@@ -35,10 +35,10 @@ public class EditListController {
 
 		scoringListViewController.setParentController(this);
 		scoringListViewController.setScoringList(scoringList);
-		scoringListViewController.setMainApp(mainApp);
+		//scoringListViewController.setMainApp(mainApp);
 
 		candidateViewController.setParentController(this);
-		candidateViewController.setMainApp(mainApp);
+		//candidateViewController.setMainApp(mainApp);
 
 		if (candidates.size() > 0) {
 			scoringListViewController.fillTable();

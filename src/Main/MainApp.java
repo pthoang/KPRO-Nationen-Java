@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
+import com.amazonaws.services.s3.model.Bucket;
 import controllers.*;
 import interfaces.DataSourceInterface;
 import javafx.application.Application;
@@ -15,24 +16,27 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.AmazonBucketUploader;
-import model.Candidate;
 import model.ScoringList;
 import model.Settings;
 import model.DataSources;
 
 public class MainApp extends Application {
 
+	private static MainApp instance = null;
+
 	private Stage primaryStage;
 	private BorderPane rootLayout;
-	private RootController rootController;
 	private EditListController editListController;
-	private AddSourcesController addSourcesController;
-	private SettingsController settingsController;
 	private AmazonBucketUploader bucketUploader;
 	private ScoringList scoringList;
 	private Settings settings;
 
 	private DataSources ds = new DataSources();
+
+	public static MainApp getInstance() {
+
+		return instance;
+	}
 
 	public static void main(String[] args) {
 		launch(args);
@@ -43,24 +47,29 @@ public class MainApp extends Application {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Nationen - Maktkampen");
 
+		instance = this;
+
 		initRootLayout();
 		settings = Settings.getOrCreateInstance();
 
 		newList();
 		showEditListView();
 		
-		// During testing
+		// TODO: During testing
 		scoringList.createFromNameList("resources/NameListTest.txt");
 		updateView();
 		editListController.setCandidate(scoringList.getCandidates().get(0));
-		
+
+		/*
 		bucketUploader = new AmazonBucketUploader(
 				settings.getBucketName(),
 				settings.getFolderName(),
 				settings.getBucketAccessKey(),
 				settings.getBucketSecretKey()
 				);
-		
+		*/
+		bucketUploader = AmazonBucketUploader.getOrCreateInstance();
+
 		editListController.setBucketUploader(bucketUploader);
 	}
 
@@ -73,8 +82,10 @@ public class MainApp extends Application {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("../view/RootLayout2.fxml"));
 			rootLayout = loader.load();
+			System.out.println("MainAPp in initRoot: " + this);
+			System.out.println("ROotLayout in initRoo: " + rootLayout);
 
-			rootController = loader.getController();
+			RootController rootController = loader.getController();
 			rootController.setMainApp(this);
 
 			// Show the scene containing the root layout.
@@ -97,7 +108,10 @@ public class MainApp extends Application {
 			FXMLLoader loader= new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("../view/EditListView.fxml"));
 			GridPane editListView = loader.load();
+			System.out.println("editListView: " + editListView);
 
+			System.out.println("MainAPp in showEdit: " + this);
+			System.out.println("ROotLayout in showEdit: " + rootLayout);
 			rootLayout.setCenter(editListView);
 
 			editListController = loader.getController();
@@ -120,7 +134,7 @@ public class MainApp extends Application {
 
 			rootLayout.setCenter(addSourcesView);
 
-			addSourcesController = loader.getController();
+			AddSourcesController addSourcesController = loader.getController();
 			addSourcesController.setMainApp(this);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -138,8 +152,8 @@ public class MainApp extends Application {
 
 			rootLayout.setCenter(settingsView);
 
-			settingsController = loader.getController();
-			settingsController.setMainApp(this);
+			SettingsController settingsController = loader.getController();
+			//settingsController.setMainApp(this);
 
 			settingsController.refreshRegisterSelectors(getDataSourcesController().getDsList());
 
@@ -198,23 +212,18 @@ public class MainApp extends Application {
 		return ds;
 	}
 
+	/*
 	public void updateAmazonBucketUploader() {
 		bucketUploader.setBucketName(settings.getBucketName());
 		bucketUploader.setFolderName(settings.getFolderName());
 		bucketUploader.setKeys(settings.getBucketAccessKey(), settings.getBucketSecretKey());
 	}
+	*/
 
 	public void generateAll() {
-
 		for (DataSourceInterface datasource : ds.getDsList()) {
 			datasource.getData(scoringList.getCandidates());
 		}
 	}
 
-	/*
-	public Settings getSettings() {
-		return settings;
-
-	}
-	*/
 }

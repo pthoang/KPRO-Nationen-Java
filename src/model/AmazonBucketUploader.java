@@ -2,9 +2,11 @@ package model;
 
 import java.io.File;
 
+import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -16,14 +18,35 @@ import javafx.scene.control.Alert.AlertType;
 
 
 public class AmazonBucketUploader {
+
+	public static AmazonBucketUploader instance = null;
 	
 	private String bucketName;
 	private String folderName;
 	private String accessKey;
 	private String secretKey;
+	private boolean isAccesible = false;
 	
 	private AmazonS3 s3Client;
-	
+
+	public static AmazonBucketUploader getOrCreateInstance() {
+		if (instance == null) {
+			instance = new AmazonBucketUploader();
+		}
+		return instance;
+	}
+
+	protected AmazonBucketUploader() {
+		Settings settings = Settings.getOrCreateInstance();
+		bucketName = settings.getBucketName();
+		folderName = settings.getFolderName();
+		accessKey = settings.getBucketAccessKey();
+		secretKey = settings.getBucketSecretKey();
+
+		getClient();
+		createOrGetBucket();
+	}
+	/*
 	public AmazonBucketUploader(String bucketName, String folderName, String accessKey, String secretKey) {
 		this.bucketName = bucketName;
 		this.folderName = folderName;
@@ -33,11 +56,13 @@ public class AmazonBucketUploader {
 		getClient();
 		createOrGetBucket();
 	}
+	*/
 	
 	public void setBucketName(String bucketName) {
 		this.bucketName = bucketName;
-		
-		createOrGetBucket();
+		if (s3Client != null) {
+			createOrGetBucket();
+		}
 	}
 	
 	public void setFolderName(String folderName) {
@@ -45,11 +70,13 @@ public class AmazonBucketUploader {
 	}
 	
 	public void setKeys(String accessKey, String secretKey) {
-		this.accessKey = accessKey;
-		
-		this.secretKey = secretKey;
-		
-		getClient();
+		validateKeys(accessKey, secretKey);
+		if (isAccesible) {
+			this.accessKey = accessKey;
+			this.secretKey = secretKey;
+
+			getClient();
+		}
 	}
 		
 	private void getClient() {
@@ -62,10 +89,9 @@ public class AmazonBucketUploader {
 			s3Client.createBucket(new CreateBucketRequest(bucketName));
 		}
 	}
+
 	public void uploadFile(File file, String fileName) {
-		String path = bucketName + "/" + folderName;
-		PutObjectRequest por = new PutObjectRequest(path, fileName, file);
-		por.setCannedAcl(CannedAccessControlList.PublicRead);
+		PutObjectRequest por = getPor(file, fileName);
 		try {
 			s3Client.putObject(por);
 		} catch (AmazonS3Exception e) {
@@ -77,5 +103,32 @@ public class AmazonBucketUploader {
 					+ "	Bildene vil ikke lagres i bøtta før informasjonen er korrekt.");
 			alert.showAndWait();
 		}
+	}
+
+	private PutObjectRequest getPor(File file, String fileName) {
+		String path = bucketName + "/" + folderName;
+		PutObjectRequest por = new PutObjectRequest(path, fileName, file);
+		por.setCannedAcl(CannedAccessControlList.PublicRead);
+
+		return por;
+	}
+
+	private void validateKeys(String accessKey, String secretKey) {
+		BasicAWSCredentials creds = new BasicAWSCredentials(accessKey, secretKey);
+		AmazonS3 news3Client = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(creds)).withRegion("us-east-2").build();
+
+		// TODO: maybe delete it afterwards, if it doesn't write it self over each time
+		PutObjectRequest por = getPor(new File("resources/standard.png"), "standard.pgn");
+		try {
+			news3Client.putObject(por);
+			isAccesible = true;
+		} catch (AmazonS3Exception e) {
+			System.out.println("Exception when validating Amazon bucket keys: " + e);
+			isAccesible = false;
+		}
+	}
+
+	public boolean isAccessible() {
+		return isAccesible;
 	}
 }

@@ -88,6 +88,8 @@ public class ScoringListController {
 	private AmazonBucketUploader bucketUploader;
 	
 	public ScoringListController() {
+		System.out.println(("Get mainAPp in ScoringListC"));
+		mainApp = MainApp.getInstance();
 	}
 	
 	public void setBucketUploader(AmazonBucketUploader bucketUploader) {
@@ -494,10 +496,11 @@ public class ScoringListController {
 
         candidates = scoringList.getCandidates();
     }
-
+	/*
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
+    */
     public void fillTable() {
         candidateTable.setItems(candidates);
 

@@ -4,10 +4,12 @@ import Main.MainApp;
 import interfaces.DataSourceInterface;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import model.AmazonBucketUploader;
 import model.DataSourceFile;
 
 import java.awt.event.ActionEvent;
@@ -37,11 +39,12 @@ public class SettingsController {
 	
 	private MainApp mainApp;
 	private Settings settings;
-	
-	public void setMainApp(MainApp mainApp) {
-		this.mainApp = mainApp;
+
+	public SettingsController() {
+		System.out.println("Get mainApp in SettingsC");
+		mainApp = MainApp.getInstance();
 	}
-	
+
 	public void setSettings(Settings settings) {
 		this.settings = settings;
 		setDefaultSettings();
@@ -53,12 +56,13 @@ public class SettingsController {
 		settings.setNumCandidates(numCandidates);
 		int numConnections = Integer.parseInt(numConnectionsField.getText());
 		settings.setNumConnections(numConnections);
+
 		settings.setBucketAccessKey(bucketAccessKeyField.getText());
 		settings.setBucketSecretKey(bucketSecretKeyField.getText());
 		settings.setBucketName(bucketNameField.getText());
 		settings.setFolderName(folderNameField.getText());
 		
-		mainApp.updateAmazonBucketUploader();
+		updateAmazonBucketUploader();
 		mainApp.showEditListView();
 	}
 	
@@ -126,6 +130,28 @@ public class SettingsController {
 		bucketSecretKeyField.setText(settings.getBucketSecretKey());
 		bucketNameField.setText(settings.getBucketName());
 		folderNameField.setText(settings.getFolderName());
+	}
+
+	private void updateAmazonBucketUploader() {
+		AmazonBucketUploader bucketUploader = AmazonBucketUploader.getOrCreateInstance();
+		bucketUploader.setBucketName(settings.getBucketName());
+		bucketUploader.setFolderName(settings.getFolderName());
+		System.out.println("updating keys from settingscontroller");
+		bucketUploader.setKeys(settings.getBucketAccessKey(), settings.getBucketSecretKey());
+		if (!bucketUploader.isAccessible()) {
+			String headerText = "Nøklene er ikke gyldig.";
+			String contentText = "Dette betyr du ikke vil få lastet bildene opp i bucketen. Vennligst skriv inn rett nøkler.";
+			newAlertError(headerText, contentText);
+		}
+	}
+
+	// TODO: Can be reused - put in correct place
+	private void newAlertError(String headerText, String contentText) {
+		Alert alert = new Alert(Alert.AlertType.ERROR);
+		alert.setTitle("Feilmeldinger");
+		alert.setHeaderText(headerText);
+		alert.setContentText(contentText);
+		alert.showAndWait();
 	}
 	
 }

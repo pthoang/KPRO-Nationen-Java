@@ -27,8 +27,6 @@ import java.io.File;
 import java.io.IOException;
 import javafx.scene.input.MouseEvent;
 
-import java.beans.EventHandler;
-
 public class CandidateController {
 
     private ObservableList GENDER_CHOICES = FXCollections.observableArrayList("", "Kvinne", "Mann", "Annet");
@@ -48,16 +46,17 @@ public class CandidateController {
     @FXML
     private ChoiceBox<String> genderChoiceBox = new ChoiceBox<String>(GENDER_CHOICES);
     @FXML
+    private TextField yearOfBirthField = new TextField();
+    @FXML
+    private TextField twitterField = new TextField();
+	@FXML
+    private TextField professionField = new TextField();
+    @FXML
     private TextField animalsPGField = new TextField();
     @FXML
     private TextField hiredHelpPGField = new TextField();
     @FXML
     private TextField farmingPGField = new TextField();
-    @FXML
-    private TextField yearOfBirthField = new TextField();
-    @FXML
-    private TextField twitterField = new TextField();
-	private TextField professionField = new TextField();
 
     @FXML
     private TableView<Connection> networkTable;
@@ -82,14 +81,20 @@ public class CandidateController {
     // TODO: do with all colors used
     private final String GREEN = "-fx-background-color: rgb(53,109,48);";
 
+    public CandidateController() {
+        System.out.println("Get mainApp in candidateC");
+        mainApp = MainApp.getInstance();
+    }
 
     public void setBucketUploader(AmazonBucketUploader bucketUploader) {
         this.bucketUploader = bucketUploader;
     }
 
+    /*
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
+    */
 
     public void setParentController(EditListController editListController) {
         this.parent = editListController;
@@ -143,8 +148,7 @@ public class CandidateController {
         });
         
         yearOfBirthField.textProperty().addListener((observable, oldValue, newValue) -> {
-        	markAsDoneButton.setDisable(false);
-            saveCandidateButton.setDisable(false);
+        	disableButtons(false);
         });
 
         genderChoiceBox.getItems().addAll(GENDER_CHOICES);

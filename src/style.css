@@ -60,6 +60,9 @@
     -fx-background-insets: 0;
     -fx-background-radius: 1;
 }
+.table-row-cell:hover {
+    -fx-background-color: #2e2e2e;
+}
 
 .tool-bar {
     -fx-background-color: #363636;
@@ -119,15 +122,39 @@
 .finished {
     -fx-background-color: rgb(53,109,48);
 }
+.finished:hover{
+    -fx-background-color: rgb(42, 87, 38);
+}
+.finished:focused {
+    -fx-background-color: #4c7192;
+}
 
 .unfinished {
     -fx-background-color: rgb(156,156,59);
+}
+.unfinished:hover {
+    -fx-background-color: rgb(112, 112, 43);
+}
+.unfinished:focused {
+    -fx-background-color: #4c7192;
 }
 
 .invalidFields {
     -fx-background-color: rgb(157,57,68);
 }
+.invalidFields:focused {
+    -fx-background-color: rgb(132, 48, 57);
+}
+.invalidFields:hover {
+    -fx-background-color: #4c7192;
+}
 
 .allFields {
-    -fx-background-color: rgb(108,139,68);"
+    -fx-background-color: rgb(108,139,68);
+}
+.allFields:focused {
+    -fx-background-color: rgb(82, 105, 51);
+}
+.allFields:hover {
+    -fx-background-color: #4c7192;
 }

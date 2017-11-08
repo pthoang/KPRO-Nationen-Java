@@ -3,7 +3,6 @@ package Main;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Calendar;
 
 import controllers.*;
 import interfaces.DataSourceInterface;
@@ -14,10 +13,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import model.AmazonBucketUploader;
 import model.ScoringList;
-import model.Settings;
 import model.DataSources;
+import model.Candidate;
 
 public class MainApp extends Application {
 
@@ -26,11 +24,7 @@ public class MainApp extends Application {
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 	private EditListController editListController;
-	private ScoringListController scoringListViewController;
-	private CandidateController candidateViewController;
-	private AmazonBucketUploader bucketUploader;
 	private ScoringList scoringList;
-	private Settings settings;
 
 	private DataSources ds = new DataSources();
 
@@ -40,7 +34,13 @@ public class MainApp extends Application {
 	}
 
 	public static void main(String[] args) {
-		launch(args);
+        launch(args);
+
+	    Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+	        public void run() {
+                deleteImageFolder();
+            }}, "Shutting down"
+        ));
 	}
 
 	@Override
@@ -51,17 +51,14 @@ public class MainApp extends Application {
         this.primaryStage.setTitle("Nationen - Maktkampen");
 
 		initRootLayout();
-		settings = Settings.getOrCreateInstance();
-
 		scoringList = ScoringList.getOrCreateInstance();
 		showEditListView();
 		
 		// TODO: Only during testing
 		scoringList.createFromNameList("resources/NameListTest.txt");
-		editListController.fillTable();
-		editListController.setCandidate(scoringList.getCandidates().get(0));
-
-		bucketUploader = AmazonBucketUploader.getOrCreateInstance();
+		ScoringListController.getOrCreateInstance().fillTable();
+		Candidate firstCandidate = scoringList.getCandidates().get(0);
+		CandidateController.getOrCreateInstance().setCandidate(firstCandidate);
 	}
 
 	/**
@@ -152,50 +149,32 @@ public class MainApp extends Application {
 		return this.primaryStage;
 	}
 
-
-	/**
-	 * Updates the scoringListView (refresh the table)
-	 */
-	/*
-	public void updateView() {
-        editListController = EditListController.getOrCreateInstance();
-        System.out.println("editListController: " + editListController);
-        editListController.fillTable();
-	}
-	*/
-
-
 	/**
 	 * Creates a new and empty list
 	 */
-
 	public void newList() {
-		int year = Calendar.getInstance().get(Calendar.YEAR);
 		scoringList.empty();
-	}
-
-	
-	public File chooseAndGetFile() {
-		FileChooser fileChooser = new FileChooser();
-		return fileChooser.showOpenDialog(primaryStage);
 	}
 
 	public DataSources getDataSourcesController() {
 		return ds;
 	}
 
-	/*
-	public void updateAmazonBucketUploader() {
-		bucketUploader.setBucketName(settings.getBucketName());
-		bucketUploader.setFolderName(settings.getFolderName());
-		bucketUploader.setKeys(settings.getBucketAccessKey(), settings.getBucketSecretKey());
-	}
-	*/
+    public File chooseAndGetFile() {
+        FileChooser fileChooser = new FileChooser();
+        return fileChooser.showOpenDialog(primaryStage);
+    }
 
 	public void generateAll() {
 		for (DataSourceInterface datasource : ds.getDsList()) {
 			datasource.getData(scoringList.getCandidates());
 		}
 	}
+
+	// Called when closing the program
+	private static void deleteImageFolder() {
+        // TODO
+        System.out.println("Delete folder with images");
+    }
 
 }

@@ -271,7 +271,7 @@ public class CandidateController {
             }
         }
 
-        parent.refreshTable();
+        ScoringListController.getOrCreateInstance().refreshTable();
         // Network
         // TODO: save the temporarily network connection list
 
@@ -321,7 +321,7 @@ public class CandidateController {
                 candidate.setStatus("");
             }
         }
-        parent.refreshTable();
+        ScoringListController.getOrCreateInstance().refreshTable();
     }
 
     @FXML
@@ -379,15 +379,12 @@ public class CandidateController {
 
     private void handleErrorMessage(String errorMessage) {
         if (errorMessage.length() != 0) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Feilmeldinger");
-            alert.setHeaderText("Felter til kandidaten er ikke korrekt utfylt.");
-            alert.setContentText(errorMessage);
-            alert.showAndWait();
+            String headerText = "Felter til kandidaten er ikke korrekt utfylt.";
+            Utility.newAlertError(headerText, errorMessage);
             candidate.setStatus("invalidFields");
         } else {
             saveCandidate();
-            parent.refreshTable();
+            ScoringListController.getOrCreateInstance().refreshTable();
         }
     }
 
@@ -396,7 +393,7 @@ public class CandidateController {
         networkTable.setStyle("");
         municipalityField.setStyle("");
 
-        File file = new File(candidate.getImageURL());
+        File file = new File(candidate.getImageName());
         setImageField(file);
 
         nameField.setText(candidate.getName());
@@ -467,7 +464,7 @@ public class CandidateController {
     }
 
     private void createAndAddEmptyCandidate() {
-        int nextCandidateRank = parent.getCandidates().size() + 1;
+        int nextCandidateRank = ScoringList.getOrCreateInstance().getCandidates().size() + 1;
 
         rankField.setText(Integer.toString(nextCandidateRank));
         candidate = new Candidate("", nextCandidateRank, 0);
@@ -475,7 +472,7 @@ public class CandidateController {
     }
 
     private void uploadToBucket() {
-        String imagePath = candidate.getImageURL();
+        String imagePath = candidate.getImageName();
         File image = new File(imagePath);
         String fileName = image.getName();
         bucketUploader.uploadFile(image, fileName);
@@ -498,8 +495,6 @@ public class CandidateController {
         }
 
         ConnectionController connectionController = loader.getController();
-        //connectionController.setMainApp(parent.getMainApp());
-        //connectionController.setParent(this);
         connectionController.setCandidate(candidate);
         connectionController.setConnection(connection);
 

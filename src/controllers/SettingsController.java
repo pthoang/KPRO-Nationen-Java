@@ -4,7 +4,6 @@ import Main.MainApp;
 import interfaces.DataSourceInterface;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -18,6 +17,7 @@ import java.io.IOException;
 import java.util.List;
 
 import model.Settings;
+import model.Utility;
 
 public class SettingsController {
 
@@ -136,17 +136,8 @@ public class SettingsController {
 		if (!bucketUploader.isAccessible()) {
 			String headerText = "Nøklene er ikke gyldig.";
 			String contentText = "Dette betyr du ikke vil få lastet bildene opp i bucketen. Vennligst skriv inn rett nøkler.";
-			newAlertError(headerText, contentText);
+			Utility.newAlertError(headerText, contentText);
 		}
-	}
-
-	// TODO: Can be reused - put in correct place
-	private void newAlertError(String headerText, String contentText) {
-		Alert alert = new Alert(Alert.AlertType.ERROR);
-		alert.setTitle("Feilmeldinger");
-		alert.setHeaderText(headerText);
-		alert.setContentText(contentText);
-		alert.showAndWait();
 	}
 	
 }

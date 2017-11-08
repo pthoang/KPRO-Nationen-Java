@@ -3,9 +3,7 @@ package controllers;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.regex.Pattern;
 
-import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 
 import javax.imageio.ImageIO;
@@ -16,10 +14,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import model.AmazonBucketUploader;
-import model.Candidate;
-import model.Connection;
-import model.Person;
+import model.*;
 
 public class ConnectionController {
 
@@ -54,12 +49,14 @@ public class ConnectionController {
 		parent = CandidateController.getOrCreateInstance();
 	}
 
+	/*
 	public static ConnectionController getOrCreateInstance() {
 		if (instance == null) {
 			instance = new ConnectionController();
 		}
 		return instance;
 	}
+	*/
 
 	public void setCandidate(Candidate candidate) {
 		this.candidate = candidate;
@@ -98,19 +95,14 @@ public class ConnectionController {
 	public void handleSave() {
 		String errorMessage = "";
 
-		errorMessage += validateName(nameField.getText());
-		errorMessage += validateDescription(descriptionField.getText());
+		errorMessage += Utility.validateName(nameField.getText());
+		errorMessage += Utility.validateDescription(descriptionField.getText());
 
 		handleErrorMessage(errorMessage);
 	}
 
 	@FXML
 	public void handleAddImage() {
-		String imageName = nameField.getText();
-		imageName = imageName.replace(" ",  "");
-
-		imageURL = "images/" + imageName + ".png";
-
 		File file = mainApp.chooseAndGetFile();
 		try {
 			BufferedImage bufferedImage = ImageIO.read(file);
@@ -130,37 +122,10 @@ public class ConnectionController {
 		parent.chooseConnection(connection);
 	}
 
-	// TODO: Is also in Person. Should find a way to reuse it
-	private String validateName(String name) {
-		Pattern pattern = Pattern.compile("^[A-ZÆØÅa-zæøå. \\-]++$");
-		String errorMessage = "";
-
-		if (name.length() <= 2) {
-			errorMessage += "\n Navn må være lengre enn 2 bokstaver.";
-		}
-		if (!pattern.matcher(name).matches()) {
-			errorMessage += "\n Navnet inneholder ugyldige bokstaver. Tillatt er: a-å, ., og -";
-		}
-
-		return errorMessage;
-	}
-
-	// Is also in Candidate. Should find a way to reuse it
-	private String validateDescription(String description) {
-		if (description.length() <= 5 || description.equals(null)) {
-			return "\n Beskrivelse mangler";
-		}
-		return "";
-	}
-
-	// Is also in CandidateController. Should find a way to reuse it
 	private void handleErrorMessage(String errorMessage) {
 		if (errorMessage.length() != 0) {
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("Feilmeldinger");
-			alert.setHeaderText("Felter til koblingen er ikke korrekt utfylt.");
-			alert.setContentText(errorMessage);
-			alert.showAndWait();
+		    String headerText = "Felter til koblingen er ikke korrekt utfylt.";
+            Utility.newAlertError(headerText, errorMessage);
 			candidate.setStatus("invalidFields");
 		} else {
 			saveConnection();
@@ -169,14 +134,16 @@ public class ConnectionController {
 
 	private void saveConnection() {
 		if (connection == null) {
-			Person person = new Person(nameField.getText(), imageURL);
+            String imageName = nameField.getText();
+            imageName = imageName.replace(" ",  "");
+            Person person = new Person(nameField.getText(), imageName);
 			candidate.addConnection(person, descriptionField.getText());
-			String imageName = person.getName().replace(" ", "");
+			System.out.println("ImageURL to person: " + imageURL);
 			AmazonBucketUploader.getOrCreateInstance().uploadFile(new File(imageURL), imageName);
 		} else {
 			connection.getPerson().setName(nameField.getText());
 			connection.setDescription(descriptionField.getText());
-			connection.getPerson().setImageURL(imageURL);
+			connection.getPerson().setImageName(imageURL);
 		}
 		parent.closeDialog();
 	}
@@ -200,7 +167,7 @@ public class ConnectionController {
 	private void setFields() {
 		nameField.setText(connection.getPerson().getName());
 		descriptionField.setText(connection.getDescription());
-		setImageField(connection.getPerson().getImageURL());
+		setImageField(connection.getPerson().getImageName());
 
 		deleteButton.setDisable(false);
 		if (isChosen()) {

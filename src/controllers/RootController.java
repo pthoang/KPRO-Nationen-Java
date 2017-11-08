@@ -6,6 +6,7 @@ import java.io.File;
 
 import Main.MainApp;
 import model.ScoringList;
+import model.Utility;
 
 public class RootController {
 
@@ -21,7 +22,7 @@ public class RootController {
 		File file = mainApp.chooseAndGetFile();
 		createScoringListBasedOnFileType(file);
 
-		EditListController.getOrCreateInstance().fillTable();
+		ScoringListController.getOrCreateInstance().fillTable();
 	}
 
 	private void createScoringListBasedOnFileType(File file) {
@@ -33,7 +34,9 @@ public class RootController {
 		} else if (filePath.toLowerCase().endsWith(".txt")) {
 			scoringList.createFromNameList(filePath);
 		} else {
-			// TODO
+			String headerText = "Det er ikke en godkjent filtype.";
+			String contentText = "Filtypen må være enten .txt eller .json";
+			Utility.newAlertError(headerText, contentText);
 			System.out.println("Error: invalid file");
 		}
 	}

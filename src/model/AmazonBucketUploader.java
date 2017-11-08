@@ -8,10 +8,7 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.AmazonS3Exception;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.CreateBucketRequest;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.*;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -131,4 +128,14 @@ public class AmazonBucketUploader {
 	public boolean isAccessible() {
 		return isAccesible;
 	}
+
+    public File getFileFromBucket(String fileName) {
+        GetObjectRequest getObjReq = new GetObjectRequest(folderName, fileName);
+	    s3Client.getObject(getObjReq, new File("images/" + fileName));
+        return new File("images/" + fileName);
+    }
+
+    public String getBucketPath() {
+	    return bucketName + "/" + folderName;
+    }
 }

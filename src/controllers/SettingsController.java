@@ -41,15 +41,11 @@ public class SettingsController {
 	private Settings settings;
 
 	public SettingsController() {
-		System.out.println("Get mainApp in SettingsC");
 		mainApp = MainApp.getInstance();
-	}
-
-	public void setSettings(Settings settings) {
-		this.settings = settings;
+		settings = Settings.getOrCreateInstance();
 		setDefaultSettings();
 	}
-	
+
 	@FXML
 	private void handleSave() {
 		int numCandidates = Integer.parseInt(numCandidatesField.getText());
@@ -136,7 +132,6 @@ public class SettingsController {
 		AmazonBucketUploader bucketUploader = AmazonBucketUploader.getOrCreateInstance();
 		bucketUploader.setBucketName(settings.getBucketName());
 		bucketUploader.setFolderName(settings.getFolderName());
-		System.out.println("updating keys from settingscontroller");
 		bucketUploader.setKeys(settings.getBucketAccessKey(), settings.getBucketSecretKey());
 		if (!bucketUploader.isAccessible()) {
 			String headerText = "Nøklene er ikke gyldig.";

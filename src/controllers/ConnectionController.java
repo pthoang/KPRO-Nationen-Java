@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import model.AmazonBucketUploader;
 import model.Candidate;
 import model.Connection;
 import model.Person;
@@ -48,6 +49,7 @@ public class ConnectionController {
 
 
 	public ConnectionController() {
+		instance = this;
 		mainApp = MainApp.getInstance();
 		parent = CandidateController.getOrCreateInstance();
 	}
@@ -59,18 +61,19 @@ public class ConnectionController {
 		return instance;
 	}
 
-	public void setMainApp(MainApp mainApp) {
-		this.mainApp = mainApp;
-	}
-
-	public void setParent(CandidateController candidateController) {
-		this.parent = candidateController;
-	}
-
 	public void setCandidate(Candidate candidate) {
 		this.candidate = candidate;
 	}
 
+	public void setConnection(Connection connection) {
+		this.connection = connection;
+		if (connection != null) {
+			setFields();
+		} else {
+			setImageField(imageURL);
+			saveButton.setDisable(true);
+		}
+	}
 	@FXML
 	public void initialize() {
 		nameField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -166,32 +169,16 @@ public class ConnectionController {
 
 	private void saveConnection() {
 		if (connection == null) {
-			// TODO: imagePath
 			Person person = new Person(nameField.getText(), imageURL);
 			candidate.addConnection(person, descriptionField.getText());
+			String imageName = person.getName().replace(" ", "");
+			AmazonBucketUploader.getOrCreateInstance().uploadFile(new File(imageURL), imageName);
 		} else {
 			connection.getPerson().setName(nameField.getText());
 			connection.setDescription(descriptionField.getText());
 			connection.getPerson().setImageURL(imageURL);
 		}
-		saveImageToFile();
 		parent.closeDialog();
-	}
-
-	private void saveImageToFile() {
-		// TODO: set as ID instead
-		String imageName = nameField.getText();
-		imageName = imageName.replace(" ",  "");
-
-		imageURL = "images/" + imageName + ".png";
-		File outputFile = new File(imageURL);
-		BufferedImage bImage = SwingFXUtils.fromFXImage(newImage,  null);
-		try {
-			ImageIO.write(bImage,  "png", outputFile);
-
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 	@FXML
@@ -199,17 +186,7 @@ public class ConnectionController {
 		parent.closeDialog();
 	}
 
-	public void setConnection(Connection connection) {
-        this.connection = connection;
-        if (connection != null) {
-            setFields();
-        } else {
-            setImageField(imageURL);
-            saveButton.setDisable(true);
-        }
-    }
-
-	public void setImageField(String imageURL) {
+	private void setImageField(String imageURL) {
 		File file = new File(imageURL);
 		try {
 			BufferedImage bufferedImage = ImageIO.read(file);

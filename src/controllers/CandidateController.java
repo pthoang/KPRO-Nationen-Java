@@ -26,7 +26,6 @@ import javafx.scene.input.MouseEvent;
 
 public class CandidateController {
 
-    private static CandidateController instance = null;
     private ObservableList GENDER_CHOICES = FXCollections.observableArrayList("", "Kvinne", "Mann", "Annet");
 
     @FXML
@@ -68,6 +67,7 @@ public class CandidateController {
     @FXML
     private Button markAsDoneButton;
 
+    private static CandidateController instance = null;
     private final String IMAGE_PATH = "images/";
     private AmazonBucketUploader bucketUploader;
     private Image newImage;
@@ -93,22 +93,6 @@ public class CandidateController {
         return instance;
     }
 
-    /*
-    public void setBucketUploader(AmazonBucketUploader bucketUploader) {
-        this.bucketUploader = bucketUploader;
-    }
-    */
-
-    /*
-    public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
-    }
-    */
-
-    public void setParentController(EditListController editListController) {
-        this.parent = editListController;
-    }
-
     public void setCandidate(Candidate candidate) {
         this.candidate = candidate;
         setFields();
@@ -121,7 +105,7 @@ public class CandidateController {
         networkNameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
         networkDescriptionColumn.setCellValueFactory(cellData -> cellData.getValue().getDescriptionProperty());
 
-        networkTable.setPlaceholder(new Label("Ingen koblinger å vise"));
+        networkTable.setPlaceholder(new Label("Ikke noe nettverk å vise"));
 
         /**
          * Adding listeners to the textfields for feedback handling
@@ -179,9 +163,6 @@ public class CandidateController {
         farmingPGField.textProperty().addListener((observable, oldValue, newValue) -> {
             disableButtons(false);
         });
-        
-        genderChoiceBox.getItems().addAll(GENDER_CHOICES);
-        genderChoiceBox.setValue("");
 
     }
 
@@ -235,9 +216,10 @@ public class CandidateController {
 
         errorMessage += validateCandidate();
         
-//        //Year of Birth
-//        String newYearOfBirth = yearOfBirthField.getText();
-//        candidate.setYearOfBirth(newYearOfBirth);
+//      //Year of Birth
+        // TODO
+//      String newYearOfBirth = yearOfBirthField.getText();
+//      candidate.setYearOfBirth(newYearOfBirth);
 
         // Municipality
         // TODO: missing validation
@@ -316,7 +298,6 @@ public class CandidateController {
 
     @FXML
     public void handleNewCandidate() {
-        //candidate = null;
         cleanFields();
         createAndAddEmptyCandidate();
     }
@@ -332,13 +313,11 @@ public class CandidateController {
         if(markAsDoneButton.getText().equals("Marker komplett")){
             if(!nameField.getText().isEmpty()) {
                 markAsDoneButton.setText("Marker ukomplett");
-                //getCandidateByName(nameField.getText()).setStatus("finished");
                 candidate.setStatus("finished");
             }
         }else{
             if(!nameField.getText().isEmpty()){
                 markAsDoneButton.setText("Marker komplett");
-                //getCandidateByName(nameField.getText()).setStatus("");
                 candidate.setStatus("");
             }
         }
@@ -349,16 +328,6 @@ public class CandidateController {
     public void handleAddConnection() {
         connectionDialog(null, true);
     }
-    /*
-    private Candidate getCandidateByName(String name) {
-        for (Candidate candidate: parent.getCandidates()) {
-            if (candidate.getName().equals(name)) {
-                return candidate;
-            }
-        }
-        return null;
-    }
-    */
 
     private String validateCandidate() {
         String errorMessage = "";
@@ -531,8 +500,8 @@ public class CandidateController {
         ConnectionController connectionController = loader.getController();
         //connectionController.setMainApp(parent.getMainApp());
         //connectionController.setParent(this);
-        //connectionController.setCandidate(candidate);
-        //connectionController.setConnection(connection);
+        connectionController.setCandidate(candidate);
+        connectionController.setConnection(connection);
 
         Scene dialogScene = new Scene(connectionView);
         dialog.setScene(dialogScene);

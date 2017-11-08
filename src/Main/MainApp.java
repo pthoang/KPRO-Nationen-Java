@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
-import com.amazonaws.services.s3.model.Bucket;
 import controllers.*;
 import interfaces.DataSourceInterface;
 import javafx.application.Application;
@@ -46,10 +45,10 @@ public class MainApp extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		this.primaryStage = primaryStage;
-		this.primaryStage.setTitle("Nationen - Maktkampen");
+        instance = this;
 
-		instance = this;
+        this.primaryStage = primaryStage;
+        this.primaryStage.setTitle("Nationen - Maktkampen");
 
 		initRootLayout();
 		settings = Settings.getOrCreateInstance();
@@ -57,22 +56,12 @@ public class MainApp extends Application {
 		scoringList = ScoringList.getOrCreateInstance();
 		showEditListView();
 		
-		// TODO: During testing
+		// TODO: Only during testing
 		scoringList.createFromNameList("resources/NameListTest.txt");
-		updateView();
+		editListController.fillTable();
 		editListController.setCandidate(scoringList.getCandidates().get(0));
 
-		/*
-		bucketUploader = new AmazonBucketUploader(
-				settings.getBucketName(),
-				settings.getFolderName(),
-				settings.getBucketAccessKey(),
-				settings.getBucketSecretKey()
-				);
-		*/
 		bucketUploader = AmazonBucketUploader.getOrCreateInstance();
-
-		// editListController.setBucketUploader(bucketUploader);
 	}
 
 	/**
@@ -113,10 +102,6 @@ public class MainApp extends Application {
 			rootLayout.setCenter(editListView);
 
 			editListController = loader.getController();
-            // editListController.setScoringListViewController(scoringListViewController);
-            // editListController.setCandidateViewController(candidateViewController);
-			//editListController.setMainApp(this);
-			//editListController.setBucketUploader(bucketUploader);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -149,16 +134,11 @@ public class MainApp extends Application {
 			FXMLLoader loader= new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("../view/SettingsView2.fxml"));
 			GridPane settingsView = loader.load();
-
 			rootLayout.setCenter(settingsView);
 
 			SettingsController settingsController = loader.getController();
-			//settingsController.setMainApp(this);
 
 			settingsController.refreshRegisterSelectors(getDataSourcesController().getDsList());
-
-			settingsController.setSettings(settings);
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -172,34 +152,17 @@ public class MainApp extends Application {
 		return this.primaryStage;
 	}
 
-	/**
-	 * Get the scoringList
-	 * @return scoringList
-	 */
-	/*
-	public ScoringList getScoringList() {
-		return scoringList;
-	}
-    */
-
-	/**
-	 * Sets the scoringList
-	 * @param scoringList The ScoringList
-	 */
-	/*
-	public void setScoringList(ScoringList scoringList) {
-		this.scoringList = scoringList;
-	}
-	*/
 
 	/**
 	 * Updates the scoringListView (refresh the table)
 	 */
+	/*
 	public void updateView() {
         editListController = EditListController.getOrCreateInstance();
         System.out.println("editListController: " + editListController);
         editListController.fillTable();
 	}
+	*/
 
 
 	/**

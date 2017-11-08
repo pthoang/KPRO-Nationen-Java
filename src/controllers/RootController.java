@@ -21,7 +21,7 @@ public class RootController {
 		File file = mainApp.chooseAndGetFile();
 		createScoringListBasedOnFileType(file);
 
-		mainApp.updateView();
+		EditListController.getOrCreateInstance().fillTable();
 	}
 
 	private void createScoringListBasedOnFileType(File file) {

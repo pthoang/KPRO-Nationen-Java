@@ -27,7 +27,7 @@ public class Settings {
 		return instance;
 	}
 
-	protected Settings() {
+	private Settings() {
 		setDefaultKeys();
 	}
 	

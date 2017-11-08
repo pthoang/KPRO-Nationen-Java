@@ -22,8 +22,6 @@ public class ScoringList {
 	private ObservableList<Candidate> candidates;
 	private Jury jury;
 
-	private int maxLength = 100;
-
 	public ScoringList() {
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		this.year = new SimpleIntegerProperty(year);
@@ -39,10 +37,6 @@ public class ScoringList {
 
 	public int getLength() {
 		return candidates.size();
-	}
-
-	public boolean isFull() {
-		return getLength() == maxLength;
 	}
 
 	public void createFromNameList(String filePath) {
@@ -115,10 +109,6 @@ public class ScoringList {
 		// TODO
 		// throw new UnsupportedOperationException("not implemented");
 	}
-	
-	public void setMaxLength(int maxLength) {
-		this.maxLength = maxLength;
-	}
 
 	public void setJury(Jury jury) {
 		this.jury = jury;
@@ -129,6 +119,7 @@ public class ScoringList {
 	}
 
 	public void empty() {
-	    // TODO
+        candidates = null;
+	    jury = null;
     }
 }

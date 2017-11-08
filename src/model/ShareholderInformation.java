@@ -11,19 +11,17 @@ public class ShareholderInformation {
     private String orgName;
     private BigInteger totalStocks;
     private int candidateStocks;
-    private String zipCode;
-    private String city;
+    private String yearOfBirth;
 
 
     public ShareholderInformation(String orgNo, String orgName, BigInteger totalStocks, int candidateStocks,
-                                  String zipCode, String city) {
+                                  String yearOfBirth) {
 
         this.orgNo = orgNo;
         this.orgName = orgName;
         this.totalStocks = totalStocks;
         this.candidateStocks = candidateStocks;
-        this.zipCode = zipCode;
-        this.city = city;
+        this.yearOfBirth = yearOfBirth;
 
     }
 

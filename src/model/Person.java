@@ -28,7 +28,7 @@ public class Person {
 	 * Returns the local imageName
 	 */
 	public String getImageName() {
-		if (! imageName.equals("resources/standard.png")) {
+		if (! imageName.get().equals("resources/standard.png")) {
 			return "images/" + imageName.get();
 		}
 		return imageName.get();

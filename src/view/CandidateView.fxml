@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
@@ -12,14 +9,12 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane alignment="center" hgap="10" vgap="10" GridPane.columnIndex="1" GridPane.rowIndex="0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CandidateController">
+<GridPane alignment="center" hgap="10" vgap="10" GridPane.columnIndex="1" GridPane.rowIndex="0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CandidateController">
     <children>
 
         <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="150.0" onMouseClicked="#handleChangeImage" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.rowSpan="3" />
@@ -38,7 +33,7 @@
         <TextField fx:id="farmingPGField" GridPane.columnIndex="1" GridPane.rowIndex="10" />
 
         <Label maxWidth="200" text="Nettverk:" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-        <TableView fx:id="networkTable" maxHeight="200" GridPane.columnIndex="2" GridPane.rowIndex="8" GridPane.rowSpan="3">
+        <TableView fx:id="networkTable" maxHeight="200" onMouseClicked="#openConnection" GridPane.columnIndex="2" GridPane.rowIndex="8" GridPane.rowSpan="3">
             <columns>
                 <TableColumn fx:id="networkNameColumn" minWidth="110" prefWidth="100.0" text="Navn" />
                 <TableColumn fx:id="networkDescriptionColumn" minWidth="250" text="Beskrivelse" />
@@ -94,6 +89,7 @@
         <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
       <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
       <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+      <RowConstraints />
       <RowConstraints />
     </rowConstraints>
    <padding>

@@ -137,8 +137,9 @@ public class ConnectionController {
             String imageName = nameField.getText();
             imageName = imageName.replace(" ",  "");
             Person person = new Person(nameField.getText(), imageName);
+
 			candidate.addConnection(person, descriptionField.getText());
-			System.out.println("ImageURL to person: " + imageURL);
+			saveImageToFile(imageName);
 			AmazonBucketUploader.getOrCreateInstance().uploadFile(new File(imageURL), imageName);
 		} else {
 			connection.getPerson().setName(nameField.getText());
@@ -154,6 +155,10 @@ public class ConnectionController {
 	}
 
 	private void setImageField(String imageURL) {
+	    System.out.println("Set image field in connectionC: " + imageURL);
+	    if (! imageURL.endsWith(".png")) {
+	        imageURL += ".png";
+        }
 		File file = new File(imageURL);
 		try {
 			BufferedImage bufferedImage = ImageIO.read(file);
@@ -186,5 +191,16 @@ public class ConnectionController {
 		}
 		return false;
 	}
+
+	private void saveImageToFile(String imageName) {
+        File outputFile = new File("images/" + imageName + ".png");
+        BufferedImage bImage = SwingFXUtils.fromFXImage(newImage, null);
+
+        try {
+            ImageIO.write(bImage, "png", outputFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 

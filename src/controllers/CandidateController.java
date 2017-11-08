@@ -339,9 +339,11 @@ public class CandidateController {
         String description = descriptionField.getText();
         errorMessage += candidate.validate(name, rank, previousYearRank, gender, description);
 
-        if (parent.nameExistInList(name)) {
+        /*
+        if (EditListController.getOrCreateInstance().nameExistInList(name)) {
             errorMessage += "\n Det eksisterer allerede noen med det for- og etternavnet";
         }
+        */
 
         return errorMessage;
     }
@@ -394,6 +396,7 @@ public class CandidateController {
         municipalityField.setStyle("");
 
         File file = new File(candidate.getImageName());
+        System.out.println("File when setFields in candidateC: " + file);
         setImageField(file);
 
         nameField.setText(candidate.getName());
@@ -436,7 +439,7 @@ public class CandidateController {
     }
 
     private void cleanFields() {
-        String standardImagePath = "images/standard.png";
+        String standardImagePath = "resources/standard.png";
         File file = new File(standardImagePath);
         setImageField(file);
 
@@ -454,6 +457,7 @@ public class CandidateController {
     }
 
     private void setImageField(File file) {
+        System.out.println("File when setIamgeFIeld in canddiateC: " + file);
         try {
             BufferedImage bufferedImage = ImageIO.read(file);
             newImage = SwingFXUtils.toFXImage(bufferedImage, null);

@@ -43,18 +43,7 @@ public class AmazonBucketUploader {
 		getClient();
 		createOrGetBucket();
 	}
-	/*
-	public AmazonBucketUploader(String bucketName, String folderName, String accessKey, String secretKey) {
-		this.bucketName = bucketName;
-		this.folderName = folderName;
-		this.accessKey = accessKey;
-		this.secretKey = secretKey;
-		
-		getClient();
-		createOrGetBucket();
-	}
-	*/
-	
+
 	public void setBucketName(String bucketName) {
 		this.bucketName = bucketName;
 		if (s3Client != null) {

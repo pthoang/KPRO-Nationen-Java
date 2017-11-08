@@ -49,15 +49,6 @@ public class ConnectionController {
 		parent = CandidateController.getOrCreateInstance();
 	}
 
-	/*
-	public static ConnectionController getOrCreateInstance() {
-		if (instance == null) {
-			instance = new ConnectionController();
-		}
-		return instance;
-	}
-	*/
-
 	public void setCandidate(Candidate candidate) {
 		this.candidate = candidate;
 	}

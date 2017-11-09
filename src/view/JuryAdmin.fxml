@@ -13,20 +13,20 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddJuryController">
+<GridPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddJuryController">
     <padding>
         <Insets bottom="20" left="40" right="40" top="20" />
     </padding>
     <children>
-        <TableView fx:id="juryTable" maxHeight="800" prefWidth="300" GridPane.columnIndex="0" GridPane.rowIndex="0">
+        <TableView fx:id="juryMembersTable" maxHeight="800" onMouseClicked="#selectJuryMember" prefWidth="300" GridPane.columnIndex="0" GridPane.rowIndex="0">
             <columns>
-                <TableColumn fx:id="juryNameColumn" prefWidth="290" text="Navn" />
+                <TableColumn fx:id="nameColumn" prefWidth="290" text="Navn" />
             </columns>
         </TableView>
         <ToolBar GridPane.columnIndex="0" GridPane.rowIndex="1">
             <items>
                 <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" text="Tilbake" />
-                <Button fx:id="nextButton" mnemonicParsing="false" onAction="#handleNext" text="Lagre Juryen" />
+                <Button mnemonicParsing="false" onAction="#handleSaveJury" text="Lagre Juryen" />
             </items>
         </ToolBar>
         <GridPane GridPane.columnIndex="1" GridPane.rowIndex="0">
@@ -43,7 +43,7 @@
 
                 <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="150.0" onMouseClicked="#fileChooser" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.rowSpan="3" />
 
-                <Button fx:id="addJuryMember" mnemonicParsing="false" onAction="#addMember" text="Legg til Jury medlem" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                <Button fx:id="addJuryMember" mnemonicParsing="false" onAction="#handleAddJuryMember" text="Legg til Jury medlem" GridPane.columnIndex="0" GridPane.rowIndex="4" />
             <TextField fx:id="titleField" GridPane.rowIndex="3" />
             <Button mnemonicParsing="false" onAction="#handleAddDescription" text="Legg til felles beskrivelse" GridPane.rowIndex="7" />
             </children>

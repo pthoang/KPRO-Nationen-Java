@@ -1,33 +1,21 @@
 package controllers;
 
-
-import java.awt.*;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-
-import java.io.FileNotFoundException;
-import java.util.*;
-
 
 import Main.MainApp;
 
-import com.sun.org.apache.xpath.internal.operations.And;
-import com.sun.org.apache.xpath.internal.operations.Or;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
 import javafx.scene.image.*;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import model.*;
+import javafx.scene.input.MouseEvent;
 
 import javax.imageio.ImageIO;
 
@@ -35,27 +23,34 @@ import javax.imageio.ImageIO;
 public class AddJuryController {
 
     @FXML
-    private Button chooseImageButton;
+    private TableView<JuryMember> juryMembersTable = new TableView<>();
     @FXML
-    private Button backButton;
+    private TableColumn<JuryMember, String> nameColumn = new TableColumn<>();
+
     @FXML
-    private Button nextButton;
+    private TextField nameField = new TextField();
     @FXML
-    private TextField nameField;
-    @FXML
-    private javafx.scene.control.TextArea descriptionField;
+    private TextField titleField = new TextField();
     @FXML
     private ImageView imageView = new ImageView();
+    @FXML
+    private TextArea descriptionField = new TextArea();
 
-    private MainApp mainApp;
     private Jury jury;
-    private javafx.scene.image.Image newImage;
-    private String imagePath;
-    private String imageName;
+    private MainApp mainApp;
     private File imageFile;
+    private Image newImage;
+    private static AddJuryController instance = null;
+
+
+    public static AddJuryController getOrCreateInstance() {
+        if (instance == null) {
+            instance = new AddJuryController();
+        }
+        return instance;
+    }
 
     public AddJuryController(){
-
         mainApp = MainApp.getInstance();
         setImageField(new File("resources/standard.png"));
         jury = Jury.getOrCreateInstance();
@@ -64,22 +59,18 @@ public class AddJuryController {
     @FXML
     public void initialize() {
         setImageField(new File("resources/standard.png"));
+        String description = jury.getDescription();
+        if (description != null) {
+            descriptionField.setText(description);
+        }
+
+        juryMembersTable.setItems(jury.getJuryMembers());
+        nameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
     }
 
     @FXML
     private void fileChooser() {
-        System.out.println("Filechooser");
         imageFile = mainApp.chooseAndGetFile();
-        try {
-            BufferedImage bufferedImage = ImageIO.read(imageFile);
-            newImage = SwingFXUtils.toFXImage(bufferedImage, null);
-            imageView.setImage(newImage);
-            imageName = imageFile.getName();
-            imagePath = imageFile.getPath();
-        } catch (IOException ex) {
-            System.out.println("Error when loading image: " + ex);
-        }
-
         setImageField(imageFile);
     }
 
@@ -89,33 +80,36 @@ public class AddJuryController {
     }
 
     @FXML
-    public void handleNext() {
+    public void handleSaveJury() {
         mainApp.showEditListView();
     }
 
     @FXML
-    public void addMember() {
-        //need to include amazon image upload
-        System.out.println(imageFile+" "+imageName);
+    public void handleAddJuryMember() {
+        String name = nameField.getText();
+        String imageName = name.replace(" ", "");
         AmazonBucketUploader.getOrCreateInstance().uploadFile(imageFile, imageName);
-        //upload image to bucket
-        JuryMember member = new JuryMember(nameField.getText(),descriptionField.getText(),imageName);
-        System.out.println("Jury: " + jury);
-        System.out.println("Member: " + member);
-        this.jury.addMemberToJury(member);
+        String title = titleField.getText();
+        JuryMember member = new JuryMember(name, imageName, title);
+        jury.addJuryMember(member);
+
+        ObservableList<JuryMember> juryMembers = jury.getJuryMembers();
+        System.out.println("Members when saving: " + juryMembers);
+        System.out.println("Name: " + juryMembers.get(0).getName());
+        juryMembersTable.setItems(jury.getJuryMembers());
+        juryMembersTable.refresh();
         cleanFields();
     }
 
     private void cleanFields() {
-        imagePath = "resources/standard.png";
         nameField.setText("");
-        descriptionField.setText("");
-
+        titleField.setText("");
     }
 
     @FXML
-    public void handleAddDescriptioin() {
-        
+    public void handleAddDescription() {
+        String description = descriptionField.getText();
+        jury.setDescription(description);
     }
 
     private void setImageField(File file) {
@@ -126,6 +120,25 @@ public class AddJuryController {
         } catch (IOException ex) {
             System.out.println("Error when loading image: " + ex);
         }
+    }
+
+    private void setFields(JuryMember juryMember) {
+        nameField.setText(juryMember.getName());
+        titleField.setText(juryMember.getTitle());
+        File image = new File(juryMember.getImageName());
+        setImageField(image);
+    }
+
+    @FXML
+    public void selectJuryMember(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            JuryMember juryMember = juryMembersTable.getSelectionModel().getSelectedItem();
+            setFields(juryMember);
+        }
+    }
+
+    private void updateJuryMembersTable() {
+        juryMembersTable.setItems(jury.getJuryMembers());
     }
 
 }

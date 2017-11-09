@@ -25,6 +25,8 @@ public class Candidate extends Person {
 	private String gender = "";
 	private String yearOfBirth;
 	private String profession;
+
+	// TODO: should use enum instead of strings to tell the status
 	private String status;
 
 	private ArrayList organizations;

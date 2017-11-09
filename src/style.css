@@ -224,3 +224,8 @@
 .title {
     -fx-font-size: 20px;
 }
+
+.settingsTitle {
+    -fx-font-size: 16px;
+    -fx-text-fill: #42a25c;
+}

@@ -59,12 +59,6 @@ public class CandidateController {
 	@FXML
     private TextField professionField = new TextField();
     @FXML
-    private TextField animalsPGField = new TextField();
-    @FXML
-    private TextField hiredHelpPGField = new TextField();
-    @FXML
-    private TextField farmingPGField = new TextField();
-    @FXML
     private TextField titleField = new TextField();
 
     @FXML
@@ -89,8 +83,7 @@ public class CandidateController {
     private EditListController parent;
 
     private List<Object> inputFields = new ArrayList<>(Arrays.asList(nameField, previousYearRankField, rankField,
-            municipalityField, genderChoiceBox, yearOfBirthField, professionField, twitterField, animalsPGField,
-            hiredHelpPGField, farmingPGField, descriptionField, titleField));
+            municipalityField, genderChoiceBox, yearOfBirthField, professionField, twitterField, descriptionField, titleField));
 
 
     public CandidateController() {
@@ -141,7 +134,6 @@ public class CandidateController {
             disableButtons(false);
             boolean isPerson = newValue.intValue() == 3;
             disableFieldsIfNotPerson(isPerson);
-
         });
 
         municipalityField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -165,19 +157,6 @@ public class CandidateController {
 
         professionField.textProperty().addListener((observable, oldValue, newValue) -> {
         	disableButtons(false);
-        });
-      
-        // TODO: Move to its own class
-        animalsPGField.textProperty().addListener((observable, oldValue, newValue) -> {
-            disableButtons(false);
-        });
-
-        hiredHelpPGField.textProperty().addListener((observable, oldValue, newValue) -> {
-            disableButtons(false);
-        });
-
-        farmingPGField.textProperty().addListener((observable, oldValue, newValue) -> {
-            disableButtons(false);
         });
 
     }
@@ -238,31 +217,6 @@ public class CandidateController {
         String newMunicipality = municipalityField.getText();
         candidate.setMunicipality(new SimpleStringProperty(newMunicipality));
 
-        // ProductionGrants
-        // TODO: this should be moved to SaveCandidate, and here it should be some validation
-        try {
-            int animalsPG = Integer.parseInt(animalsPGField.getText());
-            candidate.setAnimalsPG(new SimpleIntegerProperty(animalsPG));
-        } catch (NumberFormatException e) {
-            candidate.setStatus("unfinished");
-            System.out.println("Candidate don't have a animalsPG");
-        }
-
-        try {
-            int hiredHelpPG = Integer.parseInt(hiredHelpPGField.getText());
-            candidate.setHiredHelpPG(new SimpleIntegerProperty(hiredHelpPG));
-        } catch (NumberFormatException e) {
-            candidate.setStatus("unfinished");
-            System.out.println("Candidate don't have a hiredHelpPG");
-        }
-
-        try {
-            int farmingPG = Integer.parseInt(farmingPGField.getText());
-            candidate.setFarmingPG(new SimpleIntegerProperty(farmingPG));
-        } catch (NumberFormatException e) {
-            candidate.setStatus("unfinished");
-            System.out.println("Candidate don't have a farmingPG");
-        }
 
         System.out.println("gender: " + candidate.getGender());
         // Field handling only needed with persons
@@ -312,11 +266,8 @@ public class CandidateController {
             else if(i == 5){ yearOfBirthField.getStyleClass().add(color);}
             else if(i == 6){ professionField.getStyleClass().add(color);}
             else if(i == 7){ twitterField.getStyleClass().add(color);}
-            else if(i == 8){ animalsPGField.getStyleClass().add(color);}
-            else if(i == 9){ hiredHelpPGField.getStyleClass().add(color);}
-            else if(i == 10){ farmingPGField.getStyleClass().add(color);}
-            else if(i == 11){descriptionField.getStyleClass().add(color);}
-            else if(i == 12){titleField.getStyleClass().add(color);}
+            else if(i == 8){ descriptionField.getStyleClass().add(color);}
+            else if(i == 9){ titleField.getStyleClass().add(color);}
             else { networkTable.getStyleClass().add(color);}
         } else {
             if(i == 0){ nameField.getStyleClass().removeAll("errorField", "emptyField");}
@@ -327,11 +278,8 @@ public class CandidateController {
             else if(i == 5){ yearOfBirthField.getStyleClass().removeAll("errorField", "emptyField");}
             else if(i == 6){ professionField.getStyleClass().removeAll("errorField", "emptyField");}
             else if(i == 7){ twitterField.getStyleClass().removeAll("errorField", "emptyField");}
-            else if(i == 8){ animalsPGField.getStyleClass().removeAll("errorField", "emptyField");}
-            else if(i == 9){ hiredHelpPGField.getStyleClass().removeAll("errorField", "emptyField");}
-            else if(i == 10){ farmingPGField.getStyleClass().removeAll("errorField", "emptyField");}
-            else if(i == 11){descriptionField.getStyleClass().removeAll("errorField", "emptyField");}
-            else if(i == 12){titleField.getStyleClass().removeAll("errorField", "emptyField");}
+            else if(i == 8){ descriptionField.getStyleClass().removeAll("errorField", "emptyField");}
+            else if(i == 9){ titleField.getStyleClass().removeAll("errorField", "emptyField");}
             else { networkTable.getStyleClass().removeAll("errorField", "emptyField");}
         }
 
@@ -357,9 +305,6 @@ public class CandidateController {
         if (notPerson) {
             twitterField.setDisable(true);
             networkTable.setDisable(true);
-            animalsPGField.setDisable(true);
-            hiredHelpPGField.setDisable(true);
-            farmingPGField.setDisable(true);
             yearOfBirthField.setDisable(true);
             municipalityField.setDisable(true);
             professionField.setDisable(true);
@@ -367,9 +312,6 @@ public class CandidateController {
         } else {
             twitterField.setDisable(false);
             networkTable.setDisable(false);
-            animalsPGField.setDisable(false);
-            hiredHelpPGField.setDisable(false);
-            farmingPGField.setDisable(false);
             yearOfBirthField.setDisable(false);
             municipalityField.setDisable(false);
             professionField.setDisable(false);
@@ -494,9 +436,6 @@ public class CandidateController {
         previousYearRankField.setText(Integer.toString(candidate.getPreviousYearRank()));
         genderChoiceBox.getSelectionModel().select(setGenderChoice(candidate));
         descriptionField.setText(candidate.getDescription());
-        animalsPGField.setText(Integer.toString(candidate.getAnimalsPG()));
-        hiredHelpPGField.setText(Integer.toString(candidate.getHiredHelpPG()));
-        farmingPGField.setText(Integer.toString(candidate.getFarmingPG()));
         yearOfBirthField.setText(candidate.getYearOfBirth());
         twitterField.setText(candidate.getTwitter());
         professionField.setText(candidate.getProfession());
@@ -523,9 +462,6 @@ public class CandidateController {
         rankField.setText("");
         previousYearRankField.setText("");
         descriptionField.setText("");
-        animalsPGField.setText("");
-        hiredHelpPGField.setText("");
-        farmingPGField.setText("");
         yearOfBirthField.setText("");
         twitterField.setText("");
         professionField.setText("");

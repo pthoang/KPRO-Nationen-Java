@@ -29,7 +29,7 @@ public class MainApp extends Application {
 	private AddJuryController addjurycontroller;
 	private ScoringList scoringList;
 	private Candidate candidate;
-	private Jury jury;
+
 
 	private boolean stateSaved;
 
@@ -190,9 +190,6 @@ public class MainApp extends Application {
 		}
 	}
 
-	public void setJury(Jury fullJury){
-		this.jury = fullJury;
-	}
 
 	/**
 	 * Shows the view for about.

@@ -1,16 +1,29 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Jury {
-    private List<JuryMember> juryMembers;
+    private ArrayList<JuryMember> juryMembers;
     private String description;
 
-    public Jury() {
-        throw new UnsupportedOperationException("not implemented");
+    public static Jury instance = null;
+
+    public static Jury getOrCreateInstance() {
+        if (instance == null) {
+            instance = new Jury();
+        }
+        return instance;
+    }
+
+    private Jury() {
+        juryMembers = new ArrayList<JuryMember>();
+
     }
 
     public void addMemberToJury(JuryMember member){
         juryMembers.add(member);
     }
+
+
 }

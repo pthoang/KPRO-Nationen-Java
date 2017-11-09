@@ -322,6 +322,7 @@ public class CandidateController {
 
     @FXML
     public void handleAddConnection() {
+        saveCandidateButton.setDisable(false);
         connectionDialog(null, true);
     }
 

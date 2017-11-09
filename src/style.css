@@ -143,20 +143,20 @@
 .invalidFields {
     -fx-background-color: rgb(157,57,68);
 }
-.invalidFields:focused {
+.invalidFields:hover {
     -fx-background-color: rgb(132, 48, 57);
 }
-.invalidFields:hover {
+.invalidFields:focused {
     -fx-background-color: #4c7192;
 }
 
 .allFields {
     -fx-background-color: rgb(108,139,68);
 }
-.allFields:focused {
+.allFields:hover {
     -fx-background-color: rgb(82, 105, 51);
 }
-.allFields:hover {
+.allFields:focused {
     -fx-background-color: #4c7192;
 }
 
@@ -173,5 +173,5 @@
 }
 
 .errorField {
-    -fx-border-color: #d43d3f;
+    -fx-border-color: #d43d3f !important;
 }

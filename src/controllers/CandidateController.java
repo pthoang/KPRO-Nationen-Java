@@ -264,9 +264,9 @@ public class CandidateController {
             System.out.println("Candidate don't have a farmingPG");
         }
 
+        System.out.println("gender: " + candidate.getGender());
         // Field handling only needed with persons
-        if (candidate.getIsPerson()) {
-            System.out.println("isPerson");
+        if (getSelectedGender().equals("F") || getSelectedGender().equals("M")) {
             //Checks if network table is empty, if so give a warning
             if(networkTable.getItems().size() < 1){
                 candidate.setFieldStatus(12, 1);
@@ -292,7 +292,6 @@ public class CandidateController {
                 candidate.setFieldStatus(13,1);
                 candidate.setStatus("unfinished");
             }
-
         }
         ScoringListController.getOrCreateInstance().refreshTable();
         // Network
@@ -341,7 +340,7 @@ public class CandidateController {
     private void setColorsOnFields(){
         int[] candidateFields = candidate.getFieldStatus();
         for(int i = 0; i < candidateFields.length; i++){
-            if(candidateFields[i] == 1 && candidate.getIsPerson()){
+            if(candidateFields[i] == 1){
                 System.out.println("emptyField");
                 setColorOnField(true, i, "emptyField");
             } else if (candidateFields[i] == 2){

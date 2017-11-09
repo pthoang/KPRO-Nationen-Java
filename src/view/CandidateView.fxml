@@ -45,30 +45,22 @@
         <Label maxWidth="200" text="Kommune" GridPane.columnIndex="1" GridPane.rowIndex="6" />
         <TextField fx:id="municipalityField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
-        <Label GridPane.valignment="BOTTOM" text="Twitter" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+        <Label text="Twitter" GridPane.columnIndex="2" GridPane.rowIndex="6" />
         <TextField fx:id="twitterField" GridPane.columnIndex="2" GridPane.rowIndex="7" />
 
-        <Label maxWidth="200" text="Dyr" GridPane.columnIndex="0" GridPane.rowIndex="8" />
-        <TextField fx:id="animalsPGField" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+        <Label text="Beskrivelse:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+        <TextArea maxHeight="150" fx:id="descriptionField" GridPane.columnIndex="0" GridPane.rowIndex="9" GridPane.columnSpan="3" GridPane.rowSpan="2"/>
 
-        <Label maxWidth="200" text="Avløser" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-        <TextField fx:id="hiredHelpPGField" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-
-        <Label maxWidth="200" text="Jordbruk" GridPane.columnIndex="2" GridPane.rowIndex="8" />
-        <TextField fx:id="farmingPGField" GridPane.columnIndex="2" GridPane.rowIndex="9" />
-
-        <Label text="Beskrivelse:" GridPane.columnIndex="0" GridPane.rowIndex="10" />
-        <TextArea fx:id="descriptionField" GridPane.columnIndex="0" GridPane.rowIndex="11" GridPane.columnSpan="2" GridPane.rowSpan="2"/>
-
-        <Label text="Nettverk:" GridPane.columnIndex="2" GridPane.rowIndex="10" />
-        <TableView fx:id="networkTable" GridPane.columnIndex="2" GridPane.rowIndex="11" GridPane.rowSpan="2">
+        <Label text="Nettverk:" GridPane.columnIndex="0" GridPane.rowIndex="11" />
+        <TableView maxHeight="150" fx:id="networkTable" GridPane.columnIndex="0" GridPane.rowIndex="12" GridPane.rowSpan="2" GridPane.columnSpan="3">
+            <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
             <columns>
-                <TableColumn fx:id="networkNameColumn" minWidth="100" prefWidth="100.0" text="Navn" />
-                <TableColumn fx:id="networkDescriptionColumn" minWidth="120" text="Beskrivelse" />
+                <TableColumn fx:id="networkNameColumn" prefWidth="10.0" text="Navn" />
+                <TableColumn fx:id="networkDescriptionColumn" prefWidth="90.0" text="Beskrivelse" />
             </columns>
         </TableView>
 
-        <ToolBar GridPane.columnSpan="3" GridPane.columnIndex="0" GridPane.rowIndex="13">
+        <ToolBar GridPane.columnSpan="3" GridPane.columnIndex="0" GridPane.rowIndex="14">
             <items>
                 <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDelete" text="Slett kandidat" />
                 <Button fx:id="saveCandidateButton" mnemonicParsing="false" onAction="#handleSaveChangesToCandidate" text="Lagre kandidat" />

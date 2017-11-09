@@ -147,7 +147,7 @@ public class CandidateController {
 
         descriptionField.textProperty().addListener((observable, oldValue, newValue) -> {
             disableButtons(false);
-            if(newValue == null || newValue.length() < 10){
+            if(newValue == null || newValue.length() < 5){
                 descriptionField.getStyleClass().add("emptyField");
             } else {
                 descriptionField.getStyleClass().remove("emptyField");
@@ -345,6 +345,7 @@ public class CandidateController {
     }
 
     private void saveCandidate() {
+        candidate.setStatus("allFields");
         String name = nameField.getText();
         candidate.setName(name);
 
@@ -380,26 +381,38 @@ public class CandidateController {
             if(networkTable.getItems().size() < 1){
                 candidate.setFieldStatus(10, 1);
                 candidate.setStatus("unfinished");
+            } else {
+                candidate.setFieldStatus(10, 0);
             }
             if(municipality == null || municipality.equals("")){
                 candidate.setFieldStatus(3, 1);
                 candidate.setStatus("unfinished");
+            } else {
+                candidate.setFieldStatus(3, 0);
             }
             if(twitter == null || twitter.equals("")){
                 candidate.setFieldStatus(7, 1);
                 candidate.setStatus("unfinished");
+            } else {
+                candidate.setFieldStatus(7, 0);
             }
             if(newProfession == null || newProfession.equals("")){
                 candidate.setFieldStatus(6, 1);
                 candidate.setStatus("unfinished");
+            } else {
+                candidate.setFieldStatus(6, 0);
             }
             if(newYearOfBirth == null || newYearOfBirth.equals("")){
                 candidate.setFieldStatus(5,1);
                 candidate.setStatus("unfinished");
+            } else {
+                candidate.setFieldStatus(5, 0);
             }
             if(title == null || title.equals("")){
                 candidate.setFieldStatus(9,1);
                 candidate.setStatus("unfinished");
+            } else {
+                candidate.setFieldStatus(9, 0);
             }
         }
         // TODO: Save all the fields related to the different sources
@@ -411,7 +424,7 @@ public class CandidateController {
             setColorsOnFields();
             String headerText = "Felter til kandidaten er ikke korrekt utfylt.";
             Utility.newAlertError(headerText, errorMessage);
-
+            setColorsOnFields();
         } else {
             saveCandidate();
             setColorsOnFields();

@@ -20,13 +20,17 @@ public class ConnectionsDb {
         for (Candidate candidate : candidates) {
 
             JsonArray nodes = new JsonArray();
-
+            JsonObject nodesObject = new JsonObject();
+            nodesObject.add("nodes", nodes);
             JsonArray edges = new JsonArray();
+            JsonObject edgesObject = new JsonObject();
+            edgesObject.add("edges", edges);
 
             //list of nodes and edges
-            JsonObject elements =  new JsonObject();
-            elements.add("nodes",nodes);
-            elements.add("edges",edges);
+            JsonArray elements =  new JsonArray();
+
+            elements.add(nodesObject);
+            elements.add(edgesObject);
 
 
             JsonObject rawData = candidate.getRawData();
@@ -39,12 +43,13 @@ public class ConnectionsDb {
             for (Candidate candidate2 : candidates) {
                 if (candidate.getName()!=candidate2.getName()){
                     JsonObject rawData2 = candidate2.getRawData();
-                    JsonArray otherCandidateStocks= (JsonArray) rawData.get("stocks");
+                    JsonArray otherCandidateStocks= (JsonArray) rawData2.get("stocks");
 
                     //I dont know what raw_data looks like, but this should be easy to rewrite
 
                     //Adding Connection if candidates own same stock
                     for(JsonElement stock1 : candidatesStocks){
+                        Boolean candidateAdded = false;
                         for(JsonElement stock2 : otherCandidateStocks){
                             if(stock1.getAsJsonObject().get("orgNo")==stock2.getAsJsonObject().get("orgNo")){
                                 String newId = Integer.toString(i) + "s";
@@ -56,18 +61,24 @@ public class ConnectionsDb {
                                 dataNode.addProperty("description",
                                         candidate2.getName()+" eier aksjer i samme selskap som "+candidate.getName());
                                 JsonObject dataNodeObject = new JsonObject();
-                                dataNodeObject.add("data", dataNodeObject);
+                                dataNodeObject.add("data", dataNode);
                                 nodes.add(dataNodeObject);
 
                                 JsonObject dataEdge = new JsonObject();
                                 dataEdge.addProperty("source", "1"); //Source
                                 dataEdge.addProperty("target", newId); //Target
                                 JsonObject dataEdgeObject = new JsonObject();
-                                dataEdgeObject.add("data", dataEdgeObject);
+                                dataEdgeObject.add("data", dataEdge);
                                 edges.add(dataEdgeObject);
+                                candidateAdded = true;
                             }
                         }
+                        if(candidateAdded) {
+                            break;
+                        }
                     }
+
+
 
                     //Adding connection if candidates get same kind of subsidies
 
@@ -82,14 +93,14 @@ public class ConnectionsDb {
                         dataNode.addProperty("description",
                                 candidate2.getName()+" eier også andeler i selskaper som mottar subsidier til dyrehold.");
                         JsonObject dataNodeObject = new JsonObject();
-                        dataNodeObject.add("data", dataNodeObject);
+                        dataNodeObject.add("data", dataNode);
                         nodes.add(dataNodeObject);
 
                         JsonObject dataEdge = new JsonObject();
                                 dataEdge.addProperty("source", "1"); //Source
                         dataEdge.addProperty("target", newId); //Target
                         JsonObject dataEdgeObject = new JsonObject();
-                        dataEdgeObject.add("data", dataEdgeObject);
+                        dataEdgeObject.add("data", dataEdge);
                         edges.add(dataEdgeObject);
 
                     }
@@ -104,14 +115,14 @@ public class ConnectionsDb {
                         dataNode.addProperty("description",
                                 candidate2.getName()+" eier også andeler i selskaper som mottar subsidier til avløs.");
                         JsonObject dataNodeObject = new JsonObject();
-                        dataNodeObject.add("data", dataNodeObject);
+                        dataNodeObject.add("data", dataNode);
                         nodes.add(dataNodeObject);
 
                         JsonObject dataEdge = new JsonObject();
                         dataEdge.addProperty("source", "1"); //Source
                         dataEdge.addProperty("target",newId); //Target
                         JsonObject dataEdgeObject = new JsonObject();
-                        dataEdgeObject.add("data", dataEdgeObject);
+                        dataEdgeObject.add("data", dataEdge);
                         edges.add(dataEdgeObject);
                     }
                     //Jordbruk
@@ -125,14 +136,14 @@ public class ConnectionsDb {
                         dataNode.addProperty("description",
                                 candidate2.getName()+" eier også andeler i selskaper som mottar subsidier til jordbruk.");
                         JsonObject dataNodeObject = new JsonObject();
-                        dataNodeObject.add("data", dataNodeObject);
+                        dataNodeObject.add("data", dataNode);
                         nodes.add(dataNodeObject);
 
                         JsonObject dataEdge = new JsonObject();
                         dataEdge.addProperty("source", "1"); //Source
                         dataEdge.addProperty("target",newId); //Target
                         JsonObject dataEdgeObject = new JsonObject();
-                        dataEdgeObject.add("data", dataEdgeObject);
+                        dataEdgeObject.add("data", dataEdge);
                         edges.add(dataEdgeObject);
                     }
 
@@ -147,14 +158,14 @@ public class ConnectionsDb {
                                 candidate2.getName()+" sitter i Stortinget eller i regjering sammen med " +
                                         candidate.getName());
                         JsonObject dataNodeObject = new JsonObject();
-                        dataNodeObject.add("data", dataNodeObject);
+                        dataNodeObject.add("data", dataNode);
                         nodes.add(dataNodeObject);
 
                         JsonObject dataEdge = new JsonObject();
                         dataEdge.addProperty("source", "1"); //Source
                         dataEdge.addProperty("target", newId); //Target
                         JsonObject dataEdgeObject = new JsonObject();
-                        dataEdgeObject.add("data", dataEdgeObject);
+                        dataEdgeObject.add("data", dataEdge);
                         edges.add(dataEdgeObject);
                     }
 
@@ -163,8 +174,6 @@ public class ConnectionsDb {
 
                     }
                 }
-
-
 
 
             candidate.setElements(elements);

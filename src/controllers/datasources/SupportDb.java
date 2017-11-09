@@ -117,9 +117,12 @@ public class SupportDb implements DataSourceInterface {
             subsidies.addProperty("farmingSubsidies", farmingSubsidies);
             subsidies.addProperty("hiredHelpSubsidies", hiredHelpSubsidies);
 
-            candidate.addData("subsidies", subsidies);
+            candidate.addRawData("subsidies", subsidies);
         }
 
+        ConnectionsDb connectionsDb = new ConnectionsDb();
+        connectionsDb.setConnections(candidates);
+        System.out.println(candidates);
     }
 
     @Override

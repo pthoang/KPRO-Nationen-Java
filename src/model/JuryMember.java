@@ -2,6 +2,7 @@ package model;
 
 public class JuryMember extends Person {
     private String description;
+    private String imageURL;
 
     // TODO: we might not need this one? Just use a normal person?
     public JuryMember(String name, String description, String imageURL) {

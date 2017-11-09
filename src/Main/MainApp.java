@@ -17,6 +17,7 @@ import model.AmazonBucketUploader;
 import model.ScoringList;
 import model.DataSources;
 import model.Candidate;
+import model.Jury;
 
 public class MainApp extends Application {
 
@@ -28,6 +29,7 @@ public class MainApp extends Application {
 	private AddJuryController addjurycontroller;
 	private ScoringList scoringList;
 	private Candidate candidate;
+	private Jury jury;
 
 	private boolean stateSaved;
 
@@ -56,7 +58,8 @@ public class MainApp extends Application {
 			GridPane JuryAdminView = (GridPane) loader.load();
 			rootLayout.setCenter(JuryAdminView);
 			addjurycontroller = loader.getController();
-			addjurycontroller.setMainApp(this);
+
+			saveState();
 		}catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -185,6 +188,10 @@ public class MainApp extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void setJury(Jury fullJury){
+		this.jury = fullJury;
 	}
 
 	/**

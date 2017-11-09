@@ -9,4 +9,8 @@ public class Jury {
     public Jury() {
         throw new UnsupportedOperationException("not implemented");
     }
+
+    public void addMemberToJury(JuryMember member){
+        juryMembers.add(member);
+    }
 }

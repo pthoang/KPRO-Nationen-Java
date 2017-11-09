@@ -25,17 +25,17 @@ public class SettingsController {
 	private GridPane gpSettings;
 
 	@FXML
-	private TextField numCandidatesField;
+	private TextField numCandidatesField = new TextField();
 	@FXML
-	private TextField numConnectionsField;
+	private TextField numConnectionsField = new TextField();
 	@FXML
-	private TextField bucketAccessKeyField;
+	private TextField bucketAccessKeyField = new TextField();
 	@FXML
-	private TextField bucketSecretKeyField;
+	private TextField bucketSecretKeyField = new TextField();
 	@FXML
-	private TextField bucketNameField;
+	private TextField bucketNameField = new TextField();
 	@FXML
-	private TextField folderNameField;
+	private TextField folderNameField = new TextField();
 	
 	private MainApp mainApp;
 	private Settings settings;
@@ -44,6 +44,11 @@ public class SettingsController {
 		mainApp = MainApp.getInstance();
 		settings = Settings.getOrCreateInstance();
 		setDefaultSettings();
+	}
+
+	@FXML
+	private void initialize() {
+
 	}
 
 	@FXML

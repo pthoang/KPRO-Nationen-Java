@@ -396,7 +396,6 @@ public class CandidateController {
         municipalityField.setStyle("");
 
         File file = new File(candidate.getImageName());
-        System.out.println("File when setFields in candidateC: " + file);
         setImageField(file);
 
         nameField.setText(candidate.getName());
@@ -457,7 +456,6 @@ public class CandidateController {
     }
 
     private void setImageField(File file) {
-        System.out.println("File when setIamgeFIeld in canddiateC: " + file);
         try {
             BufferedImage bufferedImage = ImageIO.read(file);
             newImage = SwingFXUtils.toFXImage(bufferedImage, null);

@@ -8,7 +8,6 @@ import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -24,7 +23,6 @@ import javafx.util.Callback;
 import model.*;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -137,11 +135,12 @@ public class CandidateController {
                 disableButtons(false);
                 if(newValue == null || newValue.equals("")){
                     textField.getStyleClass().add("emptyField");
-                }else {
+                } else {
                     textField.getStyleClass().remove("emptyField");
                 }
             });
         }
+
         genderChoiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             disableButtons(false);
             boolean isPerson = newValue.intValue() == 3;
@@ -219,7 +218,7 @@ public class CandidateController {
 
         // Municipality
         // TODO: missing validation
-        String newMunicipality = municipalityField.getText();
+        //String newMunicipality = municipalityField.getText();
         //candidate.setMunicipality(new SimpleStringProperty(newMunicipality));
 
         ScoringListController.getOrCreateInstance().refreshTable();
@@ -453,7 +452,7 @@ public class CandidateController {
         twitterField.setText(candidate.getTwitter());
         professionField.setText(candidate.getProfession());
         titleField.setText(candidate.getTitle());
-
+        setColorsOnFields();
         setCompleteButton();
     }
 

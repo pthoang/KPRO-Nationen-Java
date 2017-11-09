@@ -26,7 +26,10 @@ public class ConnectionController {
 	private TextField descriptionField;
 	@FXML
 	private ImageView imageView = new ImageView();
-
+	@FXML
+	private Button cancelButton;
+	@FXML
+	private Button addImageButton;
 	@FXML
 	private Button saveButton;
 	@FXML

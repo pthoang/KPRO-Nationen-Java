@@ -72,7 +72,6 @@ public class ScoringListController {
                 candidateColor.put(candidate.getName(), 0);
             }
         }
-
         updateCountLabel();
     }
 
@@ -115,11 +114,9 @@ public class ScoringListController {
         countLabel.setText(actualLength + "/" + max);
 
         if (actualLength > max) {
-            // TODO: set as color-variables
-            countLabel.setStyle("-fx-text-fill: #d44c3d");
+            countLabel.getStyleClass().add("listToLong");
         } else {
-            // TODO: set as color-variables
-            countLabel.setStyle("-fx-text-fill: #fafafa");
+            countLabel.getStyleClass().add("listToShort");
         }
     }
 
@@ -131,9 +128,6 @@ public class ScoringListController {
     }
 
     public static class CellFactory implements Callback<TableColumn<Candidate, String>, TableCell<Candidate, String>> {
-
-        private int editingIndex = -1 ;
-
         @Override
         public TableCell<Candidate, String> call(TableColumn<Candidate, String> param) {
             return new TableCell<Candidate, String>() {
@@ -143,44 +137,22 @@ public class ScoringListController {
                 {
                     super.updateItem(item, empty);
                     setText(item);
-
-                    // TODO: why 55? Would it be more correct with scoringList.size()?
-                    if(this.getIndex() > -1 && this.getIndex()<55){
-
-                        String status =  candidates.get(this.getIndex()).getStatus();
+                    if(this.getIndex() > -1 && this.getIndex()<candidates.size()){
+                        String status = candidates.get(this.getIndex()).getStatus();
 
                         if(status.equals("finished")){
-                            getTableRow().setStyle("-fx-background-color: rgb(53,109,48);");
+                            getTableRow().getStyleClass().add("finished");
                         } else if (status.equals("unfinished")){
-                            getTableRow().setStyle("-fx-background-color: rgb(156,156,59);");
+							getTableRow().getStyleClass().add("unfinished");
                         } else if (status.equals("invalidFields")){
-                            getTableRow().setStyle("-fx-background-color: rgb(157,57,68);");
+							getTableRow().getStyleClass().add("invalidFields");
                         } else if (status.equals("allFields")) {
-                            getTableRow().setStyle("-fx-background-color: rgb(108,139,68);");
+							getTableRow().getStyleClass().add("allFields");
                         } else {
-                            getTableRow().setStyle("");
+                            getTableRow().getStyleClass().removeAll("finished", "unfinished", "invalidFields", "allFields");
                         }
                     }
                 }
-
-                @Override
-                public void startEdit() {
-                    editingIndex = getIndex();
-                    super.startEdit();
-                }
-
-                @Override
-                public void commitEdit(String newValue) {
-                    editingIndex = -1 ;
-                    super.commitEdit(newValue);
-                }
-
-                @Override
-                public void cancelEdit() {
-                    editingIndex = -1 ;
-                    super.cancelEdit();
-                }
-
             };
         }
     }

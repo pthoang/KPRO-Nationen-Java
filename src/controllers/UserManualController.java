@@ -28,6 +28,7 @@ public class UserManualController {
     @FXML
     public void initialize() {
         Text userManualText = readTextFromFile();
+        userManualText.setStyle("-fx-font-size: 14; -fx-fill: #d9d9d9;");
         ObservableList textList = userManualField.getChildren();
         textList.add(userManualText);
     }

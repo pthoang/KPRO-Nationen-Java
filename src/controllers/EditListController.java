@@ -11,7 +11,9 @@ import Main.MainApp;
 
 public class EditListController {
 
+
 	public static EditListController instance = null;
+
 
 	@FXML
 	private CandidateController candidateViewController;

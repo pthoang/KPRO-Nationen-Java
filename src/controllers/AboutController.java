@@ -24,6 +24,7 @@ public class AboutController {
     @FXML
     public void initialize() {
         Text aboutText = readTextFromFile();
+        aboutText.setStyle("-fx-font-size: 14; -fx-fill: #d9d9d9;");
         ObservableList textList = textField.getChildren();
         textList.addAll(aboutText);
     }

@@ -22,12 +22,28 @@ public class Candidate extends Person {
 	private SimpleIntegerProperty rank;
 	private SimpleIntegerProperty previousYearRank;
 	private SimpleStringProperty twitterLink = new SimpleStringProperty();
-	private String status;
 	private String gender = "";
 	private String yearOfBirth;
 	private String profession;
+	private String title;
+
+	// TODO: should use enum instead of strings to tell the status
+	private String status;
 
 	private ArrayList organizations;
+
+	/*
+		The fieldStatus represent the color of the TextField for the candidate.
+		This is the sequence of the fields:
+		[name, lastYearsRank, Rank, Municipality, gender, birthyear, profession, twitter, description, title and network]
+		The numbers represent:
+		0 - not checked / correct data
+		1 - missing data
+		2 - wrong input
+		For example, if municipality is missing fields, fieldStatus[3] will be 1
+		This array is used for colourcoding
+	 */
+	private int[] fieldStatus = new int[11];
 
 
 	private JsonObject rawData = new JsonObject();
@@ -250,6 +266,10 @@ public class Candidate extends Person {
 		this.profession = profession;
 	}
 
+	public String getTitle(){ return title; }
+
+	public void setTitle(String title) { this.title = title; }
+
 
 	// Validation
 	public String validate(String name, String rank, String previousYearRank, String gender, String description) {
@@ -268,11 +288,14 @@ public class Candidate extends Person {
 		try {
 			int rank = Integer.parseInt(rankString);
 			if (rank < 1 || rank > 100) {
+				fieldStatus[2] = 2;
 				return "\n Plasseringen må være mellom 1 og 100";
 			}
 		} catch (NumberFormatException e) {
+			fieldStatus[2] = 2;
 			return "\n Plasseringen er ikke et tall";
 		}
+		fieldStatus[2] = 0;
 		return "";
 	}
 
@@ -280,25 +303,32 @@ public class Candidate extends Person {
 		try {
 			int rank = Integer.parseInt(rankString);
 			if (rank < 1 || rank > 100) {
+				fieldStatus[1] = 2;
 				return "\n Fjorårets plasseringen må være mellom 1 og 100";
 			}
 		} catch (NumberFormatException e) {
+			fieldStatus[1] = 2;
 			return "\n Fjorårets plasseringen er ikke et tall";
 		}
+		fieldStatus[1] = 0;
 		return "";
 	}
 
 	private String validateGender(String gender) {
 		if (gender.equals("")) {
+			fieldStatus[4] = 2;
 			return "\n Du må velge et kjønn. Velg 'Annet' om kandidaten ikke er et menneske.";
 		}
+		fieldStatus[4] = 0;
 		return "";
 	}
 
 	private String validateDescription(String description) {
 		if (description.length() <= 5 || description.equals(null)) {
+			fieldStatus[8] = 2;
 			return "\n Beskrivelse mangler:";
 		}
+		fieldStatus[8] = 0;
 		return "";
 	}
 
@@ -306,7 +336,18 @@ public class Candidate extends Person {
 		this.rawData.add(field, data);
 	}
 
+
 	public void setElements(JsonArray elements) {
 		this.elements = elements;
+
+	}
+
+	public int[] getFieldStatus() {
+		return fieldStatus;
+	}
+
+	public void setFieldStatus(int field, int status) {
+		fieldStatus[field] = status;
+
 	}
 }

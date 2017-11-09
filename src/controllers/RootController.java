@@ -6,6 +6,7 @@ import java.io.File;
 
 import Main.MainApp;
 import model.ScoringList;
+import model.Utility;
 
 public class RootController {
 
@@ -21,19 +22,21 @@ public class RootController {
 		File file = mainApp.chooseAndGetFile();
 		createScoringListBasedOnFileType(file);
 
-		mainApp.updateView();
+		ScoringListController.getOrCreateInstance().fillTable();
 	}
 
 	private void createScoringListBasedOnFileType(File file) {
 		String filePath = file.getAbsolutePath();
-		ScoringList scoringList = mainApp.getScoringList();
+		ScoringList scoringList = ScoringList.getOrCreateInstance();
 
 		if (filePath.toLowerCase().endsWith(".json")) {
 			scoringList.createFromPreviousList(filePath);
 		} else if (filePath.toLowerCase().endsWith(".txt")) {
 			scoringList.createFromNameList(filePath);
 		} else {
-			// TODO
+			String headerText = "Det er ikke en godkjent filtype.";
+			String contentText = "Filtypen må være enten .txt eller .json";
+			Utility.newAlertError(headerText, contentText);
 			System.out.println("Error: invalid file");
 		}
 	}
@@ -55,7 +58,7 @@ public class RootController {
 
 	@FXML
 	private void showAbout() {
-		// TODO
+		mainApp.showAboutView();
 	}
 
 	@FXML
@@ -65,7 +68,7 @@ public class RootController {
 	
 	@FXML
 	private void showUserManual() {
-		// TODO
+		mainApp.showUserManualView();
 	}
 
 }

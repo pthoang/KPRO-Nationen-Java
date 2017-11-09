@@ -1,0 +1,18 @@
+
+Ny tom liste: gjør at man starter med en liste uten å hente inn data og informasjon.
+Det vil si at man må skrive inn alle kandidater og felter manuelt.
+
+Last inn liste: Dersom listen over de topp X kandidatene er laget, kan du trykke på \textit{Last inn liste} for å laste
+den inn i programmet. Listen skal være et dokument med navnene i riktig rekkefølge.
+
+Last inn kilder: For å generere koblinger mellom kandidater, hentet fra ulike kilder, må man laste inn kilder. Ved å trykke på \textit{Last inn kilder} kommer man videre til et nytt grensesnitt hvor hver kilde har sitt eget felt.
+- Hvor laster man ned kilder
+- Format på kilder
+Trykk på "Lag file" når alle kildene er lagt til. Dataen hentet fra dem vil bli lagt til i feltene til kandidaten.
+
+Generell informasjon om programmet.
+Innstilling: Under innstillinger kan man endre hvilke kilder som skal være aktivert. Dette må gjøres dersom en kilde har
+fått en annen struktur, da den ikke lenger vil passe med koden for å hente data fra kilden.
+Det er også her man endrer antall kandidater i listen, antall koblinger til en kandidat, i tillegg til at man setter
+inn dataen som trengs for å koble til en S3 Bucket. En S3 bucket er en plass på en Amazon server hvor bildene
+lagres eller er lagret.

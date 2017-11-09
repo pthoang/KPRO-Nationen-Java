@@ -11,77 +11,46 @@ import Main.MainApp;
 
 public class EditListController {
 
-	@FXML
-	private Button saveListButton;
+
+	public static EditListController instance = null;
+
 
 	@FXML
 	private CandidateController candidateViewController;
 	@FXML
 	private ScoringListController scoringListViewController;
 
-	private ScoringList scoringList;
 	private Candidate candidate;
 	private MainApp mainApp;
 
 	private static ObservableList<Candidate> candidates;
 
-	/**
-	 * Set mainApp in super, then gets the candidates and shows them in the table.
-	 * @params mainApp
-	 */
-	public void setMainApp(MainApp mainApp) {
-		this.mainApp = mainApp;
-		updateLists();
-
-		scoringListViewController.setParentController(this);
-		scoringListViewController.setScoringList(scoringList);
-		scoringListViewController.setMainApp(mainApp);
-
-		candidateViewController.setParentController(this);
-		candidateViewController.setMainApp(mainApp);
+	public EditListController() {
+		instance = this;
+		mainApp = MainApp.getInstance();
+/*
+		scoringListViewController = ScoringListController.getOrCreateInstance();
+		candidateViewController = CandidateController.getOrCreateInstance();
 
 		if (candidates.size() > 0) {
 			scoringListViewController.fillTable();
 		}
+*/
 	}
 
-	public MainApp getMainApp() {
-		return mainApp;
-	}
-	
-	@FXML
-	private void initialize() {
-	}
-
-	public void updateLists() {
-		scoringList = mainApp.getScoringList();
-		candidates = scoringList.getCandidates();
-	}
-
-	public void setCandidate(Candidate candidate) {
-		this.candidate = candidate;
-		candidateViewController.setCandidate(candidate);
+	public static EditListController getOrCreateInstance() {
+		if (instance == null) {
+			instance = new EditListController();
+		}
+		return instance;
 	}
 
 	public Candidate getCandidate() {
 		return candidate;
 	}
 
-	public ObservableList<Candidate> getCandidates() {
-		return candidates;
-	}
-
-
-
-	/**
-	 * Saves the list to a file locally.
-	 */
-	@FXML
-	public void handleSaveList() {
-		// TODO: copy the list and save it as temporaryList?
-	}
-
 	// TODO: can be made more complex
+    /*
 	public boolean nameExistInList(String name) {
 		for (int i = 0; i < candidates.size(); i++) {
 			Candidate c = candidates.get(i);
@@ -92,24 +61,6 @@ public class EditListController {
 		}
 		return false;
 	}
+	*/
 
-	public void setBucketUploader(AmazonBucketUploader bucketUploader) {
-		candidateViewController.setBucketUploader(bucketUploader);
-	}
-
-	public void fillTable() {
-		scoringListViewController.fillTable();
-	}
-
-	public void refreshTable() {
-		scoringListViewController.refreshTable();
-	}
-
-	public void addCandidate(Candidate candidate) {
-		scoringList.addCandidate(candidate);
-	}
-
-	public void deleteCandidate(Candidate candidate) {
-		scoringList.deleteCandidate(candidate);
-	}
 }

@@ -6,13 +6,13 @@ import java.util.regex.Pattern;
 
 public class Person {
 	
-	public SimpleStringProperty name;
-	private SimpleStringProperty imageURL = new SimpleStringProperty("resources/standard.png");
+	protected SimpleStringProperty name;
+	private SimpleStringProperty imageName = new SimpleStringProperty("resources/standard.png");
 	
-	public Person(String name, String imageURL) {
+	public Person(String name, String imageName) {
 		this.name = new SimpleStringProperty(name);
-		if (imageURL != null) {
-			this.imageURL = new SimpleStringProperty(imageURL);
+		if (imageName != null) {
+			this.imageName = new SimpleStringProperty(imageName);
 		}
 	}
 
@@ -23,17 +23,23 @@ public class Person {
 	public String getName() {
 		return name.get();
 	}
-	
-	public String getImageURL() {
-		return imageURL.get();
+
+	/**
+	 * Returns the local imageName
+	 */
+	public String getImageName() {
+		if (! imageName.get().equals("resources/standard.png")) {
+			return "images/" + imageName.get();
+		}
+		return imageName.get();
 	}
 	
 	public void setName(String name) {
 		this.name = new SimpleStringProperty(name);
 	}
 
-	public void setImageURL(String imageURL) {
-		this.imageURL = new SimpleStringProperty(imageURL); 
+	public void setImageName(String imageName) {
+		this.imageName = new SimpleStringProperty(imageName);
 	}
 
 	protected String validateName(String name) {
@@ -50,7 +56,11 @@ public class Person {
 		return errorMessage;
 	}
 
-    public void setImageURLProperty(SimpleStringProperty imageURLProperty) {
-        this.imageURL = imageURLProperty;
-    }
+	// TODO: must be used when writing JSON
+	public String getBucketImageURL() {
+		String bucketPath = AmazonBucketUploader.getOrCreateInstance().getBucketPath();
+		// TODO: not sure
+		return bucketPath + "/" + imageName + ".png";
+	}
+
 }

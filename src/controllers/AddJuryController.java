@@ -60,7 +60,7 @@ public class AddJuryController {
     }
 
     @FXML
-    public void handleNext() {System.out.println("Trying to go back, but the past is behind you");}
+    public void handleNext() {System.out.println("Go to List");}
 
     @FXML
     public void addMember() {

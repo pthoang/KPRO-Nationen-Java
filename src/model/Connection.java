@@ -33,7 +33,7 @@ public class Connection {
 	}
 
     public String getImageURL() {
-        return this.person.getImageURL();
+        return this.person.getImageName();
     }
 
 	public String getName() {
@@ -45,6 +45,6 @@ public class Connection {
 	}
 
 	public void setImageURL(String imageURL) {
-		this.person.setImageURL(imageURL);
+		this.person.setImageName(imageURL);
 	}
 }

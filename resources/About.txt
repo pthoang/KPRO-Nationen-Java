@@ -1,0 +1,7 @@
+Applikasjonen ble laget høsten 2017 som en del av et prosjekt gitt av Nationen til gruppe 7 i TDT4290.
+Applikasjonens hensikt er å samle mer informasjon som kan presenteres i Maktkåringen. Dette inkluderer både
+muligheten til å legge til mer informasjon manuelt, men også hente informasjon fra ulike kilder, og bruke denne
+til å blant annet finne koblinger mellom kandidater.
+
+Rapporten fra prosjektet, inkludert dokumentasjon, kan åpnes ved å klikke på "Se rapprot". Dette krever at
+du har et program som kan lese PDF.

@@ -16,17 +16,13 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import model.AmazonBucketUploader;
-import model.Candidate;
-import model.Connection;
+import model.*;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javafx.scene.input.MouseEvent;
-
-import java.beans.EventHandler;
 
 public class CandidateController {
 
@@ -47,16 +43,17 @@ public class CandidateController {
     @FXML
     private ChoiceBox<String> genderChoiceBox = new ChoiceBox<String>(GENDER_CHOICES);
     @FXML
+    private TextField yearOfBirthField = new TextField();
+    @FXML
+    private TextField twitterField = new TextField();
+	@FXML
+    private TextField professionField = new TextField();
+    @FXML
     private TextField animalsPGField = new TextField();
     @FXML
     private TextField hiredHelpPGField = new TextField();
     @FXML
     private TextField farmingPGField = new TextField();
-    @FXML
-    private TextField yearOfBirthField = new TextField();
-    @FXML
-    private TextField twitterField = new TextField();
-	private TextField professionField = new TextField();
 
     @FXML
     private TableView<Connection> networkTable;
@@ -70,6 +67,7 @@ public class CandidateController {
     @FXML
     private Button markAsDoneButton;
 
+    private static CandidateController instance = null;
     private final String IMAGE_PATH = "images/";
     private AmazonBucketUploader bucketUploader;
     private Image newImage;
@@ -81,17 +79,18 @@ public class CandidateController {
     // TODO: do with all colors used
     private final String GREEN = "-fx-background-color: rgb(53,109,48);";
 
-
-    public void setBucketUploader(AmazonBucketUploader bucketUploader) {
-        this.bucketUploader = bucketUploader;
+    public CandidateController() {
+        instance = this;
+        mainApp = MainApp.getInstance();
+        bucketUploader = AmazonBucketUploader.getOrCreateInstance();
+        parent = EditListController.getOrCreateInstance();
     }
 
-    public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
-    }
-
-    public void setParentController(EditListController editListController) {
-        this.parent = editListController;
+    public static CandidateController getOrCreateInstance() {
+        if (instance == null) {
+            instance = new CandidateController();
+        }
+        return instance;
     }
 
     public void setCandidate(Candidate candidate) {
@@ -101,12 +100,16 @@ public class CandidateController {
         markSelectedConnections();
     }
 
+    public Candidate getCandidate() {
+        return candidate;
+    }
+
     @FXML
     private void initialize() {
         networkNameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
         networkDescriptionColumn.setCellValueFactory(cellData -> cellData.getValue().getDescriptionProperty());
 
-        networkTable.setPlaceholder(new Label("Ingen koblinger å vise"));
+        networkTable.setPlaceholder(new Label("Ikke noe nettverk å vise"));
 
         /**
          * Adding listeners to the textfields for feedback handling
@@ -142,8 +145,7 @@ public class CandidateController {
         });
         
         yearOfBirthField.textProperty().addListener((observable, oldValue, newValue) -> {
-        	markAsDoneButton.setDisable(false);
-            saveCandidateButton.setDisable(false);
+        	disableButtons(false);
         });
 
         genderChoiceBox.getItems().addAll(GENDER_CHOICES);
@@ -165,9 +167,6 @@ public class CandidateController {
         farmingPGField.textProperty().addListener((observable, oldValue, newValue) -> {
             disableButtons(false);
         });
-        
-        genderChoiceBox.getItems().addAll(GENDER_CHOICES);
-        genderChoiceBox.setValue("");
 
     }
 
@@ -221,9 +220,10 @@ public class CandidateController {
 
         errorMessage += validateCandidate();
         
-//        //Year of Birth
-//        String newYearOfBirth = yearOfBirthField.getText();
-//        candidate.setYearOfBirth(newYearOfBirth);
+//      //Year of Birth
+        // TODO
+//      String newYearOfBirth = yearOfBirthField.getText();
+//      candidate.setYearOfBirth(newYearOfBirth);
 
         // Municipality
         // TODO: missing validation
@@ -275,7 +275,7 @@ public class CandidateController {
             }
         }
 
-        parent.refreshTable();
+        ScoringListController.getOrCreateInstance().refreshTable();
         // Network
         // TODO: save the temporarily network connection list
 
@@ -302,15 +302,16 @@ public class CandidateController {
 
     @FXML
     public void handleNewCandidate() {
-        //candidate = null;
         cleanFields();
         createAndAddEmptyCandidate();
     }
 
     @FXML
     public void handleDelete() {
-        parent.deleteCandidate(candidate);
-        cleanFields();
+        Candidate nextCandidate = ScoringListController.getOrCreateInstance().getNextCandidate();
+        ScoringList.getOrCreateInstance().deleteCandidate(candidate);
+        setCandidate(nextCandidate);
+        ScoringListController.getOrCreateInstance().refreshTable();
     }
 
     @FXML
@@ -318,33 +319,21 @@ public class CandidateController {
         if(markAsDoneButton.getText().equals("Marker komplett")){
             if(!nameField.getText().isEmpty()) {
                 markAsDoneButton.setText("Marker ukomplett");
-                //getCandidateByName(nameField.getText()).setStatus("finished");
                 candidate.setStatus("finished");
             }
         }else{
             if(!nameField.getText().isEmpty()){
                 markAsDoneButton.setText("Marker komplett");
-                //getCandidateByName(nameField.getText()).setStatus("");
                 candidate.setStatus("");
             }
         }
-        parent.refreshTable();
+        ScoringListController.getOrCreateInstance().refreshTable();
     }
 
     @FXML
     public void handleAddConnection() {
         connectionDialog(null, true);
     }
-    /*
-    private Candidate getCandidateByName(String name) {
-        for (Candidate candidate: parent.getCandidates()) {
-            if (candidate.getName().equals(name)) {
-                return candidate;
-            }
-        }
-        return null;
-    }
-    */
 
     private String validateCandidate() {
         String errorMessage = "";
@@ -356,9 +345,11 @@ public class CandidateController {
         String description = descriptionField.getText();
         errorMessage += candidate.validate(name, rank, previousYearRank, gender, description);
 
-        if (parent.nameExistInList(name)) {
+        /*
+        if (EditListController.getOrCreateInstance().nameExistInList(name)) {
             errorMessage += "\n Det eksisterer allerede noen med det for- og etternavnet";
         }
+        */
 
         return errorMessage;
     }
@@ -396,15 +387,12 @@ public class CandidateController {
 
     private void handleErrorMessage(String errorMessage) {
         if (errorMessage.length() != 0) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Feilmeldinger");
-            alert.setHeaderText("Felter til kandidaten er ikke korrekt utfylt.");
-            alert.setContentText(errorMessage);
-            alert.showAndWait();
+            String headerText = "Felter til kandidaten er ikke korrekt utfylt.";
+            Utility.newAlertError(headerText, errorMessage);
             candidate.setStatus("invalidFields");
         } else {
             saveCandidate();
-            parent.refreshTable();
+            ScoringListController.getOrCreateInstance().refreshTable();
         }
     }
 
@@ -413,7 +401,7 @@ public class CandidateController {
         networkTable.setStyle("");
         municipalityField.setStyle("");
 
-        File file = new File(candidate.getImageURL());
+        File file = new File(candidate.getImageName());
         setImageField(file);
 
         nameField.setText(candidate.getName());
@@ -456,7 +444,7 @@ public class CandidateController {
     }
 
     private void cleanFields() {
-        String standardImagePath = "images/standard.png";
+        String standardImagePath = "resources/standard.png";
         File file = new File(standardImagePath);
         setImageField(file);
 
@@ -484,16 +472,15 @@ public class CandidateController {
     }
 
     private void createAndAddEmptyCandidate() {
-        int nextCandidateRank = parent.getCandidates().size() + 1;
+        int nextCandidateRank = ScoringList.getOrCreateInstance().getCandidates().size() + 1;
 
         rankField.setText(Integer.toString(nextCandidateRank));
         candidate = new Candidate("", nextCandidateRank, 0);
-
-        parent.addCandidate(candidate);
+        ScoringList.getOrCreateInstance().addCandidate(candidate);
     }
 
     private void uploadToBucket() {
-        String imagePath = candidate.getImageURL();
+        String imagePath = candidate.getImageName();
         File image = new File(imagePath);
         String fileName = image.getName();
         bucketUploader.uploadFile(image, fileName);
@@ -503,7 +490,7 @@ public class CandidateController {
     private void connectionDialog(Connection connection, boolean open) {
         final Stage dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner(parent.getMainApp().getStage());
+        dialog.initOwner(MainApp.getInstance().getStage());
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(MainApp.class.getResource("../view/ConnectionView.fxml"));
 
@@ -516,8 +503,6 @@ public class CandidateController {
         }
 
         ConnectionController connectionController = loader.getController();
-        connectionController.setMainApp(parent.getMainApp());
-        connectionController.setParent(this);
         connectionController.setCandidate(candidate);
         connectionController.setConnection(connection);
 
@@ -575,7 +560,7 @@ public class CandidateController {
                     @Override
                     protected void updateItem(Connection connection, boolean empty){
                         super.updateItem(connection, empty);
-                        int maxConnections = mainApp.getSettings().getNumConnections();
+                        int maxConnections = Settings.getOrCreateInstance().getNumConnections();
                         int actualConnections = candidate.getConnections().size();
                         int numConnToColor = Math.min(maxConnections, actualConnections);
                          if (getIndex() <  numConnToColor) {

@@ -9,10 +9,7 @@ import Main.MainApp;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.*;
 import javafx.scene.image.*;
 import model.*;
 import javafx.scene.input.MouseEvent;
@@ -35,6 +32,13 @@ public class AddJuryController {
     private ImageView imageView = new ImageView();
     @FXML
     private TextArea descriptionField = new TextArea();
+
+    @FXML
+    private Button addJuryMemberButton;
+    @FXML
+    private Button saveDescriptionButton;
+    @FXML
+    private Button deleteJuryMemberButton;
 
     private Jury jury;
     private MainApp mainApp;
@@ -66,6 +70,32 @@ public class AddJuryController {
 
         juryMembersTable.setItems(jury.getJuryMembers());
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
+
+        juryMembersTable.setPlaceholder(new Label("Ingen juryer er registrert"));
+
+        nameField.textProperty().addListener((observable, oldValue, newValue) -> {
+            disableButtons(false);
+        });
+
+        titleField.textProperty().addListener((observable, oldValue, newValue) -> {
+            disableButtons(false);
+        });
+
+        imageView.imageProperty().addListener((observable, oldValue, newValue) -> {
+            disableButtons(false);
+        });
+
+        descriptionField.textProperty().addListener((observable, oldValue, newValue) -> {
+            saveDescriptionButton.setDisable(false);
+        });
+
+        disableButtons(true);
+        saveDescriptionButton.setDisable(true);
+    }
+
+    public void disableButtons(boolean disable) {
+        addJuryMemberButton.setDisable(disable);
+        deleteJuryMemberButton.setDisable(disable);
     }
 
     @FXML
@@ -82,6 +112,7 @@ public class AddJuryController {
     @FXML
     public void handleSaveJury() {
         mainApp.showEditListView();
+        addJuryMemberButton.setDisable(true);
     }
 
     @FXML
@@ -94,22 +125,30 @@ public class AddJuryController {
         jury.addJuryMember(member);
 
         ObservableList<JuryMember> juryMembers = jury.getJuryMembers();
-        System.out.println("Members when saving: " + juryMembers);
-        System.out.println("Name: " + juryMembers.get(0).getName());
-        juryMembersTable.setItems(jury.getJuryMembers());
+        juryMembersTable.setItems(juryMembers);
         juryMembersTable.refresh();
+        cleanFields();
+    }
+
+    @FXML
+    public void handleDeleteJuryMember() {
+        JuryMember juryMember = juryMembersTable.getSelectionModel().getSelectedItem();
+        jury.deleteJuryMember(juryMember);
         cleanFields();
     }
 
     private void cleanFields() {
         nameField.setText("");
         titleField.setText("");
+        addJuryMemberButton.setDisable(true);
+        deleteJuryMemberButton.setDisable(true);
     }
 
     @FXML
     public void handleAddDescription() {
         String description = descriptionField.getText();
         jury.setDescription(description);
+        saveDescriptionButton.setDisable(true);
     }
 
     private void setImageField(File file) {
@@ -127,6 +166,8 @@ public class AddJuryController {
         titleField.setText(juryMember.getTitle());
         File image = new File(juryMember.getImageName());
         setImageField(image);
+        addJuryMemberButton.setDisable(true);
+        deleteJuryMemberButton.setDisable(false);
     }
 
     @FXML
@@ -135,10 +176,6 @@ public class AddJuryController {
             JuryMember juryMember = juryMembersTable.getSelectionModel().getSelectedItem();
             setFields(juryMember);
         }
-    }
-
-    private void updateJuryMembersTable() {
-        juryMembersTable.setItems(jury.getJuryMembers());
     }
 
 }

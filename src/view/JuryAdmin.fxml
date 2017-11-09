@@ -42,10 +42,14 @@
                 <TextArea fx:id="descriptionField" minHeight="10" minWidth="10" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="5" GridPane.rowSpan="2" />
 
                 <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="150.0" onMouseClicked="#fileChooser" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.rowSpan="3" />
-
-                <Button fx:id="addJuryMember" mnemonicParsing="false" onAction="#handleAddJuryMember" text="Legg til Jury medlem" GridPane.columnIndex="0" GridPane.rowIndex="4" />
             <TextField fx:id="titleField" GridPane.rowIndex="3" />
-            <Button mnemonicParsing="false" onAction="#handleAddDescription" text="Legg til felles beskrivelse" GridPane.rowIndex="7" />
+            <Button fx:id="saveDescriptionButton" mnemonicParsing="false" onAction="#handleAddDescription" text="Legg til felles beskrivelse" GridPane.rowIndex="7" />
+            <ToolBar prefHeight="40.0" prefWidth="200.0" GridPane.rowIndex="4">
+              <items>
+                <Button fx:id="addJuryMemberButton" mnemonicParsing="false" onAction="#handleAddJuryMember" text="Lagre jurymedlem" />
+                  <Button fx:id="deleteJuryMemberButton" mnemonicParsing="false" onAction="#handleDeleteJuryMember" text="Slett jurymedlem" />
+              </items>
+            </ToolBar>
             </children>
             <columnConstraints>
                 <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" percentWidth="50" />

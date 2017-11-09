@@ -25,7 +25,7 @@ import com.google.gson.Gson;
 public class ScoringListController {
 
     @FXML
-    private TableView<Candidate> candidateTable;
+    private TableView<Candidate> candidateTable = new TableView<Candidate>();
     @FXML
     private TableColumn<Candidate, Integer> rankColumn;
     @FXML
@@ -51,12 +51,19 @@ public class ScoringListController {
 	public ScoringListController() {
 		instance = this;
 		mainApp = MainApp.getInstance();
-		scoringList = ScoringList.getOrCreateInstance();
-		candidates = scoringList.getCandidates();
+		loadState();
 		parentController = EditListController.getOrCreateInstance();
 	}
 
+	public void loadState() {
+        scoringList = ScoringList.getOrCreateInstance();
+        candidates = scoringList.getCandidates();
+        candidateTable.setItems(candidates);
+    }
+
     public void fillTable() {
+	    System.out.println("candidateTable. " + candidateTable);
+	    System.out.println("candidates: " + candidates);
         candidateTable.setItems(candidates);
 
         Candidate firstCandidate = candidates.get(0);

@@ -53,7 +53,7 @@ public class RootController {
 
 	@FXML
 	private void showAbout() {
-		// TODO
+		mainApp.showAboutView();
 	}
 
 	@FXML
@@ -63,7 +63,7 @@ public class RootController {
 	
 	@FXML
 	private void showUserManual() {
-		// TODO
+		mainApp.showUserManualView();
 	}
 
 }

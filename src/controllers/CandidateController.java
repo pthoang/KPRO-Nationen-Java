@@ -100,6 +100,10 @@ public class CandidateController {
         markSelectedConnections();
     }
 
+    public Candidate getCandidate() {
+        return candidate;
+    }
+
     @FXML
     private void initialize() {
         networkNameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());

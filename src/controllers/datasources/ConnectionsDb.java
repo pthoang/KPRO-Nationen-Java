@@ -47,8 +47,9 @@ public class ConnectionsDb {
                     for(JsonElement stock1 : candidatesStocks){
                         for(JsonElement stock2 : otherCandidateStocks){
                             if(stock1.getAsJsonObject().get("orgNo")==stock2.getAsJsonObject().get("orgNo")){
+                                String newId = Integer.toString(i) + "s";
                                 JsonObject dataNode = new JsonObject();
-                                dataNode.addProperty("id", Integer.toString(i));
+                                dataNode.addProperty("id", newId);
                                 dataNode.addProperty("name", candidate2.getName());
                                 dataNode.addProperty("img", candidate2.getImageURL());
                                 dataNode.addProperty("size", Integer.toString(30));
@@ -60,7 +61,7 @@ public class ConnectionsDb {
 
                                 JsonObject dataEdge = new JsonObject();
                                 dataEdge.addProperty("source", "1"); //Source
-                                dataEdge.addProperty("target",Integer.toString(i)); //Target
+                                dataEdge.addProperty("target", newId); //Target
                                 JsonObject dataEdgeObject = new JsonObject();
                                 dataEdgeObject.add("data", dataEdgeObject);
                                 edges.add(dataEdgeObject);
@@ -72,8 +73,9 @@ public class ConnectionsDb {
 
                     //dyrehold
                     if(candidate.getAnimalsPG()>0 && candidate2.getAnimalsPG()>0){
+                        String newId = Integer.toString(i) + "apg";
                         JsonObject dataNode = new JsonObject();
-                        dataNode.addProperty("id", Integer.toString(i));
+                        dataNode.addProperty("id", newId);
                         dataNode.addProperty("name", candidate2.getName());
                         dataNode.addProperty("img", candidate2.getImageURL());
                         dataNode.addProperty("size", Integer.toString(30));
@@ -85,7 +87,7 @@ public class ConnectionsDb {
 
                         JsonObject dataEdge = new JsonObject();
                                 dataEdge.addProperty("source", "1"); //Source
-                        dataEdge.addProperty("target",Integer.toString(i)); //Target
+                        dataEdge.addProperty("target", newId); //Target
                         JsonObject dataEdgeObject = new JsonObject();
                         dataEdgeObject.add("data", dataEdgeObject);
                         edges.add(dataEdgeObject);
@@ -93,8 +95,9 @@ public class ConnectionsDb {
                     }
                     //avløs
                     if(candidate.getHiredHelpPG()>0 && candidate2.getHiredHelpPG()>0){
+                        String newId = Integer.toString(i) + "hhpg";
                         JsonObject dataNode = new JsonObject();
-                        dataNode.addProperty("id", Integer.toString(i));
+                        dataNode.addProperty("id", newId);
                         dataNode.addProperty("name", candidate2.getName());
                         dataNode.addProperty("img", candidate2.getImageURL());
                         dataNode.addProperty("size", Integer.toString(30));
@@ -106,15 +109,16 @@ public class ConnectionsDb {
 
                         JsonObject dataEdge = new JsonObject();
                         dataEdge.addProperty("source", "1"); //Source
-                        dataEdge.addProperty("target",Integer.toString(i)); //Target
+                        dataEdge.addProperty("target",newId); //Target
                         JsonObject dataEdgeObject = new JsonObject();
                         dataEdgeObject.add("data", dataEdgeObject);
                         edges.add(dataEdgeObject);
                     }
                     //Jordbruk
                     if(candidate.getFarmingPG()>0 && candidate2.getFarmingPG()>0){
+                        String newId = Integer.toString(i) + "fpg";
                         JsonObject dataNode = new JsonObject();
-                        dataNode.addProperty("id", Integer.toString(i));
+                        dataNode.addProperty("id", newId);
                         dataNode.addProperty("name", candidate2.getName());
                         dataNode.addProperty("img", candidate2.getImageURL());
                         dataNode.addProperty("size", Integer.toString(30));
@@ -126,12 +130,33 @@ public class ConnectionsDb {
 
                         JsonObject dataEdge = new JsonObject();
                         dataEdge.addProperty("source", "1"); //Source
-                        dataEdge.addProperty("target",Integer.toString(i)); //Target
+                        dataEdge.addProperty("target",newId); //Target
                         JsonObject dataEdgeObject = new JsonObject();
                         dataEdgeObject.add("data", dataEdgeObject);
                         edges.add(dataEdgeObject);
                     }
 
+                    if(rawData.get("politic") != null && rawData2.get("politic") != null) {
+                        String newId = Integer.toString(i) + "p";
+                        JsonObject dataNode = new JsonObject();
+                        dataNode.addProperty("id", newId);
+                        dataNode.addProperty("name", candidate2.getName());
+                        dataNode.addProperty("img", candidate2.getImageURL());
+                        dataNode.addProperty("size", Integer.toString(30));
+                        dataNode.addProperty("description",
+                                candidate2.getName()+" sitter i Stortinget eller i regjering sammen med " +
+                                        candidate.getName());
+                        JsonObject dataNodeObject = new JsonObject();
+                        dataNodeObject.add("data", dataNodeObject);
+                        nodes.add(dataNodeObject);
+
+                        JsonObject dataEdge = new JsonObject();
+                        dataEdge.addProperty("source", "1"); //Source
+                        dataEdge.addProperty("target", newId); //Target
+                        JsonObject dataEdgeObject = new JsonObject();
+                        dataEdgeObject.add("data", dataEdgeObject);
+                        edges.add(dataEdgeObject);
+                    }
 
                     i++;
 

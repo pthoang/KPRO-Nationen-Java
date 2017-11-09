@@ -72,6 +72,13 @@ public class CandidateController {
     private Button saveCandidateButton;
     @FXML
     private Button markAsDoneButton;
+    @FXML
+    private Button deleteButton;
+    @FXML
+    private Button newCandidateButton;
+    @FXML
+    private Button addConnectionButton;
+
 
     private static CandidateController instance = null;
     private final String IMAGE_PATH = "images/";
@@ -118,47 +125,41 @@ public class CandidateController {
         /**
          * Adding listeners to the textfields for feedback handling
          */
-        nameField.textProperty().addListener((observable, oldValue, newValue) -> {
-            disableButtons(false);
-        });
+        List<TextField> textfields = new ArrayList<>(Arrays.asList(nameField, previousYearRankField, rankField,
+                municipalityField, yearOfBirthField, professionField, twitterField, titleField));
 
-        previousYearRankField.textProperty().addListener((observable, oldValue, newValue) -> {
-            disableButtons(false);
-        });
-
-        rankField.textProperty().addListener((observable, oldValue, newValue) -> {
-            disableButtons(false);
-        });
-
+        for(TextField textField : textfields){
+            textField.textProperty().addListener((observable, oldValue, newValue) -> {
+                disableButtons(false);
+                if(newValue == null || newValue.equals("")){
+                    textField.getStyleClass().add("emptyField");
+                }else {
+                    textField.getStyleClass().remove("emptyField");
+                }
+            });
+        }
         genderChoiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             disableButtons(false);
             boolean isPerson = newValue.intValue() == 3;
             disableFieldsIfNotPerson(isPerson);
-        });
 
-        municipalityField.textProperty().addListener((observable, oldValue, newValue) -> {
-            disableButtons(false);
         });
 
         descriptionField.textProperty().addListener((observable, oldValue, newValue) -> {
             disableButtons(false);
+            if(newValue == null || newValue.length() < 10){
+                descriptionField.getStyleClass().add("emptyField");
+            } else {
+                descriptionField.getStyleClass().remove("emptyField");
+            }
         });
 
         imageView.imageProperty().addListener((observable, oldValue, newValue) -> {
             disableButtons(false);
         });
-        
-        yearOfBirthField.textProperty().addListener((observable, oldValue, newValue) -> {
-        	disableButtons(false);
-        });
 
         genderChoiceBox.getItems().addAll(GENDER_CHOICES);
         genderChoiceBox.setValue("");
-
-        professionField.textProperty().addListener((observable, oldValue, newValue) -> {
-        	disableButtons(false);
-        });
-
     }
 
     private void disableButtons(boolean disable) {
@@ -215,42 +216,11 @@ public class CandidateController {
         // Municipality
         // TODO: missing validation
         String newMunicipality = municipalityField.getText();
-        candidate.setMunicipality(new SimpleStringProperty(newMunicipality));
+        //candidate.setMunicipality(new SimpleStringProperty(newMunicipality));
 
-
-        System.out.println("gender: " + candidate.getGender());
-        // Field handling only needed with persons
-        if (getSelectedGender().equals("F") || getSelectedGender().equals("M")) {
-            //Checks if network table is empty, if so give a warning
-            if(networkTable.getItems().size() < 1){
-                candidate.setFieldStatus(12, 1);
-                candidate.setStatus("unfinished");
-            }
-            if(newMunicipality == null || newMunicipality.equals("")){
-                candidate.setFieldStatus(3, 1);
-                candidate.setStatus("unfinished");
-            }
-            if(twitterField.getText().equals("")){
-                candidate.setFieldStatus(7, 1);
-                candidate.setStatus("unfinished");
-            }
-            if(professionField.getText().equals("")){
-                candidate.setFieldStatus(6, 1);
-                candidate.setStatus("unfinished");
-            }
-            if(yearOfBirthField.getText().equals("")){
-                candidate.setFieldStatus(5,1);
-                candidate.setStatus("unfinished");
-            }
-            if(titleField.getText().equals("")){
-                candidate.setFieldStatus(13,1);
-                candidate.setStatus("unfinished");
-            }
-        }
         ScoringListController.getOrCreateInstance().refreshTable();
         // Network
         // TODO: save the temporarily network connection list
-
         handleErrorMessage(errorMessage);
         // TODO: not upload if not approved
         uploadToBucket();
@@ -289,13 +259,10 @@ public class CandidateController {
         int[] candidateFields = candidate.getFieldStatus();
         for(int i = 0; i < candidateFields.length; i++){
             if(candidateFields[i] == 1){
-                System.out.println("emptyField");
                 setColorOnField(true, i, "emptyField");
             } else if (candidateFields[i] == 2){
-                System.out.println("errorField");
                 setColorOnField(true, i, "errorField");
             } else {
-                System.out.println("default field");
                 setColorOnField(false, i, "");
             }
         }
@@ -408,6 +375,33 @@ public class CandidateController {
         String title = titleField.getText();
         candidate.setTitle(title);
 
+        if (gender.equals("M") || gender.equals("F")) {
+            //if fields are missing the candidate's fiels get a status. This makes sure the field gets red or yellow
+            if(networkTable.getItems().size() < 1){
+                candidate.setFieldStatus(10, 1);
+                candidate.setStatus("unfinished");
+            }
+            if(municipality == null || municipality.equals("")){
+                candidate.setFieldStatus(3, 1);
+                candidate.setStatus("unfinished");
+            }
+            if(twitter == null || twitter.equals("")){
+                candidate.setFieldStatus(7, 1);
+                candidate.setStatus("unfinished");
+            }
+            if(newProfession == null || newProfession.equals("")){
+                candidate.setFieldStatus(6, 1);
+                candidate.setStatus("unfinished");
+            }
+            if(newYearOfBirth == null || newYearOfBirth.equals("")){
+                candidate.setFieldStatus(5,1);
+                candidate.setStatus("unfinished");
+            }
+            if(title == null || title.equals("")){
+                candidate.setFieldStatus(9,1);
+                candidate.setStatus("unfinished");
+            }
+        }
         // TODO: Save all the fields related to the different sources
     }
 

@@ -35,18 +35,15 @@ public class Candidate extends Person {
 	/*
 		The fieldStatus represent the color of the TextField for the candidate.
 		This is the sequence of the fields:
-		[name, lastYearsRank, Rank, Municipality, gender, birthyear, profession, twitter, animals, hiredhelp, farming,
-		description, title and network]
+		[name, lastYearsRank, Rank, Municipality, gender, birthyear, profession, twitter, description, title and network]
 		The numbers represent:
-		0 - not checked
+		0 - not checked / correct data
 		1 - missing data
-		2 - contains correct data
-		3 - wrong input
+		2 - wrong input
 		For example, if municipality is missing fields, fieldStatus[3] will be 1
-
 		This array is used for colourcoding
 	 */
-	private int[] fieldStatus = new int[14];
+	private int[] fieldStatus = new int[11];
 
 
 	private JsonObject rawData = new JsonObject();
@@ -327,10 +324,10 @@ public class Candidate extends Person {
 
 	private String validateDescription(String description) {
 		if (description.length() <= 5 || description.equals(null)) {
-			fieldStatus[11] = 2;
+			fieldStatus[8] = 2;
 			return "\n Beskrivelse mangler:";
 		}
-		fieldStatus[11] = 0;
+		fieldStatus[8] = 0;
 		return "";
 	}
 

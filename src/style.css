@@ -169,7 +169,7 @@
 }
 
 .emptyField {
-    -fx-border-color: #ffff65;
+    -fx-border-color: #ffff65 !important;
 }
 
 .errorField {

@@ -31,6 +31,7 @@ public class Candidate extends Person {
 
 
 	private JsonObject rawData = new JsonObject();
+	private JsonObject elements = new JsonObject();
 
 	// PG stands for ProductionGrants
 	private SimpleIntegerProperty animalsPG = new SimpleIntegerProperty(0);
@@ -303,5 +304,9 @@ public class Candidate extends Person {
 
 	public void addRawData(String field, JsonElement data) {
 		this.rawData.add(field, data);
+	}
+
+	public void setElements(JsonObject elements) {
+		this.elements = elements;
 	}
 }

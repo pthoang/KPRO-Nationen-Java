@@ -18,16 +18,15 @@ public class ConnectionsDb {
     public void setConnections(List<Candidate> candidates) {
 
         for (Candidate candidate : candidates) {
-            JsonObject returnData = new JsonObject();
 
-            ArrayList<ArrayList> nodes = new ArrayList<ArrayList>();
+            JsonArray nodes = new JsonArray();
 
-            ArrayList<ArrayList> edges = new ArrayList<ArrayList>();
+            JsonArray edges = new JsonArray();
 
             //list of nodes and edges
-            ArrayList<ArrayList> elements =  new ArrayList<ArrayList>();
-            elements.add(nodes);
-            elements.add(edges);
+            JsonObject elements =  new JsonObject();
+            elements.add("nodes",nodes);
+            elements.add("edges",edges);
 
 
             JsonObject rawData = candidate.getRawData();
@@ -47,19 +46,24 @@ public class ConnectionsDb {
                     //Adding Connection if candidates own same stock
                     for(JsonElement stock1 : candidatesStocks){
                         for(JsonElement stock2 : otherCandidateStocks){
-                            if(stock1==stock2){
-                                ArrayList<String> data = new ArrayList<String>();
-                                data.add(Integer.toString(i)); //id
-                                data.add(candidate2.getName()); //name
-                                data.add(Integer.toString(30)); //size
-                                data.add(candidate2.getName()+" eier aksjer i samme selskap som "+candidate.getName()); //description
-                                data.add(candidate2.getImageURL()); //img
-                                nodes.add(data);
-                                data.clear();
-                                data.add("1"); //Source
-                                data.add(Integer.toString(i)); //Target
-                                edges.add(data);
-                                data.clear();
+                            if(stock1.getAsJsonObject().get("orgNo")==stock2.getAsJsonObject().get("orgNo")){
+                                JsonObject dataNode = new JsonObject();
+                                dataNode.addProperty("id", Integer.toString(i));
+                                dataNode.addProperty("name", candidate2.getName());
+                                dataNode.addProperty("img", candidate2.getImageURL());
+                                dataNode.addProperty("size", Integer.toString(30));
+                                dataNode.addProperty("description",
+                                        candidate2.getName()+" eier aksjer i samme selskap som "+candidate.getName());
+                                JsonObject dataNodeObject = new JsonObject();
+                                dataNodeObject.add("data", dataNodeObject);
+                                nodes.add(dataNodeObject);
+
+                                JsonObject dataEdge = new JsonObject();
+                                dataEdge.addProperty("source", "1"); //Source
+                                dataEdge.addProperty("target",Integer.toString(i)); //Target
+                                JsonObject dataEdgeObject = new JsonObject();
+                                dataEdgeObject.add("data", dataEdgeObject);
+                                edges.add(dataEdgeObject);
                             }
                         }
                     }
@@ -68,48 +72,64 @@ public class ConnectionsDb {
 
                     //dyrehold
                     if(candidate.getAnimalsPG()>0 && candidate2.getAnimalsPG()>0){
-                        ArrayList<String> data = new ArrayList<String>();
-                        data.add(Integer.toString(i)); //id
-                        data.add(candidate2.getName()); //name
-                        data.add(Integer.toString(30)); //size
-                        data.add(candidate2.getName()+" eier også andeler i selskaper som mottar subsidier til dyrehold."); //description
-                        data.add(candidate2.getImageURL()); //img
-                        nodes.add(data);
-                        data.clear();
-                        data.add("1"); //Source
-                        data.add(Integer.toString(i)); //Target
-                        edges.add(data);
-                        data.clear();
+                        JsonObject dataNode = new JsonObject();
+                        dataNode.addProperty("id", Integer.toString(i));
+                        dataNode.addProperty("name", candidate2.getName());
+                        dataNode.addProperty("img", candidate2.getImageURL());
+                        dataNode.addProperty("size", Integer.toString(30));
+                        dataNode.addProperty("description",
+                                candidate2.getName()+" eier også andeler i selskaper som mottar subsidier til dyrehold.");
+                        JsonObject dataNodeObject = new JsonObject();
+                        dataNodeObject.add("data", dataNodeObject);
+                        nodes.add(dataNodeObject);
+
+                        JsonObject dataEdge = new JsonObject();
+                                dataEdge.addProperty("source", "1"); //Source
+                        dataEdge.addProperty("target",Integer.toString(i)); //Target
+                        JsonObject dataEdgeObject = new JsonObject();
+                        dataEdgeObject.add("data", dataEdgeObject);
+                        edges.add(dataEdgeObject);
+
                     }
                     //avløs
                     if(candidate.getHiredHelpPG()>0 && candidate2.getHiredHelpPG()>0){
-                        ArrayList<String> data = new ArrayList<String>();
-                        data.add(Integer.toString(i)); //id
-                        data.add(candidate2.getName()); //name
-                        data.add(Integer.toString(30)); //size
-                        data.add(candidate2.getName()+" eier også andeler i selskaper som mottar subsidier til avløs."); //description
-                        data.add(candidate2.getImageURL()); //img
-                        nodes.add(data);
-                        data.clear();
-                        data.add("1"); //Source
-                        data.add(Integer.toString(i)); //Target
-                        edges.add(data);
-                        data.clear();
+                        JsonObject dataNode = new JsonObject();
+                        dataNode.addProperty("id", Integer.toString(i));
+                        dataNode.addProperty("name", candidate2.getName());
+                        dataNode.addProperty("img", candidate2.getImageURL());
+                        dataNode.addProperty("size", Integer.toString(30));
+                        dataNode.addProperty("description",
+                                candidate2.getName()+" eier også andeler i selskaper som mottar subsidier til avløs.");
+                        JsonObject dataNodeObject = new JsonObject();
+                        dataNodeObject.add("data", dataNodeObject);
+                        nodes.add(dataNodeObject);
+
+                        JsonObject dataEdge = new JsonObject();
+                        dataEdge.addProperty("source", "1"); //Source
+                        dataEdge.addProperty("target",Integer.toString(i)); //Target
+                        JsonObject dataEdgeObject = new JsonObject();
+                        dataEdgeObject.add("data", dataEdgeObject);
+                        edges.add(dataEdgeObject);
                     }
                     //Jordbruk
                     if(candidate.getFarmingPG()>0 && candidate2.getFarmingPG()>0){
-                        ArrayList<String> data = new ArrayList<String>();
-                        data.add(Integer.toString(i)); //id
-                        data.add(candidate2.getName()); //name
-                        data.add(Integer.toString(30)); //size
-                        data.add(candidate2.getName()+" eier også andeler i selskaper som mottar subsidier til jordbruk."); //description
-                        data.add(candidate2.getImageURL()); //img
-                        nodes.add(data);
-                        data.clear();
-                        data.add("1"); //Source
-                        data.add(Integer.toString(i)); //Target
-                        edges.add(data);
-                        data.clear();
+                        JsonObject dataNode = new JsonObject();
+                        dataNode.addProperty("id", Integer.toString(i));
+                        dataNode.addProperty("name", candidate2.getName());
+                        dataNode.addProperty("img", candidate2.getImageURL());
+                        dataNode.addProperty("size", Integer.toString(30));
+                        dataNode.addProperty("description",
+                                candidate2.getName()+" eier også andeler i selskaper som mottar subsidier til jordbruk.");
+                        JsonObject dataNodeObject = new JsonObject();
+                        dataNodeObject.add("data", dataNodeObject);
+                        nodes.add(dataNodeObject);
+
+                        JsonObject dataEdge = new JsonObject();
+                        dataEdge.addProperty("source", "1"); //Source
+                        dataEdge.addProperty("target",Integer.toString(i)); //Target
+                        JsonObject dataEdgeObject = new JsonObject();
+                        dataEdgeObject.add("data", dataEdgeObject);
+                        edges.add(dataEdgeObject);
                     }
 
 
@@ -122,7 +142,7 @@ public class ConnectionsDb {
 
 
 
-
+            candidate.setElements(elements);
 
             }
 

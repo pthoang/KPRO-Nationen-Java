@@ -17,6 +17,7 @@ import model.AmazonBucketUploader;
 import model.ScoringList;
 import model.DataSources;
 import model.Candidate;
+import model.Jury;
 
 public class MainApp extends Application {
 
@@ -25,8 +26,10 @@ public class MainApp extends Application {
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 	private EditListController editListController;
+	private AddJuryController addjurycontroller;
 	private ScoringList scoringList;
 	private Candidate candidate;
+
 
 	private boolean stateSaved;
 
@@ -46,6 +49,23 @@ public class MainApp extends Application {
             }}, "Shutting down"
         ));
 	}
+
+
+	public void showJuryAdmin() {
+		try {
+			FXMLLoader loader= new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("../view/JuryAdmin.fxml"));
+			GridPane JuryAdminView = (GridPane) loader.load();
+			rootLayout.setCenter(JuryAdminView);
+			addjurycontroller = loader.getController();
+
+			saveState();
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -167,6 +187,7 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
+
 
 	/**
 	 * Shows the view for about.

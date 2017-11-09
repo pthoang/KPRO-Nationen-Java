@@ -1,16 +1,23 @@
 package model;
 
 public class JuryMember extends Person {
-    private String description;
 
-    // TODO: we might not need this one? Just use a normal person?
-    public JuryMember(String name, String description, String imageURL) {
-        super(name, imageURL);
-        if (super.validateName(name) == "") {
-            this.description = description;
-        } else {
-            // TODO: should abort the new JuryMember
-            throw new UnsupportedOperationException("not implemented");
-        }
+    private String title;
+
+    public JuryMember(String name, String imageName, String title) {
+        super(name, imageName);
+        this.title = title;
+    }
+
+    public String getImageName() {
+        return super.getImageName();
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

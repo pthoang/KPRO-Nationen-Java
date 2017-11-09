@@ -25,10 +25,7 @@ public class MainApp extends Application {
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 	private EditListController editListController;
-	private AddSourcesController addSourcesController;
 	private AddJuryController addjurycontroller;
-
-
 	private ScoringList scoringList;
 	private Candidate candidate;
 

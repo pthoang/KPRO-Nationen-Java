@@ -131,11 +131,11 @@ public class ScoringListController {
                         if(status.equals("finished")){
                             getTableRow().getStyleClass().add("finished");
                         } else if (status.equals("unfinished")){
-							getTableRow().getStyleClass().add("finished");
+							getTableRow().getStyleClass().add("unfinished");
                         } else if (status.equals("invalidFields")){
-							getTableRow().getStyleClass().add("finished");
+							getTableRow().getStyleClass().add("invalidFields");
                         } else if (status.equals("allFields")) {
-							getTableRow().getStyleClass().add("finished");
+							getTableRow().getStyleClass().add("allFields");
                         } else {
                             getTableRow().getStyleClass().removeAll("finished", "unfinished", "invalidFields", "allFields");
                         }

@@ -36,7 +36,7 @@ public class Candidate extends Person {
 		The fieldStatus represent the color of the TextField for the candidate.
 		This is the sequence of the fields:
 		[name, lastYearsRank, Rank, Municipality, gender, birthyear, profession, twitter, animals, hiredhelp, farming,
-		description and network]
+		description, title and network]
 		The numbers represent:
 		0 - not checked
 		1 - missing data
@@ -297,6 +297,7 @@ public class Candidate extends Person {
 			fieldStatus[2] = 2;
 			return "\n Plasseringen er ikke et tall";
 		}
+		fieldStatus[2] = 0;
 		return "";
 	}
 
@@ -311,14 +312,16 @@ public class Candidate extends Person {
 			fieldStatus[1] = 2;
 			return "\n Fjorårets plasseringen er ikke et tall";
 		}
+		fieldStatus[1] = 0;
 		return "";
 	}
 
 	private String validateGender(String gender) {
 		if (gender.equals("")) {
-			fieldStatus[1] = 2;
+			fieldStatus[4] = 2;
 			return "\n Du må velge et kjønn. Velg 'Annet' om kandidaten ikke er et menneske.";
 		}
+		fieldStatus[4] = 0;
 		return "";
 	}
 
@@ -327,6 +330,7 @@ public class Candidate extends Person {
 			fieldStatus[11] = 2;
 			return "\n Beskrivelse mangler:";
 		}
+		fieldStatus[11] = 0;
 		return "";
 	}
 

@@ -13,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import model.AmazonBucketUploader;
 import model.ScoringList;
 import model.DataSources;
 import model.Candidate;
@@ -25,6 +26,9 @@ public class MainApp extends Application {
 	private BorderPane rootLayout;
 	private EditListController editListController;
 	private ScoringList scoringList;
+	private Candidate candidate;
+
+	private boolean stateSaved;
 
 	private DataSources ds = new DataSources();
 
@@ -97,6 +101,10 @@ public class MainApp extends Application {
 			rootLayout.setCenter(editListView);
 
 			editListController = loader.getController();
+			if (stateSaved) {
+				ScoringListController.getOrCreateInstance().loadState();
+				CandidateController.getOrCreateInstance().setCandidate(candidate);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -116,6 +124,27 @@ public class MainApp extends Application {
 
 			AddSourcesController addSourcesController = loader.getController();
 			addSourcesController.setMainApp(this);
+
+			saveState();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Shows the view for about.
+	 */
+	public void showAboutView() {
+		try {
+			FXMLLoader loader= new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("../view/AboutView.fxml"));
+			GridPane aboutView = loader.load();
+
+			rootLayout.setCenter(aboutView);
+
+			AboutController aboutController = loader.getController();
+
+			saveState();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -134,6 +163,27 @@ public class MainApp extends Application {
 			SettingsController settingsController = loader.getController();
 
 			settingsController.refreshRegisterSelectors(getDataSourcesController().getDsList());
+
+			saveState();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Shows the view for about.
+	 */
+	public void showUserManualView() {
+		try {
+			FXMLLoader loader= new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("../view/UserManual.fxml"));
+			GridPane userManualView = loader.load();
+			rootLayout.setCenter(userManualView);
+
+			UserManualController userManualController = loader.getController();
+
+			saveState();
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -174,5 +224,11 @@ public class MainApp extends Application {
         // TODO
         System.out.println("Delete folder with images");
     }
+
+    private void saveState() {
+		scoringList = ScoringList.getOrCreateInstance();
+		candidate = CandidateController.getOrCreateInstance().getCandidate();
+		stateSaved = true;
+	}
 
 }

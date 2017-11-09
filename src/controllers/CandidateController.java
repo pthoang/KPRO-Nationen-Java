@@ -100,6 +100,10 @@ public class CandidateController {
         markSelectedConnections();
     }
 
+    public Candidate getCandidate() {
+        return candidate;
+    }
+
     @FXML
     private void initialize() {
         networkNameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
@@ -304,8 +308,10 @@ public class CandidateController {
 
     @FXML
     public void handleDelete() {
+        Candidate nextCandidate = ScoringListController.getOrCreateInstance().getNextCandidate();
         ScoringList.getOrCreateInstance().deleteCandidate(candidate);
-        cleanFields();
+        setCandidate(nextCandidate);
+        ScoringListController.getOrCreateInstance().refreshTable();
     }
 
     @FXML

@@ -43,11 +43,12 @@ public class SettingsController {
 	public SettingsController() {
 		mainApp = MainApp.getInstance();
 		settings = Settings.getOrCreateInstance();
-		setDefaultSettings();
+
 	}
 
 	@FXML
 	private void initialize() {
+		setDefaultSettings();
 
 	}
 

@@ -114,6 +114,10 @@ public class CandidateController {
         markSelectedConnections();
     }
 
+    public Candidate getCandidate() {
+        return candidate;
+    }
+
     @FXML
     private void initialize() {
         networkNameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
@@ -300,8 +304,10 @@ public class CandidateController {
 
     @FXML
     public void handleDelete() {
+        Candidate nextCandidate = ScoringListController.getOrCreateInstance().getNextCandidate();
         ScoringList.getOrCreateInstance().deleteCandidate(candidate);
-        cleanFields();
+        setCandidate(nextCandidate);
+        ScoringListController.getOrCreateInstance().refreshTable();
     }
 
     @FXML
@@ -435,7 +441,6 @@ public class CandidateController {
 
     private void setFields() {
         File file = new File(candidate.getImageName());
-        System.out.println("File when setFields in candidateC: " + file);
         setImageField(file);
 
         nameField.setText(candidate.getName());
@@ -476,7 +481,6 @@ public class CandidateController {
     }
 
     private void setImageField(File file) {
-        System.out.println("File when setIamgeFIeld in canddiateC: " + file);
         try {
             BufferedImage bufferedImage = ImageIO.read(file);
             newImage = SwingFXUtils.toFXImage(bufferedImage, null);

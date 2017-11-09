@@ -105,11 +105,6 @@ public class ScoringList {
 		}
 	}
 
-	public void saveList(File filepath) {
-		// TODO
-		// throw new UnsupportedOperationException("not implemented");
-	}
-
 	public void setJury(Jury jury) {
 		this.jury = jury;
 	}

@@ -63,6 +63,8 @@ public class CandidateController {
     private TextField hiredHelpPGField = new TextField();
     @FXML
     private TextField farmingPGField = new TextField();
+    @FXML
+    private TextField titleField = new TextField();
 
     @FXML
     private TableView<Connection> networkTable;
@@ -85,7 +87,7 @@ public class CandidateController {
     private Stage connectionDialog;
     private EditListController parent;
 
-    private List<Object> inputFields = new ArrayList<>(Arrays.asList(nameField, previousYearRankField, rankField,
+    private List<Object> inputFields = new ArrayList<>(Arrays.asList(nameField, titleField, previousYearRankField, rankField,
             municipalityField, genderChoiceBox, yearOfBirthField, professionField, twitterField, animalsPGField,
             hiredHelpPGField, farmingPGField, descriptionField, networkTable));
 
@@ -274,8 +276,48 @@ public class CandidateController {
             if(yearOfBirthField.getText().equals("")){
                 candidate.setFieldStatus(5,1);
             }
+            if(titleField.getText().equals("")){
+                candidate.setFieldStatus(13,1);
+            }
+            int[] candidateFields = candidate.getFieldStatus();
+
+            for(int i = 0; i < candidateFields.length; i++){
+                if(candidateFields[i] == 1 && candidate.getIsPerson()){
+                    System.out.println("Missing fields, textfield");
+                    if(inputFields.get(i).equals(TextField.class)){
+                        ((TextField) inputFields.get(i)).getStyleClass().add("emptyField");
+                    } else if (inputFields.get(i).equals(TextArea.class)){
+                        ((TextArea) inputFields.get(i)).getStyleClass().add("emptyField");
+                    } else if (inputFields.get(i).equals(ChoiceBox.class)){
+                        ((ChoiceBox) inputFields.get(i)).getStyleClass().add("emptyField");
+                    } else if (inputFields.get(i).equals(TableView.class)){
+                        ((TableView) inputFields.get(i)).getStyleClass().add("emptyField");
+                    }
+
+                } else if (candidateFields[i] == 2){
+                    System.out.println("ErrorField");
+                    if(inputFields.get(i).equals(TextField.class)){
+                        ((TextField) inputFields.get(i)).getStyleClass().add("errorField");
+                    } else if (inputFields.get(i).equals(TextArea.class)){
+                        ((TextArea) inputFields.get(i)).getStyleClass().add("errorField");
+                    } else if (inputFields.get(i).equals(ChoiceBox.class)){
+                        ((ChoiceBox) inputFields.get(i)).getStyleClass().add("errorField");
+                    } else if (inputFields.get(i).equals(TableView.class)){
+                        ((TableView) inputFields.get(i)).getStyleClass().add("errorField");
+                    }
+                } else {
+                    if(inputFields.get(i).equals(TextField.class)){
+                        ((TextField) inputFields.get(i)).getStyleClass().removeAll("errorField", "emptyField");
+                    } else if (inputFields.get(i).equals(TextArea.class)){
+                        ((TextArea) inputFields.get(i)).getStyleClass().removeAll("errorField", "emptyField");
+                    } else if (inputFields.get(i).equals(ChoiceBox.class)){
+                        ((ChoiceBox) inputFields.get(i)).getStyleClass().removeAll("errorField", "emptyField");
+                    } else if (inputFields.get(i).equals(TableView.class)){
+                        ((TableView) inputFields.get(i)).getStyleClass().removeAll("errorField", "emptyField");
+                    }
+                }
+            }
         }
-        setColorsOnFields();
 
         ScoringListController.getOrCreateInstance().refreshTable();
         // Network
@@ -286,7 +328,7 @@ public class CandidateController {
         uploadToBucket();
     }
 
-    private void setColorsOnFields(){
+    private void setColorsOnFields(){/*
         int[] candidateFields = candidate.getFieldStatus();
 
         for(int i = 0; i < candidateFields.length; i++){
@@ -324,7 +366,7 @@ public class CandidateController {
                     ((TableView) inputFields.get(i)).getStyleClass().removeAll("errorField", "emptyField");
                 }
             }
-        }
+        }*/
     }
 
     private void disableFieldsIfNotPerson(boolean notPerson) {
@@ -337,6 +379,7 @@ public class CandidateController {
             yearOfBirthField.setDisable(true);
             municipalityField.setDisable(true);
             professionField.setDisable(true);
+            titleField.setDisable(true);
         } else {
             twitterField.setDisable(false);
             networkTable.setDisable(false);
@@ -346,6 +389,7 @@ public class CandidateController {
             yearOfBirthField.setDisable(false);
             municipalityField.setDisable(false);
             professionField.setDisable(false);
+            titleField.setDisable(false);
         }
     }
 
@@ -435,6 +479,9 @@ public class CandidateController {
         String twitter = twitterField.getText();
         candidate.setTwitter(new SimpleStringProperty(twitter));
 
+        String title = titleField.getText();
+        candidate.setTitle(title);
+
         // TODO: Save all the fields related to the different sources
     }
 
@@ -466,6 +513,7 @@ public class CandidateController {
         yearOfBirthField.setText(candidate.getYearOfBirth());
         twitterField.setText(candidate.getTwitter());
         professionField.setText(candidate.getProfession());
+        titleField.setText(candidate.getTitle());
 
         setCompleteButton();
         setColorsOnFields();

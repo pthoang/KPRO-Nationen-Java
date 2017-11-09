@@ -25,6 +25,7 @@ public class Candidate extends Person {
 	private String gender = "";
 	private String yearOfBirth;
 	private String profession;
+	private String title;
 
 	// TODO: should use enum instead of strings to tell the status
 	private String status;
@@ -45,7 +46,7 @@ public class Candidate extends Person {
 
 		This array is used for colourcoding
 	 */
-	private int[] fieldStatus = new int[13];
+	private int[] fieldStatus = new int[14];
 
 
 	private JsonObject rawData = new JsonObject();
@@ -266,6 +267,10 @@ public class Candidate extends Person {
 	public void setProfession(String profession) {
 		this.profession = profession;
 	}
+
+	public String getTitle(){ return title; }
+
+	public void setTitle(String title) { this.title = title; }
 
 
 	// Validation

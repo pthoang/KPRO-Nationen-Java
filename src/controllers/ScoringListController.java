@@ -67,7 +67,6 @@ public class ScoringListController {
                 candidateColor.put(candidate.getName(), 0);
             }
         }
-
         updateCountLabel();
     }
 

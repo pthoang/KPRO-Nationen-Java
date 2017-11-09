@@ -308,8 +308,10 @@ public class CandidateController {
 
     @FXML
     public void handleDelete() {
+        Candidate nextCandidate = ScoringListController.getOrCreateInstance().getNextCandidate();
         ScoringList.getOrCreateInstance().deleteCandidate(candidate);
-        cleanFields();
+        setCandidate(nextCandidate);
+        ScoringListController.getOrCreateInstance().refreshTable();
     }
 
     @FXML

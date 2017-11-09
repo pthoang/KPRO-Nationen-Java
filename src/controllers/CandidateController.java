@@ -526,6 +526,7 @@ public class CandidateController {
         connectionController.setConnection(connection);
 
         Scene dialogScene = new Scene(connectionView);
+        dialogScene.getStylesheets().add(this.getClass().getResource("../style.css").toExternalForm());
         dialog.setScene(dialogScene);
         connectionDialog = dialog;
         if (open || connection != null) {

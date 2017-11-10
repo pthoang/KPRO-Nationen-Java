@@ -427,7 +427,6 @@ public class CandidateController {
     private void handleErrorMessage(String errorMessage) {
         if (errorMessage.length() != 0) {
             candidate.setStatus("invalidFields");
-            setColorsOnFields();
             String headerText = "Felter til kandidaten er ikke korrekt utfylt.";
             Utility.newAlertError(headerText, errorMessage);
             setColorsOnFields();

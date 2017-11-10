@@ -50,7 +50,7 @@
         <TextArea fx:id="descriptionField" maxHeight="150" GridPane.columnIndex="0" GridPane.rowIndex="9" GridPane.columnSpan="3" GridPane.rowSpan="2"/>
 
         <Label text="Nettverk:" GridPane.columnIndex="0" GridPane.rowIndex="11" />
-        <TableView fx:id="networkTable" maxHeight="150" GridPane.columnIndex="0" GridPane.rowIndex="12" GridPane.rowSpan="2" GridPane.columnSpan="3">
+        <TableView fx:id="networkTable" onMouseClicked="#openConnection" maxHeight="150" GridPane.columnIndex="0" GridPane.rowIndex="12" GridPane.rowSpan="2" GridPane.columnSpan="3">
             <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
             <columns>
                 <TableColumn fx:id="networkNameColumn" prefWidth="10.0" text="Navn" />

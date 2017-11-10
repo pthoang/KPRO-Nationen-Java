@@ -221,7 +221,14 @@ public class MainApp extends Application {
 
 	// Called when closing the program
 	private static void deleteImageFolder() {
-        // TODO
+        File imagesFolder = new File("images/");
+        File[] files = imagesFolder.listFiles();
+        if (files != null) {
+            for (File f: files) {
+                f.delete();
+            }
+        }
+        
         System.out.println("Delete folder with images");
     }
 

@@ -35,6 +35,7 @@ import javafx.scene.input.MouseEvent;
 public class CandidateController {
 
     private ObservableList GENDER_CHOICES = FXCollections.observableArrayList("", "Kvinne", "Mann", "Annet");
+    private ObservableList COUNTY_CHOICES = FXCollections.observableArrayList("--", "Sør-Trøndelag", "Oslo og Akershus", "Hordaland", "Finnmark", "Østfold", "Hedmark", "Oppland", "Buskerud", "Vestfold", "Telemark", "Aust-Agder", "Vest-Agder", "Rogaland", "Sogn og fjordane", "Møre og romsdal", "Nord-Trøndelag", "Nordland", "Troms");
 
     @FXML
     private ImageView imageView = new ImageView();
@@ -50,6 +51,8 @@ public class CandidateController {
     private TextField municipalityField  = new TextField();
     @FXML
     private ChoiceBox<String> genderChoiceBox = new ChoiceBox<String>(GENDER_CHOICES);
+    @FXML
+    private ChoiceBox<String> countyChoiceBox = new ChoiceBox<String>(GENDER_CHOICES);
     @FXML
     private TextField yearOfBirthField = new TextField();
     @FXML
@@ -148,6 +151,13 @@ public class CandidateController {
 
         });
 
+        countyChoiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            disableButtons(false);
+            boolean isPerson = newValue.intValue() == 3;
+            disableFieldsIfNotPerson(isPerson);
+
+        });
+
         descriptionField.textProperty().addListener((observable, oldValue, newValue) -> {
             disableButtons(false);
             if(newValue == null || newValue.length() < 5){
@@ -163,6 +173,9 @@ public class CandidateController {
 
         genderChoiceBox.getItems().addAll(GENDER_CHOICES);
         genderChoiceBox.setValue("");
+
+        countyChoiceBox.getItems().addAll(COUNTY_CHOICES);
+        countyChoiceBox.setValue("--");
     }
 
     private void disableButtons(boolean disable) {
@@ -182,6 +195,7 @@ public class CandidateController {
         }
         return "";
     }
+
 
     private int setGenderChoice(Candidate candidate) {
         String gender = candidate.getGender();
@@ -357,6 +371,9 @@ public class CandidateController {
 
         String gender = getSelectedGender();
         candidate.setGender(gender);
+
+        String county = countyChoiceBox.getValue();
+        candidate.setCounty(county);
 
         String description = descriptionField.getText();
         candidate.setDescription(new SimpleStringProperty(description));

@@ -23,11 +23,12 @@ public class Candidate extends Person {
 	private SimpleIntegerProperty previousYearRank;
 	private SimpleStringProperty twitterLink = new SimpleStringProperty();
 	private String gender = "";
+	private String county = "";
 	private String yearOfBirth;
 	private String profession;
 	private String title;
 
-	// TODO: should use enum instead of strings to tell the status
+	// TODO: should use enum instead f strings to tell the status
 	private String status;
 
 	private ArrayList organizations;
@@ -244,9 +245,17 @@ public class Candidate extends Person {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+
+	public void setCounty(String county) {
+		this.county = county;
+	}
 	
 	public String getGender() {
 		return gender;
+	}
+
+	public String getCounty() {
+		return county;
 	}
 
 	public String getYearOfBirth() {
@@ -329,6 +338,50 @@ public class Candidate extends Person {
 		}
 		fieldStatus[8] = 0;
 		return "";
+	}
+
+
+	public Integer getCountyId() {
+		String gender = county;
+		switch (gender) {
+			case  "Sør-Trøndelag":
+				return 0;
+			case  "Oslo og Akershus":
+				return 1;
+			case  "Hordaland":
+				return 2;
+			case  "Finnmark":
+				return 3;
+			case  "Østfold":
+				return 4;
+			case  "Hedmark":
+				return 5;
+			case  "Oppland":
+				return 6;
+			case  "Buskerud":
+				return 7;
+			case  "Vestfold":
+				return 8;
+			case  "Telemark":
+				return 9;
+			case  "Aust-Agder":
+				return 10;
+			case  "Vest-Agder":
+				return 11;
+			case  "Rogaland":
+				return 12;
+			case  "Sogn og fjordane":
+				return 13;
+			case  "Møre og romsdal":
+				return 14;
+			case  "Nord-Trøndelag":
+				return 15;
+			case  "Nordland":
+				return 16;
+			case  "Troms":
+				return 16;
+		}
+		return -1;
 	}
 
 	public void addRawData(String field, JsonElement data) {

@@ -48,18 +48,11 @@ public class Candidate extends Person {
 
 	private JsonObject rawData = new JsonObject();
 
-	// PG stands for ProductionGrants
-	private SimpleIntegerProperty animalsPG = new SimpleIntegerProperty(0);
-	private SimpleIntegerProperty hiredHelpPG = new SimpleIntegerProperty(0);
-	private SimpleIntegerProperty farmingPG = new SimpleIntegerProperty(0);
-
-
 	private ObservableList<Connection> connections =  FXCollections.observableArrayList();
 
-	public Candidate(String name, int rank, int previousYearRank) {
+	public Candidate(String name, int rank) {
 		super(name, null);
 		this.rank = new SimpleIntegerProperty(rank);
-		this.previousYearRank = new SimpleIntegerProperty(rank);
 		this.status = "";
 	}
 
@@ -186,33 +179,6 @@ public class Candidate extends Person {
 		return this.twitterLink.get();
 	}
 
-	// TODO
-	// Missing functions to validate rank etc
-
-	public int getAnimalsPG() {
-		return animalsPG.get();
-	}
-
-	public void setAnimalsPG(SimpleIntegerProperty animalsPG) {
-		this.animalsPG = animalsPG;
-	}
-
-	public int getHiredHelpPG() {
-		return hiredHelpPG.get();
-	}
-
-	public void setHiredHelpPG(SimpleIntegerProperty hiredHelpPG) {
-		this.hiredHelpPG = hiredHelpPG;
-	}
-
-	public int getFarmingPG() {
-		return farmingPG.get();
-	}
-
-	public void setFarmingPG(SimpleIntegerProperty farmingPG) {
-		this.farmingPG = farmingPG;
-	}
-
 	public void addConnection(Person person, String description) {
 		Connection newConnection = new Connection(person, description);
 		connections.add(newConnection);
@@ -268,7 +234,6 @@ public class Candidate extends Person {
 	public String getTitle(){ return title; }
 
 	public void setTitle(String title) { this.title = title; }
-
 
 	// Validation
 	public String validate(String name, String rank, String previousYearRank, String gender, String description) {

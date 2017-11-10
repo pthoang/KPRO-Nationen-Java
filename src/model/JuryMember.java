@@ -9,14 +9,6 @@ public class JuryMember extends Person {
         this.title = title;
     }
 
-    public String getImageName() {
-        return super.getImageName();
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getTitle() {
         return title;
     }

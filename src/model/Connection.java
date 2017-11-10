@@ -32,9 +32,6 @@ public class Connection {
 		return person;
 	}
 
-    public String getImageURL() {
-        return this.person.getImageName();
-    }
 
 	public String getName() {
 		return this.person.getName();

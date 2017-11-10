@@ -1,6 +1,5 @@
 package model;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -20,7 +19,6 @@ public class ScoringList {
 
 	private final SimpleIntegerProperty year;
 	private ObservableList<Candidate> candidates;
-	private Jury jury;
 
 	public ScoringList() {
 		int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -70,7 +68,7 @@ public class ScoringList {
 	private void readNameList(Stream<String> stream) throws IOException {
 		final AtomicInteger rank = new AtomicInteger(1);
 		stream.forEach((name) -> {
-			Candidate candidate = new Candidate(name, rank.get(), 0);
+			Candidate candidate = new Candidate(name, rank.get());
 			candidates.add(candidate);
 			rank.incrementAndGet();		
 		});
@@ -98,23 +96,16 @@ public class ScoringList {
 			int lastYear = 0; //Integer.parseInt(jsonCandidate.getAsJsonObject().get("lastYear").toString());
 
 			// Creates and add the candidate
-			Candidate newCandidate = new Candidate(name, rank, lastYear);
+			Candidate newCandidate = new Candidate(name, rank);
+			// newCandidate.setLastYearRank(lastYear);
 			candidates.add(newCandidate);
 
 			rank++;
 		}
 	}
 
-	public void setJury(Jury jury) {
-		this.jury = jury;
-	}
-
-	public Jury getJury() {
-		return jury;
-	}
-
 	public void empty() {
         candidates = null;
-	    jury = null;
+        Jury.getOrCreateInstance().empty();
     }
 }

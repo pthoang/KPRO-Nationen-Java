@@ -8,16 +8,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import model.AmazonBucketUploader;
-import model.DataSourceFile;
+import javafx.scene.text.Text;
+import model.*;
 
 import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
-
-import model.Settings;
-import model.Utility;
 
 public class SettingsController {
 
@@ -140,5 +136,31 @@ public class SettingsController {
 			Utility.newAlertError(headerText, contentText);
 		}
 	}
-	
+
+	@FXML
+	public void handleUploadAboutTheScoringText() {
+		File file = mainApp.chooseAndGetFile();
+		String aboutText = readTextFromFile(file.getAbsolutePath());
+		ScoringList.getOrCreateInstance().setAboutTheScoring(aboutText);
+
+	}
+
+	private String readTextFromFile(String filePath) {
+		StringBuilder about = new StringBuilder();
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(filePath));
+
+			while (br.readLine() != null) {
+				about.append(br.readLine());
+			}
+
+			br.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("About.txt not found: " + e);
+		} catch (Exception e) {
+			System.out.println("Exception when reading the file regarding about the scoringlist");
+		}
+
+		return about.toString();
+	}
 }

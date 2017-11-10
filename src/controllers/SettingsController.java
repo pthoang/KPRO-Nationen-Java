@@ -54,6 +54,7 @@ public class SettingsController {
 		settings.setNumCandidates(numCandidates);
 		int numConnections = Integer.parseInt(numConnectionsField.getText());
 		settings.setNumConnections(numConnections);
+		CandidateController.getOrCreateInstance().updateNumConnections();
 
 		settings.setBucketAccessKey(bucketAccessKeyField.getText());
 		settings.setBucketSecretKey(bucketSecretKeyField.getText());

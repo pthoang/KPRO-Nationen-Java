@@ -595,4 +595,8 @@ public class CandidateController {
         });
     }
 
+    public void updateNumConnections() {
+        markSelectedConnections();
+    }
+
 }

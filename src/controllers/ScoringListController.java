@@ -31,7 +31,7 @@ public class ScoringListController {
     @FXML
     private TableColumn<Candidate, String> nameColumn;
     @FXML
-    private Label countLabel = new Label();
+    private Label countLabel;
 
     private ScoringList scoringList;
     private MainApp mainApp;
@@ -98,6 +98,8 @@ public class ScoringListController {
 
         candidateTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> CandidateController.getOrCreateInstance().setCandidate(newValue));
+
+        updateCountLabel();
     }
 
     public void refreshTable() {
@@ -106,7 +108,7 @@ public class ScoringListController {
         updateCountLabel();
     }
 
-    private void updateCountLabel() {
+    public void updateCountLabel() {
         int max = Settings.getOrCreateInstance().getNumCandidates();
         int actualLength = scoringList.getLength();
         countLabel.setText(actualLength + "/" + max);

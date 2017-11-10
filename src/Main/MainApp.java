@@ -79,12 +79,12 @@ public class MainApp extends Application {
 		showEditListView();
 		
 		// TODO: Only during testing
-		/*
+
 		scoringList.createFromNameList("resources/NameListTest.txt");
 		ScoringListController.getOrCreateInstance().fillTable();
 		Candidate firstCandidate = scoringList.getCandidates().get(0);
 		CandidateController.getOrCreateInstance().setCandidate(firstCandidate);
-		*/
+
 	}
 
 	/**

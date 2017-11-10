@@ -228,7 +228,7 @@ public class MainApp extends Application {
                 f.delete();
             }
         }
-        
+
         System.out.println("Delete folder with images");
     }
 

@@ -71,6 +71,10 @@ public class AddJuryController {
 
         juryMembersTable.setPlaceholder(new Label("Ingen juryer er registrert"));
 
+        juryMembersTable.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> setFields(newValue)
+        );
+
         nameField.textProperty().addListener((observable, oldValue, newValue) -> {
             disableButtons(false);
         });
@@ -166,6 +170,7 @@ public class AddJuryController {
         deleteJuryMemberButton.setDisable(false);
     }
 
+    /*
     @FXML
     public void selectJuryMember(MouseEvent event) {
         if (event.getClickCount() == 2) {
@@ -173,5 +178,6 @@ public class AddJuryController {
             setFields(juryMember);
         }
     }
+    */
 
 }

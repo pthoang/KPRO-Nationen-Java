@@ -3,19 +3,18 @@ package controllers;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
-import Main.MainApp;
-
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javax.imageio.ImageIO;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
-import model.*;
 import javafx.scene.input.MouseEvent;
 
-import javax.imageio.ImageIO;
-
+import Main.MainApp;
+import model.JuryMember;
+import model.Jury;
+import model.AmazonBucketUploader;
 
 public class AddJuryController {
 
@@ -43,7 +42,6 @@ public class AddJuryController {
     private Jury jury;
     private MainApp mainApp;
     private File imageFile;
-    private Image newImage;
     private static AddJuryController instance = null;
 
 
@@ -85,15 +83,13 @@ public class AddJuryController {
             disableButtons(false);
         });
 
-        descriptionField.textProperty().addListener((observable, oldValue, newValue) -> {
-            saveDescriptionButton.setDisable(false);
-        });
+        descriptionField.textProperty().addListener((observable, oldValue, newValue) -> saveDescriptionButton.setDisable(false));
 
         disableButtons(true);
         saveDescriptionButton.setDisable(true);
     }
 
-    public void disableButtons(boolean disable) {
+    private void disableButtons(boolean disable) {
         addJuryMemberButton.setDisable(disable);
         deleteJuryMemberButton.setDisable(disable);
     }
@@ -154,7 +150,7 @@ public class AddJuryController {
     private void setImageField(File file) {
         try {
             BufferedImage bufferedImage = ImageIO.read(file);
-            newImage = SwingFXUtils.toFXImage(bufferedImage, null);
+            Image newImage = SwingFXUtils.toFXImage(bufferedImage, null);
             imageView.setImage(newImage);
         } catch (IOException ex) {
             System.out.println("Error when loading image: " + ex);

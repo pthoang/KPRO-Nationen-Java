@@ -28,14 +28,6 @@ public class EditListController {
 	public EditListController() {
 		instance = this;
 		mainApp = MainApp.getInstance();
-/*
-		scoringListViewController = ScoringListController.getOrCreateInstance();
-		candidateViewController = CandidateController.getOrCreateInstance();
-
-		if (candidates.size() > 0) {
-			scoringListViewController.fillTable();
-		}
-*/
 	}
 
 	public static EditListController getOrCreateInstance() {

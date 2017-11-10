@@ -75,7 +75,8 @@ public class SettingsController {
 
 	//this is the function that is supposed to spawn a file chooser and update the filepath for required files
 	// TODO
-	@FXML private void handleLoadFile(ActionEvent event) throws IOException {
+	@FXML
+	private void handleLoadFile(ActionEvent event) throws IOException {
 		System.out.println("event " + event);
 	}
 

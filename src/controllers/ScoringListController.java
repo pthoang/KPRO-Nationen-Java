@@ -33,7 +33,6 @@ public class ScoringListController {
     @FXML
     private Label countLabel = new Label();
 
-    private EditListController parentController;
     private ScoringList scoringList;
     private MainApp mainApp;
     private static ObservableList<Candidate> candidates;
@@ -52,7 +51,6 @@ public class ScoringListController {
 		instance = this;
 		mainApp = MainApp.getInstance();
 		loadState();
-		parentController = EditListController.getOrCreateInstance();
 	}
 
 	public void loadState() {
@@ -90,7 +88,7 @@ public class ScoringListController {
 
         nameColumn.setCellFactory(new ScoringListController.CellFactory());
 
-        rankColumn.setCellValueFactory(new PropertyValueFactory<Candidate, Integer>("rank"));
+        rankColumn.setCellValueFactory(new PropertyValueFactory<>("rank"));
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
 
         nameColumn.setOnEditCommit(cell -> {
@@ -158,7 +156,6 @@ public class ScoringListController {
     }
 
     @FXML
-    // TODO: not used
     public void handleAnalyzeAll() {
         mainApp.generateAll();
     }
@@ -169,9 +166,9 @@ public class ScoringListController {
             String headerText = "Listen er for lang.";
             String contentText = "Alle kandidatene vil dermed ikke vises på siden. " +
                     "Fjern noen kandidater eller endre antallet kandidater i 'Instillinger'";
-            newAlertError(headerText, contentText);
+            Utility.newAlertError(headerText, contentText);
             return;
-        };
+        }
 
     	/**
 		 * Gson creates unnecessary fields in the json because of the property "SimpleStringProperty".
@@ -182,15 +179,15 @@ public class ScoringListController {
 		System.out.println(json);
 		
 		FileChooser fileChooser = new FileChooser();
-        //Set extension filter
+        // Set extension filter
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.JSON)", "*.txt");
         fileChooser.getExtensionFilters().add(extFilter);
-        //Show save file dialog
+        // Show save file dialog
         File file = fileChooser.showSaveDialog(mainApp.getStage());
         if(file != null){
             saveFile(json, file);
         }
-//		
+//		TODO: why commented out?
 //        String errorMessage = validateList();
 //        handleErrorMessage(errorMessage);
     }
@@ -215,12 +212,5 @@ public class ScoringListController {
         return scoringList.getLength() > Settings.getOrCreateInstance().getNumCandidates();
     }
 
-    private void newAlertError(String headerText, String contentText) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Feilmeldinger");
-        alert.setHeaderText(headerText);
-        alert.setContentText(contentText);
-        alert.showAndWait();
-    }
 
 }

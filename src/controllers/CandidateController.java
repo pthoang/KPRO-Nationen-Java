@@ -5,7 +5,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -22,8 +21,6 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.*;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -79,13 +76,11 @@ public class CandidateController {
 
 
     private static CandidateController instance = null;
-    private final String IMAGE_PATH = "images/";
     private AmazonBucketUploader bucketUploader;
     private Image newImage;
     private Candidate candidate;
     private MainApp mainApp;
     private Stage connectionDialog;
-    private EditListController parent;
 
     private List<Object> inputFields = new ArrayList<>(Arrays.asList(nameField, previousYearRankField, rankField,
             municipalityField, genderChoiceBox, yearOfBirthField, professionField, twitterField, descriptionField, titleField));
@@ -95,7 +90,6 @@ public class CandidateController {
         instance = this;
         mainApp = MainApp.getInstance();
         bucketUploader = AmazonBucketUploader.getOrCreateInstance();
-        parent = EditListController.getOrCreateInstance();
     }
 
     public static CandidateController getOrCreateInstance() {
@@ -199,7 +193,6 @@ public class CandidateController {
     // Button actions
     @FXML
     public void handleSaveChangesToCandidate() {
-        // TODO: called multiple times - change to a function?
         saveCandidateButton.setDisable(true);
 
         candidate.setStatus("");
@@ -303,9 +296,13 @@ public class CandidateController {
 
     @FXML
     public void handleDelete() {
-        Candidate nextCandidate = ScoringListController.getOrCreateInstance().getNextCandidate();
+        System.out.println("Candidate to delete: " + candidate.getName());
         ScoringList.getOrCreateInstance().deleteCandidate(candidate);
+        Candidate nextCandidate = ScoringListController.getOrCreateInstance().getNextCandidate();
+        System.out.println("NExt candidate: " + nextCandidate.getName());
+
         setCandidate(nextCandidate);
+
         ScoringListController.getOrCreateInstance().refreshTable();
     }
 
@@ -342,6 +339,7 @@ public class CandidateController {
         errorMessage += candidate.validate(name, rank, previousYearRank, gender, description);
 
         /*
+        TODO
         if (EditListController.getOrCreateInstance().nameExistInList(name)) {
             errorMessage += "\n Det eksisterer allerede noen med det for- og etternavnet";
         }
@@ -383,7 +381,7 @@ public class CandidateController {
         candidate.setTitle(title);
 
         if (gender.equals("M") || gender.equals("F")) {
-            //if fields are missing the candidate's fiels get a status. This makes sure the field gets red or yellow
+            // If fields are missing the candidate's fields get a status. This makes sure the field gets red or yellow
             if(networkTable.getItems().size() < 1){
                 candidate.setFieldStatus(10, 1);
                 candidate.setStatus("unfinished");
@@ -421,7 +419,6 @@ public class CandidateController {
                 candidate.setFieldStatus(9, 0);
             }
         }
-        // TODO: Save all the fields related to the different sources
     }
 
     private void handleErrorMessage(String errorMessage) {
@@ -479,13 +476,8 @@ public class CandidateController {
     }
 
     private void setImageField(File file) {
-        try {
-            BufferedImage bufferedImage = ImageIO.read(file);
-            newImage = SwingFXUtils.toFXImage(bufferedImage, null);
-            imageView.setImage(newImage);
-        } catch (IOException ex) {
-            System.out.println("Error when loading image: " + ex);
-        }
+        Image image = Utility.convertFileToImage(file);
+        imageView.setImage(image);
     }
 
     private void createAndAddEmptyCandidate() {

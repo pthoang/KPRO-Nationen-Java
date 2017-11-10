@@ -3,18 +3,17 @@ package controllers;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javafx.scene.image.ImageView;
-
 import javax.imageio.ImageIO;
 
-import Main.MainApp;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import model.*;
+import Main.MainApp;
+
 
 public class ConnectionController {
 
@@ -98,13 +97,8 @@ public class ConnectionController {
 	@FXML
 	public void handleAddImage() {
 		File file = mainApp.chooseAndGetFile();
-		try {
-			BufferedImage bufferedImage = ImageIO.read(file);
-			newImage = SwingFXUtils.toFXImage(bufferedImage, null);
-			imageView.setImage(newImage);
-		} catch (IOException ex) {
-			System.out.println("Error when loading image: " + ex);
-		}
+        Image image = Utility.convertFileToImage(file);
+        imageView.setImage(image);
 	}
 
 	@FXML

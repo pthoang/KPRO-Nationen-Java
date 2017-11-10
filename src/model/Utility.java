@@ -1,7 +1,13 @@
 package model;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.Alert;
+import javafx.scene.image.WritableImage;
 
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.regex.Pattern;
 
 public class Utility {
@@ -33,6 +39,16 @@ public class Utility {
         }
 
         return errorMessage;
+    }
+
+    public static WritableImage convertFileToImage(File file) {
+        try {
+            BufferedImage bufferedImage = ImageIO.read(file);
+            return SwingFXUtils.toFXImage(bufferedImage, null);
+        } catch (IOException ex) {
+            System.out.println("Error when loading image: " + ex);
+            return null;
+        }
     }
 
 }

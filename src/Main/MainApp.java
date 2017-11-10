@@ -128,27 +128,6 @@ public class MainApp extends Application {
 		}
 	}
 
-
-	/**
-	 * Shows the view for adding databases.
-	 */
-	public void showLoadSourcesView() {
-		try {
-			FXMLLoader loader= new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("../view/AddSourcesView.fxml"));
-			GridPane addSourcesView = loader.load();
-
-			rootLayout.setCenter(addSourcesView);
-
-			AddSourcesController addSourcesController = loader.getController();
-			addSourcesController.setMainApp(this);
-
-			saveState();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	/**
 	 * Shows the view for about.
 	 */

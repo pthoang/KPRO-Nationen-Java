@@ -45,11 +45,6 @@ public class RootController {
 	private void showAddJury(){
 		mainApp.showJuryAdmin();
 	}
-	
-	@FXML
-	private void showLoadSources() {
-		mainApp.showLoadSourcesView();
-	}
 
 	@FXML
 	private void showNewAndEmpty() {

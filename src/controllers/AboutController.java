@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.text.TextFlow;
 import javafx.collections.ObservableList;
 import javafx.scene.text.Text;
-import model.AmazonBucketUploader;
 
 import java.awt.*;
 import java.io.*;
@@ -25,17 +24,16 @@ public class AboutController {
     public void initialize() {
         Text aboutText = readTextFromFile();
         aboutText.setStyle("-fx-font-size: 14; -fx-fill: #d9d9d9;");
-        ObservableList textList = textField.getChildren();
-        textList.addAll(aboutText);
+        textField.getChildren().add(aboutText);
     }
 
     private Text readTextFromFile() {
-        String about = "";
+        StringBuilder about = new StringBuilder();
         try {
             BufferedReader br = new BufferedReader(new FileReader("resources/About.txt"));
 
             while (br.readLine() != null) {
-                about += br.readLine();
+                about.append(br.readLine());
             }
 
             br.close();
@@ -45,11 +43,12 @@ public class AboutController {
             System.out.println("Exception when reading About.txt");
         }
 
-        return new Text(about);
+        return new Text(about.toString());
     }
 
     @FXML
     public void handleDownloadReport() {
+        // TODO
         //AmazonBucketUploader.getOrCreateInstance().getFileFromBucket("Report.pdf");
         if (Desktop.isDesktopSupported()) {
             try {

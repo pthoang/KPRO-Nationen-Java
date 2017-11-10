@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 
 import controllers.*;
+import controllers.datasources.ConnectionsDb;
 import interfaces.DataSourceInterface;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -236,6 +237,9 @@ public class MainApp extends Application {
 		for (DataSourceInterface datasource : ds.getDsList()) {
 			datasource.getData(scoringList.getCandidates());
 		}
+
+		ConnectionsDb connectionsDb = new ConnectionsDb();
+		connectionsDb.setConnections(scoringList.getCandidates());
 	}
 
 	// Called when closing the program

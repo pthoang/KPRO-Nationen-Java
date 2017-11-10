@@ -120,9 +120,9 @@ public class SupportDb implements DataSourceInterface {
             candidate.addRawData("subsidies", subsidies);
         }
 
-        ConnectionsDb connectionsDb = new ConnectionsDb();
-        connectionsDb.setConnections(candidates);
-        System.out.println(candidates);
+//        ConnectionsDb connectionsDb = new ConnectionsDb();
+//        connectionsDb.setConnections(candidates);
+//        System.out.println(candidates);
     }
 
     @Override

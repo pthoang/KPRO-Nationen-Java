@@ -37,6 +37,15 @@ public class ConnectionsDb {
 
             JsonArray candidatesStocks = (JsonArray) rawData.get("stocks");
 
+            JsonObject candidateNode = new JsonObject();
+            candidateNode.addProperty("id", Integer.toString(1));
+            candidateNode.addProperty("name", candidate.getName());
+            candidateNode.addProperty("img", candidate.getBucketImageURL());
+            candidateNode.addProperty("size", "60");
+            candidateNode.addProperty("description", "");
+            JsonObject candidateNodeObject = new JsonObject();
+            candidateNodeObject.add("data", candidateNode);
+            nodes.add(candidateNode);
 
             //
             int i = 2;
@@ -51,12 +60,12 @@ public class ConnectionsDb {
                     for(JsonElement stock1 : candidatesStocks){
                         Boolean candidateAdded = false;
                         for(JsonElement stock2 : otherCandidateStocks){
-                            if(stock1.getAsJsonObject().get("orgNo")==stock2.getAsJsonObject().get("orgNo")){
+                            if(stock1.getAsJsonObject().get("orgNo").equals(stock2.getAsJsonObject().get("orgNo"))){
                                 String newId = Integer.toString(i) + "s";
                                 JsonObject dataNode = new JsonObject();
                                 dataNode.addProperty("id", newId);
                                 dataNode.addProperty("name", candidate2.getName());
-                                dataNode.addProperty("img", candidate2.getImageURL());
+                                dataNode.addProperty("img", candidate2.getBucketImageURL());
                                 dataNode.addProperty("size", Integer.toString(30));
                                 dataNode.addProperty("description",
                                         candidate2.getName()+" eier aksjer i samme selskap som "+candidate.getName());
@@ -71,6 +80,9 @@ public class ConnectionsDb {
                                 dataEdgeObject.add("data", dataEdge);
                                 edges.add(dataEdgeObject);
                                 candidateAdded = true;
+                            }
+                            if(candidateAdded) {
+                                break;
                             }
                         }
                         if(candidateAdded) {
@@ -88,7 +100,7 @@ public class ConnectionsDb {
                         JsonObject dataNode = new JsonObject();
                         dataNode.addProperty("id", newId);
                         dataNode.addProperty("name", candidate2.getName());
-                        dataNode.addProperty("img", candidate2.getImageURL());
+                        dataNode.addProperty("img", candidate2.getBucketImageURL());
                         dataNode.addProperty("size", Integer.toString(30));
                         dataNode.addProperty("description",
                                 candidate2.getName()+" eier også andeler i selskaper som mottar subsidier til dyrehold.");
@@ -110,7 +122,7 @@ public class ConnectionsDb {
                         JsonObject dataNode = new JsonObject();
                         dataNode.addProperty("id", newId);
                         dataNode.addProperty("name", candidate2.getName());
-                        dataNode.addProperty("img", candidate2.getImageURL());
+                        dataNode.addProperty("img", candidate2.getBucketImageURL());
                         dataNode.addProperty("size", Integer.toString(30));
                         dataNode.addProperty("description",
                                 candidate2.getName()+" eier også andeler i selskaper som mottar subsidier til avløs.");
@@ -131,7 +143,7 @@ public class ConnectionsDb {
                         JsonObject dataNode = new JsonObject();
                         dataNode.addProperty("id", newId);
                         dataNode.addProperty("name", candidate2.getName());
-                        dataNode.addProperty("img", candidate2.getImageURL());
+                        dataNode.addProperty("img", candidate2.getBucketImageURL());
                         dataNode.addProperty("size", Integer.toString(30));
                         dataNode.addProperty("description",
                                 candidate2.getName()+" eier også andeler i selskaper som mottar subsidier til jordbruk.");
@@ -152,7 +164,7 @@ public class ConnectionsDb {
                         JsonObject dataNode = new JsonObject();
                         dataNode.addProperty("id", newId);
                         dataNode.addProperty("name", candidate2.getName());
-                        dataNode.addProperty("img", candidate2.getImageURL());
+                        dataNode.addProperty("img", candidate2.getBucketImageURL());
                         dataNode.addProperty("size", Integer.toString(30));
                         dataNode.addProperty("description",
                                 candidate2.getName()+" sitter i Stortinget eller i regjering sammen med " +

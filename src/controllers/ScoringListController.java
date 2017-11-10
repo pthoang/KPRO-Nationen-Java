@@ -201,7 +201,7 @@ public class ScoringListController {
             jsonCandidate.addProperty("subsidies", candidate.getRawData().get("subsidies").toString());
             jsonCandidate.addProperty("stocks", candidate.getRawData().get("stocks").toString());
 
-            //todo. PT. legg inn ditt her
+            jsonCandidate.addProperty("elements", candidate.getElements().toString());
 
             people.add(jsonCandidate);
         }

@@ -342,6 +342,10 @@ public class Candidate extends Person {
 
 	}
 
+	public JsonArray getElements() {
+		return this.elements;
+	}
+
 	public int[] getFieldStatus() {
 		return fieldStatus;
 	}

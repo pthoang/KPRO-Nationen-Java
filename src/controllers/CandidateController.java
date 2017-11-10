@@ -82,6 +82,7 @@ public class CandidateController {
     private Candidate candidate;
     private MainApp mainApp;
     private Stage connectionDialog;
+    private final String STANDARD_IMAGE_PATH = "resources/standard.png";
 
     private List<Object> inputFields = new ArrayList<>(Arrays.asList(nameField, previousYearRankField, rankField,
             municipalityField, genderChoiceBox, yearOfBirthField, professionField, twitterField, descriptionField, titleField));
@@ -158,6 +159,8 @@ public class CandidateController {
 
         genderChoiceBox.getItems().addAll(GENDER_CHOICES);
         genderChoiceBox.setValue("");
+
+        setImageField(new File(STANDARD_IMAGE_PATH));
     }
 
     private void disableButtons(boolean disable) {

@@ -60,7 +60,7 @@ public class ConnectionController {
 		if (connection != null) {
 			setFields();
 		} else {
-			setImageField(imageURL);
+			setImageField(new File(imageURL));
 			saveButton.setDisable(true);
 		}
 	}
@@ -94,12 +94,11 @@ public class ConnectionController {
 		handleErrorMessage(errorMessage);
 	}
 
-	@FXML
-	public void handleAddImage() {
-		File file = mainApp.chooseAndGetFile();
-        Image image = Utility.convertFileToImage(file);
-        imageView.setImage(image);
-	}
+    @FXML
+    private void handleChangeImage() {
+        File file = mainApp.chooseAndGetFile();
+        setImageField(file);
+    }
 
 	@FXML
 	public void handleChooseAsNetwork() {
@@ -142,11 +141,7 @@ public class ConnectionController {
 		parent.closeDialog();
 	}
 
-	private void setImageField(String imageURL) {
-	    if (! imageURL.endsWith(".png")) {
-	        imageURL += ".png";
-        }
-		File file = new File(imageURL);
+	private void setImageField(File file) {
 		try {
 			BufferedImage bufferedImage = ImageIO.read(file);
 			newImage = SwingFXUtils.toFXImage(bufferedImage, null);
@@ -159,7 +154,13 @@ public class ConnectionController {
 	private void setFields() {
 		nameField.setText(connection.getPerson().getName());
 		descriptionField.setText(connection.getDescription());
-		setImageField(connection.getPerson().getImageName());
+
+		String imagePath = connection.getPerson().getImageName();
+        if (! imagePath.endsWith(".png")) {
+            imagePath += ".png";
+        }
+
+		setImageField(new File(imagePath));
 
 		deleteButton.setDisable(false);
 		if (isChosen()) {

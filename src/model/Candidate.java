@@ -342,8 +342,8 @@ public class Candidate extends Person {
 
 
 	public Integer getCountyId() {
-		String gender = county;
-		switch (gender) {
+		String county1 = county;
+		switch (county1) {
 			case  "Sør-Trøndelag":
 				return 0;
 			case  "Oslo og Akershus":

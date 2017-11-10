@@ -196,6 +196,49 @@ public class CandidateController {
         return "";
     }
 
+    private int setCountyChoice(Candidate candidate) {
+        String gender = candidate.getCounty();
+        switch (gender) {
+            case  "Sør-Trøndelag":
+                return 1;
+            case  "Oslo og Akershus":
+                return 2;
+            case  "Hordaland":
+                return 3;
+            case  "Finnmark":
+                return 4;
+            case  "Østfold":
+                return 5;
+            case  "Hedmark":
+                return 6;
+            case  "Oppland":
+                return 7;
+            case  "Buskerud":
+                return 8;
+            case  "Vestfold":
+                return 9;
+            case  "Telemark":
+                return 10;
+            case  "Aust-Agder":
+                return 11;
+            case  "Vest-Agder":
+                return 12;
+            case  "Rogaland":
+                return 13;
+            case  "Sogn og fjordane":
+                return 14;
+            case  "Møre og romsdal":
+                return 15;
+            case  "Nord-Trøndelag":
+                return 16;
+            case  "Nordland":
+                return 17;
+            case  "Troms":
+                return 18;
+        }
+        return 0;
+    }
+
 
     private int setGenderChoice(Candidate candidate) {
         String gender = candidate.getGender();
@@ -463,6 +506,7 @@ public class CandidateController {
         rankField.setText(Integer.toString(candidate.getRank()));
         previousYearRankField.setText(Integer.toString(candidate.getPreviousYearRank()));
         genderChoiceBox.getSelectionModel().select(setGenderChoice(candidate));
+        countyChoiceBox.getSelectionModel().select(setCountyChoice(candidate));
         descriptionField.setText(candidate.getDescription());
         yearOfBirthField.setText(candidate.getYearOfBirth());
         twitterField.setText(candidate.getTwitter());
@@ -493,6 +537,7 @@ public class CandidateController {
         yearOfBirthField.setText("");
         twitterField.setText("");
         professionField.setText("");
+        countyChoiceBox.setValue("--");
     }
 
     private void setImageField(File file) {

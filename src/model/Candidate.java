@@ -53,6 +53,7 @@ public class Candidate extends Person {
 	public Candidate(String name, int rank) {
 		super(name, null);
 		this.rank = new SimpleIntegerProperty(rank);
+		this.previousYearRank = new SimpleIntegerProperty(-1);
 		this.status = "";
 	}
 
@@ -264,6 +265,10 @@ public class Candidate extends Person {
 	}
 
 	private String validatePreviousYearRank(String rankString) {
+		if (rankString.equals("")) {
+			return "";
+		}
+
 		try {
 			int rank = Integer.parseInt(rankString);
 			if (rank < 1 || rank > 100) {
@@ -295,6 +300,13 @@ public class Candidate extends Person {
 		fieldStatus[8] = 0;
 		return "";
 	}
+
+	public boolean hasPreviousYearRank() {
+	    if (previousYearRank.get() == -1) {
+	        return false;
+        }
+        return true;
+    }
 
 	public void addRawData(String field, JsonElement data) {
 		this.rawData.add(field, data);

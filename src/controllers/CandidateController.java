@@ -23,6 +23,7 @@ import model.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -365,9 +366,13 @@ public class CandidateController {
         int rank = Integer.parseInt(rankField.getText());
         candidate.setRank(new SimpleIntegerProperty(rank));
 
-        int previousYearRank = Integer.parseInt(previousYearRankField.getText());
-        candidate.setPreviousYearRank(new SimpleIntegerProperty(previousYearRank));
-        
+        try {
+            int previousYearRank = Integer.parseInt(previousYearRankField.getText());
+            candidate.setPreviousYearRank(new SimpleIntegerProperty(previousYearRank));
+        } catch (Exception e) {
+            System.out.println("PreviousYearRankField is not filled out: " + e);
+        }
+
         String newYearOfBirth = yearOfBirthField.getText();
         candidate.setYearOfBirth(newYearOfBirth);
         
@@ -441,7 +446,9 @@ public class CandidateController {
         nameField.setText(candidate.getName());
         municipalityField.setText(candidate.getMunicipality());
         rankField.setText(Integer.toString(candidate.getRank()));
-        previousYearRankField.setText(Integer.toString(candidate.getPreviousYearRank()));
+        if (candidate.hasPreviousYearRank()) {
+            previousYearRankField.setText(Integer.toString(candidate.getPreviousYearRank()));
+        }
         genderChoiceBox.getSelectionModel().select(setGenderChoice(candidate));
         descriptionField.setText(candidate.getDescription());
         yearOfBirthField.setText(candidate.getYearOfBirth());
@@ -484,7 +491,7 @@ public class CandidateController {
         int nextCandidateRank = ScoringList.getOrCreateInstance().getCandidates().size() + 1;
 
         rankField.setText(Integer.toString(nextCandidateRank));
-        candidate = new Candidate("", nextCandidateRank, 0);
+        candidate = new Candidate("", nextCandidateRank);
         ScoringList.getOrCreateInstance().addCandidate(candidate);
     }
 

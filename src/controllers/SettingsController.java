@@ -73,12 +73,6 @@ public class SettingsController {
 		mainApp.showEditListView();
 	}
 
-	//this is the function that is supposed to spawn a file chooser and update the filepath for required files
-	// TODO
-	@FXML
-	private void handleLoadFile(ActionEvent event) throws IOException {
-		System.out.println("event " + event);
-	}
 
 	public void refreshRegisterSelectors(List<DataSourceInterface> dsList) {
 		// Loops trough all DataSources. not quite sure why this needs to start at 1, but it looks a whole lot prettier

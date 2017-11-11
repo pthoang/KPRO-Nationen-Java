@@ -189,7 +189,7 @@ public class ScoringListController {
 
         for (Candidate candidate : scoringList.getCandidates()) {
             JsonObject jsonCandidate = new JsonObject();
-            jsonCandidate.addProperty("firstname", candidate.getName());
+            jsonCandidate.addProperty("fullName", candidate.getName());
             jsonCandidate.addProperty("img", candidate.getBucketImageURL());
             jsonCandidate.addProperty("key", candidate.getRank());
             jsonCandidate.addProperty("lastYear", candidate.getPreviousYearRank());

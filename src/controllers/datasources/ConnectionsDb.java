@@ -45,7 +45,7 @@ public class ConnectionsDb {
             candidateNode.addProperty("description", "");
             JsonObject candidateNodeObject = new JsonObject();
             candidateNodeObject.add("data", candidateNode);
-            nodes.add(candidateNode);
+            nodes.add(candidateNodeObject);
 
             //
             int i = 2;

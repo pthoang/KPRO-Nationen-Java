@@ -60,7 +60,7 @@ public class Person {
 	public String getBucketImageURL() {
 		String bucketPath = AmazonBucketUploader.getOrCreateInstance().getBucketPath();
 		// TODO: not sure
-		return bucketPath + "/" + imageName.getName() + ".png";
+		return bucketPath + "/" + imageName.get() + ".png";
 	}
 
 }

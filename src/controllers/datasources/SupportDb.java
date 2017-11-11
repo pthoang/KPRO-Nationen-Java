@@ -46,7 +46,7 @@ public class SupportDb implements DataSourceInterface {
             //gets all organization id numbers
             ArrayList<String> org = new ArrayList<String>();
             for (JsonElement stock : dataToAnalyze) {
-                org.add(stock.getAsJsonObject().get("orgNo").getAsString());
+                org.add(stock.getAsJsonObject().get("id").getAsString());
             }
 
 
@@ -135,9 +135,9 @@ public class SupportDb implements DataSourceInterface {
             candidate.addRawData("subsidies", subsidiesArray);
         }
 
-//        ConnectionsDb connectionsDb = new ConnectionsDb();
-//        connectionsDb.setConnections(candidates);
-//        System.out.println(candidates);
+        ConnectionsDb connectionsDb = new ConnectionsDb();
+        connectionsDb.setConnections(candidates);
+        System.out.println(candidates);
     }
 
     @Override

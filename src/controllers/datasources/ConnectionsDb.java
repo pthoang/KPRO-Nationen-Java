@@ -60,7 +60,7 @@ public class ConnectionsDb {
                     for(JsonElement stock1 : candidatesStocks){
                         Boolean candidateAdded = false;
                         for(JsonElement stock2 : otherCandidateStocks){
-                            if(stock1.getAsJsonObject().get("orgNo").equals(stock2.getAsJsonObject().get("orgNo"))){
+                            if(stock1.getAsJsonObject().get("id").equals(stock2.getAsJsonObject().get("id"))){
                                 String newId = Integer.toString(i) + "s";
                                 JsonObject dataNode = new JsonObject();
                                 dataNode.addProperty("id", newId);

@@ -198,10 +198,10 @@ public class ScoringListController {
             jsonCandidate.addProperty("residence", candidate.getMunicipality());
             jsonCandidate.addProperty("twitterAcnt", candidate.getTwitter());
             jsonCandidate.addProperty("bio", candidate.getDescription());
-            jsonCandidate.addProperty("subsidies", candidate.getRawData().get("subsidies").toString());
-            jsonCandidate.addProperty("stocks", candidate.getRawData().get("stocks").toString());
+            jsonCandidate.add("subsidies", candidate.getRawData().get("subsidies"));
+            jsonCandidate.add("stocks", candidate.getRawData().get("stocks"));
 
-            jsonCandidate.addProperty("elements", candidate.getElements().toString());
+            jsonCandidate.add("elements", candidate.getElements());
 
             people.add(jsonCandidate);
         }

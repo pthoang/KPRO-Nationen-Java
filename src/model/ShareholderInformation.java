@@ -7,38 +7,38 @@ import java.math.BigInteger;
  */
 public class ShareholderInformation {
 
-    private String orgNo;
-    private String orgName;
-    private BigInteger totalStocks;
-    private int candidateStocks;
-    private String yearOfBirth;
+    private int id;
+    private String company;
+    private BigInteger numStocksCompany;
+    private int numStocks;
+    private String candidateYearOfBirth;
 
 
-    public ShareholderInformation(String orgNo, String orgName, BigInteger totalStocks, int candidateStocks,
+    public ShareholderInformation(int id, String company, BigInteger numStocksCompany, int numStocks,
                                   String yearOfBirth) {
 
-        this.orgNo = orgNo;
-        this.orgName = orgName;
-        this.totalStocks = totalStocks;
-        this.candidateStocks = candidateStocks;
-        this.yearOfBirth = yearOfBirth;
+        this.id = id;
+        this.company = company;
+        this.numStocksCompany = numStocksCompany;
+        this.numStocks = numStocks;
+        this.candidateYearOfBirth = yearOfBirth;
 
     }
 
-    public String getOrgNo() {
-        return this.orgNo;
+    public int getId() {
+        return this.id;
     }
 
-    public String getOrgName() {
-        return this.orgName;
+    public String getCompany() {
+        return this.company;
     }
 
-    public BigInteger getTotalStocks() {
-        return this.totalStocks;
+    public BigInteger getNumStocksCompany() {
+        return this.numStocksCompany;
     }
 
-    public int getCandidateStocks() {
-        return this.candidateStocks;
+    public int getNumStocks() {
+        return this.numStocks;
     }
 
 

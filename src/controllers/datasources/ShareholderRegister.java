@@ -74,7 +74,8 @@ public class ShareholderRegister implements DataSourceInterface {
 
                 if(candidateShareholderInformation.containsKey(shareholderKey)) {
                     ShareholderInformation shareholderInformation =
-                            new ShareholderInformation(information[orgNoIndex], information[orgNameIndex],
+                            new ShareholderInformation(Integer.parseInt(information[orgNoIndex]),
+                                    information[orgNameIndex],
                                     new BigInteger(information[totalStocksIndex]),
                                     Integer.parseInt(information[stocksCandidateIndex]),
                                     information[yearOfBirthIndex]);

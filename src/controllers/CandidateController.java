@@ -197,8 +197,8 @@ public class CandidateController {
     }
 
     private int setCountyChoice(Candidate candidate) {
-        String gender = candidate.getCounty();
-        switch (gender) {
+        String countie = candidate.getCounty();
+        switch (countie) {
             case  "Sør-Trøndelag":
                 return 1;
             case  "Oslo og Akershus":

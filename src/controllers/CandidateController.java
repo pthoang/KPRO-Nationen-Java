@@ -163,6 +163,8 @@ public class CandidateController {
 
         genderChoiceBox.getItems().addAll(GENDER_CHOICES);
         genderChoiceBox.setValue("");
+
+        setTooltips();
     }
 
     private void disableButtons(boolean disable) {
@@ -593,5 +595,4 @@ public class CandidateController {
             }
         });
     }
-
 }

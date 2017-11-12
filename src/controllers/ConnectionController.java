@@ -7,13 +7,13 @@ import java.io.IOException;
 import javafx.scene.image.ImageView;
 
 import javax.imageio.ImageIO;
-
-import Main.MainApp;
+import javafx.scene.control.Tooltip;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import Main.MainApp;
 import model.*;
 
 public class ConnectionController {
@@ -42,7 +42,7 @@ public class ConnectionController {
 	private MainApp mainApp;
 	private CandidateController parent;
 
-	private Image newImage;
+	private Image newImage = new Image("src/resources/style/standard.png");
 	private String imageURL = "src/resources/style/standard.png";
 
 
@@ -195,5 +195,7 @@ public class ConnectionController {
             throw new RuntimeException(e);
         }
     }
+
+
 }
 

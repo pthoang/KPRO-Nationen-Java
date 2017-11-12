@@ -56,13 +56,13 @@ public class AddJuryController {
 
     public AddJuryController(){
         mainApp = MainApp.getInstance();
-        setImageField(new File("resources/standard.png"));
+        setImageField(new File("src/resources/style/standard.png"));
         jury = Jury.getOrCreateInstance();
     }
 
     @FXML
     public void initialize() {
-        setImageField(new File("resources/standard.png"));
+        setImageField(new File("src/resources/style/standard.png"));
         String description = jury.getDescription();
         if (description != null) {
             descriptionField.setText(description);

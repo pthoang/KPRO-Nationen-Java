@@ -43,7 +43,7 @@ public class ConnectionController {
 	private CandidateController parent;
 
 	private Image newImage;
-	private String imageURL = "resources/standard.png";
+	private String imageURL = "src/resources/style/standard.png";
 
 
 	public ConnectionController() {

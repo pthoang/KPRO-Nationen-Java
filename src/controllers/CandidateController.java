@@ -153,9 +153,6 @@ public class CandidateController {
 
         countyChoiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             disableButtons(false);
-            boolean isPerson = newValue.intValue() == 3;
-            disableFieldsIfNotPerson(isPerson);
-
         });
 
         descriptionField.textProperty().addListener((observable, oldValue, newValue) -> {

@@ -163,8 +163,6 @@ public class CandidateController {
 
         genderChoiceBox.getItems().addAll(GENDER_CHOICES);
         genderChoiceBox.setValue("");
-
-        setTooltips();
     }
 
     private void disableButtons(boolean disable) {
@@ -523,6 +521,8 @@ public class CandidateController {
         }
 
         ConnectionController connectionController = loader.getController();
+        System.out.println("ConnectionController: " + connectionController);
+        System.out.println("Candidate: " + candidate);
         connectionController.setCandidate(candidate);
         connectionController.setConnection(connection);
 

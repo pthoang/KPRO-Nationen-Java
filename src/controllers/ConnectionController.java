@@ -11,8 +11,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import model.*;
 import Main.MainApp;
+import model.*;
 
 
 public class ConnectionController {
@@ -42,7 +42,7 @@ public class ConnectionController {
 	private CandidateController parent;
 
 	private Image newImage;
-	private String imageURL = "resources/standard.png";
+	private String imageURL = "src/resources/style/standard.png";
 
 
 	public ConnectionController() {

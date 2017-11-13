@@ -65,7 +65,8 @@ public class Candidate extends Person {
 		this.description.setValue(despcription);
 	}
 
-	//appends test organizations
+	// TODO: delete after testing
+	// appends test organizations
 	public void testOrg() {
 		JsonObject testData1 = new JsonObject();
 		JsonObject testData2 = new JsonObject();
@@ -138,8 +139,6 @@ public class Candidate extends Person {
 	 *
 	 * @return String The municipality
 	 */
-
-
 	public String getMunicipality() {
 		return municipality.get();
 	}
@@ -236,10 +235,9 @@ public class Candidate extends Person {
 
 	public void setTitle(String title) { this.title = title; }
 
-	// Validation
 	public String validate(String name, String rank, String previousYearRank, String gender, String description) {
 		String errorMessage = "";
-		errorMessage += super.validateName(name);
+		errorMessage += Utility.validateName(name);
 
 		errorMessage += validateRank(rank);
 		errorMessage += validatePreviousYearRank(previousYearRank);

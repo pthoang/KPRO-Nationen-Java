@@ -21,7 +21,7 @@ public class DataSources {
         StortingetDb stortingetDb = new StortingetDb();
         dsList.add(stortingetDb);
 
-        //initializes the supportDb
+        // Initializes the supportDb
         SupportDb supportDb = new SupportDb();
         dsList.add(supportDb);
 

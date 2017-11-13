@@ -1,14 +1,15 @@
 package model;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.regex.Pattern;
+
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.Alert;
 import javafx.scene.image.WritableImage;
 
 import javax.imageio.ImageIO;
-import java.io.File;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.regex.Pattern;
 
 public class Utility {
 
@@ -50,5 +51,4 @@ public class Utility {
             return null;
         }
     }
-
 }

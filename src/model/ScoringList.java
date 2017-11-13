@@ -74,6 +74,7 @@ public class ScoringList {
 	public String getAboutTheScoring() {
 		return aboutTheScoring;
 	}
+
 	private void readNameList(Stream<String> stream) throws IOException {
 		final AtomicInteger rank = new AtomicInteger(1);
 		stream.forEach((name) -> {

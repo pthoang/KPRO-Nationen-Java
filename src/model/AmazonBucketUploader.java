@@ -78,6 +78,7 @@ public class AmazonBucketUploader {
 
 	public void uploadFile(File file, String fileName) {
 		PutObjectRequest por = getPor(file, fileName);
+		por.setCannedAcl(CannedAccessControlList.PublicRead);
 		try {
 			s3Client.putObject(por);
 		} catch (AmazonS3Exception e) {
@@ -104,7 +105,7 @@ public class AmazonBucketUploader {
 		AmazonS3 news3Client = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(creds)).withRegion("us-east-2").build();
 
 		// TODO: maybe delete it afterwards, if it doesn't write it self over each time
-		PutObjectRequest por = getPor(new File("resources/standard.png"), "standard.pgn");
+		PutObjectRequest por = getPor(new File("src/resources/style/standard.png"), "standard.pgn");
 		try {
 			news3Client.putObject(por);
 			isAccesible = true;

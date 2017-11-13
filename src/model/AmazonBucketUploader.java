@@ -78,6 +78,7 @@ public class AmazonBucketUploader {
 
 	public void uploadFile(File file, String fileName) {
 		PutObjectRequest por = getPor(file, fileName);
+		por.setCannedAcl(CannedAccessControlList.PublicRead);
 		try {
 			s3Client.putObject(por);
 		} catch (AmazonS3Exception e) {

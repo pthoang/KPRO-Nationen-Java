@@ -41,18 +41,4 @@ public class EditListController {
 		return candidate;
 	}
 
-	// TODO: can be made more complex
-    /*
-	public boolean nameExistInList(String name) {
-		for (int i = 0; i < candidates.size(); i++) {
-			Candidate c = candidates.get(i);
-			String candidateName = c.getName();
-			if (name.equals(candidateName) && candidate != c) {
-				return true;
-			}
-		}
-		return false;
-	}
-	*/
-
 }

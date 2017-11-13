@@ -16,9 +16,8 @@ import com.google.gson.*;
 public class ScoringList {
 
 	private static ScoringList instance = null;
+	private SimpleIntegerProperty year;
 
-	private final SimpleIntegerProperty year;
-	private String aboutTheScoring;
 	private ObservableList<Candidate> candidates;
 
 
@@ -67,13 +66,6 @@ public class ScoringList {
 		candidates.remove(candidate);
 	}
 
-	public void setAboutTheScoring(String aboutTheScoring) {
-		this.aboutTheScoring = aboutTheScoring;
-	}
-
-	public String getAboutTheScoring() {
-		return aboutTheScoring;
-	}
 	private void readNameList(Stream<String> stream) throws IOException {
 		final AtomicInteger rank = new AtomicInteger(1);
 		stream.forEach((name) -> {

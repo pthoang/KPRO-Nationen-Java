@@ -13,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import Main.MainApp;
 import model.*;
-import Main.MainApp;
 
 
 public class ConnectionController {

@@ -9,19 +9,11 @@ import javafx.fxml.FXML;
 import javax.imageio.ImageIO;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
-import javafx.scene.input.MouseEvent;
-<<<<<<< HEAD
 
 import Main.MainApp;
 import model.JuryMember;
 import model.Jury;
 import model.AmazonBucketUploader;
-=======
-import javax.imageio.ImageIO;
-
-import Main.MainApp;
-import model.*;
->>>>>>> development
 
 public class AddJuryController {
 

@@ -1,7 +1,5 @@
 package model;
 
-import controllers.ScoringListController;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -80,8 +78,6 @@ public class Settings {
 		this.folderName = folderName;
 	}
 
-	// TODO: remove after testing
-	// Just under testing
 	private void setDefaultKeys() {
 		try (Stream<String> stream = Files.lines(Paths.get("rootkey.csv"))) {
 			List<String> keys = stream.collect(Collectors.toList());

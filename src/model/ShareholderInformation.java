@@ -2,9 +2,6 @@ package model;
 
 import java.math.BigInteger;
 
-/**
- * Created by vicen on 08-Nov-17.
- */
 public class ShareholderInformation {
 
     private String orgNo;

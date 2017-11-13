@@ -32,7 +32,7 @@ public class AboutController {
     private Text readTextFromFile() {
         String about = "";
         try {
-            BufferedReader br = new BufferedReader(new FileReader("resources/About.txt"));
+            BufferedReader br = new BufferedReader(new FileReader("src/resources/texts/About.txt"));
 
             while (br.readLine() != null) {
                 about += br.readLine();

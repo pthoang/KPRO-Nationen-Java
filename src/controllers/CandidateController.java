@@ -299,6 +299,7 @@ public class CandidateController {
     public void handleNewCandidate() {
         cleanFields();
         createAndAddEmptyCandidate();
+        ScoringListController.getOrCreateInstance().refreshTable();
     }
 
     @FXML
@@ -427,7 +428,6 @@ public class CandidateController {
     private void handleErrorMessage(String errorMessage) {
         if (errorMessage.length() != 0) {
             candidate.setStatus("invalidFields");
-            setColorsOnFields();
             String headerText = "Felter til kandidaten er ikke korrekt utfylt.";
             Utility.newAlertError(headerText, errorMessage);
             setColorsOnFields();
@@ -465,7 +465,7 @@ public class CandidateController {
     }
 
     private void cleanFields() {
-        String standardImagePath = "resources/standard.png";
+        String standardImagePath = "src/resources/style/standard.png";
         File file = new File(standardImagePath);
         setImageField(file);
 
@@ -525,7 +525,7 @@ public class CandidateController {
         connectionController.setConnection(connection);
 
         Scene dialogScene = new Scene(connectionView);
-        dialogScene.getStylesheets().add(this.getClass().getResource("../style.css").toExternalForm());
+        dialogScene.getStylesheets().add(this.getClass().getResource("/resources/style/style.css").toExternalForm());
         dialog.setScene(dialogScene);
         connectionDialog = dialog;
         if (open || connection != null) {
@@ -593,5 +593,4 @@ public class CandidateController {
             }
         });
     }
-
 }

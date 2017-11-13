@@ -36,7 +36,7 @@ public class UserManualController {
     private Text readTextFromFile() {
         String about = "";
         try {
-            BufferedReader br = new BufferedReader(new FileReader("resources/UserManual.txt"));
+            BufferedReader br = new BufferedReader(new FileReader("src/resources/texts/UserManual.txt"));
 
             while (br.readLine() != null) {
                 about += br.readLine();

@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 public class Person {
 	
 	protected SimpleStringProperty name;
-	private SimpleStringProperty imageName = new SimpleStringProperty("resources/standard.png");
+	private SimpleStringProperty imageName = new SimpleStringProperty("src/resources/style/standard.png");
 	
 	public Person(String name, String imageName) {
 		this.name = new SimpleStringProperty(name);
@@ -28,7 +28,7 @@ public class Person {
 	 * Returns the local imageName
 	 */
 	public String getImageName() {
-		if (! imageName.get().equals("resources/standard.png")) {
+		if (! imageName.get().equals("src/resources/style/standard.png")) {
 			return "images/" + imageName.get();
 		}
 		return imageName.get();

@@ -299,6 +299,7 @@ public class CandidateController {
     public void handleNewCandidate() {
         cleanFields();
         createAndAddEmptyCandidate();
+        ScoringListController.getOrCreateInstance().refreshTable();
     }
 
     @FXML
@@ -464,7 +465,7 @@ public class CandidateController {
     }
 
     private void cleanFields() {
-        String standardImagePath = "resources/standard.png";
+        String standardImagePath = "src/resources/style/standard.png";
         File file = new File(standardImagePath);
         setImageField(file);
 
@@ -524,7 +525,7 @@ public class CandidateController {
         connectionController.setConnection(connection);
 
         Scene dialogScene = new Scene(connectionView);
-        dialogScene.getStylesheets().add(this.getClass().getResource("../style.css").toExternalForm());
+        dialogScene.getStylesheets().add(this.getClass().getResource("/resources/style/style.css").toExternalForm());
         dialog.setScene(dialogScene);
         connectionDialog = dialog;
         if (open || connection != null) {
@@ -592,5 +593,4 @@ public class CandidateController {
             }
         });
     }
-
 }

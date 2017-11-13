@@ -3,19 +3,16 @@ package controllers;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
-import Main.MainApp;
-
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
-import model.*;
 import javafx.scene.input.MouseEvent;
-
 import javax.imageio.ImageIO;
 
+import Main.MainApp;
+import model.*;
 
 public class AddJuryController {
 
@@ -43,8 +40,9 @@ public class AddJuryController {
     private Jury jury;
     private MainApp mainApp;
     private File imageFile;
-    private Image newImage;
+    private Image newImage = null;
     private static AddJuryController instance = null;
+    private final String STANDARD_IMAGE_URL = "src/resources/style/standard.png";
 
 
     public static AddJuryController getOrCreateInstance() {
@@ -56,13 +54,13 @@ public class AddJuryController {
 
     public AddJuryController(){
         mainApp = MainApp.getInstance();
-        setImageField(new File("resources/standard.png"));
+        setImageField(new File(STANDARD_IMAGE_URL));
         jury = Jury.getOrCreateInstance();
     }
 
     @FXML
     public void initialize() {
-        setImageField(new File("resources/standard.png"));
+        setImageField(new File(STANDARD_IMAGE_URL));
         String description = jury.getDescription();
         if (description != null) {
             descriptionField.setText(description);
@@ -93,7 +91,7 @@ public class AddJuryController {
         saveDescriptionButton.setDisable(true);
     }
 
-    public void disableButtons(boolean disable) {
+    private void disableButtons(boolean disable) {
         addJuryMemberButton.setDisable(disable);
         deleteJuryMemberButton.setDisable(disable);
     }
@@ -119,6 +117,7 @@ public class AddJuryController {
     public void handleAddJuryMember() {
         String name = nameField.getText();
         String imageName = name.replace(" ", "");
+        saveImageToFile(imageName);
         AmazonBucketUploader.getOrCreateInstance().uploadFile(imageFile, imageName);
         String title = titleField.getText();
         JuryMember member = new JuryMember(name, imageName, title);
@@ -175,6 +174,16 @@ public class AddJuryController {
         if (event.getClickCount() == 2) {
             JuryMember juryMember = juryMembersTable.getSelectionModel().getSelectedItem();
             setFields(juryMember);
+        }
+    }
+
+    private void saveImageToFile(String imageName) {
+        File outputFile = new File("images/" + imageName + ".png");
+        BufferedImage bImage  = SwingFXUtils.fromFXImage(newImage, null);
+        try {
+            ImageIO.write(bImage, "png", outputFile);
+        } catch (IOException e) {
+            System.out.println("Exception when saving image to file: " + e);
         }
     }
 

@@ -79,10 +79,12 @@ public class MainApp extends Application {
 		showEditListView();
 		
 		// TODO: Only during testing
-		scoringList.createFromNameList("resources/NameListTest.txt");
+
+		scoringList.createFromNameList("src/resources/NameListTest.txt");
 		ScoringListController.getOrCreateInstance().fillTable();
 		Candidate firstCandidate = scoringList.getCandidates().get(0);
 		CandidateController.getOrCreateInstance().setCandidate(firstCandidate);
+
 	}
 
 	/**
@@ -100,7 +102,7 @@ public class MainApp extends Application {
 
 			// Show the scene containing the root layout.
 			Scene scene = new Scene(rootLayout);
-			scene.getStylesheets().add(this.getClass().getResource("../style.css").toExternalForm());
+			scene.getStylesheets().add(this.getClass().getResource("/resources/style/style.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch (IOException e) {

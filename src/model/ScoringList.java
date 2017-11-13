@@ -1,11 +1,13 @@
 package model;
 
 import java.io.IOException;
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
@@ -40,11 +42,9 @@ public class ScoringList {
 	}
 
 	public void createFromNameList(String filePath) {
-		try (Stream<String> stream = Files.lines(Paths.get(filePath))) {
-			readNameList(stream);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} 
+		File file = Utility.getResourcesFile(filePath);;
+		readNameList(file);
+
 	}
 
 	public void createFromPreviousList(String filePath) {
@@ -75,13 +75,18 @@ public class ScoringList {
 		return aboutTheScoring;
 	}
 
-	private void readNameList(Stream<String> stream) throws IOException {
+	private void readNameList(File file) {
 		final AtomicInteger rank = new AtomicInteger(1);
-		stream.forEach((name) -> {
-			Candidate candidate = new Candidate(name, rank.get());
-			candidates.add(candidate);
-			rank.incrementAndGet();		
-		});
+		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+			String name;
+			while ((name = br.readLine()) != null) {
+				Candidate candidate = new Candidate(name, rank.get());
+				candidates.add(candidate);
+				rank.incrementAndGet();
+			}
+		} catch (IOException e) {
+			System.out.println("Could not read list of names from file: " + e);
+		}
 	}
 
 	private void readJson(String filepath) throws IOException {

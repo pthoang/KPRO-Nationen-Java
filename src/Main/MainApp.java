@@ -54,7 +54,7 @@ public class MainApp extends Application {
 	public void showJuryAdmin() {
 		try {
 			FXMLLoader loader= new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("../view/JuryAdmin.fxml"));
+			loader.setLocation(MainApp.class.getResource("/view/JuryAdmin.fxml"));
 			GridPane JuryAdminView = (GridPane) loader.load();
 			rootLayout.setCenter(JuryAdminView);
 			addjurycontroller = loader.getController();
@@ -80,7 +80,7 @@ public class MainApp extends Application {
 		
 		// TODO: Only during testing
 
-		scoringList.createFromNameList("src/resources/NameListTest.txt");
+		scoringList.createFromNameList("/resources/NameListTest.txt");
 
 		ScoringListController.getOrCreateInstance().fillTable();
 		Candidate firstCandidate = scoringList.getCandidates().get(0);
@@ -95,7 +95,7 @@ public class MainApp extends Application {
 		try {
 			// Load root layout from fxml file.
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("../view/RootLayout2.fxml"));
+			loader.setLocation(MainApp.class.getResource("/view/RootLayout2.fxml"));
 			rootLayout = loader.load();
 
 			RootController rootController = loader.getController();
@@ -117,7 +117,7 @@ public class MainApp extends Application {
 	public void showEditListView() {
 		try {
 			FXMLLoader loader= new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("../view/EditListView.fxml"));
+			loader.setLocation(MainApp.class.getResource("/view/EditListView.fxml"));
 			GridPane editListView = loader.load();
 			rootLayout.setCenter(editListView);
 
@@ -137,7 +137,7 @@ public class MainApp extends Application {
 	public void showAboutView() {
 		try {
 			FXMLLoader loader= new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("../view/AboutView.fxml"));
+			loader.setLocation(MainApp.class.getResource("/view/AboutView.fxml"));
 			GridPane aboutView = loader.load();
 
 			rootLayout.setCenter(aboutView);
@@ -156,7 +156,7 @@ public class MainApp extends Application {
 	public void showSettingsView() {
 		try {
 			FXMLLoader loader= new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("../view/SettingsView2.fxml"));
+			loader.setLocation(MainApp.class.getResource("/view/SettingsView2.fxml"));
 			GridPane settingsView = loader.load();
 			rootLayout.setCenter(settingsView);
 
@@ -177,7 +177,7 @@ public class MainApp extends Application {
 	public void showUserManualView() {
 		try {
 			FXMLLoader loader= new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("../view/UserManual.fxml"));
+			loader.setLocation(MainApp.class.getResource("/view/UserManual.fxml"));
 			GridPane userManualView = loader.load();
 			rootLayout.setCenter(userManualView);
 

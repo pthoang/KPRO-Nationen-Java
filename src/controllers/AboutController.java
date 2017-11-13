@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.text.TextFlow;
 import javafx.collections.ObservableList;
 import javafx.scene.text.Text;
+import model.Utility;
 
 import java.awt.*;
 import java.io.*;
@@ -30,7 +31,7 @@ public class AboutController {
     private Text readTextFromFile() {
         StringBuilder about = new StringBuilder();
         try {
-            BufferedReader br = new BufferedReader(new FileReader("src/resources/texts/About.txt"));
+            BufferedReader br = new BufferedReader(new FileReader(Utility.getResourcesFile("resources/texts/About.txt")));
 
             while (br.readLine() != null) {
                 about.append(br.readLine());

@@ -1,12 +1,11 @@
 package model;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Calendar;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.io.File;
+
 
 public class Settings {
 
@@ -79,12 +78,21 @@ public class Settings {
 	}
 
 	private void setDefaultKeys() {
-		try (Stream<String> stream = Files.lines(Paths.get("src/resources/rootkey.csv"))) {
-			List<String> keys = stream.collect(Collectors.toList());
-			bucketAccessKey = keys.get(0).split("=")[1];
-			bucketSecretKey = keys.get(1).split("=")[1];
+		System.out.println("");
+		File keysFile = Utility.getResourcesFile("/resources/rootkey.csv");
+		try (BufferedReader br = new BufferedReader(new FileReader(keysFile))) {
+			String key;
+			while ((key = br.readLine()) != null) {
+				if (key.startsWith("AWSAccessKeyId")) {
+					bucketAccessKey = key.split("=")[1];
+				} else if (key.startsWith("AWSSecretKey")) {
+					bucketSecretKey = key.split("=")[1];
+				} else {
+					System.out.println("Is not a key");
+				}
+			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Could not read list of names from file: " + e);
 		}
 	}
 }

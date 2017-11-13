@@ -10,6 +10,7 @@ import java.io.FileReader;
 import javafx.scene.text.TextFlow;
 
 import javafx.collections.ObservableList;
+import model.Utility;
 
 public class UserManualController {
 
@@ -36,7 +37,7 @@ public class UserManualController {
     private Text readTextFromFile() {
         String about = "";
         try {
-            BufferedReader br = new BufferedReader(new FileReader("src/resources/texts/UserManual.txt"));
+            BufferedReader br = new BufferedReader(new FileReader(Utility.getResourcesFile("src/resources/texts/UserManual.txt")));
 
             while (br.readLine() != null) {
                 about += br.readLine();

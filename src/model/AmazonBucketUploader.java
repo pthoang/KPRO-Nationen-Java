@@ -2,11 +2,9 @@ package model;
 
 import java.io.File;
 
-import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
 
@@ -105,7 +103,7 @@ public class AmazonBucketUploader {
 		AmazonS3 news3Client = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(creds)).withRegion("us-east-2").build();
 
 		// TODO: maybe delete it afterwards, if it doesn't write it self over each time
-		PutObjectRequest por = getPor(new File("src/resources/style/standard.png"), "standard.pgn");
+		PutObjectRequest por = getPor(new File(getClass().getClassLoader().getResource("/resources/style/standard.png").getFile()), "standard.pgn");
 		try {
 			news3Client.putObject(por);
 			isAccesible = true;
@@ -121,8 +119,9 @@ public class AmazonBucketUploader {
 
     public File getFileFromBucket(String fileName) {
         GetObjectRequest getObjReq = new GetObjectRequest(folderName, fileName);
-	    s3Client.getObject(getObjReq, new File("images/" + fileName));
-        return new File("images/" + fileName);
+        File file = Utility.getResourcesFile("images/" + fileName);
+	    s3Client.getObject(getObjReq, file);
+        return file;
     }
 
     public String getBucketPath() {

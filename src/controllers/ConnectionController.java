@@ -42,7 +42,7 @@ public class ConnectionController {
 	private CandidateController parent;
 
 	private Image newImage;
-	private String imageURL = "src/resources/style/standard.png";
+	private String imageURL = Utility.STANDARD_IMAGE_PATH;
 
 
 	public ConnectionController() {
@@ -60,7 +60,7 @@ public class ConnectionController {
 		if (connection != null) {
 			setFields();
 		} else {
-			setImageField(new File(imageURL));
+			setImageField(Utility.getResourcesFile(Utility.STANDARD_IMAGE_PATH));
 			saveButton.setDisable(true);
 		}
 	}
@@ -126,8 +126,8 @@ public class ConnectionController {
             Person person = new Person(nameField.getText(), imageName);
 
 			candidate.addConnection(person, descriptionField.getText());
-			saveImageToFile(imageName);
-			AmazonBucketUploader.getOrCreateInstance().uploadFile(new File(imageURL), imageName);
+			//saveImageToFile(imageName);
+			AmazonBucketUploader.getOrCreateInstance().uploadFile(Utility.getResourcesFile(imageURL), imageName);
 		} else {
 			connection.getPerson().setName(nameField.getText());
 			connection.setDescription(descriptionField.getText());
@@ -181,7 +181,7 @@ public class ConnectionController {
 	}
 
 	private void saveImageToFile(String imageName) {
-        File outputFile = new File("images/" + imageName + ".png");
+        File outputFile = Utility.getResourcesFile("images/" + imageName + ".png");
         BufferedImage bImage = SwingFXUtils.fromFXImage(newImage, null);
 
         try {

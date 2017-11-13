@@ -14,6 +14,7 @@ import Main.MainApp;
 import model.JuryMember;
 import model.Jury;
 import model.AmazonBucketUploader;
+import model.Utility;
 
 public class AddJuryController {
 
@@ -43,7 +44,6 @@ public class AddJuryController {
     private File imageFile;
     private Image newImage = null;
     private static AddJuryController instance = null;
-    private final String STANDARD_IMAGE_URL = "src/resources/style/standard.png";
 
 
     public static AddJuryController getOrCreateInstance() {
@@ -55,13 +55,13 @@ public class AddJuryController {
 
     public AddJuryController(){
         mainApp = MainApp.getInstance();
-        setImageField(new File(STANDARD_IMAGE_URL));
+        setImageField(Utility.getResourcesFile(Utility.STANDARD_IMAGE_PATH));
         jury = Jury.getOrCreateInstance();
     }
 
     @FXML
     public void initialize() {
-        setImageField(new File(STANDARD_IMAGE_URL));
+        setImageField(Utility.getResourcesFile(Utility.STANDARD_IMAGE_PATH));
         String description = jury.getDescription();
         if (description != null) {
             descriptionField.setText(description);
@@ -120,7 +120,7 @@ public class AddJuryController {
     public void handleAddJuryMember() {
         String name = nameField.getText();
         String imageName = name.replace(" ", "");
-        saveImageToFile(imageName);
+        //saveImageToFile(imageName);
         AmazonBucketUploader.getOrCreateInstance().uploadFile(imageFile, imageName);
         String title = titleField.getText();
         JuryMember member = new JuryMember(name, imageName, title);

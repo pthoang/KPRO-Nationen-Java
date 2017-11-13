@@ -11,7 +11,11 @@ import javafx.scene.image.WritableImage;
 
 import javax.imageio.ImageIO;
 
+import Main.MainApp;
+
 public class Utility {
+
+    public final static String STANDARD_IMAGE_PATH = "/resources/style/standard.png";
 
     public static void newAlertError(String headerText, String contentText) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -50,5 +54,9 @@ public class Utility {
             System.out.println("Error when loading image: " + ex);
             return null;
         }
+    }
+
+    public static File getResourcesFile(String filePath) {
+        return new File(MainApp.class.getResource(filePath).getFile());
     }
 }

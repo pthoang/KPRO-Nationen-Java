@@ -81,7 +81,6 @@ public class CandidateController {
     private Candidate candidate;
     private MainApp mainApp;
     private Stage connectionDialog;
-    private final String STANDARD_IMAGE_PATH = "resources/standard.png";
 
     private List<Object> inputFields = new ArrayList<>(Arrays.asList(nameField, previousYearRankField, rankField,
             municipalityField, genderChoiceBox, yearOfBirthField, professionField, twitterField, descriptionField, titleField));
@@ -159,7 +158,7 @@ public class CandidateController {
         genderChoiceBox.getItems().addAll(GENDER_CHOICES);
         genderChoiceBox.setValue("");
 
-        setImageField(new File(STANDARD_IMAGE_PATH));
+        setImageField(Utility.getResourcesFile(Utility.STANDARD_IMAGE_PATH));
     }
 
     private void disableButtons(boolean disable) {
@@ -295,10 +294,8 @@ public class CandidateController {
 
     @FXML
     public void handleDelete() {
-        System.out.println("Candidate to delete: " + candidate.getName());
         ScoringList.getOrCreateInstance().deleteCandidate(candidate);
         Candidate nextCandidate = ScoringListController.getOrCreateInstance().getNextCandidate();
-        System.out.println("NExt candidate: " + nextCandidate.getName());
 
         setCandidate(nextCandidate);
 
@@ -431,7 +428,7 @@ public class CandidateController {
     }
 
     private void setFields() {
-        File file = new File(candidate.getImageName());
+        File file = Utility.getResourcesFile(candidate.getImageName());
         setImageField(file);
 
         nameField.setText(candidate.getName());
@@ -459,8 +456,7 @@ public class CandidateController {
     }
 
     private void cleanFields() {
-        String standardImagePath = "src/resources/style/standard.png";
-        File file = new File(standardImagePath);
+        File file = new File(Utility.STANDARD_IMAGE_PATH);
         setImageField(file);
 
         nameField.setText("");
@@ -488,7 +484,7 @@ public class CandidateController {
 
     private void uploadToBucket() {
         String imagePath = candidate.getImageName();
-        File image = new File(imagePath);
+        File image = Utility.getResourcesFile(imagePath);
         String fileName = image.getName();
         bucketUploader.uploadFile(image, fileName);
     }
@@ -499,7 +495,7 @@ public class CandidateController {
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.initOwner(MainApp.getInstance().getStage());
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(MainApp.class.getResource("../view/ConnectionView.fxml"));
+        loader.setLocation(MainApp.class.getResource("/view/ConnectionView.fxml"));
 
         GridPane connectionView = null;
         try {

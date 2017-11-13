@@ -1,5 +1,7 @@
 package controllers;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -16,6 +18,7 @@ import model.ScoringList;
 import java.io.FileWriter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.hildan.fxgson.FxGson;
@@ -177,9 +180,19 @@ public class ScoringListController {
 		 * Gson creates unnecessary fields in the json because of the property "SimpleStringProperty".
 		 * FxGson is a library which removes the unnecessary fields and generates the required JSON format.
 		 */
+        int[] counties = new int[18];
+        for (Candidate candidate : candidates){if (candidate.getCountyId()>-1){counties[candidate.getCountyId()]+=100;}}
+
+
 		Gson fxGson = FxGson.create();
-		String json = fxGson.toJson(scoringList); //Serialize an object to json string
-		System.out.println(json);
+
+        //Lager et JSON objekt av fylkene
+        JsonObject countyj = new JsonObject();;
+        countyj.add("fylker", new Gson().toJsonTree(counties));
+
+        String json = fxGson.toJson(scoringList); //Serialize an object to json string
+
+
 		
 		FileChooser fileChooser = new FileChooser();
         //Set extension filter

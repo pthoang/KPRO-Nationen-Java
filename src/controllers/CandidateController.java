@@ -35,6 +35,7 @@ import javafx.scene.input.MouseEvent;
 public class CandidateController {
 
     private ObservableList GENDER_CHOICES = FXCollections.observableArrayList("", "Kvinne", "Mann", "Annet");
+    private ObservableList COUNTY_CHOICES = FXCollections.observableArrayList("--", "Sør-Trøndelag", "Oslo og Akershus", "Hordaland", "Finnmark", "Østfold", "Hedmark", "Oppland", "Buskerud", "Vestfold", "Telemark", "Aust-Agder", "Vest-Agder", "Rogaland", "Sogn og fjordane", "Møre og romsdal", "Nord-Trøndelag", "Nordland", "Troms");
 
     @FXML
     private ImageView imageView = new ImageView();
@@ -50,6 +51,8 @@ public class CandidateController {
     private TextField municipalityField  = new TextField();
     @FXML
     private ChoiceBox<String> genderChoiceBox = new ChoiceBox<String>(GENDER_CHOICES);
+    @FXML
+    private ChoiceBox<String> countyChoiceBox = new ChoiceBox<String>(GENDER_CHOICES);
     @FXML
     private TextField yearOfBirthField = new TextField();
     @FXML
@@ -148,6 +151,10 @@ public class CandidateController {
 
         });
 
+        countyChoiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            disableButtons(false);
+        });
+
         descriptionField.textProperty().addListener((observable, oldValue, newValue) -> {
             disableButtons(false);
             if(newValue == null || newValue.length() < 5){
@@ -163,6 +170,9 @@ public class CandidateController {
 
         genderChoiceBox.getItems().addAll(GENDER_CHOICES);
         genderChoiceBox.setValue("");
+
+        countyChoiceBox.getItems().addAll(COUNTY_CHOICES);
+        countyChoiceBox.setValue("--");
     }
 
     private void disableButtons(boolean disable) {
@@ -182,6 +192,50 @@ public class CandidateController {
         }
         return "";
     }
+
+    private int setCountyChoice(Candidate candidate) {
+        String countie = candidate.getCounty();
+        switch (countie) {
+            case  "Sør-Trøndelag":
+                return 1;
+            case  "Oslo og Akershus":
+                return 2;
+            case  "Hordaland":
+                return 3;
+            case  "Finnmark":
+                return 4;
+            case  "Østfold":
+                return 5;
+            case  "Hedmark":
+                return 6;
+            case  "Oppland":
+                return 7;
+            case  "Buskerud":
+                return 8;
+            case  "Vestfold":
+                return 9;
+            case  "Telemark":
+                return 10;
+            case  "Aust-Agder":
+                return 11;
+            case  "Vest-Agder":
+                return 12;
+            case  "Rogaland":
+                return 13;
+            case  "Sogn og fjordane":
+                return 14;
+            case  "Møre og romsdal":
+                return 15;
+            case  "Nord-Trøndelag":
+                return 16;
+            case  "Nordland":
+                return 17;
+            case  "Troms":
+                return 18;
+        }
+        return 0;
+    }
+
 
     private int setGenderChoice(Candidate candidate) {
         String gender = candidate.getGender();
@@ -359,6 +413,9 @@ public class CandidateController {
         String gender = getSelectedGender();
         candidate.setGender(gender);
 
+        String county = countyChoiceBox.getValue();
+        candidate.setCounty(county);
+
         String description = descriptionField.getText();
         candidate.setDescription(new SimpleStringProperty(description));
 
@@ -447,6 +504,7 @@ public class CandidateController {
         rankField.setText(Integer.toString(candidate.getRank()));
         previousYearRankField.setText(Integer.toString(candidate.getPreviousYearRank()));
         genderChoiceBox.getSelectionModel().select(setGenderChoice(candidate));
+        countyChoiceBox.getSelectionModel().select(setCountyChoice(candidate));
         descriptionField.setText(candidate.getDescription());
         yearOfBirthField.setText(candidate.getYearOfBirth());
         twitterField.setText(candidate.getTwitter());
@@ -477,6 +535,7 @@ public class CandidateController {
         yearOfBirthField.setText("");
         twitterField.setText("");
         professionField.setText("");
+        countyChoiceBox.setValue("--");
     }
 
     private void setImageField(File file) {

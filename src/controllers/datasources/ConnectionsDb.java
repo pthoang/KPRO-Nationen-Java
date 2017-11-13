@@ -50,7 +50,7 @@ public class ConnectionsDb {
             //
             int i = 2;
             for (Candidate candidate2 : candidates) {
-                if (candidate.getName()!=candidate2.getName()){
+                if (candidate.getName().equals(candidate2.getName())){
                     JsonObject rawData2 = candidate2.getRawData();
                     JsonArray otherCandidateStocks= (JsonArray) rawData2.get("stocks");
 

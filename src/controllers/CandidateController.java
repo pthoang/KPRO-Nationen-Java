@@ -23,7 +23,6 @@ import model.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -194,7 +193,6 @@ public class CandidateController {
         return 0;
     }
 
-    // Button actions
     @FXML
     public void handleSaveChangesToCandidate() {
         saveCandidateButton.setDisable(true);
@@ -208,21 +206,17 @@ public class CandidateController {
 
         errorMessage += validateCandidate();
         
-//      //Year of Birth
-        // TODO
-//      String newYearOfBirth = yearOfBirthField.getText();
-//      candidate.setYearOfBirth(newYearOfBirth);
+        //Year of Birth
+        String newYearOfBirth = yearOfBirthField.getText();
+        candidate.setYearOfBirth(newYearOfBirth);
 
         // Municipality
-        // TODO: missing validation
-        //String newMunicipality = municipalityField.getText();
-        //candidate.setMunicipality(new SimpleStringProperty(newMunicipality));
+        String newMunicipality = municipalityField.getText();
+        candidate.setMunicipality(new SimpleStringProperty(newMunicipality));
 
         ScoringListController.getOrCreateInstance().refreshTable();
         // Network
-        // TODO: save the temporarily network connection list
         handleErrorMessage(errorMessage);
-        // TODO: not upload if not approved
         uploadToBucket();
     }
 
@@ -342,13 +336,6 @@ public class CandidateController {
         String gender = getSelectedGender();
         String description = descriptionField.getText();
         errorMessage += candidate.validate(name, rank, previousYearRank, gender, description);
-
-        /*
-        TODO
-        if (EditListController.getOrCreateInstance().nameExistInList(name)) {
-            errorMessage += "\n Det eksisterer allerede noen med det for- og etternavnet";
-        }
-        */
 
         return errorMessage;
     }
@@ -547,7 +534,6 @@ public class CandidateController {
     }
 
     public void closeDialog() {
-        System.out.println("Calling close dialog");
         connectionDialog.close();
         updateNetworkList();
     }

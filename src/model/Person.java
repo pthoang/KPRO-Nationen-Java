@@ -42,20 +42,6 @@ public class Person {
 		this.imageName = new SimpleStringProperty(imageName);
 	}
 
-	protected String validateName(String name) {
-		Pattern pattern = Pattern.compile("^[A-ZÆØÅa-zæøå. \\-]++$");
-		String errorMessage = "";
-
-		if (name.length() <= 2) {
-			errorMessage += "\n Navn må være lengre enn 2 bokstaver.";
-		}
-		if (!pattern.matcher(name).matches()) {
-			errorMessage += "\n Navnet inneholder ugyldige bokstaver. Tillatt er: a-å, ., og -";
-		}
-
-		return errorMessage;
-	}
-
 	// TODO: must be used when writing JSON
 	public String getBucketImageURL() {
 		String bucketPath = AmazonBucketUploader.getOrCreateInstance().getBucketPath();

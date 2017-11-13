@@ -7,11 +7,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 import model.*;
 
-import java.awt.event.ActionEvent;
 import java.io.*;
 import java.util.List;
 
@@ -32,6 +31,8 @@ public class SettingsController {
 	private TextField bucketNameField = new TextField();
 	@FXML
 	private TextField folderNameField = new TextField();
+	@FXML
+	private TextArea aboutScoringField = new TextArea();
 	
 	private MainApp mainApp;
 	private Settings settings;
@@ -60,7 +61,10 @@ public class SettingsController {
 		settings.setBucketSecretKey(bucketSecretKeyField.getText());
 		settings.setBucketName(bucketNameField.getText());
 		settings.setFolderName(folderNameField.getText());
-		
+
+
+		String aboutScoringText = aboutScoringField.getText();
+		ScoringList.getOrCreateInstance().setAboutTheScoring(aboutScoringText);
 		updateAmazonBucketUploader();
 		mainApp.showEditListView();
 	}
@@ -138,29 +142,4 @@ public class SettingsController {
 		}
 	}
 
-	@FXML
-	public void handleUploadAboutTheScoringText() {
-		File file = mainApp.chooseAndGetFile();
-		String aboutText = readTextFromFile(file.getAbsolutePath());
-		ScoringList.getOrCreateInstance().setAboutTheScoring(aboutText);
-	}
-
-	private String readTextFromFile(String filePath) {
-		StringBuilder about = new StringBuilder();
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(filePath));
-
-			while (br.readLine() != null) {
-				about.append(br.readLine());
-			}
-
-			br.close();
-		} catch (FileNotFoundException e) {
-			System.out.println("About.txt not found: " + e);
-		} catch (Exception e) {
-			System.out.println("Exception when reading the file regarding about the scoringlist");
-		}
-
-		return about.toString();
-	}
 }

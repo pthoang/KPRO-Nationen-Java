@@ -24,22 +24,4 @@ public class ShareholderInformation {
 
     }
 
-    public String getOrgNo() {
-        return this.orgNo;
-    }
-
-    public String getOrgName() {
-        return this.orgName;
-    }
-
-    public BigInteger getTotalStocks() {
-        return this.totalStocks;
-    }
-
-    public int getCandidateStocks() {
-        return this.candidateStocks;
-    }
-
-
-
 }

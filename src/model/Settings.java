@@ -79,7 +79,7 @@ public class Settings {
 	}
 
 	private void setDefaultKeys() {
-		try (Stream<String> stream = Files.lines(Paths.get("rootkey.csv"))) {
+		try (Stream<String> stream = Files.lines(Paths.get("src/resources/rootkey.csv"))) {
 			List<String> keys = stream.collect(Collectors.toList());
 			bucketAccessKey = keys.get(0).split("=")[1];
 			bucketSecretKey = keys.get(1).split("=")[1];

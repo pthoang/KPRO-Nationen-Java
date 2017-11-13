@@ -521,8 +521,6 @@ public class CandidateController {
         }
 
         ConnectionController connectionController = loader.getController();
-        System.out.println("ConnectionController: " + connectionController);
-        System.out.println("Candidate: " + candidate);
         connectionController.setCandidate(candidate);
         connectionController.setConnection(connection);
 

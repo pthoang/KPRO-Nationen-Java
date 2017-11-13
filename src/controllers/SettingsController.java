@@ -143,7 +143,6 @@ public class SettingsController {
 		File file = mainApp.chooseAndGetFile();
 		String aboutText = readTextFromFile(file.getAbsolutePath());
 		ScoringList.getOrCreateInstance().setAboutTheScoring(aboutText);
-
 	}
 
 	private String readTextFromFile(String filePath) {

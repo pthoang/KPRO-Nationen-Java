@@ -78,8 +78,9 @@ public class Settings {
 	}
 
 	private void setDefaultKeys() {
-		System.out.println("");
 		File keysFile = Utility.getResourcesFile("/resources/rootkey.csv");
+		System.out.println("Resource: " + Utility.getResourcesFile("/resources/rootkey.csv"));
+		// File keysFile = new File(getClass().getClassLoader().getResource("/resources/rootkeys.csv").getFile());
 		try (BufferedReader br = new BufferedReader(new FileReader(keysFile))) {
 			String key;
 			while ((key = br.readLine()) != null) {

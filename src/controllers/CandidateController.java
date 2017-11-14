@@ -1,6 +1,7 @@
 package controllers;
 
 import Main.MainApp;
+import java.awt.image.BufferedImage;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -15,6 +16,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -158,7 +160,8 @@ public class CandidateController {
         genderChoiceBox.getItems().addAll(GENDER_CHOICES);
         genderChoiceBox.setValue("");
 
-        setImageField(Utility.getResourcesFile(Utility.STANDARD_IMAGE_PATH));
+        BufferedImage bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
+        setImageField(bfImage);
     }
 
     private void disableButtons(boolean disable) {
@@ -282,7 +285,8 @@ public class CandidateController {
     @FXML
     private void handleChangeImage() {
         File file = mainApp.chooseAndGetFile();
-        setImageField(file);
+        BufferedImage bfImage = Utility.convertFileToImage(file);
+        setImageField(bfImage);
     }
 
     @FXML
@@ -428,8 +432,8 @@ public class CandidateController {
     }
 
     private void setFields() {
-        File file = Utility.getResourcesFile(candidate.getImageName());
-        setImageField(file);
+        BufferedImage bfImage = Utility.getResourceAsImage(candidate.getImageName());
+        setImageField(bfImage);
 
         nameField.setText(candidate.getName());
         municipalityField.setText(candidate.getMunicipality());
@@ -456,8 +460,8 @@ public class CandidateController {
     }
 
     private void cleanFields() {
-        File file = new File(Utility.STANDARD_IMAGE_PATH);
-        setImageField(file);
+        BufferedImage bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
+        setImageField(bfImage);
 
         nameField.setText("");
         municipalityField.setText("");
@@ -469,8 +473,8 @@ public class CandidateController {
         professionField.setText("");
     }
 
-    private void setImageField(File file) {
-        Image image = Utility.convertFileToImage(file);
+    private void setImageField(BufferedImage bfImage) {
+        WritableImage image = Utility.convertBufferedImageToWritable(bfImage);
         imageView.setImage(image);
     }
 
@@ -484,9 +488,10 @@ public class CandidateController {
 
     private void uploadToBucket() {
         String imagePath = candidate.getImageName();
-        File image = Utility.getResourcesFile(imagePath);
-        String fileName = image.getName();
-        bucketUploader.uploadFile(image, fileName);
+        BufferedImage bfImage = Utility.getResourceAsImage(imagePath);
+        //String fileName = bfImage.getName();
+        // TODO
+        //bucketUploader.uploadFile(bfImage, fileName);
     }
 
     // Connection dialog

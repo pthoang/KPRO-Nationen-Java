@@ -2,7 +2,11 @@ package model;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.awt.Image;
+import java.io.InputStream;
 import java.io.IOException;
+import java.io.WriteAbortedException;
 import java.util.regex.Pattern;
 
 import javafx.embed.swing.SwingFXUtils;
@@ -46,17 +50,58 @@ public class Utility {
         return errorMessage;
     }
 
-    public static WritableImage convertFileToImage(File file) {
+    public static BufferedImage convertFileToImage(File file) {
         try {
-            BufferedImage bufferedImage = ImageIO.read(file);
-            return SwingFXUtils.toFXImage(bufferedImage, null);
+            return ImageIO.read(file);
         } catch (IOException ex) {
             System.out.println("Error when loading image: " + ex);
             return null;
         }
     }
 
-    public static File getResourcesFile(String filePath) {
+    public static WritableImage convertBufferedImageToWritable(BufferedImage bfImage) {
+        return SwingFXUtils.toFXImage(bfImage, null);
+    }
+
+    /*
+    public static File getResourceFile(String filePath) {
         return new File(MainApp.class.getResource(filePath).getFile());
+    }
+    */
+
+    public static InputStream getResourceAsStream(String filePath) {
+        InputStream inStream = MainApp.class.getResourceAsStream(filePath);
+        System.out.println("InStream: " + inStream);
+        return inStream;
+    }
+
+    public static BufferedImage getResourceAsImage(String imagePath) {
+        InputStream stream = getResourceAsStream(imagePath);
+        try {
+            return ImageIO.read(stream);
+        } catch (IOException e) {
+
+        }
+        return null;
+    }
+
+
+    public static BufferedImage getBufferedImageFromFile(File file) {
+        try {
+            BufferedImage bfImage = ImageIO.read(file);
+            return bfImage;
+        } catch (IOException e) {
+            System.out.println("Error when getting bufferedImage from file: " + e);
+            return null;
+        }
+    }
+
+    public static InputStream convertFileToStream(File file) {
+        try {
+            return new FileInputStream(file);
+        } catch (IOException e) {
+            System.out.println("Error when converting file to stream: " + e);
+            return null;
+        }
     }
 }

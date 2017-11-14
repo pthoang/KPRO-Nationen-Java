@@ -117,12 +117,14 @@ public class AmazonBucketUploader {
 		return isAccesible;
 	}
 
+	/*
     public File getFileFromBucket(String fileName) {
         GetObjectRequest getObjReq = new GetObjectRequest(folderName, fileName);
         File file = Utility.getResourcesFile("images/" + fileName);
 	    s3Client.getObject(getObjReq, file);
         return file;
     }
+    */
 
     public String getBucketPath() {
 	    return bucketName + "/" + folderName;

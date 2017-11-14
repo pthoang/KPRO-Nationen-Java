@@ -32,7 +32,7 @@ public class RootController {
 		if (filePath.toLowerCase().endsWith(".json")) {
 			scoringList.createFromPreviousList(filePath);
 		} else if (filePath.toLowerCase().endsWith(".txt")) {
-			scoringList.createFromNameList(filePath);
+			scoringList.createFromNameList(file);
 		} else {
 			String headerText = "Det er ikke en godkjent filtype.";
 			String contentText = "Filtypen må være enten .txt eller .json";

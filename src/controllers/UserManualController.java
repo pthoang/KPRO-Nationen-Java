@@ -5,8 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 
 import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import javafx.scene.text.TextFlow;
 
 import javafx.collections.ObservableList;
@@ -37,7 +37,7 @@ public class UserManualController {
     private Text readTextFromFile() {
         String about = "";
         try {
-            BufferedReader br = new BufferedReader(new FileReader(Utility.getResourcesFile("src/resources/texts/UserManual.txt")));
+            BufferedReader br = new BufferedReader(new InputStreamReader(Utility.getResourceAsStream("src/resources/texts/UserManual.txt")));
 
             while (br.readLine() != null) {
                 about += br.readLine();

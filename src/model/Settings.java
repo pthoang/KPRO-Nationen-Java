@@ -1,10 +1,10 @@
 package model;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.io.IOException;
 import java.util.Calendar;
-import java.io.File;
 
 
 public class Settings {
@@ -13,8 +13,8 @@ public class Settings {
 	
 	private int numCandidates = 100;
 	private int numConnections = 10;
-	private String bucketAccessKey;
-	private String bucketSecretKey;
+	private String bucketAccessKey = "";
+	private String bucketSecretKey = "";
 	private String bucketName = "tunmedia";
 	private String folderName = "maktkaring_" + Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
 
@@ -78,10 +78,8 @@ public class Settings {
 	}
 
 	private void setDefaultKeys() {
-		File keysFile = Utility.getResourcesFile("/resources/rootkey.csv");
-		System.out.println("Resource: " + Utility.getResourcesFile("/resources/rootkey.csv"));
-		// File keysFile = new File(getClass().getClassLoader().getResource("/resources/rootkeys.csv").getFile());
-		try (BufferedReader br = new BufferedReader(new FileReader(keysFile))) {
+		InputStream in = Main.MainApp.class.getResourceAsStream("/resources/rootkey.txt");
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
 			String key;
 			while ((key = br.readLine()) != null) {
 				if (key.startsWith("AWSAccessKeyId")) {
@@ -93,7 +91,7 @@ public class Settings {
 				}
 			}
 		} catch (IOException e) {
-			System.out.println("Could not read list of names from file: " + e);
+			System.out.println("Could not read the keys: " + e);
 		}
 	}
 }

@@ -13,11 +13,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import model.AmazonBucketUploader;
 import model.ScoringList;
 import model.DataSources;
 import model.Candidate;
-import model.Jury;
 
 public class MainApp extends Application {
 
@@ -78,8 +76,9 @@ public class MainApp extends Application {
 		scoringList = ScoringList.getOrCreateInstance();
 		showEditListView();
 		
-		// TODO: Only during testing
+
 		/*
+		// TODO: Only during testing
 		scoringList.createFromNameList("/resources/NameListTest.txt");
 
 		ScoringListController.getOrCreateInstance().fillTable();
@@ -211,7 +210,8 @@ public class MainApp extends Application {
 
     public File chooseAndGetFile() {
         FileChooser fileChooser = new FileChooser();
-        return fileChooser.showOpenDialog(primaryStage);
+        File file = fileChooser.showOpenDialog(primaryStage);
+        return file;
     }
 
 	public void generateAll() {

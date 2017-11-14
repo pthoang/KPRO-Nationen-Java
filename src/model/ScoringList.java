@@ -2,6 +2,8 @@ package model;
 
 import java.io.IOException;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Calendar;
@@ -41,10 +43,10 @@ public class ScoringList {
 		return candidates.size();
 	}
 
-	public void createFromNameList(String filePath) {
-		File file = Utility.getResourcesFile(filePath);;
-		readNameList(file);
-
+	public void createFromNameList(File file) {
+		InputStream stream = Utility.convertFileToStream(file);
+		System.out.println("CreateFromNameList: " + stream);
+		readNameList(stream);
 	}
 
 	public void createFromPreviousList(String filePath) {
@@ -75,9 +77,10 @@ public class ScoringList {
 		return aboutTheScoring;
 	}
 
-	private void readNameList(File file) {
+	private void readNameList(InputStream stream) {
 		final AtomicInteger rank = new AtomicInteger(1);
-		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+		System.out.println("Stream: "  + stream);
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(stream))) {
 			String name;
 			while ((name = br.readLine()) != null) {
 				Candidate candidate = new Candidate(name, rank.get());

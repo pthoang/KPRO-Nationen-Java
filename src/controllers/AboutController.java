@@ -31,7 +31,7 @@ public class AboutController {
     private Text readTextFromFile() {
         StringBuilder about = new StringBuilder();
         try {
-            BufferedReader br = new BufferedReader(new FileReader(Utility.getResourcesFile("resources/texts/About.txt")));
+            BufferedReader br = new BufferedReader(new InputStreamReader(Utility.getResourceAsStream("resources/texts/About.txt")));
 
             while (br.readLine() != null) {
                 about.append(br.readLine());

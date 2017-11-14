@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import Main.MainApp;
+import javafx.scene.image.WritableImage;
 import model.*;
 
 
@@ -60,7 +61,8 @@ public class ConnectionController {
 		if (connection != null) {
 			setFields();
 		} else {
-			setImageField(Utility.getResourcesFile(Utility.STANDARD_IMAGE_PATH));
+			BufferedImage bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
+			setImageField(bfImage);
 			saveButton.setDisable(true);
 		}
 	}
@@ -97,7 +99,8 @@ public class ConnectionController {
     @FXML
     private void handleChangeImage() {
         File file = mainApp.chooseAndGetFile();
-        setImageField(file);
+        BufferedImage bfImage = Utility.convertFileToImage(file);
+        setImageField(bfImage);
     }
 
 	@FXML
@@ -127,7 +130,8 @@ public class ConnectionController {
 
 			candidate.addConnection(person, descriptionField.getText());
 			//saveImageToFile(imageName);
-			AmazonBucketUploader.getOrCreateInstance().uploadFile(Utility.getResourcesFile(imageURL), imageName);
+			// TODO
+			// AmazonBucketUploader.getOrCreateInstance().uploadFile(Utility.getResourcesFile(imageURL), imageName);
 		} else {
 			connection.getPerson().setName(nameField.getText());
 			connection.setDescription(descriptionField.getText());
@@ -141,14 +145,9 @@ public class ConnectionController {
 		parent.closeDialog();
 	}
 
-	private void setImageField(File file) {
-		try {
-			BufferedImage bufferedImage = ImageIO.read(file);
-			newImage = SwingFXUtils.toFXImage(bufferedImage, null);
-			imageView.setImage(newImage);
-		} catch (IOException ex) {
-			System.out.println("Error when loading image: " + ex);
-		}
+	private void setImageField(BufferedImage bfImage) {
+		WritableImage image = Utility.convertBufferedImageToWritable(bfImage);
+		imageView.setImage(image);
 	}
 
 	private void setFields() {
@@ -160,7 +159,8 @@ public class ConnectionController {
             imagePath += ".png";
         }
 
-		setImageField(new File(imagePath));
+        BufferedImage bfImage = Utility.getResourceAsImage(imagePath);
+		setImageField(bfImage);
 
 		deleteButton.setDisable(false);
 		if (isChosen()) {
@@ -179,7 +179,7 @@ public class ConnectionController {
 		}
 		return false;
 	}
-
+	/*
 	private void saveImageToFile(String imageName) {
         File outputFile = Utility.getResourcesFile("images/" + imageName + ".png");
         BufferedImage bImage = SwingFXUtils.fromFXImage(newImage, null);
@@ -190,5 +190,6 @@ public class ConnectionController {
             throw new RuntimeException(e);
         }
     }
+    */
 }
 

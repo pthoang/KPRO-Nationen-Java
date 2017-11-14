@@ -55,13 +55,13 @@ public class AddJuryController {
 
     public AddJuryController(){
         mainApp = MainApp.getInstance();
-        setImageField(Utility.getResourcesFile(Utility.STANDARD_IMAGE_PATH));
+        setImageField(Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH));
         jury = Jury.getOrCreateInstance();
     }
 
     @FXML
     public void initialize() {
-        setImageField(Utility.getResourcesFile(Utility.STANDARD_IMAGE_PATH));
+        setImageField(Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH));
         String description = jury.getDescription();
         if (description != null) {
             descriptionField.setText(description);
@@ -102,7 +102,8 @@ public class AddJuryController {
     @FXML
     private void fileChooser() {
         imageFile = mainApp.chooseAndGetFile();
-        setImageField(imageFile);
+        BufferedImage image = Utility.getBufferedImageFromFile(imageFile);
+        setImageField(image);
     }
 
     @FXML
@@ -153,21 +154,17 @@ public class AddJuryController {
         saveDescriptionButton.setDisable(true);
     }
 
-    private void setImageField(File file) {
-        try {
-            BufferedImage bufferedImage = ImageIO.read(file);
-            Image newImage = SwingFXUtils.toFXImage(bufferedImage, null);
-            imageView.setImage(newImage);
-        } catch (IOException ex) {
-            System.out.println("Error when loading image: " + ex);
-        }
+    private void setImageField(BufferedImage image) {
+        Image newImage = SwingFXUtils.toFXImage(image, null);
+        imageView.setImage(newImage);
+
     }
 
     private void setFields(JuryMember juryMember) {
         nameField.setText(juryMember.getName());
         titleField.setText(juryMember.getTitle());
-        File image = new File(juryMember.getImageName());
-        setImageField(image);
+        //File image = new File(juryMember.getImageName());
+        //setImageField(image);
         addJuryMemberButton.setDisable(true);
         deleteJuryMemberButton.setDisable(false);
     }

@@ -8,7 +8,9 @@ public class Person {
 	
 	protected SimpleStringProperty name;
 	private SimpleStringProperty imageName = new SimpleStringProperty(Utility.STANDARD_IMAGE_PATH);
-	
+	private boolean imageIsInBucket = false;
+
+
 	public Person(String name, String imageName) {
 		this.name = new SimpleStringProperty(name);
 		if (imageName != null) {
@@ -49,4 +51,11 @@ public class Person {
 		return bucketPath + "/" + imageName + ".png";
 	}
 
+	public void setImageIsInBucket(boolean bool){
+		imageIsInBucket = bool;
+	}
+
+	public boolean getImageIsInBucket() {
+		return imageIsInBucket;
+	}
 }

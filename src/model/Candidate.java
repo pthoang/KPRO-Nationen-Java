@@ -319,11 +319,5 @@ public class Candidate extends Person {
 		fieldStatus[field] = status;
 	}
 
-	public void setImageUploaded(boolean bool){
-		imageUploaded = bool;
-	}
 
-	public boolean getImageIsUploaded() {
-		return imageUploaded;
-	}
 }

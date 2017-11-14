@@ -456,12 +456,10 @@ public class CandidateController {
     private void getAndSetCorrectImage() {
         BufferedImage bfImage;
 
-        if (candidate.getImageIsUploaded()) {
-            System.out.println("Getting image from bucket");
+        if (candidate.getImageIsInBucket()) {
             bfImage = AmazonBucketUploader.getOrCreateInstance().getImageFromBucket(candidate.getImageName());
         } else {
             bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
-            System.out.println("Getting standard image");
 
         }
 
@@ -507,7 +505,7 @@ public class CandidateController {
         String imageName = candidate.getImageName();
         File file = Utility.convertBufferedImageToFile(bfImage);
         bucketUploader.uploadFile(file, imageName);
-        candidate.setImageUploaded(true);
+        candidate.setImageIsInBucket(true);
     }
 
     // Connection dialog

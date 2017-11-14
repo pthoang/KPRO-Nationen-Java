@@ -105,9 +105,10 @@ public class AmazonBucketUploader {
 	private void validateKeys(String accessKey, String secretKey) {
 		BasicAWSCredentials creds = new BasicAWSCredentials(accessKey, secretKey);
 		AmazonS3 news3Client = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(creds)).withRegion("us-east-2").build();
-
-		// TODO: maybe delete it afterwards, if it doesn't write it self over each time
-		PutObjectRequest por = getPor(new File(getClass().getClassLoader().getResource("/resources/style/standard.png").getFile()), "standard.pgn");
+        BufferedImage bfImage = Utility.getResourceAsImage("/resources/style/standard.png");
+		File file = Utility.convertBufferedImageToFile(bfImage);
+        // TODO: maybe delete it afterwards, if it doesn't write it self over each time
+		PutObjectRequest por = getPor(file, "standard.png");
 		try {
 			news3Client.putObject(por);
 			isAccessible = true;

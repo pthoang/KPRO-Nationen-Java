@@ -122,7 +122,11 @@ public class ScoringList {
 	}
 
 	public void empty() {
-        candidates = null;
+
+        candidates = FXCollections.observableArrayList();
+
+        candidates.add(new Candidate("", 1));
+        System.out.println("Candidates: " + candidates);
         Jury.getOrCreateInstance().empty();
     }
 }

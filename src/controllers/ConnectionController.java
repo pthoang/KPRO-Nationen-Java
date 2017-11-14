@@ -2,11 +2,7 @@ package controllers;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import javafx.scene.image.ImageView;
-import javax.imageio.ImageIO;
-
-import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
@@ -156,19 +152,11 @@ public class ConnectionController {
 	}
 
 	private void setFields() {
+
 		nameField.setText(connection.getPerson().getName());
 		descriptionField.setText(connection.getDescription());
 
-		String imagePath = connection.getPerson().getImageName();
-        if (! imagePath.endsWith(".png")) {
-            imagePath += ".png";
-        }
-
-
-        BufferedImage bfImage = Utility.getResourceAsImage(imagePath);
-        setImageField(bfImage);
-
-        getAndSetCorrectImage();
+		getAndSetCorrectImage();
 
 		deleteButton.setDisable(false);
 		if (isChosen()) {

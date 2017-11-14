@@ -206,6 +206,8 @@ public class MainApp extends Application {
 	 */
 	public void newList() {
 		scoringList.empty();
+		ScoringListController.getOrCreateInstance().refreshTable();
+		CandidateController.getOrCreateInstance().cleanFields();
 	}
 
 	public DataSources getDataSourcesController() {

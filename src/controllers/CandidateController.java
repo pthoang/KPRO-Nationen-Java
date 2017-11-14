@@ -474,7 +474,7 @@ public class CandidateController {
         }
     }
 
-    private void cleanFields() {
+    public void cleanFields() {
         BufferedImage bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
         setImageField(bfImage);
 

@@ -29,6 +29,7 @@ public class Candidate extends Person {
 
 	// TODO: should use enum instead of strings to tell the status
 	private String status;
+	private boolean imageUploaded = false;
 
 	private ArrayList organizations;
 
@@ -316,5 +317,13 @@ public class Candidate extends Person {
 
 	public void setFieldStatus(int field, int status) {
 		fieldStatus[field] = status;
+	}
+
+	public void setImageUploaded(boolean bool){
+		imageUploaded = bool;
+	}
+
+	public boolean getImageIsUploaded() {
+		return imageUploaded;
 	}
 }

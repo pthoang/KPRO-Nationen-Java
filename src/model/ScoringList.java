@@ -9,7 +9,6 @@ import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.io.BufferedReader;
-import java.io.FileReader;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;

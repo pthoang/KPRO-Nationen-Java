@@ -31,7 +31,7 @@ public class Person {
 		if (! imageName.get().equals(Utility.STANDARD_IMAGE_PATH)) {
 			return "images/" + imageName.get();
 		}
-		return imageName.get();
+		return name.get().replace(" ", "") + ".png";
 	}
 	
 	public void setName(String name) {

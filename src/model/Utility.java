@@ -55,7 +55,8 @@ public class Utility {
             return ImageIO.read(file);
         } catch (IOException ex) {
             System.out.println("Error when loading image: " + ex);
-            return null;
+            BufferedImage standardImage = getResourceAsImage(STANDARD_IMAGE_PATH);
+            return standardImage;
         }
     }
 
@@ -76,6 +77,7 @@ public class Utility {
     }
 
     public static BufferedImage getResourceAsImage(String imagePath) {
+
         InputStream stream = getResourceAsStream(imagePath);
         try {
             return ImageIO.read(stream);
@@ -84,7 +86,6 @@ public class Utility {
         }
         return null;
     }
-
 
     public static BufferedImage getBufferedImageFromFile(File file) {
         try {
@@ -101,6 +102,17 @@ public class Utility {
             return new FileInputStream(file);
         } catch (IOException e) {
             System.out.println("Error when converting file to stream: " + e);
+            return null;
+        }
+    }
+
+    public static File convertBufferedImageToFile(BufferedImage bfImage) {
+        File file = new File("convertImage.png");
+        try {
+            ImageIO.write(bfImage, "png", file);
+            return file;
+        } catch (IOException e) {
+            System.out.println("Error when converting bufferedImage to file: " + e);
             return null;
         }
     }

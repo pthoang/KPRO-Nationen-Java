@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import model.ScoringList;
 import model.DataSources;
 import model.Candidate;
+import model.Utility;
 
 public class MainApp extends Application {
 
@@ -77,9 +78,12 @@ public class MainApp extends Application {
 		showEditListView();
 		
 
-		/*
+
 		// TODO: Only during testing
-		scoringList.createFromNameList("/resources/NameListTest.txt");
+		/*
+		File = Utility.getResourcesAsFile("/resources/NameListTest.txt");
+		File file = Utility.convert
+		scoringList.createFromNameList();
 
 		ScoringListController.getOrCreateInstance().fillTable();
 		Candidate firstCandidate = scoringList.getCandidates().get(0);

@@ -1,16 +1,18 @@
 package model;
 
 import java.io.File;
-
+import java.awt.image.BufferedImage;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
 
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+import javax.imageio.ImageIO;
 
 public class AmazonBucketUploader {
 
@@ -20,7 +22,7 @@ public class AmazonBucketUploader {
 	private String folderName;
 	private String accessKey;
 	private String secretKey;
-	private boolean isAccesible = false;
+	private boolean isAccessible = false;
 	
 	private AmazonS3 s3Client;
 
@@ -55,7 +57,7 @@ public class AmazonBucketUploader {
 	
 	public void setKeys(String accessKey, String secretKey) {
 		validateKeys(accessKey, secretKey);
-		if (isAccesible) {
+		if (isAccessible) {
 			this.accessKey = accessKey;
 			this.secretKey = secretKey;
 
@@ -90,6 +92,8 @@ public class AmazonBucketUploader {
 		}
 	}
 
+
+
 	private PutObjectRequest getPor(File file, String fileName) {
 		String path = bucketName + "/" + folderName;
 		PutObjectRequest por = new PutObjectRequest(path, fileName, file);
@@ -106,18 +110,18 @@ public class AmazonBucketUploader {
 		PutObjectRequest por = getPor(new File(getClass().getClassLoader().getResource("/resources/style/standard.png").getFile()), "standard.pgn");
 		try {
 			news3Client.putObject(por);
-			isAccesible = true;
+			isAccessible = true;
 		} catch (AmazonS3Exception e) {
 			System.out.println("Exception when validating Amazon bucket keys: " + e);
-			isAccesible = false;
+			isAccessible = false;
 		}
 	}
 
 	public boolean isAccessible() {
-		return isAccesible;
+		return isAccessible;
 	}
 
-	/*
+    /*
     public File getFileFromBucket(String fileName) {
         GetObjectRequest getObjReq = new GetObjectRequest(folderName, fileName);
         File file = Utility.getResourcesFile("images/" + fileName);
@@ -125,6 +129,16 @@ public class AmazonBucketUploader {
         return file;
     }
     */
+
+    public BufferedImage getImageFromBucket(String imageName) {
+        System.out.println("ImageName: " + imageName);
+        String imageKey = folderName + "/" + imageName;
+        GetObjectRequest getObjReq = new GetObjectRequest(bucketName, imageKey);
+        File file = new File(imageKey);
+        s3Client.getObject(getObjReq, file);
+        BufferedImage bfImage = Utility.convertFileToImage(file);
+        return bfImage;
+    }
 
     public String getBucketPath() {
 	    return bucketName + "/" + folderName;

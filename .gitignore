@@ -64,5 +64,5 @@ pom.xml.releaseBackup
 pom.xml.tag
 
 # Keys to amazon S3 bucket
-rootkey.csv
+src/rootkey.txt
 

@@ -83,6 +83,8 @@ public class CandidateController {
     private Candidate candidate;
     private MainApp mainApp;
     private Stage connectionDialog;
+    private String localImagePath;
+    private BufferedImage bfImage;
 
     private List<Object> inputFields = new ArrayList<>(Arrays.asList(nameField, previousYearRankField, rankField,
             municipalityField, genderChoiceBox, yearOfBirthField, professionField, twitterField, descriptionField, titleField));
@@ -285,12 +287,13 @@ public class CandidateController {
     @FXML
     private void handleChangeImage() {
         File file = mainApp.chooseAndGetFile();
-        BufferedImage bfImage = Utility.convertFileToImage(file);
+        bfImage = Utility.convertFileToImage(file);
         setImageField(bfImage);
     }
 
     @FXML
     public void handleNewCandidate() {
+        bfImage = null;
         cleanFields();
         createAndAddEmptyCandidate();
         ScoringListController.getOrCreateInstance().refreshTable();
@@ -432,8 +435,7 @@ public class CandidateController {
     }
 
     private void setFields() {
-        BufferedImage bfImage = Utility.getResourceAsImage(candidate.getImageName());
-        setImageField(bfImage);
+        getAndSetCorrectImage();
 
         nameField.setText(candidate.getName());
         municipalityField.setText(candidate.getMunicipality());
@@ -449,6 +451,21 @@ public class CandidateController {
         titleField.setText(candidate.getTitle());
         setColorsOnFields();
         setCompleteButton();
+    }
+
+    private void getAndSetCorrectImage() {
+        BufferedImage bfImage;
+
+        if (candidate.getImageIsUploaded()) {
+            System.out.println("Getting image from bucket");
+            bfImage = AmazonBucketUploader.getOrCreateInstance().getImageFromBucket(candidate.getImageName());
+        } else {
+            bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
+            System.out.println("Getting standard image");
+
+        }
+
+        setImageField(bfImage);
     }
 
     private void setCompleteButton() {
@@ -487,11 +504,10 @@ public class CandidateController {
     }
 
     private void uploadToBucket() {
-        String imagePath = candidate.getImageName();
-        BufferedImage bfImage = Utility.getResourceAsImage(imagePath);
-        //String fileName = bfImage.getName();
-        // TODO
-        //bucketUploader.uploadFile(bfImage, fileName);
+        String imageName = candidate.getImageName();
+        File file = Utility.convertBufferedImageToFile(bfImage);
+        bucketUploader.uploadFile(file, imageName);
+        candidate.setImageUploaded(true);
     }
 
     // Connection dialog

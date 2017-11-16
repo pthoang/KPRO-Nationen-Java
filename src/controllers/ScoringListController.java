@@ -33,9 +33,8 @@ public class ScoringListController {
     @FXML
     private TableColumn<Candidate, String> nameColumn;
     @FXML
-    private Label countLabel = new Label();
+    private Label countLabel;
 
-    private EditListController parentController;
     private ScoringList scoringList;
     private MainApp mainApp;
     private static ObservableList<Candidate> candidates;
@@ -54,7 +53,6 @@ public class ScoringListController {
 		instance = this;
 		mainApp = MainApp.getInstance();
 		loadState();
-		parentController = EditListController.getOrCreateInstance();
 	}
 
 	public void loadState() {
@@ -92,7 +90,7 @@ public class ScoringListController {
 
         nameColumn.setCellFactory(new ScoringListController.CellFactory());
 
-        rankColumn.setCellValueFactory(new PropertyValueFactory<Candidate, Integer>("rank"));
+        rankColumn.setCellValueFactory(new PropertyValueFactory<>("rank"));
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
 
         nameColumn.setOnEditCommit(cell -> {
@@ -102,15 +100,18 @@ public class ScoringListController {
 
         candidateTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> CandidateController.getOrCreateInstance().setCandidate(newValue));
+
+        updateCountLabel();
     }
 
     public void refreshTable() {
         candidates = ScoringList.getOrCreateInstance().getCandidates();
+        candidateTable.setItems(candidates);
         candidateTable.refresh();
         updateCountLabel();
     }
 
-    private void updateCountLabel() {
+    public void updateCountLabel() {
         int max = Settings.getOrCreateInstance().getNumCandidates();
         int actualLength = scoringList.getLength();
         countLabel.setText(actualLength + "/" + max);
@@ -160,21 +161,12 @@ public class ScoringListController {
     }
 
     @FXML
-    // TODO: not used
     public void handleAnalyzeAll() {
         mainApp.generateAll();
     }
 
     @FXML
     public void handleExportFile() {
-        if (listIsTooLong()) {
-            String headerText = "Listen er for lang.";
-            String contentText = "Alle kandidatene vil dermed ikke vises på siden. " +
-                    "Fjern noen kandidater eller endre antallet kandidater i 'Instillinger'";
-            newAlertError(headerText, contentText);
-            return;
-        };
-
     	/**
 		 * Gson creates unnecessary fields in the json because of the property "SimpleStringProperty".
 		 * FxGson is a library which removes the unnecessary fields and generates the required JSON format.
@@ -210,19 +202,17 @@ public class ScoringListController {
 
 
 
-		
+
 		FileChooser fileChooser = new FileChooser();
-        //Set extension filter
+        // Set extension filter
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.JSON)", "*.txt");
         fileChooser.getExtensionFilters().add(extFilter);
-        //Show save file dialog
-        File file = fileChooser.showSaveDialog(mainApp.getStage());
-        if(file != null){
-            saveFile(json.toString(), file);
-        }
-//		
-//        String errorMessage = validateList();
-//        handleErrorMessage(errorMessage);
+        // Show save file dialog
+
+        File file = new File("maktlista.json");
+        saveFile(json.toString(), file);
+
+        AmazonBucketUploader.getOrCreateInstance().uploadFile(file, "maktlista.json");
     }
     
     /**
@@ -239,18 +229,6 @@ public class ScoringListController {
         } catch (IOException e) {
             System.out.println("Exception when writing list to file:" + e);
         }
-    }
-
-    private boolean listIsTooLong() {
-        return scoringList.getLength() > Settings.getOrCreateInstance().getNumCandidates();
-    }
-
-    private void newAlertError(String headerText, String contentText) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Feilmeldinger");
-        alert.setHeaderText(headerText);
-        alert.setContentText(contentText);
-        alert.showAndWait();
     }
 
 }

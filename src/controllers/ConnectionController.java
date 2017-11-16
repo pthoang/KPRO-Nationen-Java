@@ -2,18 +2,15 @@ package controllers;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-
 import javafx.scene.image.ImageView;
-
-import javax.imageio.ImageIO;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import Main.MainApp;
+import javafx.scene.image.WritableImage;
 import model.*;
+
 
 public class ConnectionController {
 
@@ -28,8 +25,6 @@ public class ConnectionController {
 	@FXML
 	private Button cancelButton;
 	@FXML
-	private Button addImageButton;
-	@FXML
 	private Button saveButton;
 	@FXML
 	private Button deleteButton;
@@ -42,7 +37,8 @@ public class ConnectionController {
 	private CandidateController parent;
 
 	private Image newImage;
-	private String imageURL = "src/resources/style/standard.png";
+	private String imageURL = Utility.STANDARD_IMAGE_PATH;
+	private BufferedImage bfImage = null;
 
 
 	public ConnectionController() {
@@ -60,7 +56,8 @@ public class ConnectionController {
 		if (connection != null) {
 			setFields();
 		} else {
-			setImageField(imageURL);
+			BufferedImage bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
+			setImageField(bfImage);
 			saveButton.setDisable(true);
 		}
 	}
@@ -94,17 +91,12 @@ public class ConnectionController {
 		handleErrorMessage(errorMessage);
 	}
 
-	@FXML
-	public void handleAddImage() {
-		File file = mainApp.chooseAndGetFile();
-		try {
-			BufferedImage bufferedImage = ImageIO.read(file);
-			newImage = SwingFXUtils.toFXImage(bufferedImage, null);
-			imageView.setImage(newImage);
-		} catch (IOException ex) {
-			System.out.println("Error when loading image: " + ex);
-		}
-	}
+    @FXML
+    private void handleChangeImage() {
+        File file = mainApp.chooseAndGetFile();
+        bfImage = Utility.convertFileToImage(file);
+        setImageField(bfImage);
+    }
 
 	@FXML
 	public void handleChooseAsNetwork() {
@@ -130,10 +122,8 @@ public class ConnectionController {
             String imageName = nameField.getText();
             imageName = imageName.replace(" ",  "");
             Person person = new Person(nameField.getText(), imageName);
-
 			candidate.addConnection(person, descriptionField.getText());
-			saveImageToFile(imageName);
-			AmazonBucketUploader.getOrCreateInstance().uploadFile(new File(imageURL), imageName);
+			uploadToBucket();
 		} else {
 			connection.getPerson().setName(nameField.getText());
 			connection.setDescription(descriptionField.getText());
@@ -142,29 +132,29 @@ public class ConnectionController {
 		parent.closeDialog();
 	}
 
+    private void uploadToBucket() {
+        String imageName = candidate.getImageName();
+        File file = Utility.convertBufferedImageToFile(bfImage);
+        AmazonBucketUploader.getOrCreateInstance().uploadFile(file, imageName);
+        candidate.setImageIsInBucket(true);
+    }
+
 	@FXML
 	public void handleCancel() {
 		parent.closeDialog();
 	}
 
-	private void setImageField(String imageURL) {
-	    if (! imageURL.endsWith(".png")) {
-	        imageURL += ".png";
-        }
-		File file = new File(imageURL);
-		try {
-			BufferedImage bufferedImage = ImageIO.read(file);
-			newImage = SwingFXUtils.toFXImage(bufferedImage, null);
-			imageView.setImage(newImage);
-		} catch (IOException ex) {
-			System.out.println("Error when loading image: " + ex);
-		}
+	private void setImageField(BufferedImage bfImage) {
+		WritableImage image = Utility.convertBufferedImageToWritable(bfImage);
+		imageView.setImage(image);
 	}
 
 	private void setFields() {
+
 		nameField.setText(connection.getPerson().getName());
 		descriptionField.setText(connection.getDescription());
-		setImageField(connection.getPerson().getImageName());
+
+		getAndSetCorrectImage();
 
 		deleteButton.setDisable(false);
 		if (isChosen()) {
@@ -172,6 +162,18 @@ public class ConnectionController {
 		}
         saveButton.setDisable(true);
 	}
+
+    private void getAndSetCorrectImage() {
+        BufferedImage bfImage;
+
+        if (connection.getPerson().getImageIsInBucket()) {
+            bfImage = AmazonBucketUploader.getOrCreateInstance().getImageFromBucket(candidate.getImageName());
+        } else {
+            bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
+        }
+
+        setImageField(bfImage);
+    }
 
 	private boolean isChosen() {
 	    int num = Math.min(candidate.getConnections().size(), 10);
@@ -183,16 +185,5 @@ public class ConnectionController {
 		}
 		return false;
 	}
-
-	private void saveImageToFile(String imageName) {
-        File outputFile = new File("images/" + imageName + ".png");
-        BufferedImage bImage = SwingFXUtils.fromFXImage(newImage, null);
-
-        try {
-            ImageIO.write(bImage, "png", outputFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
 

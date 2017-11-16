@@ -2,17 +2,17 @@ package controllers;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
-import javafx.scene.input.MouseEvent;
-import javax.imageio.ImageIO;
 
 import Main.MainApp;
-import model.*;
+import model.JuryMember;
+import model.Jury;
+import model.AmazonBucketUploader;
+import model.Utility;
 
 public class AddJuryController {
 
@@ -38,12 +38,10 @@ public class AddJuryController {
     private Button deleteJuryMemberButton;
 
     private Jury jury;
+    private JuryMember member;
     private MainApp mainApp;
-    private File imageFile;
-    private Image newImage = null;
     private static AddJuryController instance = null;
-    private final String STANDARD_IMAGE_URL = "src/resources/style/standard.png";
-
+    private BufferedImage bfImage = null;
 
     public static AddJuryController getOrCreateInstance() {
         if (instance == null) {
@@ -54,13 +52,13 @@ public class AddJuryController {
 
     public AddJuryController(){
         mainApp = MainApp.getInstance();
-        setImageField(new File(STANDARD_IMAGE_URL));
+        setImageField(Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH));
         jury = Jury.getOrCreateInstance();
     }
 
     @FXML
     public void initialize() {
-        setImageField(new File(STANDARD_IMAGE_URL));
+        setImageField(Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH));
         String description = jury.getDescription();
         if (description != null) {
             descriptionField.setText(description);
@@ -70,6 +68,10 @@ public class AddJuryController {
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
 
         juryMembersTable.setPlaceholder(new Label("Ingen juryer er registrert"));
+
+        juryMembersTable.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> setFields(newValue)
+        );
 
         nameField.textProperty().addListener((observable, oldValue, newValue) -> {
             disableButtons(false);
@@ -83,9 +85,7 @@ public class AddJuryController {
             disableButtons(false);
         });
 
-        descriptionField.textProperty().addListener((observable, oldValue, newValue) -> {
-            saveDescriptionButton.setDisable(false);
-        });
+        descriptionField.textProperty().addListener((observable, oldValue, newValue) -> saveDescriptionButton.setDisable(false));
 
         disableButtons(true);
         saveDescriptionButton.setDisable(true);
@@ -98,8 +98,9 @@ public class AddJuryController {
 
     @FXML
     private void fileChooser() {
-        imageFile = mainApp.chooseAndGetFile();
-        setImageField(imageFile);
+        File imageFile = mainApp.chooseAndGetFile();
+        bfImage = Utility.getBufferedImageFromFile(imageFile);
+        setImageField(bfImage);
     }
 
     @FXML
@@ -117,16 +118,24 @@ public class AddJuryController {
     public void handleAddJuryMember() {
         String name = nameField.getText();
         String imageName = name.replace(" ", "");
-        saveImageToFile(imageName);
-        AmazonBucketUploader.getOrCreateInstance().uploadFile(imageFile, imageName);
+
         String title = titleField.getText();
-        JuryMember member = new JuryMember(name, imageName, title);
+        member = new JuryMember(name, imageName, title);
+        uploadToBucket();
+
         jury.addJuryMember(member);
 
         ObservableList<JuryMember> juryMembers = jury.getJuryMembers();
         juryMembersTable.setItems(juryMembers);
         juryMembersTable.refresh();
         cleanFields();
+    }
+
+    private void uploadToBucket() {
+        String imageName = member.getImageName();
+        File file = Utility.convertBufferedImageToFile(bfImage);
+        AmazonBucketUploader.getOrCreateInstance().uploadFile(file, imageName);
+        member.setImageIsInBucket(true);
     }
 
     @FXML
@@ -137,6 +146,8 @@ public class AddJuryController {
     }
 
     private void cleanFields() {
+        member = null;
+        setImageField(Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH));
         nameField.setText("");
         titleField.setText("");
         addJuryMemberButton.setDisable(true);
@@ -150,41 +161,38 @@ public class AddJuryController {
         saveDescriptionButton.setDisable(true);
     }
 
-    private void setImageField(File file) {
-        try {
-            BufferedImage bufferedImage = ImageIO.read(file);
-            newImage = SwingFXUtils.toFXImage(bufferedImage, null);
-            imageView.setImage(newImage);
-        } catch (IOException ex) {
-            System.out.println("Error when loading image: " + ex);
-        }
+    private void setImageField(BufferedImage image) {
+        Image newImage = SwingFXUtils.toFXImage(image, null);
+        imageView.setImage(newImage);
+
     }
 
     private void setFields(JuryMember juryMember) {
+        if (juryMember == null) {
+            cleanFields();
+            return;
+        }
+        member = juryMember;
         nameField.setText(juryMember.getName());
         titleField.setText(juryMember.getTitle());
-        File image = new File(juryMember.getImageName());
-        setImageField(image);
+
+        getAndSetCorrectImage();
+
         addJuryMemberButton.setDisable(true);
         deleteJuryMemberButton.setDisable(false);
     }
 
-    @FXML
-    public void selectJuryMember(MouseEvent event) {
-        if (event.getClickCount() == 2) {
-            JuryMember juryMember = juryMembersTable.getSelectionModel().getSelectedItem();
-            setFields(juryMember);
-        }
-    }
+    private void getAndSetCorrectImage() {
+        BufferedImage bfImage;
 
-    private void saveImageToFile(String imageName) {
-        File outputFile = new File("images/" + imageName + ".png");
-        BufferedImage bImage  = SwingFXUtils.fromFXImage(newImage, null);
-        try {
-            ImageIO.write(bImage, "png", outputFile);
-        } catch (IOException e) {
-            System.out.println("Exception when saving image to file: " + e);
+        if (member.getImageIsInBucket()) {
+            bfImage = AmazonBucketUploader.getOrCreateInstance().getImageFromBucket(member.getImageName());
+        } else {
+            bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
+
         }
+
+        setImageField(bfImage);
     }
 
 }

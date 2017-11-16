@@ -1,11 +1,11 @@
 package controllers;
 
 import Main.MainApp;
+import java.awt.image.BufferedImage;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,14 +16,13 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.*;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,20 +71,12 @@ public class CandidateController {
     private Button markAsDoneButton;
     @FXML
     private Button deleteButton;
-    @FXML
-    private Button newCandidateButton;
-    @FXML
-    private Button addConnectionButton;
-
 
     private static CandidateController instance = null;
-    private final String IMAGE_PATH = "images/";
     private AmazonBucketUploader bucketUploader;
-    private Image newImage;
     private Candidate candidate;
-    private MainApp mainApp;
     private Stage connectionDialog;
-    private EditListController parent;
+    private BufferedImage bfImage;
 
     private List<Object> inputFields = new ArrayList<>(Arrays.asList(nameField, previousYearRankField, rankField,
             municipalityField, genderChoiceBox, yearOfBirthField, professionField, twitterField, descriptionField, titleField));
@@ -93,9 +84,7 @@ public class CandidateController {
 
     public CandidateController() {
         instance = this;
-        mainApp = MainApp.getInstance();
         bucketUploader = AmazonBucketUploader.getOrCreateInstance();
-        parent = EditListController.getOrCreateInstance();
     }
 
     public static CandidateController getOrCreateInstance() {
@@ -124,9 +113,8 @@ public class CandidateController {
         networkTable.setPlaceholder(new Label("Ikke noe nettverk å vise"));
 
         inputFields.add(networkTable);
-        /**
-         * Adding listeners to the textfields for feedback handling
-         */
+
+        // Adding listeners to the textfields for feedback handling
         List<TextField> textfields = new ArrayList<>(Arrays.asList(nameField, previousYearRankField, rankField,
                 municipalityField, yearOfBirthField, professionField, twitterField, titleField));
 
@@ -163,6 +151,9 @@ public class CandidateController {
 
         genderChoiceBox.getItems().addAll(GENDER_CHOICES);
         genderChoiceBox.setValue("");
+
+        BufferedImage bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
+        setImageField(bfImage);
     }
 
     private void disableButtons(boolean disable) {
@@ -196,10 +187,8 @@ public class CandidateController {
         return 0;
     }
 
-    // Button actions
     @FXML
     public void handleSaveChangesToCandidate() {
-        // TODO: called multiple times - change to a function?
         saveCandidateButton.setDisable(true);
 
         candidate.setStatus("");
@@ -210,22 +199,16 @@ public class CandidateController {
         String errorMessage = "";
 
         errorMessage += validateCandidate();
-        
-//      //Year of Birth
-        // TODO
-//      String newYearOfBirth = yearOfBirthField.getText();
-//      candidate.setYearOfBirth(newYearOfBirth);
 
-        // Municipality
-        // TODO: missing validation
-        //String newMunicipality = municipalityField.getText();
-        //candidate.setMunicipality(new SimpleStringProperty(newMunicipality));
+        String newYearOfBirth = yearOfBirthField.getText();
+        candidate.setYearOfBirth(newYearOfBirth);
+
+        String newMunicipality = municipalityField.getText();
+        candidate.setMunicipality(new SimpleStringProperty(newMunicipality));
 
         ScoringListController.getOrCreateInstance().refreshTable();
-        // Network
-        // TODO: save the temporarily network connection list
+
         handleErrorMessage(errorMessage);
-        // TODO: not upload if not approved
         uploadToBucket();
     }
 
@@ -291,12 +274,14 @@ public class CandidateController {
 
     @FXML
     private void handleChangeImage() {
-        File file = mainApp.chooseAndGetFile();
-        setImageField(file);
+        File file = MainApp.getInstance().chooseAndGetFile();
+        bfImage = Utility.convertFileToImage(file);
+        setImageField(bfImage);
     }
 
     @FXML
     public void handleNewCandidate() {
+        bfImage = null;
         cleanFields();
         createAndAddEmptyCandidate();
         ScoringListController.getOrCreateInstance().refreshTable();
@@ -304,9 +289,11 @@ public class CandidateController {
 
     @FXML
     public void handleDelete() {
-        Candidate nextCandidate = ScoringListController.getOrCreateInstance().getNextCandidate();
         ScoringList.getOrCreateInstance().deleteCandidate(candidate);
+        Candidate nextCandidate = ScoringListController.getOrCreateInstance().getNextCandidate();
+
         setCandidate(nextCandidate);
+
         ScoringListController.getOrCreateInstance().refreshTable();
     }
 
@@ -342,12 +329,6 @@ public class CandidateController {
         String description = descriptionField.getText();
         errorMessage += candidate.validate(name, rank, previousYearRank, gender, description);
 
-        /*
-        if (EditListController.getOrCreateInstance().nameExistInList(name)) {
-            errorMessage += "\n Det eksisterer allerede noen med det for- og etternavnet";
-        }
-        */
-
         return errorMessage;
     }
 
@@ -368,9 +349,13 @@ public class CandidateController {
         int rank = Integer.parseInt(rankField.getText());
         candidate.setRank(new SimpleIntegerProperty(rank));
 
-        int previousYearRank = Integer.parseInt(previousYearRankField.getText());
-        candidate.setPreviousYearRank(new SimpleIntegerProperty(previousYearRank));
-        
+        try {
+            int previousYearRank = Integer.parseInt(previousYearRankField.getText());
+            candidate.setPreviousYearRank(new SimpleIntegerProperty(previousYearRank));
+        } catch (Exception e) {
+            System.out.println("PreviousYearRankField is not filled out: " + e);
+        }
+
         String newYearOfBirth = yearOfBirthField.getText();
         candidate.setYearOfBirth(newYearOfBirth);
         
@@ -384,7 +369,8 @@ public class CandidateController {
         candidate.setTitle(title);
 
         if (gender.equals("M") || gender.equals("F")) {
-            //if fields are missing the candidate's fiels get a status. This makes sure the field gets red or yellow
+            // If fields are missing the candidate's fields get a status.
+            // This makes sure the field gets red or yellow
             if(networkTable.getItems().size() < 1){
                 candidate.setFieldStatus(10, 1);
                 candidate.setStatus("unfinished");
@@ -422,7 +408,6 @@ public class CandidateController {
                 candidate.setFieldStatus(9, 0);
             }
         }
-        // TODO: Save all the fields related to the different sources
     }
 
     private void handleErrorMessage(String errorMessage) {
@@ -439,13 +424,14 @@ public class CandidateController {
     }
 
     private void setFields() {
-        File file = new File(candidate.getImageName());
-        setImageField(file);
+        getAndSetCorrectImage();
 
         nameField.setText(candidate.getName());
         municipalityField.setText(candidate.getMunicipality());
         rankField.setText(Integer.toString(candidate.getRank()));
-        previousYearRankField.setText(Integer.toString(candidate.getPreviousYearRank()));
+        if (candidate.hasPreviousYearRank()) {
+            previousYearRankField.setText(Integer.toString(candidate.getPreviousYearRank()));
+        }
         genderChoiceBox.getSelectionModel().select(setGenderChoice(candidate));
         descriptionField.setText(candidate.getDescription());
         yearOfBirthField.setText(candidate.getYearOfBirth());
@@ -456,6 +442,16 @@ public class CandidateController {
         setCompleteButton();
     }
 
+    private void getAndSetCorrectImage() {
+        BufferedImage bfImage;
+        if (candidate.getImageIsInBucket()) {
+            bfImage = AmazonBucketUploader.getOrCreateInstance().getImageFromBucket(candidate.getImageName());
+        } else {
+            bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
+        }
+        setImageField(bfImage);
+    }
+
     private void setCompleteButton() {
         if (candidate.getStatus().equals("finished")){
             markAsDoneButton.setText("Marker ukomplett");
@@ -464,10 +460,9 @@ public class CandidateController {
         }
     }
 
-    private void cleanFields() {
-        String standardImagePath = "src/resources/style/standard.png";
-        File file = new File(standardImagePath);
-        setImageField(file);
+    public void cleanFields() {
+        BufferedImage bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
+        setImageField(bfImage);
 
         nameField.setText("");
         municipalityField.setText("");
@@ -479,29 +474,24 @@ public class CandidateController {
         professionField.setText("");
     }
 
-    private void setImageField(File file) {
-        try {
-            BufferedImage bufferedImage = ImageIO.read(file);
-            newImage = SwingFXUtils.toFXImage(bufferedImage, null);
-            imageView.setImage(newImage);
-        } catch (IOException ex) {
-            System.out.println("Error when loading image: " + ex);
-        }
+    private void setImageField(BufferedImage bfImage) {
+        WritableImage image = Utility.convertBufferedImageToWritable(bfImage);
+        imageView.setImage(image);
     }
 
     private void createAndAddEmptyCandidate() {
         int nextCandidateRank = ScoringList.getOrCreateInstance().getCandidates().size() + 1;
 
         rankField.setText(Integer.toString(nextCandidateRank));
-        candidate = new Candidate("", nextCandidateRank, 0);
+        candidate = new Candidate("", nextCandidateRank);
         ScoringList.getOrCreateInstance().addCandidate(candidate);
     }
 
     private void uploadToBucket() {
-        String imagePath = candidate.getImageName();
-        File image = new File(imagePath);
-        String fileName = image.getName();
-        bucketUploader.uploadFile(image, fileName);
+        String imageName = candidate.getImageName();
+        File file = Utility.convertBufferedImageToFile(bfImage);
+        bucketUploader.uploadFile(file, imageName);
+        candidate.setImageIsInBucket(true);
     }
 
     // Connection dialog
@@ -510,7 +500,7 @@ public class CandidateController {
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.initOwner(MainApp.getInstance().getStage());
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(MainApp.class.getResource("../view/ConnectionView.fxml"));
+        loader.setLocation(MainApp.class.getResource("/view/ConnectionView.fxml"));
 
         GridPane connectionView = null;
         try {
@@ -545,7 +535,6 @@ public class CandidateController {
     }
 
     public void closeDialog() {
-        System.out.println("Calling close dialog");
         connectionDialog.close();
         updateNetworkList();
     }
@@ -593,4 +582,9 @@ public class CandidateController {
             }
         });
     }
+
+    public void updateNumConnections() {
+        markSelectedConnections();
+    }
+
 }

@@ -1,14 +1,11 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
 import java.util.Set;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.common.collect.ImmutableSet;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -30,8 +27,6 @@ public class Candidate extends Person {
 	// TODO: should use enum instead of strings to tell the status
 	private String status;
 
-	private ArrayList organizations;
-
 	/*
 		The fieldStatus represent the color of the TextField for the candidate.
 		This is the sequence of the fields:
@@ -49,18 +44,12 @@ public class Candidate extends Person {
 	private JsonObject rawData = new JsonObject();
 	private JsonArray elements = new JsonArray();
 
-	// PG stands for ProductionGrants
-	private SimpleIntegerProperty animalsPG = new SimpleIntegerProperty(0);
-	private SimpleIntegerProperty hiredHelpPG = new SimpleIntegerProperty(0);
-	private SimpleIntegerProperty farmingPG = new SimpleIntegerProperty(0);
-
-
 	private ObservableList<Connection> connections =  FXCollections.observableArrayList();
 
-	public Candidate(String name, int rank, int previousYearRank) {
+	public Candidate(String name, int rank) {
 		super(name, null);
 		this.rank = new SimpleIntegerProperty(rank);
-		this.previousYearRank = new SimpleIntegerProperty(rank);
+		this.previousYearRank = new SimpleIntegerProperty(-1);
 		this.status = "";
 	}
 
@@ -70,39 +59,6 @@ public class Candidate extends Person {
 		this.rank = new SimpleIntegerProperty(rank);
 		this.previousYearRank = new SimpleIntegerProperty(rank);
 		this.description.setValue(despcription);
-	}
-
-	//appends test organizations
-	public void testOrg() {
-		JsonObject testData1 = new JsonObject();
-		JsonObject testData2 = new JsonObject();
-
-		int org = 975938883;
-		String name = "BJØRN RUNE KYNNINGSRUD";
-		int stocks = 131;
-		int value = 4;
-
-
-		int org1 = 984566077;
-		String name1 = "BEST MELK SAMDRIFT DA";
-		int stocks1 = 149;
-		int value1 = 11;
-
-		testData1.addProperty("org", org);
-		testData1.addProperty("name", name);
-		testData1.addProperty("stocks", stocks);
-		testData1.addProperty("value", value);
-
-		testData2.addProperty("org", org1);
-		testData2.addProperty("name", name);
-		testData2.addProperty("stocks", stocks);
-		testData2.addProperty("value", value);
-
-		JsonArray returnObject = new JsonArray();
-		returnObject.add(testData1);
-		returnObject.add(testData2);
-
-		this.rawData.add("stocks", returnObject);
 	}
 
 	public JsonObject getRawData() {
@@ -145,8 +101,6 @@ public class Candidate extends Person {
 	 *
 	 * @return String The municipality
 	 */
-
-
 	public String getMunicipality() {
 		return municipality.get();
 	}
@@ -187,33 +141,6 @@ public class Candidate extends Person {
 		return this.twitterLink.get();
 	}
 
-	// TODO
-	// Missing functions to validate rank etc
-
-	public int getAnimalsPG() {
-		return animalsPG.get();
-	}
-
-	public void setAnimalsPG(SimpleIntegerProperty animalsPG) {
-		this.animalsPG = animalsPG;
-	}
-
-	public int getHiredHelpPG() {
-		return hiredHelpPG.get();
-	}
-
-	public void setHiredHelpPG(SimpleIntegerProperty hiredHelpPG) {
-		this.hiredHelpPG = hiredHelpPG;
-	}
-
-	public int getFarmingPG() {
-		return farmingPG.get();
-	}
-
-	public void setFarmingPG(SimpleIntegerProperty farmingPG) {
-		this.farmingPG = farmingPG;
-	}
-
 	public void addConnection(Person person, String description) {
 		Connection newConnection = new Connection(person, description);
 		connections.add(newConnection);
@@ -235,12 +162,14 @@ public class Candidate extends Person {
 		return status;
 	}
 
+	/*
 	public boolean getIsPerson(){ 
 		if (GENDERS_IF_PERSON.contains(gender)) {
 			return true;
 		}
 		return false;
 	}
+	*/
 	
 	public void setGender(String gender) {
 		this.gender = gender;
@@ -270,11 +199,9 @@ public class Candidate extends Person {
 
 	public void setTitle(String title) { this.title = title; }
 
-
-	// Validation
 	public String validate(String name, String rank, String previousYearRank, String gender, String description) {
 		String errorMessage = "";
-		errorMessage += super.validateName(name);
+		errorMessage += Utility.validateName(name);
 
 		errorMessage += validateRank(rank);
 		errorMessage += validatePreviousYearRank(previousYearRank);
@@ -300,6 +227,10 @@ public class Candidate extends Person {
 	}
 
 	private String validatePreviousYearRank(String rankString) {
+		if (rankString.equals("")) {
+			return "";
+		}
+
 		try {
 			int rank = Integer.parseInt(rankString);
 			if (rank < 1 || rank > 100) {
@@ -332,6 +263,10 @@ public class Candidate extends Person {
 		return "";
 	}
 
+	public boolean hasPreviousYearRank() {
+		return previousYearRank.get() != -1;
+	}
+
 	public void addRawData(String field, JsonElement data) {
 		this.rawData.add(field, data);
 	}
@@ -354,4 +289,6 @@ public class Candidate extends Person {
 		fieldStatus[field] = status;
 
 	}
+
+
 }

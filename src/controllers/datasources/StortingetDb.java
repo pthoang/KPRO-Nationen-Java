@@ -3,7 +3,6 @@ package controllers.datasources;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import controllers.AddSourcesController;
 import interfaces.DataSourceInterface;
 import model.Candidate;
 import model.DataSourceFile;

@@ -20,7 +20,7 @@ public class SupportDb implements DataSourceInterface {
 
         requiredFiles = new ArrayList<DataSourceFile>();
 
-        part1 = new DataSourceFile("support register");
+        part1 = new DataSourceFile("Produksjon og avløser tilskudd: ");
 
         requiredFiles.add(part1);
     }

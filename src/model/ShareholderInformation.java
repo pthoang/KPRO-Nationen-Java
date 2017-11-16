@@ -2,9 +2,6 @@ package model;
 
 import java.math.BigInteger;
 
-/**
- * Created by vicen on 08-Nov-17.
- */
 public class ShareholderInformation {
 
     private int id;
@@ -24,23 +21,5 @@ public class ShareholderInformation {
         this.candidateYearOfBirth = yearOfBirth;
 
     }
-
-    public int getId() {
-        return this.id;
-    }
-
-    public String getCompany() {
-        return this.company;
-    }
-
-    public BigInteger getNumStocksCompany() {
-        return this.numStocksCompany;
-    }
-
-    public int getNumStocks() {
-        return this.numStocks;
-    }
-
-
 
 }

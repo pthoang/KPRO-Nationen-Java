@@ -7,17 +7,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
-import model.AmazonBucketUploader;
-import model.DataSourceFile;
+import model.*;
 
-import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
-
-import model.Settings;
-import model.Utility;
 
 public class SettingsController {
 
@@ -36,6 +31,8 @@ public class SettingsController {
 	private TextField bucketNameField = new TextField();
 	@FXML
 	private TextField folderNameField = new TextField();
+	@FXML
+	private TextArea aboutScoringField = new TextArea();
 	
 	private MainApp mainApp;
 	private Settings settings;
@@ -43,13 +40,11 @@ public class SettingsController {
 	public SettingsController() {
 		mainApp = MainApp.getInstance();
 		settings = Settings.getOrCreateInstance();
-
 	}
 
 	@FXML
 	private void initialize() {
 		setDefaultSettings();
-
 	}
 
 	@FXML
@@ -58,12 +53,15 @@ public class SettingsController {
 		settings.setNumCandidates(numCandidates);
 		int numConnections = Integer.parseInt(numConnectionsField.getText());
 		settings.setNumConnections(numConnections);
+		CandidateController.getOrCreateInstance().updateNumConnections();
 
 		settings.setBucketAccessKey(bucketAccessKeyField.getText());
 		settings.setBucketSecretKey(bucketSecretKeyField.getText());
 		settings.setBucketName(bucketNameField.getText());
 		settings.setFolderName(folderNameField.getText());
-		
+
+		String aboutScoringText = aboutScoringField.getText();
+		ScoringList.getOrCreateInstance().setAboutTheScoring(aboutScoringText);
 		updateAmazonBucketUploader();
 		mainApp.showEditListView();
 	}
@@ -73,11 +71,6 @@ public class SettingsController {
 		mainApp.showEditListView();
 	}
 
-	//this is the function that is supposed to spawn a file chooser and update the filepath for required files
-	// TODO
-	@FXML private void handleLoadFile(ActionEvent event) throws IOException {
-		System.out.println("event " + event);
-	}
 
 	public void refreshRegisterSelectors(List<DataSourceInterface> dsList) {
 		// Loops trough all DataSources. not quite sure why this needs to start at 1, but it looks a whole lot prettier
@@ -89,8 +82,7 @@ public class SettingsController {
 				// Creates a description for the input
 				Label dsfName = new Label(dsf.getName());
 
-				//creates a textfield
-
+				// Creates a textfield
 				TextField dsfFilePath = new TextField();
 				dsfFilePath.textProperty().addListener((observable, oldValue, newValue) -> {
 					dsf.setFilepath(newValue);
@@ -145,5 +137,4 @@ public class SettingsController {
 			Utility.newAlertError(headerText, contentText);
 		}
 	}
-	
 }

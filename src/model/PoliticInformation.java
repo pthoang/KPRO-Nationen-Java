@@ -2,9 +2,6 @@ package model;
 
 import java.util.List;
 
-/**
- * Created by vicen on 08-Nov-17.
- */
 public class PoliticInformation {
 
     private String title;
@@ -23,36 +20,8 @@ public class PoliticInformation {
         this.title = title;
     }
 
-    public void setPoliticalParty(String party) {
-        this.politicalParty = party;
-    }
-
-    public void setCommmittees(List<String> committees) {
-        this.committees = committees;
-    }
-
     public void setMinistry(String ministry) {
         this.ministry = ministry;
-    }
-
-    public String getTitle() {
-        return this.title;
-    }
-
-    public String getPoliticalParty() {
-        return this.politicalParty;
-    }
-
-    public String getMinistry() {
-        return this.ministry;
-    }
-
-    public int getCommitteesSize() {
-        return this.committees.size();
-    }
-
-    public String getCommittee(int index) {
-        return this.committees.get(index);
     }
 
 }

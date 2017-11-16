@@ -4,7 +4,6 @@ import controllers.datasources.ShareholderRegister;
 import controllers.datasources.StortingetDb;
 import controllers.datasources.SupportDb;
 import interfaces.DataSourceInterface;
-import model.Candidate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,24 +21,14 @@ public class DataSources {
         StortingetDb stortingetDb = new StortingetDb();
         dsList.add(stortingetDb);
 
-        //initializes the supportDb
+        // Initializes the supportDb
         SupportDb supportDb = new SupportDb();
         dsList.add(supportDb);
-
-
 
     }
 
     public List<DataSourceInterface> getDsList() {
         return dsList;
-    }
-
-    void getDataFromAll(Candidate candidate) {
-        throw new UnsupportedOperationException("not implemented");
-    }
-
-    void getDataFromSource(DataSourceInterface source, Candidate candidate) {
-        throw new UnsupportedOperationException("not implemented");
     }
 
 }

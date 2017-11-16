@@ -2,8 +2,6 @@ package model;
 
 import javafx.beans.property.SimpleStringProperty;
 
-import java.util.regex.Pattern;
-
 public class Person {
 	
 	protected SimpleStringProperty name;
@@ -26,9 +24,6 @@ public class Person {
 		return name.get();
 	}
 
-	/**
-	 * Returns the local imageName
-	 */
 	public String getImageName() {
 		if (! imageName.get().equals(Utility.STANDARD_IMAGE_PATH)) {
 			return "images/" + imageName.get();
@@ -48,7 +43,7 @@ public class Person {
 	public String getBucketImageURL() {
 		String bucketPath = AmazonBucketUploader.getOrCreateInstance().getBucketPath();
 		// TODO: not sure
-		return bucketPath + "/" + imageName + ".png";
+		return bucketPath + "/" + imageName;
 	}
 
 	public void setImageIsInBucket(boolean bool){

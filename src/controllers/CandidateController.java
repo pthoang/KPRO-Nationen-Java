@@ -71,19 +71,11 @@ public class CandidateController {
     private Button markAsDoneButton;
     @FXML
     private Button deleteButton;
-    @FXML
-    private Button newCandidateButton;
-    @FXML
-    private Button addConnectionButton;
-
 
     private static CandidateController instance = null;
     private AmazonBucketUploader bucketUploader;
-    private Image newImage;
     private Candidate candidate;
-    private MainApp mainApp;
     private Stage connectionDialog;
-    private String localImagePath;
     private BufferedImage bfImage;
 
     private List<Object> inputFields = new ArrayList<>(Arrays.asList(nameField, previousYearRankField, rankField,
@@ -92,7 +84,6 @@ public class CandidateController {
 
     public CandidateController() {
         instance = this;
-        mainApp = MainApp.getInstance();
         bucketUploader = AmazonBucketUploader.getOrCreateInstance();
     }
 
@@ -122,9 +113,8 @@ public class CandidateController {
         networkTable.setPlaceholder(new Label("Ikke noe nettverk å vise"));
 
         inputFields.add(networkTable);
-        /**
-         * Adding listeners to the textfields for feedback handling
-         */
+
+        // Adding listeners to the textfields for feedback handling
         List<TextField> textfields = new ArrayList<>(Arrays.asList(nameField, previousYearRankField, rankField,
                 municipalityField, yearOfBirthField, professionField, twitterField, titleField));
 
@@ -209,17 +199,15 @@ public class CandidateController {
         String errorMessage = "";
 
         errorMessage += validateCandidate();
-        
-        //Year of Birth
+
         String newYearOfBirth = yearOfBirthField.getText();
         candidate.setYearOfBirth(newYearOfBirth);
 
-        // Municipality
         String newMunicipality = municipalityField.getText();
         candidate.setMunicipality(new SimpleStringProperty(newMunicipality));
 
         ScoringListController.getOrCreateInstance().refreshTable();
-        // Network
+
         handleErrorMessage(errorMessage);
         uploadToBucket();
     }
@@ -286,7 +274,7 @@ public class CandidateController {
 
     @FXML
     private void handleChangeImage() {
-        File file = mainApp.chooseAndGetFile();
+        File file = MainApp.getInstance().chooseAndGetFile();
         bfImage = Utility.convertFileToImage(file);
         setImageField(bfImage);
     }
@@ -381,7 +369,8 @@ public class CandidateController {
         candidate.setTitle(title);
 
         if (gender.equals("M") || gender.equals("F")) {
-            // If fields are missing the candidate's fields get a status. This makes sure the field gets red or yellow
+            // If fields are missing the candidate's fields get a status.
+            // This makes sure the field gets red or yellow
             if(networkTable.getItems().size() < 1){
                 candidate.setFieldStatus(10, 1);
                 candidate.setStatus("unfinished");
@@ -455,14 +444,11 @@ public class CandidateController {
 
     private void getAndSetCorrectImage() {
         BufferedImage bfImage;
-
         if (candidate.getImageIsInBucket()) {
             bfImage = AmazonBucketUploader.getOrCreateInstance().getImageFromBucket(candidate.getImageName());
         } else {
             bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
-
         }
-
         setImageField(bfImage);
     }
 

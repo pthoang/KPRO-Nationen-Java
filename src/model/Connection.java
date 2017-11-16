@@ -41,7 +41,9 @@ public class Connection {
 		this.person.setName(name);
 	}
 
+	/*
 	public void setImageURL(String imageURL) {
 		this.person.setImageName(imageURL);
 	}
+	*/
 }

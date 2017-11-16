@@ -16,7 +16,7 @@ public class Settings {
 	private String bucketAccessKey = "";
 	private String bucketSecretKey = "";
 	private String bucketName = "tunmedia";
-	private String folderName = "maktkaring_" + Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
+	private String folderName;
 
 	public static Settings getOrCreateInstance() {
 		if (instance == null) {
@@ -27,8 +27,10 @@ public class Settings {
 
 	private Settings() {
 		setDefaultKeys();
+		String year = Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
+		folderName = "maktkaring_" + year;
 	}
-	
+
 	public int getNumCandidates() {
 		return numCandidates;
 	}

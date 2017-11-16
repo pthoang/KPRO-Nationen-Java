@@ -3,10 +3,8 @@ package model;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
-import java.awt.Image;
 import java.io.InputStream;
 import java.io.IOException;
-import java.io.WriteAbortedException;
 import java.util.regex.Pattern;
 
 import javafx.embed.swing.SwingFXUtils;
@@ -64,27 +62,19 @@ public class Utility {
         return SwingFXUtils.toFXImage(bfImage, null);
     }
 
-    /*
-    public static File getResourceFile(String filePath) {
-        return new File(MainApp.class.getResource(filePath).getFile());
-    }
-    */
-
     public static InputStream getResourceAsStream(String filePath) {
         InputStream inStream = MainApp.class.getResourceAsStream(filePath);
-        System.out.println("InStream: " + inStream);
         return inStream;
     }
 
     public static BufferedImage getResourceAsImage(String imagePath) {
-
         InputStream stream = getResourceAsStream(imagePath);
         try {
             return ImageIO.read(stream);
         } catch (IOException e) {
-
+            System.out.println("Error whwn getting resources as image: " + e);
+            return null;
         }
-        return null;
     }
 
     public static BufferedImage getBufferedImageFromFile(File file) {

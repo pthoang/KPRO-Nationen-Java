@@ -8,11 +8,9 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
 
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-import javax.imageio.ImageIO;
 
 public class AmazonBucketUploader {
 
@@ -107,7 +105,6 @@ public class AmazonBucketUploader {
 		AmazonS3 news3Client = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(creds)).withRegion("us-east-2").build();
         BufferedImage bfImage = Utility.getResourceAsImage("/resources/style/standard.png");
 		File file = Utility.convertBufferedImageToFile(bfImage);
-        // TODO: maybe delete it afterwards, if it doesn't write it self over each time
 		PutObjectRequest por = getPor(file, "standard.png");
 		try {
 			news3Client.putObject(por);
@@ -122,17 +119,7 @@ public class AmazonBucketUploader {
 		return isAccessible;
 	}
 
-    /*
-    public File getFileFromBucket(String fileName) {
-        GetObjectRequest getObjReq = new GetObjectRequest(folderName, fileName);
-        File file = Utility.getResourcesFile("images/" + fileName);
-	    s3Client.getObject(getObjReq, file);
-        return file;
-    }
-    */
-
     public BufferedImage getImageFromBucket(String imageName) {
-        System.out.println("ImageName: " + imageName);
         String imageKey = folderName + "/" + imageName;
         GetObjectRequest getObjReq = new GetObjectRequest(bucketName, imageKey);
         File file = new File(imageKey);

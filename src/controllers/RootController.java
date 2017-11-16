@@ -52,18 +52,8 @@ public class RootController {
 	}
 
 	@FXML
-	private void showAbout() {
-		//mainApp.showAboutView();
-	}
-
-	@FXML
 	private void showSettings() {
 		mainApp.showSettingsView();
 	}	
-	
-	@FXML
-	private void showUserManual() {
-		//mainApp.showUserManualView();
-	}
 
 }

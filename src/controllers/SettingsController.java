@@ -40,13 +40,11 @@ public class SettingsController {
 	public SettingsController() {
 		mainApp = MainApp.getInstance();
 		settings = Settings.getOrCreateInstance();
-
 	}
 
 	@FXML
 	private void initialize() {
 		setDefaultSettings();
-
 	}
 
 	@FXML
@@ -61,7 +59,6 @@ public class SettingsController {
 		settings.setBucketSecretKey(bucketSecretKeyField.getText());
 		settings.setBucketName(bucketNameField.getText());
 		settings.setFolderName(folderNameField.getText());
-
 
 		String aboutScoringText = aboutScoringField.getText();
 		ScoringList.getOrCreateInstance().setAboutTheScoring(aboutScoringText);
@@ -85,8 +82,7 @@ public class SettingsController {
 				// Creates a description for the input
 				Label dsfName = new Label(dsf.getName());
 
-				//creates a textfield
-
+				// Creates a textfield
 				TextField dsfFilePath = new TextField();
 				dsfFilePath.textProperty().addListener((observable, oldValue, newValue) -> {
 					dsf.setFilepath(newValue);
@@ -141,5 +137,4 @@ public class SettingsController {
 			Utility.newAlertError(headerText, contentText);
 		}
 	}
-
 }

@@ -104,7 +104,6 @@ public class ScoringListController {
 
     public void refreshTable() {
         candidates = ScoringList.getOrCreateInstance().getCandidates();
-        System.out.println("Candidates when refresh table: " + candidates);
         candidateTable.setItems(candidates);
         candidateTable.refresh();
         updateCountLabel();
@@ -166,34 +165,23 @@ public class ScoringListController {
 
     @FXML
     public void handleExportFile() {
-        if (listIsTooLong()) {
-            String headerText = "Listen er for lang.";
-            String contentText = "Alle kandidatene vil dermed ikke vises på siden. " +
-                    "Fjern noen kandidater eller endre antallet kandidater i 'Instillinger'";
-            Utility.newAlertError(headerText, contentText);
-            return;
-        }
-
     	/**
 		 * Gson creates unnecessary fields in the json because of the property "SimpleStringProperty".
 		 * FxGson is a library which removes the unnecessary fields and generates the required JSON format.
 		 */
 		Gson fxGson = FxGson.create();
 		String json = fxGson.toJson(scoringList); //Serialize an object to json string
-		System.out.println(json);
-		
+
 		FileChooser fileChooser = new FileChooser();
         // Set extension filter
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.JSON)", "*.txt");
         fileChooser.getExtensionFilters().add(extFilter);
         // Show save file dialog
-        File file = fileChooser.showSaveDialog(mainApp.getStage());
-        if(file != null){
-            saveFile(json, file);
-        }
-//		TODO: why commented out?
-//        String errorMessage = validateList();
-//        handleErrorMessage(errorMessage);
+
+        File file = new File("maktlista.json");
+        saveFile(json, file);
+
+        AmazonBucketUploader.getOrCreateInstance().uploadFile(file, "maktlista.json");
     }
     
     /**
@@ -211,10 +199,5 @@ public class ScoringListController {
             System.out.println("Exception when writing list to file:" + e);
         }
     }
-
-    private boolean listIsTooLong() {
-        return scoringList.getLength() > Settings.getOrCreateInstance().getNumCandidates();
-    }
-
 
 }

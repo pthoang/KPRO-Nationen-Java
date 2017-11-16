@@ -25,8 +25,6 @@ public class ConnectionController {
 	@FXML
 	private Button cancelButton;
 	@FXML
-	private Button addImageButton;
-	@FXML
 	private Button saveButton;
 	@FXML
 	private Button deleteButton;
@@ -169,12 +167,9 @@ public class ConnectionController {
         BufferedImage bfImage;
 
         if (connection.getPerson().getImageIsInBucket()) {
-            System.out.println("Getting image from bucket");
             bfImage = AmazonBucketUploader.getOrCreateInstance().getImageFromBucket(candidate.getImageName());
         } else {
             bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
-            System.out.println("Getting standard image");
-
         }
 
         setImageField(bfImage);
@@ -190,17 +185,5 @@ public class ConnectionController {
 		}
 		return false;
 	}
-	/*
-	private void saveImageToFile(String imageName) {
-        File outputFile = Utility.getResourcesFile("images/" + imageName + ".png");
-        BufferedImage bImage = SwingFXUtils.fromFXImage(newImage, null);
-
-        try {
-            ImageIO.write(bImage, "png", outputFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    */
 }
 

@@ -43,9 +43,6 @@ public class AddJuryController {
     private static AddJuryController instance = null;
     private BufferedImage bfImage = null;
 
-
-
-
     public static AddJuryController getOrCreateInstance() {
         if (instance == null) {
             instance = new AddJuryController();

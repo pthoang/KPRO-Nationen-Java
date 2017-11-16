@@ -44,7 +44,6 @@ public class ScoringList {
 
 	public void createFromNameList(File file) {
 		InputStream stream = Utility.convertFileToStream(file);
-		System.out.println("CreateFromNameList: " + stream);
 		readNameList(stream);
 	}
 
@@ -72,13 +71,13 @@ public class ScoringList {
 		this.aboutTheScoring = aboutTheScoring;
 	}
 
+    // TODO: use when writing JSON
 	public String getAboutTheScoring() {
 		return aboutTheScoring;
 	}
 
 	private void readNameList(InputStream stream) {
 		final AtomicInteger rank = new AtomicInteger(1);
-		System.out.println("Stream: "  + stream);
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(stream))) {
 			String name;
 			while ((name = br.readLine()) != null) {
@@ -122,11 +121,8 @@ public class ScoringList {
 	}
 
 	public void empty() {
-
         candidates = FXCollections.observableArrayList();
-
         candidates.add(new Candidate("", 1));
-        System.out.println("Candidates: " + candidates);
         Jury.getOrCreateInstance().empty();
     }
 }

@@ -32,7 +32,7 @@ public class RootController {
 		if (filePath.toLowerCase().endsWith(".json")) {
 			scoringList.createFromPreviousList(filePath);
 		} else if (filePath.toLowerCase().endsWith(".txt")) {
-			scoringList.createFromNameList(filePath);
+			scoringList.createFromNameList(file);
 		} else {
 			String headerText = "Det er ikke en godkjent filtype.";
 			String contentText = "Filtypen må være enten .txt eller .json";
@@ -45,11 +45,6 @@ public class RootController {
 	private void showAddJury(){
 		mainApp.showJuryAdmin();
 	}
-	
-	@FXML
-	private void showLoadSources() {
-		mainApp.showLoadSourcesView();
-	}
 
 	@FXML
 	private void showNewAndEmpty() {
@@ -57,18 +52,8 @@ public class RootController {
 	}
 
 	@FXML
-	private void showAbout() {
-		mainApp.showAboutView();
-	}
-
-	@FXML
 	private void showSettings() {
 		mainApp.showSettingsView();
 	}	
-	
-	@FXML
-	private void showUserManual() {
-		mainApp.showUserManualView();
-	}
 
 }

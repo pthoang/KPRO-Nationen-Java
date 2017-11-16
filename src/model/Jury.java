@@ -1,11 +1,7 @@
 package model;
 
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Jury {
     private ObservableList<JuryMember> juryMembers;
@@ -44,6 +40,9 @@ public class Jury {
         return description;
     }
 
-
+    public void empty() {
+        description = "";
+        juryMembers.removeAll();
+    }
 
 }

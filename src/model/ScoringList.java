@@ -1,12 +1,14 @@
 package model;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
+import java.io.BufferedReader;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
@@ -19,8 +21,9 @@ public class ScoringList {
 	private static ScoringList instance = null;
 
 	private final SimpleIntegerProperty year;
+	private String aboutTheScoring;
 	private ObservableList<Candidate> candidates;
-	private Jury jury;
+
 
 	public ScoringList() {
 		int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -39,12 +42,9 @@ public class ScoringList {
 		return candidates.size();
 	}
 
-	public void createFromNameList(String filePath) {
-		try (Stream<String> stream = Files.lines(Paths.get(filePath))) {
-			readNameList(stream);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} 
+	public void createFromNameList(File file) {
+		InputStream stream = Utility.convertFileToStream(file);
+		readNameList(stream);
 	}
 
 	public void createFromPreviousList(String filePath) {
@@ -67,13 +67,27 @@ public class ScoringList {
 		candidates.remove(candidate);
 	}
 
-	private void readNameList(Stream<String> stream) throws IOException {
+	public void setAboutTheScoring(String aboutTheScoring) {
+		this.aboutTheScoring = aboutTheScoring;
+	}
+
+    // TODO: use when writing JSON
+	public String getAboutTheScoring() {
+		return aboutTheScoring;
+	}
+
+	private void readNameList(InputStream stream) {
 		final AtomicInteger rank = new AtomicInteger(1);
-		stream.forEach((name) -> {
-			Candidate candidate = new Candidate(name, rank.get(), 0);
-			candidates.add(candidate);
-			rank.incrementAndGet();		
-		});
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(stream))) {
+			String name;
+			while ((name = br.readLine()) != null) {
+				Candidate candidate = new Candidate(name, rank.get());
+				candidates.add(candidate);
+				rank.incrementAndGet();
+			}
+		} catch (IOException e) {
+			System.out.println("Could not read list of names from file: " + e);
+		}
 	}
 
 	private void readJson(String filepath) throws IOException {
@@ -98,23 +112,17 @@ public class ScoringList {
 			int lastYear = 0; //Integer.parseInt(jsonCandidate.getAsJsonObject().get("lastYear").toString());
 
 			// Creates and add the candidate
-			Candidate newCandidate = new Candidate(name, rank, lastYear);
+			Candidate newCandidate = new Candidate(name, rank);
+			// newCandidate.setLastYearRank(lastYear);
 			candidates.add(newCandidate);
 
 			rank++;
 		}
 	}
 
-	public void setJury(Jury jury) {
-		this.jury = jury;
-	}
-
-	public Jury getJury() {
-		return jury;
-	}
-
 	public void empty() {
-        candidates = null;
-	    jury = null;
+        candidates = FXCollections.observableArrayList();
+        candidates.add(new Candidate("", 1));
+        Jury.getOrCreateInstance().empty();
     }
 }

@@ -1,12 +1,11 @@
 package model;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Calendar;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 public class Settings {
 
@@ -14,10 +13,10 @@ public class Settings {
 	
 	private int numCandidates = 100;
 	private int numConnections = 10;
-	private String bucketAccessKey;
-	private String bucketSecretKey;
+	private String bucketAccessKey = "";
+	private String bucketSecretKey = "";
 	private String bucketName = "tunmedia";
-	private String folderName = "maktkaring_" + Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
+	private String folderName;
 
 	public static Settings getOrCreateInstance() {
 		if (instance == null) {
@@ -28,8 +27,10 @@ public class Settings {
 
 	private Settings() {
 		setDefaultKeys();
+		String year = Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
+		folderName = "maktkaring_" + year;
 	}
-	
+
 	public int getNumCandidates() {
 		return numCandidates;
 	}
@@ -78,15 +79,21 @@ public class Settings {
 		this.folderName = folderName;
 	}
 
-	// TODO: remove after testing
-	// Just under testing
 	private void setDefaultKeys() {
-		try (Stream<String> stream = Files.lines(Paths.get("rootkey.csv"))) {
-			List<String> keys = stream.collect(Collectors.toList());
-			bucketAccessKey = keys.get(0).split("=")[1];
-			bucketSecretKey = keys.get(1).split("=")[1];
+		InputStream in = Main.MainApp.class.getResourceAsStream("/resources/rootkey.txt");
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
+			String key;
+			while ((key = br.readLine()) != null) {
+				if (key.startsWith("AWSAccessKeyId")) {
+					bucketAccessKey = key.split("=")[1];
+				} else if (key.startsWith("AWSSecretKey")) {
+					bucketSecretKey = key.split("=")[1];
+				} else {
+					System.out.println("Is not a key");
+				}
+			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Could not read the keys: " + e);
 		}
 	}
 }

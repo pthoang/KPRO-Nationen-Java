@@ -1,12 +1,10 @@
 package model;
 
 import java.io.File;
-
-import com.amazonaws.AmazonServiceException;
+import java.awt.image.BufferedImage;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
 
@@ -22,7 +20,7 @@ public class AmazonBucketUploader {
 	private String folderName;
 	private String accessKey;
 	private String secretKey;
-	private boolean isAccesible = false;
+	private boolean isAccessible = false;
 	
 	private AmazonS3 s3Client;
 
@@ -57,7 +55,7 @@ public class AmazonBucketUploader {
 	
 	public void setKeys(String accessKey, String secretKey) {
 		validateKeys(accessKey, secretKey);
-		if (isAccesible) {
+		if (isAccessible) {
 			this.accessKey = accessKey;
 			this.secretKey = secretKey;
 
@@ -78,6 +76,7 @@ public class AmazonBucketUploader {
 
 	public void uploadFile(File file, String fileName) {
 		PutObjectRequest por = getPor(file, fileName);
+		por.setCannedAcl(CannedAccessControlList.PublicRead);
 		try {
 			s3Client.putObject(por);
 		} catch (AmazonS3Exception e) {
@@ -91,6 +90,8 @@ public class AmazonBucketUploader {
 		}
 	}
 
+
+
 	private PutObjectRequest getPor(File file, String fileName) {
 		String path = bucketName + "/" + folderName;
 		PutObjectRequest por = new PutObjectRequest(path, fileName, file);
@@ -102,26 +103,29 @@ public class AmazonBucketUploader {
 	private void validateKeys(String accessKey, String secretKey) {
 		BasicAWSCredentials creds = new BasicAWSCredentials(accessKey, secretKey);
 		AmazonS3 news3Client = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(creds)).withRegion("us-east-2").build();
-
-		// TODO: maybe delete it afterwards, if it doesn't write it self over each time
-		PutObjectRequest por = getPor(new File("src/resources/style/standard.png"), "standard.pgn");
+        BufferedImage bfImage = Utility.getResourceAsImage("/resources/style/standard.png");
+		File file = Utility.convertBufferedImageToFile(bfImage);
+		PutObjectRequest por = getPor(file, "standard.png");
 		try {
 			news3Client.putObject(por);
-			isAccesible = true;
+			isAccessible = true;
 		} catch (AmazonS3Exception e) {
 			System.out.println("Exception when validating Amazon bucket keys: " + e);
-			isAccesible = false;
+			isAccessible = false;
 		}
 	}
 
 	public boolean isAccessible() {
-		return isAccesible;
+		return isAccessible;
 	}
 
-    public File getFileFromBucket(String fileName) {
-        GetObjectRequest getObjReq = new GetObjectRequest(folderName, fileName);
-	    s3Client.getObject(getObjReq, new File("images/" + fileName));
-        return new File("images/" + fileName);
+    public BufferedImage getImageFromBucket(String imageName) {
+        String imageKey = folderName + "/" + imageName;
+        GetObjectRequest getObjReq = new GetObjectRequest(bucketName, imageKey);
+        File file = new File(imageKey);
+        s3Client.getObject(getObjReq, file);
+        BufferedImage bfImage = Utility.convertFileToImage(file);
+        return bfImage;
     }
 
     public String getBucketPath() {

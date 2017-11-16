@@ -2,9 +2,6 @@ package model;
 
 import java.math.BigInteger;
 
-/**
- * Created by vicen on 08-Nov-17.
- */
 public class ShareholderInformation {
 
     private String orgNo;
@@ -26,23 +23,5 @@ public class ShareholderInformation {
         this.city = city;
 
     }
-
-    public String getOrgNo() {
-        return this.orgNo;
-    }
-
-    public String getOrgName() {
-        return this.orgName;
-    }
-
-    public BigInteger getTotalStocks() {
-        return this.totalStocks;
-    }
-
-    public int getCandidateStocks() {
-        return this.candidateStocks;
-    }
-
-
 
 }

@@ -30,7 +30,7 @@ public class ShareholderRegister implements DataSourceInterface {
 
     public ShareholderRegister() {
         requiredFiles = new ArrayList<>();
-        shareholderFile = new DataSourceFile("Shareholder register");
+        shareholderFile = new DataSourceFile("Aksjonærregisteret: ");
         requiredFiles.add(shareholderFile);
     }
 

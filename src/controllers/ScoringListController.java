@@ -18,6 +18,7 @@ import model.ScoringList;
 import java.io.FileWriter;
 
 import java.io.IOException;
+import java.sql.Savepoint;
 import java.util.HashMap;
 
 import org.hildan.fxgson.FxGson;
@@ -208,6 +209,11 @@ public class ScoringListController {
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.JSON)", "*.txt");
         fileChooser.getExtensionFilters().add(extFilter);
         // Show save file dialog
+        File fileLocal = fileChooser.showSaveDialog(mainApp.getStage());
+        if(fileLocal != null) {
+            saveFile(json.toString(), fileLocal);
+        }
+
 
         File file = new File("maktlista.json");
         saveFile(json.toString(), file);

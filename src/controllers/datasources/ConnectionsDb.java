@@ -20,17 +20,15 @@ public class ConnectionsDb {
         for (Candidate candidate : candidates) {
 
             JsonArray nodes = new JsonArray();
-            JsonObject nodesObject = new JsonObject();
-            nodesObject.add("nodes", nodes);
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.add("nodes", nodes);
             JsonArray edges = new JsonArray();
-            JsonObject edgesObject = new JsonObject();
-            edgesObject.add("edges", edges);
+            jsonObject.add("edges", edges);
 
             //list of nodes and edges
             JsonArray elements =  new JsonArray();
 
-            elements.add(nodesObject);
-            elements.add(edgesObject);
+            elements.add(jsonObject);
 
 
             JsonObject rawData = candidate.getRawData();

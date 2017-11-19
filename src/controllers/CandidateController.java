@@ -152,7 +152,7 @@ public class CandidateController {
         genderChoiceBox.getItems().addAll(GENDER_CHOICES);
         genderChoiceBox.setValue("");
 
-        BufferedImage bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
+        bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
         setImageField(bfImage);
     }
 

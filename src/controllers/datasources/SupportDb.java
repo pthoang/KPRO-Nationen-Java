@@ -132,6 +132,10 @@ public class SupportDb implements DataSourceInterface {
             subsidiesArray.add(farming);
             subsidiesArray.add(hiredhelp);
 
+            candidate.setAnimalSubsidies(animalSubsidies);
+            candidate.setFarmingSubsidies(farmingSubsidies);
+            candidate.setHiredHelpSubsidies(hiredHelpSubsidies);
+
             candidate.addRawData("subsidies", subsidiesArray);
         }
 

@@ -95,7 +95,7 @@ public class ConnectionsDb {
                     //Adding connection if candidates get same kind of subsidies
 
                     //dyrehold
-                    if(candidate.getAnimalsPG()>0 && candidate2.getAnimalsPG()>0){
+                    if(candidate.getAnimalSubsidies()>0 && candidate2.getAnimalSubsidies()>0){
                         String newId = Integer.toString(i) + "apg";
                         JsonObject dataNode = new JsonObject();
                         dataNode.addProperty("id", newId);
@@ -117,7 +117,7 @@ public class ConnectionsDb {
 
                     }
                     //avløs
-                    if(candidate.getHiredHelpPG()>0 && candidate2.getHiredHelpPG()>0){
+                    if(candidate.getHiredHelpSubsidies()>0 && candidate2.getHiredHelpSubsidies()>0){
                         String newId = Integer.toString(i) + "hhpg";
                         JsonObject dataNode = new JsonObject();
                         dataNode.addProperty("id", newId);
@@ -138,7 +138,7 @@ public class ConnectionsDb {
                         edges.add(dataEdgeObject);
                     }
                     //Jordbruk
-                    if(candidate.getFarmingPG()>0 && candidate2.getFarmingPG()>0){
+                    if(candidate.getFarmingSubsidies()>0 && candidate2.getFarmingSubsidies()>0){
                         String newId = Integer.toString(i) + "fpg";
                         JsonObject dataNode = new JsonObject();
                         dataNode.addProperty("id", newId);

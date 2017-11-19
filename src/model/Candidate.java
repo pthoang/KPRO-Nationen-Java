@@ -24,6 +24,7 @@ public class Candidate extends Person {
 	private String profession;
 	private String title;
 
+
 	// TODO: should use enum instead of strings to tell the status
 	private String status;
 
@@ -43,6 +44,11 @@ public class Candidate extends Person {
 
 	private JsonObject rawData = new JsonObject();
 	private JsonArray elements = new JsonArray();
+
+	private int animalSubsidies;
+	private int farmingSubsidies;
+	private int hiredHelpSubsidies;
+
 
 	private ObservableList<Connection> connections =  FXCollections.observableArrayList();
 
@@ -287,7 +293,30 @@ public class Candidate extends Person {
 
 	public void setFieldStatus(int field, int status) {
 		fieldStatus[field] = status;
+	}
 
+	public void setAnimalSubsidies(int animalSubsidies) {
+		this.animalSubsidies = animalSubsidies;
+	}
+
+	public void setFarmingSubsidies(int farmingSubsidies) {
+		this.farmingSubsidies = farmingSubsidies;
+	}
+
+	public void setHiredHelpSubsidies(int hiredHelpSubsidies) {
+		this.hiredHelpSubsidies = hiredHelpSubsidies;
+	}
+
+	public int getHiredHelpSubsidies() {
+		return this.hiredHelpSubsidies;
+	}
+
+	public int getAnimalSubsidies() {
+		return this.animalSubsidies;
+	}
+
+	public int getFarmingSubsidies() {
+		return this.farmingSubsidies;
 	}
 
 

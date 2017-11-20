@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.io.BufferedReader;
 
+import controllers.CandidateController;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -77,6 +78,7 @@ public class ScoringList {
 	}
 
 	private void readNameList(InputStream stream) {
+		candidates.clear();
 		final AtomicInteger rank = new AtomicInteger(1);
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(stream))) {
 			String name;
@@ -123,6 +125,7 @@ public class ScoringList {
 	public void empty() {
         candidates = FXCollections.observableArrayList();
         candidates.add(new Candidate("", 1));
+        CandidateController.getOrCreateInstance().setCandidate(candidates.get(0));
         Jury.getOrCreateInstance().empty();
     }
 }

@@ -121,8 +121,9 @@ public class AmazonBucketUploader {
 
     public BufferedImage getImageFromBucket(String imageName) {
         String imageKey = folderName + "/" + imageName;
+        System.out.println("ImageKey: " + imageKey);
         GetObjectRequest getObjReq = new GetObjectRequest(bucketName, imageKey);
-        File file = new File(imageKey);
+        File file = new File("tempFiles/" + imageKey);
         s3Client.getObject(getObjReq, file);
         BufferedImage bfImage = Utility.convertFileToImage(file);
         return bfImage;

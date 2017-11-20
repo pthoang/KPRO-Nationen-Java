@@ -275,6 +275,9 @@ public class CandidateController {
     @FXML
     private void handleChangeImage() {
         File file = MainApp.getInstance().chooseAndGetFile();
+        if (file == null) {
+            return;
+        }
         bfImage = Utility.convertFileToImage(file);
         setImageField(bfImage);
     }

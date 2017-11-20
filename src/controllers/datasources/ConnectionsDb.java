@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import model.Candidate;
+import model.Connection;
 
 
 import java.util.ArrayList;
@@ -30,7 +31,6 @@ public class ConnectionsDb {
 
             elements.add(jsonObject);
 
-
             JsonObject rawData = candidate.getRawData();
 
             JsonArray candidatesStocks = (JsonArray) rawData.get("stocks");
@@ -44,6 +44,28 @@ public class ConnectionsDb {
             JsonObject candidateNodeObject = new JsonObject();
             candidateNodeObject.add("data", candidateNode);
             nodes.add(candidateNodeObject);
+
+            int j = 2;
+            for (Connection connection:
+                    candidate.getConnections()) {
+                JsonObject dataNode = new JsonObject();
+                dataNode.addProperty("id", Integer.toString(j));
+                dataNode.addProperty("name", connection.getName());
+                dataNode.addProperty("img", connection.getPerson().getBucketImageURL());
+                dataNode.addProperty("size", Integer.toString(30));
+                dataNode.addProperty("description", connection.getDescription());
+                JsonObject dataNodeObject = new JsonObject();
+                dataNodeObject.add("data", dataNode);
+                nodes.add(dataNodeObject);
+
+                JsonObject dataEdge = new JsonObject();
+                dataEdge.addProperty("source", "1"); //Source
+                dataEdge.addProperty("target", Integer.toString(j)); //Target
+                JsonObject dataEdgeObject = new JsonObject();
+                dataEdgeObject.add("data", dataEdge);
+                edges.add(dataEdgeObject);
+                j++;
+            }
 
             //
             int i = 2;

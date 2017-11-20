@@ -52,7 +52,8 @@ public class AddJuryController {
 
     public AddJuryController(){
         mainApp = MainApp.getInstance();
-        setImageField(Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH));
+        bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
+        setImageField(bfImage);
         jury = Jury.getOrCreateInstance();
     }
 
@@ -99,6 +100,9 @@ public class AddJuryController {
     @FXML
     private void fileChooser() {
         File imageFile = mainApp.chooseAndGetFile();
+        if (imageFile == null) {
+            return;
+        }
         bfImage = Utility.getBufferedImageFromFile(imageFile);
         setImageField(bfImage);
     }
@@ -116,14 +120,22 @@ public class AddJuryController {
 
     @FXML
     public void handleAddJuryMember() {
+
         String name = nameField.getText();
         String imageName = name.replace(" ", "");
 
         String title = titleField.getText();
-        member = new JuryMember(name, imageName, title);
-        uploadToBucket();
 
-        jury.addJuryMember(member);
+        if (member == null) {
+            member = new JuryMember(name, imageName, title);
+            jury.addJuryMember(member);
+        } else {
+            member.setName(name);
+            member.setImageName(imageName);
+            member.setTitle(title);
+        }
+
+        uploadToBucket();
 
         ObservableList<JuryMember> juryMembers = jury.getJuryMembers();
         juryMembersTable.setItems(juryMembers);
@@ -147,11 +159,13 @@ public class AddJuryController {
 
     private void cleanFields() {
         member = null;
-        setImageField(Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH));
+        bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
+        setImageField(bfImage);
         nameField.setText("");
         titleField.setText("");
         addJuryMemberButton.setDisable(true);
         deleteJuryMemberButton.setDisable(true);
+        juryMembersTable.getSelectionModel().clearSelection();
     }
 
     @FXML
@@ -164,7 +178,6 @@ public class AddJuryController {
     private void setImageField(BufferedImage image) {
         Image newImage = SwingFXUtils.toFXImage(image, null);
         imageView.setImage(newImage);
-
     }
 
     private void setFields(JuryMember juryMember) {
@@ -183,13 +196,10 @@ public class AddJuryController {
     }
 
     private void getAndSetCorrectImage() {
-        BufferedImage bfImage;
-
         if (member.getImageIsInBucket()) {
             bfImage = AmazonBucketUploader.getOrCreateInstance().getImageFromBucket(member.getImageName());
         } else {
             bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
-
         }
 
         setImageField(bfImage);

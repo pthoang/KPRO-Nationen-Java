@@ -67,3 +67,5 @@ pom.xml.tag
 src/resources/rootkeys.txt
 
 maktkaring_2017/*
+images/
+/src/resources/2017jan.csv

@@ -52,14 +52,12 @@ public class ShareholderRegister implements DataSourceInterface {
             String[] fields = br.readLine().replaceAll("[^a-zA-Z0-9;_]+", "").split(csvSplit);
             List<String> fieldsList = Arrays.asList(fields);
 
-            int orgNoIndex = fieldsList.indexOf("selskap_orgnr");
-            int orgNameIndex = fieldsList.indexOf("selskap_navn");
-            int totalStocksIndex = fieldsList.indexOf("aksjer_totalt_selskapet");
-            int stocksCandidateIndex = fieldsList.indexOf("aksjer_antall");
-            int shareholderNameIndex = fieldsList.indexOf("aksjonr_navn");
-            int zipCodeIndex = fieldsList.indexOf("aksjonr_postnr");
-            int cityIndex = fieldsList.indexOf("aksjonr_poststed");
-            int yearOfBirthIndex = fieldsList.indexOf("aksjonr_fdtr");
+            int orgNoIndex = fieldsList.indexOf("Orgnr");
+            int orgNameIndex = fieldsList.indexOf("Selskap");
+            int totalStocksIndex = fieldsList.indexOf("Antallaksjerselskap");
+            int stocksCandidateIndex = fieldsList.indexOf("Antallaksjer");
+            int shareholderNameIndex = fieldsList.indexOf("Navnaksjonr");
+            int yearOfBirthIndex = fieldsList.indexOf("Fdselsrorgnr");
 
             Gson gson = new Gson();
 
@@ -69,18 +67,18 @@ public class ShareholderRegister implements DataSourceInterface {
             while((line = br.readLine()) != null) {
                 String[] information = line.split(csvSplit);
                 String[] shareholderNameSplit = information[shareholderNameIndex].split(" ");
-                String shareholderKey = (shareholderNameSplit[0] + " " +
-                        shareholderNameSplit[shareholderNameSplit.length-1]
+                String shareholderKey = ((shareholderNameSplit.length > 1 ? shareholderNameSplit[1] + " ": "") +
+                        shareholderNameSplit[0]
 //                        + information[yearOfBirthIndex]
                     ).toLowerCase();
 
                 if(candidateShareholderInformation.containsKey(shareholderKey)) {
                     ShareholderInformation shareholderInformation =
-                            new ShareholderInformation(information[orgNoIndex], information[orgNameIndex],
+                            new ShareholderInformation(Integer.parseInt(information[orgNoIndex]),
+                                    information[orgNameIndex],
                                     new BigInteger(information[totalStocksIndex]),
                                     Integer.parseInt(information[stocksCandidateIndex]),
-                                    information[zipCodeIndex],
-                                    information[cityIndex]);
+                                    information[yearOfBirthIndex]);
                     JsonObject jsonObject = (JsonObject) jsonParser.parse(gson.toJson(shareholderInformation));
                     candidateShareholderInformation.get(shareholderKey).add(jsonObject);
                 }

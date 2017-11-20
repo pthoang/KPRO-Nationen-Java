@@ -76,6 +76,8 @@ public class MainApp extends Application {
 		initRootLayout();
 		scoringList = ScoringList.getOrCreateInstance();
 		showEditListView();
+
+		newList();
 	}
 
 	/**

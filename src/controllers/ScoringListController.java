@@ -186,11 +186,35 @@ public class ScoringListController {
             jsonCandidate.addProperty("img", candidate.getBucketImageURL());
             jsonCandidate.addProperty("key", candidate.getRank());
             jsonCandidate.addProperty("lastYear", candidate.getPreviousYearRank());
-            jsonCandidate.addProperty("gender", candidate.getGender());
-            jsonCandidate.addProperty("profession", candidate.getProfession());
-            jsonCandidate.addProperty("residence", candidate.getMunicipality());
-            jsonCandidate.addProperty("twitterAcnt", candidate.getTwitter());
-            jsonCandidate.addProperty("bio", candidate.getDescription());
+            if (candidate.getGender() == null) {
+                jsonCandidate.addProperty("gender", "M");
+            } else {
+                jsonCandidate.addProperty("gender", candidate.getGender());
+            }
+
+            String profession = candidate.getProfession();
+            if (profession == null) {
+                profession = "";
+            }
+            jsonCandidate.addProperty("profession", profession);
+
+            String municipality = candidate.getMunicipality();
+            if (municipality == null) {
+                municipality = "";
+            }
+            jsonCandidate.addProperty("residence", municipality);
+
+            String twitter = candidate.getTwitter();
+            if (twitter == null) {
+                twitter = "";
+            }
+            jsonCandidate.addProperty("twitterAcnt", twitter);
+
+            String description = candidate.getDescription();
+            if (description == null) {
+                description = "";
+            }
+            jsonCandidate.addProperty("bio", description);
 
             if (candidate.getRawData().get("subsidies") == null) {
                 jsonCandidate.add("subsidies", new JsonArray());

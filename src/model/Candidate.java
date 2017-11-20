@@ -144,7 +144,10 @@ public class Candidate extends Person {
 	}
 
 	public String getTwitter() {
-		return this.twitterLink.get();
+		if (twitterLink.get() == null) {
+			return "";
+		}
+		return twitterLink.get();
 	}
 
 	public void addConnection(Connection connection) {
@@ -204,7 +207,12 @@ public class Candidate extends Person {
 		this.profession = profession;
 	}
 
-	public String getTitle(){ return title; }
+	public String getTitle(){
+		if (title == null) {
+			return "";
+		}
+		return title;
+	}
 
 	public void setTitle(String title) { this.title = title; }
 
@@ -280,10 +288,8 @@ public class Candidate extends Person {
 		this.rawData.add(field, data);
 	}
 
-
 	public void setElements(JsonArray elements) {
 		this.elements = elements;
-
 	}
 
 	public JsonArray getElements() {

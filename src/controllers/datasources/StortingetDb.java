@@ -27,7 +27,6 @@ public class StortingetDb implements DataSourceInterface{
     private String governmentUrl = "https://data.stortinget.no/eksport/regjering?format=json";
 
     public StortingetDb() {
-        System.out.println("initi");
         requiredFiles = new ArrayList<>();
     }
 

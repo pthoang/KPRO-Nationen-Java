@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import model.ScoringList;
 import model.DataSources;
 import model.Candidate;
+import model.Settings;
 
 public class MainApp extends Application {
 
@@ -40,15 +41,14 @@ public class MainApp extends Application {
 
 	public static void main(String[] args) {
         launch(args);
-		/*
+
 	    Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 	        public void run() {
                 deleteImageFolder();
             }}, "Shutting down"
         ));
-        */
-	}
 
+	}
 
 	public void showJuryAdmin() {
 		try {
@@ -64,8 +64,6 @@ public class MainApp extends Application {
 		}
 	}
 
-
-
 	@Override
 	public void start(Stage primaryStage) {
         instance = this;
@@ -76,6 +74,8 @@ public class MainApp extends Application {
 		initRootLayout();
 		scoringList = ScoringList.getOrCreateInstance();
 		showEditListView();
+
+		newList();
 	}
 
 	/**
@@ -176,15 +176,14 @@ public class MainApp extends Application {
 
 	// Called when closing the program
 	private static void deleteImageFolder() {
-        File imagesFolder = new File("/temporarySaving");
-        File[] files = imagesFolder.listFiles();
+        //File imagesFolder = new File(Settings.getOrCreateInstance().getFolderName());
+        File tempFilesFolder = new File("tempFiles");
+		File[] files = tempFilesFolder.listFiles();
         if (files != null) {
             for (File f: files) {
                 f.delete();
             }
         }
-
-        System.out.println("Delete folder with temporary files");
     }
 
     private void saveState() {

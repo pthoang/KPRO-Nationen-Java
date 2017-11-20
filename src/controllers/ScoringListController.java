@@ -178,7 +178,7 @@ public class ScoringListController {
         fileChooser.getExtensionFilters().add(extFilter);
         // Show save file dialog
 
-        File file = new File("maktlista.json");
+        File file = new File("tempFiles/maktlista.json");
         saveFile(json, file);
 
         AmazonBucketUploader.getOrCreateInstance().uploadFile(file, "maktlista.json");

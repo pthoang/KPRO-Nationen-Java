@@ -80,7 +80,7 @@ public class Settings {
 	}
 
 	private void setDefaultKeys() {
-		InputStream in = Main.MainApp.class.getResourceAsStream("/resources/rootkey.txt");
+		InputStream in = Main.MainApp.class.getResourceAsStream("/resources/rootkeys.txt");
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
 			String key;
 			while ((key = br.readLine()) != null) {

@@ -56,7 +56,8 @@ public class ConnectionController {
 		if (connection != null) {
 			setFields();
 		} else {
-			BufferedImage bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
+			System.out.println("Connection is null: " + connection);
+			bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
 			setImageField(bfImage);
 			saveButton.setDisable(true);
 		}
@@ -64,6 +65,10 @@ public class ConnectionController {
 	@FXML
 	public void initialize() {
 		nameField.textProperty().addListener((observable, oldValue, newValue) -> {
+			saveButton.setDisable(false);
+		});
+
+		imageView.imageProperty().addListener((observable, oldValue, newValue) -> {
 			saveButton.setDisable(false);
 		});
 
@@ -94,6 +99,9 @@ public class ConnectionController {
     @FXML
     private void handleChangeImage() {
         File file = mainApp.chooseAndGetFile();
+		if (file == null) {
+			return;
+		}
         bfImage = Utility.convertFileToImage(file);
         setImageField(bfImage);
     }
@@ -122,7 +130,8 @@ public class ConnectionController {
             String imageName = nameField.getText();
             imageName = imageName.replace(" ",  "");
             Person person = new Person(nameField.getText(), imageName);
-			candidate.addConnection(person, descriptionField.getText());
+            connection = new Connection(person, descriptionField.getText());
+			candidate.addConnection(connection);
 			uploadToBucket();
 		} else {
 			connection.getPerson().setName(nameField.getText());
@@ -133,10 +142,11 @@ public class ConnectionController {
 	}
 
     private void uploadToBucket() {
-        String imageName = candidate.getImageName();
+        String imageName = connection.getPerson().getImageName();
+        System.out.println("ImageName: " + imageName);
         File file = Utility.convertBufferedImageToFile(bfImage);
         AmazonBucketUploader.getOrCreateInstance().uploadFile(file, imageName);
-        candidate.setImageIsInBucket(true);
+        connection.getPerson().setImageIsInBucket(true);
     }
 
 	@FXML
@@ -164,10 +174,9 @@ public class ConnectionController {
 	}
 
     private void getAndSetCorrectImage() {
-        BufferedImage bfImage;
-
         if (connection.getPerson().getImageIsInBucket()) {
-            bfImage = AmazonBucketUploader.getOrCreateInstance().getImageFromBucket(candidate.getImageName());
+        	System.out.println("Getting image from bucket");
+            bfImage = AmazonBucketUploader.getOrCreateInstance().getImageFromBucket(connection.getPerson().getImageName());
         } else {
             bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
         }

@@ -138,9 +138,8 @@ public class Candidate extends Person {
 		return this.twitterLink.get();
 	}
 
-	public void addConnection(Person person, String description) {
-		Connection newConnection = new Connection(person, description);
-		connections.add(newConnection);
+	public void addConnection(Connection connection) {
+		connections.add(connection);
 	}
 
 	public ObservableList<Connection> getConnections() {

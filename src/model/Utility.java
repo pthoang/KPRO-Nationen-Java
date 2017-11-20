@@ -97,8 +97,7 @@ public class Utility {
     }
 
     public static File convertBufferedImageToFile(BufferedImage bfImage) {
-        System.out.println("BFImage: " + bfImage);
-        File file = new File("convertImage.png");
+        File file = new File("tempFiles/convertImage.png");
         try {
             ImageIO.write(bfImage, "png", file);
             return file;

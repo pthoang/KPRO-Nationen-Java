@@ -64,4 +64,6 @@ pom.xml.releaseBackup
 pom.xml.tag
 
 # Keys to amazon S3 bucket
-src/resources/rootkey.txt
+src/resources/rootkeys.txt
+
+maktkaring_2017/*

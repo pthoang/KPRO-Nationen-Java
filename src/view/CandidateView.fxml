@@ -49,7 +49,7 @@
     <Label text="Beskrivelse:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
     <TextArea fx:id="descriptionField" maxHeight="150" GridPane.columnIndex="0" GridPane.rowIndex="9" GridPane.columnSpan="3" GridPane.rowSpan="2"/>
 
-    <Label text="Nettverk: (dobbeltklikk for å velge en kobling)" GridPane.columnIndex="0" GridPane.rowIndex="11" />
+    <Label text="Nettverk: (dobbeltklikk for å velge en kobling)" GridPane.columnIndex="0" GridPane.rowIndex="11" GridPane.columnSpan="2" />
     <TableView fx:id="networkTable" onMouseClicked="#openConnection" maxHeight="150" GridPane.columnIndex="0" GridPane.rowIndex="12" GridPane.rowSpan="2" GridPane.columnSpan="3">
       <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
       <columns>

@@ -435,6 +435,8 @@ public class CandidateController {
         rankField.setText(Integer.toString(candidate.getRank()));
         if (candidate.hasPreviousYearRank()) {
             previousYearRankField.setText(Integer.toString(candidate.getPreviousYearRank()));
+        } else {
+            previousYearRankField.setText("");
         }
         genderChoiceBox.getSelectionModel().select(setGenderChoice(candidate));
         descriptionField.setText(candidate.getDescription());

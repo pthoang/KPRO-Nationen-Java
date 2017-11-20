@@ -46,7 +46,7 @@ public class SupportDb implements DataSourceInterface {
             //gets all organization id numbers
             ArrayList<String> org = new ArrayList<String>();
             for (JsonElement stock : dataToAnalyze) {
-                org.add(stock.getAsJsonObject().get("orgNo").getAsString());
+                org.add(stock.getAsJsonObject().get("id").getAsString());
             }
 
 
@@ -110,16 +110,38 @@ public class SupportDb implements DataSourceInterface {
                 e.printStackTrace();
             }
 
-            //converts the data we have to a json object and add it to the candidate
-            JsonObject subsidies = new JsonObject();
 
-            subsidies.addProperty("animalSubsidies", animalSubsidies);
-            subsidies.addProperty("farmingSubsidies", farmingSubsidies);
-            subsidies.addProperty("hiredHelpSubsidies", hiredHelpSubsidies);
+            JsonArray subsidiesArray = new JsonArray();
 
-            candidate.addData("subsidies", subsidies);
+            JsonObject animal = new JsonObject();
+            animal.addProperty("id", 1);
+            animal.addProperty("name", "Dyrehold");
+            animal.addProperty("value", animalSubsidies);
+
+            JsonObject farming = new JsonObject();
+            farming.addProperty("id", 2);
+            farming.addProperty("name", "Areal");
+            farming.addProperty("value", farmingSubsidies);
+
+            JsonObject hiredhelp = new JsonObject();
+            hiredhelp.addProperty("id", 3);
+            hiredhelp.addProperty("name", "Avløser");
+            hiredhelp.addProperty("value", hiredHelpSubsidies);
+
+            subsidiesArray.add(animal);
+            subsidiesArray.add(farming);
+            subsidiesArray.add(hiredhelp);
+
+            candidate.setAnimalSubsidies(animalSubsidies);
+            candidate.setFarmingSubsidies(farmingSubsidies);
+            candidate.setHiredHelpSubsidies(hiredHelpSubsidies);
+
+            candidate.addRawData("subsidies", subsidiesArray);
         }
 
+        ConnectionsDb connectionsDb = new ConnectionsDb();
+        connectionsDb.setConnections(candidates);
+        System.out.println(candidates);
     }
 
     @Override

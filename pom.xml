@@ -3,7 +3,6 @@
   <groupId>KPRO-Nationen-Java</groupId>
   <artifactId>KPRO-Nationen-Java</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-
   <dependencies>
     <dependency>
       <groupId>com.amazonaws</groupId>
@@ -101,6 +100,14 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.zenjava</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>8.8.3</version>
+                <configuration>
+                    <mainClass>your.package.with.Launcher</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>

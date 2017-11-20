@@ -193,6 +193,10 @@ public class Candidate extends Person {
 	}
 
 	public String getProfession() {
+
+		if (profession == null) {
+			return "";
+		}
 		return profession;
 	}
 

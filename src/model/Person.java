@@ -43,7 +43,7 @@ public class Person {
 
 	public String getBucketImageURL() {
 		String bucketPath = AmazonBucketUploader.getOrCreateInstance().getBucketPath();
-		return bucketPath + imageName.get();
+		return bucketPath + "/" + getImageName();
 	}
 
 	public void setImageIsInBucket(boolean bool){

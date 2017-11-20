@@ -79,7 +79,6 @@ public class ScoringList {
 
 	private void readNameList(InputStream stream) {
 		candidates.clear();
-		System.out.println("Candidates before reading list: " + candidates);
 		final AtomicInteger rank = new AtomicInteger(1);
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(stream))) {
 			String name;

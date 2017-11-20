@@ -99,6 +99,9 @@ public class ConnectionController {
     @FXML
     private void handleChangeImage() {
         File file = mainApp.chooseAndGetFile();
+		if (file == null) {
+			return;
+		}
         bfImage = Utility.convertFileToImage(file);
         setImageField(bfImage);
     }

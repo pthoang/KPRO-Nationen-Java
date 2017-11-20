@@ -1,5 +1,7 @@
 package controllers;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -16,6 +18,7 @@ import model.ScoringList;
 import java.io.FileWriter;
 
 import java.io.IOException;
+import java.sql.Savepoint;
 import java.util.HashMap;
 
 import org.hildan.fxgson.FxGson;
@@ -168,18 +171,53 @@ public class ScoringListController {
     	/**
 		 * Gson creates unnecessary fields in the json because of the property "SimpleStringProperty".
 		 * FxGson is a library which removes the unnecessary fields and generates the required JSON format.
-		 */
+
 		Gson fxGson = FxGson.create();
 		String json = fxGson.toJson(scoringList); //Serialize an object to json string
+		System.out.println(json);*/
+
+        JsonObject json = new JsonObject();
+
+        JsonArray people = new JsonArray();
+
+        for (Candidate candidate : scoringList.getCandidates()) {
+            JsonObject jsonCandidate = new JsonObject();
+            jsonCandidate.addProperty("fullName", candidate.getName());
+            jsonCandidate.addProperty("img", candidate.getBucketImageURL());
+            jsonCandidate.addProperty("key", candidate.getRank());
+            jsonCandidate.addProperty("lastYear", candidate.getPreviousYearRank());
+            jsonCandidate.addProperty("gender", candidate.getGender());
+            jsonCandidate.addProperty("profession", candidate.getProfession());
+            jsonCandidate.addProperty("residence", candidate.getMunicipality());
+            jsonCandidate.addProperty("twitterAcnt", candidate.getTwitter());
+            jsonCandidate.addProperty("bio", candidate.getDescription());
+            jsonCandidate.add("subsidies", candidate.getRawData().get("subsidies"));
+            jsonCandidate.add("stocks", candidate.getRawData().get("stocks"));
+
+            jsonCandidate.add("elements", candidate.getElements());
+
+            people.add(jsonCandidate);
+        }
+
+        json.add("people", people);
+
+
+
 
 		FileChooser fileChooser = new FileChooser();
         // Set extension filter
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.JSON)", "*.txt");
         fileChooser.getExtensionFilters().add(extFilter);
         // Show save file dialog
+        File fileLocal = fileChooser.showSaveDialog(mainApp.getStage());
+        if(fileLocal != null) {
+            saveFile(json.toString(), fileLocal);
+        }
+
+
 
         File file = new File("tempFiles/maktlista.json");
-        saveFile(json, file);
+        saveFile(json.toString(), file);
 
         AmazonBucketUploader.getOrCreateInstance().uploadFile(file, "maktlista.json");
     }

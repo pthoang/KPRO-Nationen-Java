@@ -50,6 +50,8 @@ public class SettingsController {
 		if ( aboutScoringText != "") {
 			aboutScoringField.setText(aboutScoringText);
 		}
+
+		aboutScoringField.setWrapText(true);
 	}
 
 	@FXML

@@ -153,6 +153,8 @@ public class CandidateController {
 
         bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
         setImageField(bfImage);
+
+        descriptionField.setWrapText(true);
     }
 
     private void disableButtons(boolean disable) {

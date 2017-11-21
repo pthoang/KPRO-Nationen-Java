@@ -129,14 +129,13 @@ public class ConnectionController {
 		if (connection == null) {
             String imageName = nameField.getText();
             imageName = imageName.replace(" ",  "");
-            Person person = new Person(nameField.getText(), imageName);
+            Person person = new Person(nameField.getText());
             connection = new Connection(person, descriptionField.getText());
 			candidate.addConnection(connection);
 			uploadToBucket();
 		} else {
 			connection.getPerson().setName(nameField.getText());
 			connection.setDescription(descriptionField.getText());
-			connection.getPerson().setImageName(imageURL);
 		}
 		parent.closeDialog();
 	}

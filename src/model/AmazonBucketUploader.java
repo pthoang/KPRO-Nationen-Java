@@ -79,6 +79,7 @@ public class AmazonBucketUploader {
 		por.setCannedAcl(CannedAccessControlList.PublicRead);
 		try {
 			s3Client.putObject(por);
+			System.out.println("Upload file: " + fileName);
 		} catch (AmazonS3Exception e) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Advarsel!");
@@ -93,7 +94,10 @@ public class AmazonBucketUploader {
 
 
 	private PutObjectRequest getPor(File file, String fileName) {
-		String path = bucketName + "/" + folderName + "/images";
+		String path = bucketName + "/" + folderName;
+		if (fileName.endsWith(".png")) {
+			path += "/images";
+		}
 		PutObjectRequest por = new PutObjectRequest(path, fileName, file);
 		por.setCannedAcl(CannedAccessControlList.PublicRead);
 

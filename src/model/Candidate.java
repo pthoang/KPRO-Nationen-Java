@@ -53,18 +53,18 @@ public class Candidate extends Person {
 	private ObservableList<Connection> connections =  FXCollections.observableArrayList();
 
 	public Candidate(String name, int rank) {
-		super(name, null);
+		super(name);
 		this.rank = new SimpleIntegerProperty(rank);
 		this.previousYearRank = new SimpleIntegerProperty(-1);
 		this.status = "";
 	}
 
 
-	public Candidate(String name, String imageURL, String despcription, int rank) {
-		super(name, imageURL);
+	public Candidate(String name, String description, int rank) {
+		super(name);
 		this.rank = new SimpleIntegerProperty(rank);
 		this.previousYearRank = new SimpleIntegerProperty(rank);
-		this.description.setValue(despcription);
+		this.description.setValue(description);
 	}
 
 	public JsonObject getRawData() {

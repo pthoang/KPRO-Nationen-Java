@@ -4,8 +4,8 @@ public class JuryMember extends Person {
 
     private String title;
 
-    public JuryMember(String name, String imageName, String title) {
-        super(name, imageName);
+    public JuryMember(String name, String title) {
+        super(name);
         this.title = title;
     }
 

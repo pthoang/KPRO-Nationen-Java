@@ -90,6 +90,8 @@ public class AddJuryController {
 
         disableButtons(true);
         saveDescriptionButton.setDisable(true);
+
+        descriptionField.setWrapText(true);
     }
 
     private void disableButtons(boolean disable) {

@@ -206,12 +206,18 @@ public class ScoringListController {
                     candidate.getDescription() != null ? candidate.getDescription() : "");
             jsonCandidate.addProperty("title",
                     candidate.getTitle() != null ? candidate.getTitle() : "");
-            jsonCandidate.add("subsidies", candidate.getRawData().get("subsidies"));
-            jsonCandidate.add("stocks", candidate.getRawData().get("stocks"));
-            jsonCandidate.add("politic", candidate.getRawData().get("politic"));
-
-            jsonCandidate.add("elements", candidate.getElements());
-
+            jsonCandidate.add("subsidies",
+                    candidate.getRawData().get("subsidies") != null ?
+                            candidate.getRawData().get("subsidies") : new JsonArray());
+            jsonCandidate.add("stocks",
+                    candidate.getRawData().get("stocks") != null ?
+                            candidate.getRawData().get("stocks"): new JsonArray());
+            jsonCandidate.add("politic",
+                    candidate.getRawData().get("politic") != null ?
+                            candidate.getRawData().get("politic") : new JsonObject());
+            jsonCandidate.add("elements",
+                    candidate.getElements() != null ? candidate.getElements() : new JsonArray());
+            
             people.add(jsonCandidate);
         }
 

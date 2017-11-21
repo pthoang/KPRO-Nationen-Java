@@ -130,6 +130,7 @@ public class AmazonBucketUploader {
     }
 
     public String getBucketPath() {
-	    return bucketName + "/" + folderName;
+	    return
+				"https://s3.us-east-2.amazonaws.com/" + bucketName + "/" + folderName;
     }
 }

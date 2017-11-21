@@ -14,7 +14,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.GridPane;
@@ -154,6 +153,8 @@ public class CandidateController {
 
         bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
         setImageField(bfImage);
+
+        descriptionField.setWrapText(true);
     }
 
     private void disableButtons(boolean disable) {
@@ -434,6 +435,8 @@ public class CandidateController {
         rankField.setText(Integer.toString(candidate.getRank()));
         if (candidate.hasPreviousYearRank()) {
             previousYearRankField.setText(Integer.toString(candidate.getPreviousYearRank()));
+        } else {
+            previousYearRankField.setText("");
         }
         genderChoiceBox.getSelectionModel().select(setGenderChoice(candidate));
         descriptionField.setText(candidate.getDescription());

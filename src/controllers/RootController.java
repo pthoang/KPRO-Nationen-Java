@@ -85,7 +85,7 @@ public class RootController {
 				String temp = jsonCandidate.getAsJsonObject().get("img").toString();
 				temp = temp.substring(1, temp.length()-1);
 				newCandidate.setImageName(temp);
-				newCandidate.getImageIsInBucket();
+				//newCandidate.setImageIsInBucket(true);
 			}
 			catch (Exception e){
 				System.out.println("No img");
@@ -103,6 +103,10 @@ public class RootController {
 			}
 
 			//birthyear
+
+			//todo
+
+			//Title
 
 			//todo
 

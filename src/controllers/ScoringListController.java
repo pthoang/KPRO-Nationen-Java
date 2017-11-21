@@ -180,26 +180,62 @@ public class ScoringListController {
 
         JsonArray people = new JsonArray();
 
+        JsonObject juryObject = new JsonObject();
+        JsonArray juryMembers = new JsonArray();
+
+        Jury jury = Jury.getOrCreateInstance();
+
+        juryObject.addProperty("description", jury.getDescription());
+
+
         for (Candidate candidate : scoringList.getCandidates()) {
             JsonObject jsonCandidate = new JsonObject();
             jsonCandidate.addProperty("fullName", candidate.getName());
             jsonCandidate.addProperty("img", candidate.getBucketImageURL());
             jsonCandidate.addProperty("key", candidate.getRank());
             jsonCandidate.addProperty("lastYear", candidate.getPreviousYearRank());
-            jsonCandidate.addProperty("gender", candidate.getGender());
-            jsonCandidate.addProperty("profession", candidate.getProfession());
-            jsonCandidate.addProperty("residence", candidate.getMunicipality());
-            jsonCandidate.addProperty("twitterAcnt", candidate.getTwitter());
-            jsonCandidate.addProperty("bio", candidate.getDescription());
+            jsonCandidate.addProperty("gender",
+                    candidate.getGender() != null ? candidate.getGender() : "M");
+            jsonCandidate.addProperty("profession",
+                    candidate.getProfession() != null ? candidate.getProfession() : "");
+            jsonCandidate.addProperty("residence",
+                    candidate.getMunicipality() != null ? candidate.getMunicipality() : "");
+            jsonCandidate.addProperty("twitterAcnt",
+                    candidate.getTwitter() != null ? candidate.getTwitter() : "");
+            jsonCandidate.addProperty("bio",
+                    candidate.getDescription() != null ? candidate.getDescription() : "");
+            jsonCandidate.addProperty("title",
+                    candidate.getTitle() != null ? candidate.getTitle() : "");
             jsonCandidate.add("subsidies", candidate.getRawData().get("subsidies"));
             jsonCandidate.add("stocks", candidate.getRawData().get("stocks"));
+            jsonCandidate.add("politic", candidate.getRawData().get("politic"));
 
             jsonCandidate.add("elements", candidate.getElements());
 
             people.add(jsonCandidate);
         }
 
+        for (JuryMember juryMember :
+                jury.getJuryMembers()) {
+            JsonObject jsonJuryMember = new JsonObject();
+
+            jsonJuryMember.addProperty("fullName", juryMember.getName());
+            jsonJuryMember.addProperty("img", juryMember.getBucketImageURL());
+            jsonJuryMember.addProperty("title", juryMember.getTitle());
+
+            juryMembers.add(jsonJuryMember);
+
+        }
+
+        juryObject.add("juryMembers", juryMembers);
+
+        json.add("jury", juryObject);
+
+
         json.add("people", people);
+
+        json.addProperty("description", scoringList.getAboutTheScoring());
+
 
 
 

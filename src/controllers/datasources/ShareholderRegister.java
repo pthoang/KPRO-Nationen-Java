@@ -41,8 +41,7 @@ public class ShareholderRegister implements DataSourceInterface {
                 candidates) {
             String[] candidateNameSplit = candidate.getName().split(" ");
             String hashKey = candidateNameSplit[0] + " " + candidateNameSplit[candidateNameSplit.length-1]
-//                    + candidate.getYearOfBirth()
-                                                    ;
+                    + candidate.getYearOfBirth();
             candidateShareholderInformation.put(hashKey.toLowerCase(), new JsonArray());
         }
 
@@ -69,7 +68,7 @@ public class ShareholderRegister implements DataSourceInterface {
                 String[] shareholderNameSplit = information[shareholderNameIndex].split(" ");
                 String shareholderKey = ((shareholderNameSplit.length > 1 ? shareholderNameSplit[1] + " ": "") +
                         shareholderNameSplit[0]
-//                        + information[yearOfBirthIndex]
+                        + information[yearOfBirthIndex]
                     ).toLowerCase();
 
                 if(candidateShareholderInformation.containsKey(shareholderKey)) {
@@ -88,8 +87,7 @@ public class ShareholderRegister implements DataSourceInterface {
                     candidates) {
                 String[] candidateNameSplit = candidate.getName().split(" ");
                 String hashKey = candidateNameSplit[0] + " " + candidateNameSplit[candidateNameSplit.length-1]
-//                        + candidate.getYearOfBirth()
-                                                        ;
+                        + candidate.getYearOfBirth();
                 JsonArray data = candidateShareholderInformation.get(hashKey.toLowerCase());
                 candidate.addRawData("stocks", data);
             }

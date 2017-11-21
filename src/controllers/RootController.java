@@ -58,7 +58,7 @@ public class RootController {
 
 		// Loops trough the list and creates basic information for candidates
 		for (JsonElement jsonCandidate : people) {
-			String name = jsonCandidate.getAsJsonObject().get("firstName").toString();
+			String name = jsonCandidate.getAsJsonObject().get("fullName").toString();
 			name = name.substring(1, name.length()-1);
 			SimpleIntegerProperty lastYear = new SimpleIntegerProperty(); //Integer.parseInt(jsonCandidate.getAsJsonObject().get("lastYear").toString());
 			SimpleStringProperty description = new SimpleStringProperty();
@@ -84,8 +84,11 @@ public class RootController {
 			try {
 				String temp = jsonCandidate.getAsJsonObject().get("img").toString();
 				temp = temp.substring(1, temp.length()-1);
-				newCandidate.setImageName(temp);
-				//newCandidate.setImageIsInBucket(true);
+				if(!temp.isEmpty()) {
+					newCandidate.setImageName(newCandidate.getImageName());
+					newCandidate.setImageIsInBucket(true);
+				}
+
 			}
 			catch (Exception e){
 				System.out.println("No img");
@@ -153,7 +156,12 @@ public class RootController {
 			//twitter
 			try {
 				String temp = jsonCandidate.getAsJsonObject().get("twitterAcnt").toString();
-				temp = temp.substring(1, temp.length()-1);
+				if(temp.equals("null")){
+					temp = "";
+				}
+				else {
+					temp = temp.substring(1, temp.length() - 1);
+				}
 				twitter.setValue(temp);
 				newCandidate.setTwitter(twitter);
 			}

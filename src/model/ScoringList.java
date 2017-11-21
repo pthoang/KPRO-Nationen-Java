@@ -72,7 +72,6 @@ public class ScoringList {
 		this.aboutTheScoring = aboutTheScoring;
 	}
 
-    // TODO: use when writing JSON
 	public String getAboutTheScoring() {
 		return aboutTheScoring;
 	}

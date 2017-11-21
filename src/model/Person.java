@@ -41,11 +41,9 @@ public class Person {
 		this.imageName = new SimpleStringProperty(imageName);
 	}
 
-	// TODO: must be used when writing JSON
 	public String getBucketImageURL() {
 		String bucketPath = AmazonBucketUploader.getOrCreateInstance().getBucketPath();
-		// TODO: not sure
-		return bucketPath + "/" + imageName;
+		return bucketPath + "/" + getImageName();
 	}
 
 	public void setImageIsInBucket(boolean bool){

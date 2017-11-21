@@ -45,6 +45,13 @@ public class SettingsController {
 	@FXML
 	private void initialize() {
 		setDefaultSettings();
+
+		String aboutScoringText = ScoringList.getOrCreateInstance().getAboutTheScoring();
+		if ( aboutScoringText != "") {
+			aboutScoringField.setText(aboutScoringText);
+		}
+
+		aboutScoringField.setWrapText(true);
 	}
 
 	@FXML

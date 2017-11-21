@@ -66,4 +66,6 @@ pom.xml.tag
 # Keys to amazon S3 bucket
 src/resources/rootkeys.txt
 
-maktkaring_2017/*
+/src/tempFiles/*
+/src/resources/2017jan.csv
+

@@ -93,7 +93,7 @@ public class AmazonBucketUploader {
 
 
 	private PutObjectRequest getPor(File file, String fileName) {
-		String path = bucketName + "/" + folderName;
+		String path = bucketName + "/" + folderName + "/images";
 		PutObjectRequest por = new PutObjectRequest(path, fileName, file);
 		por.setCannedAcl(CannedAccessControlList.PublicRead);
 

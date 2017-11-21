@@ -170,9 +170,11 @@ public class MainApp extends Application {
     }
 
 	public void generateAll() {
+		/*
 		for (DataSourceInterface datasource : ds.getDsList()) {
 			datasource.getData(scoringList.getCandidates());
 		}
+		*/
 
 		ConnectionsDb connectionsDb = new ConnectionsDb();
 		connectionsDb.setConnections(scoringList.getCandidates());

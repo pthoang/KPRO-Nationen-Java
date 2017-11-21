@@ -90,10 +90,11 @@ public class AmazonBucketUploader {
 		}
 	}
 
-
-
 	private PutObjectRequest getPor(File file, String fileName) {
 		String path = bucketName + "/" + folderName;
+		if (fileName.endsWith(".png")) {
+			path += "/images";
+		}
 		PutObjectRequest por = new PutObjectRequest(path, fileName, file);
 		por.setCannedAcl(CannedAccessControlList.PublicRead);
 
@@ -120,7 +121,7 @@ public class AmazonBucketUploader {
 	}
 
     public BufferedImage getImageFromBucket(String imageName) {
-        String imageKey = folderName + "/" + imageName;
+        String imageKey = folderName + "/images/" + imageName;
         System.out.println("ImageKey: " + imageKey);
         GetObjectRequest getObjReq = new GetObjectRequest(bucketName, imageKey);
         File file = new File("tempFiles/" + imageKey);

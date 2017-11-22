@@ -75,7 +75,6 @@ public class AmazonBucketUploader {
 	}
 
 	public void uploadFile(File file, String fileName) {
-		System.out.println("starting upload");
 		PutObjectRequest por = getPor(file, fileName);
 		por.setCannedAcl(CannedAccessControlList.PublicRead);
 		try {
@@ -89,7 +88,6 @@ public class AmazonBucketUploader {
 					+ "	Bildene vil ikke lagres i bøtta før informasjonen er korrekt.");
 			alert.showAndWait();
 		}
-		System.out.println("finished upload");
 	}
 
 	private PutObjectRequest getPor(File file, String fileName) {

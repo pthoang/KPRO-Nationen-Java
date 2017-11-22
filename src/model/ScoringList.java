@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.io.BufferedReader;
+import java.util.Comparator;
 
 import controllers.CandidateController;
 import controllers.ScoringListController;
@@ -282,5 +283,26 @@ public class ScoringList {
 	public void totalEmpty() {
 		candidates = FXCollections.observableArrayList();
 		Jury.getOrCreateInstance().empty();
+	}
+
+	public void updateRanks() {
+		System.out.println("Updating ranks");
+		sortListByRank();
+		int highestRank = 0;
+		for (Candidate candidate : candidates) {
+			int rank = candidate.getRank();
+			System.out.println("rank to " + candidate.getName() + ": " + rank + " vs highest rank: " + highestRank);
+			if (rank <= highestRank) {
+				int newRank = highestRank + 1;
+				System.out.println("NEw rank: " + newRank);
+				candidate.setRank(new SimpleIntegerProperty(newRank));
+			}
+			highestRank += 1;
+		}
+	}
+
+	private void sortListByRank() {
+		Comparator<Candidate> comparator = Comparator.comparingInt(Candidate:: getRank);
+		FXCollections.sort(candidates, comparator);
 	}
 }

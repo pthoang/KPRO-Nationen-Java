@@ -157,7 +157,8 @@ public class ConnectionsDb {
                 }
 
             Settings settings = Settings.getOrCreateInstance();
-            while ( nodes.size() + candidate.getConnections().size() > settings.getNumConnections()) {
+            while ((nodes.size() + candidate.getConnections().size() > settings.getNumConnections() + 1) &&
+                    nodes.size() > 1) {
                 Random rand = new Random();
 
                 int removeIndex = rand.nextInt(nodes.size()-1) + 1;

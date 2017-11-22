@@ -10,11 +10,7 @@ import model.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by martingundersen on 08/11/2017.
- */
 public class ConnectionsDb {
-
 
     public void setConnections(List<Candidate> candidates) {
 
@@ -48,6 +44,7 @@ public class ConnectionsDb {
             int j = 2;
             for (Connection connection:
                     candidate.getConnections()) {
+                System.out.println("Connection when writing JSON: " + connection);
                 JsonObject dataNode = new JsonObject();
                 dataNode.addProperty("id", Integer.toString(j));
                 dataNode.addProperty("name", connection.getName());
@@ -73,7 +70,10 @@ public class ConnectionsDb {
                 if (!candidate.getName().equals(candidate2.getName())){
                     JsonObject rawData2 = candidate2.getRawData();
                     JsonArray otherCandidateStocks= (JsonArray) rawData2.get("stocks");
-
+                    if (otherCandidateStocks == null) {
+                        System.out.println("OtherCandidatesStocks is null");
+                        break;
+                    }
                     //I dont know what raw_data looks like, but this should be easy to rewrite
 
                     //Adding Connection if candidates own same stock
@@ -200,21 +200,12 @@ public class ConnectionsDb {
                         dataEdgeObject.add("data", dataEdge);
                         edges.add(dataEdgeObject);
                     }
-
                     i++;
-
-
                     }
                 }
 
-
             candidate.setElements(elements);
-
             }
-
-
-
-
         }
 
 

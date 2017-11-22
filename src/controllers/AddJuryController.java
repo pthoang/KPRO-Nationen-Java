@@ -124,16 +124,14 @@ public class AddJuryController {
     public void handleAddJuryMember() {
 
         String name = nameField.getText();
-        String imageName = name.replace(" ", "");
 
         String title = titleField.getText();
 
         if (member == null) {
-            member = new JuryMember(name, imageName, title);
+            member = new JuryMember(name, title);
             jury.addJuryMember(member);
         } else {
             member.setName(name);
-            member.setImageName(imageName);
             member.setTitle(title);
         }
 

@@ -5,15 +5,10 @@ import javafx.beans.property.SimpleStringProperty;
 public class Person {
 	
 	protected SimpleStringProperty name;
-	private SimpleStringProperty imageName = new SimpleStringProperty(Utility.STANDARD_IMAGE_PATH);
 	private boolean imageIsInBucket = false;
 
-
-	public Person(String name, String imageName) {
+	public Person(String name) {
 		this.name = new SimpleStringProperty(name);
-		if (imageName != null) {
-			this.imageName = new SimpleStringProperty(imageName);
-		}
 	}
 
 	public SimpleStringProperty getNameProperty() {
@@ -25,11 +20,6 @@ public class Person {
 	}
 
 	public String getImageName() {
-		/*
-		if (! imageName.get().equals(Utility.STANDARD_IMAGE_PATH)) {
-			return "images/" + imageName.get();
-		}
-		*/
 		return name.get().replace(" ", "") + ".png";
 	}
 	
@@ -37,13 +27,15 @@ public class Person {
 		this.name = new SimpleStringProperty(name);
 	}
 
-	public void setImageName(String imageName) {
-		this.imageName = new SimpleStringProperty(imageName);
-	}
-
 	public String getBucketImageURL() {
+		String imagePath = "";
 		String bucketPath = AmazonBucketUploader.getOrCreateInstance().getBucketPath();
-		return bucketPath + "/" + getImageName();
+		if (imageIsInBucket) {
+			imagePath += bucketPath + "/images/" + getImageName();
+		} else {
+			imagePath += bucketPath + "/standard.png";
+		}
+		return imagePath;
 	}
 
 	public void setImageIsInBucket(boolean bool){

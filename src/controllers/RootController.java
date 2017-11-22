@@ -85,7 +85,7 @@ public class RootController {
 				String temp = jsonCandidate.getAsJsonObject().get("img").toString();
 				temp = temp.substring(1, temp.length()-1);
 				if(!temp.isEmpty()) {
-					newCandidate.setImageName(newCandidate.getImageName());
+					newCandidate.getBucketImageURL();
 					newCandidate.setImageIsInBucket(true);
 				}
 
@@ -107,11 +107,21 @@ public class RootController {
 
 			//birthyear
 
-			//todo
+			try {
+				newCandidate.setYearOfBirth(jsonCandidate.getAsJsonObject().get("birthYear").getAsString());
+			}
+			catch (Exception e){
+				System.out.println("No birthyear");
+			}
 
 			//Title
 
-			//todo
+			try {
+				newCandidate.setTitle(jsonCandidate.getAsJsonObject().get("title").getAsString());
+			}
+			catch (Exception e){
+				System.out.println("No title");
+			}
 
 			//gender
 			try {

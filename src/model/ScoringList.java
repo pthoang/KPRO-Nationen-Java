@@ -127,4 +127,8 @@ public class ScoringList {
         CandidateController.getOrCreateInstance().setCandidate(candidates.get(0));
         Jury.getOrCreateInstance().empty();
     }
+	public void totalEmpty() {
+		candidates = FXCollections.observableArrayList();
+		Jury.getOrCreateInstance().empty();
+	}
 }

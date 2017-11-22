@@ -13,6 +13,7 @@
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#showNewAndEmpty" text="Ny tom liste" />
                         <MenuItem mnemonicParsing="false" onAction="#showLoadList" text="Last inn liste" />
+                        <MenuItem mnemonicParsing="false" onAction="#createJsonList" text="Last inn JSON" />
                         <MenuItem mnemonicParsing="false" onAction="#showAddJury" text="Administrer Jury" />
                     </items>
                 </Menu>

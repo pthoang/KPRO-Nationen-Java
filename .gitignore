@@ -68,4 +68,6 @@ src/resources/rootkeys.txt
 
 /src/tempFiles/*
 /src/resources/2017jan.csv
+/src/tempFiles/
+
 

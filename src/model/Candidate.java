@@ -170,15 +170,6 @@ public class Candidate extends Person {
 		return status;
 	}
 
-	/*
-	public boolean getIsPerson(){ 
-		if (GENDERS_IF_PERSON.contains(gender)) {
-			return true;
-		}
-		return false;
-	}
-	*/
-	
 	public void setGender(String gender) {
 		this.gender = gender;
 	}

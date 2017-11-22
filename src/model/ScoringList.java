@@ -244,36 +244,6 @@ public class ScoringList {
 		}
 	}
 
-	private void readJson(String filepath) throws IOException {
-		// Loads the whole file into memory
-		String content = new String(Files.readAllBytes(Paths.get(filepath)));
-
-		// Starts the parser to create json objects we can work with
-		JsonParser parser = new JsonParser();
-		JsonElement data = parser.parse(content);
-
-		// Gets the list of people from the
-		JsonArray people = (JsonArray)data.getAsJsonObject().get("people");
-
-		int rank = 1;
-
-		// Loops trough the list and creates basic information for candidates
-		for (JsonElement jsonCandidate : people) {
-			String name = jsonCandidate.getAsJsonObject().get("firstName").toString();
-
-			// TODO
-			//this is just a quickfix. needs error handling when they don't have a value from before
-			int lastYear = 0; //Integer.parseInt(jsonCandidate.getAsJsonObject().get("lastYear").toString());
-
-			// Creates and add the candidate
-			Candidate newCandidate = new Candidate(name, rank);
-			// newCandidate.setLastYearRank(lastYear);
-			candidates.add(newCandidate);
-
-			rank++;
-		}
-	}
-
 	public void empty() {
         candidates = FXCollections.observableArrayList();
         candidates.add(new Candidate("", 1));

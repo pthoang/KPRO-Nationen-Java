@@ -54,8 +54,10 @@ public class StortingetDb implements DataSourceInterface{
                     List<String> committees = rep.komiteer_liste.stream()
                             .map(committee -> committee.navn).collect(Collectors.toList());
                     PoliticInformation politicInformation =
-                            new PoliticInformation(null, rep.parti.navn, committees, null);
+                            new PoliticInformation(null, rep.parti.navn, committees, null, rep.fylke.navn);
+                    politicInformation.setStortinget(true);
                     candidatePoliticInformation.put(repName, politicInformation);
+
                 }
             }
 
@@ -79,9 +81,12 @@ public class StortingetDb implements DataSourceInterface{
                     if(politicInformation != null) {
                         politicInformation.setTitle(govMember.tittel);
                         politicInformation.setMinistry(govMember.departement);
+                        politicInformation.setGovernment(true);
                     } else {
                         politicInformation = new PoliticInformation(govMember.tittel, govMember.parti.navn,
-                                null, govMember.departement);
+                                null, govMember.departement, null);
+                        politicInformation.setGovernment(true);
+                        candidatePoliticInformation.put(govMemberName, politicInformation);
                     }
                 }
             }

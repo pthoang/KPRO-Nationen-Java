@@ -195,8 +195,6 @@ public class ScoringListController {
             jsonCandidate.addProperty("key", candidate.getRank());
             jsonCandidate.addProperty("lastYear", candidate.getPreviousYearRank());
 
-            jsonCandidate.addProperty("residence",
-                    candidate.getMunicipality() != null ? candidate.getMunicipality() : "");
             jsonCandidate.addProperty("gender",
                     candidate.getGender() != null ? candidate.getGender() : "M");
             jsonCandidate.addProperty("profession",
@@ -210,10 +208,8 @@ public class ScoringListController {
             jsonCandidate.addProperty("title",
                     candidate.getTitle() != null ? candidate.getTitle() : "");
             jsonCandidate.addProperty("birthYear",
-                    candidate.getTitle() != null ? candidate.getYearOfBirth() : "");
-            jsonCandidate.addProperty("bio",
-                    candidate.getTitle() != null ? candidate.getDescription() : "");
-            jsonCandidate.add("subsidies",
+                    candidate.getYearOfBirth() != null ? candidate.getYearOfBirth() : "");
+             jsonCandidate.add("subsidies",
                     candidate.getRawData().get("subsidies") != null ?
                             candidate.getRawData().get("subsidies") : new JsonArray());
             jsonCandidate.add("stocks",

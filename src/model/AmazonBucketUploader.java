@@ -2,6 +2,8 @@ package model;
 
 import java.io.File;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
@@ -125,7 +127,12 @@ public class AmazonBucketUploader {
         System.out.println("ImageKey: " + imageKey);
         GetObjectRequest getObjReq = new GetObjectRequest(bucketName, imageKey);
         File file = new File("tempFiles/" + imageKey);
-        s3Client.getObject(getObjReq, file);
+        try {
+			s3Client.getObject(getObjReq, file);
+		} catch (AmazonS3Exception e) {
+        	System.out.println("Error: can't get image from bucket: " + e);
+        	return Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
+		}
         BufferedImage bfImage = Utility.convertFileToImage(file);
         return bfImage;
     }

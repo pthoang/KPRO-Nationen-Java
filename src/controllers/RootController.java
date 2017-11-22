@@ -32,6 +32,9 @@ public class RootController {
 	@FXML
 	private void showLoadList() {
 		File file = mainApp.chooseAndGetFile();
+		if (file == null) {
+			return;
+		}
 		createScoringListBasedOnFileType(file);
 
 		ScoringListController.getOrCreateInstance().fillTable();

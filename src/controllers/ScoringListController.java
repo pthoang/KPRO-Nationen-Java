@@ -251,7 +251,7 @@ public class ScoringListController {
 
 		FileChooser fileChooser = new FileChooser();
         // Set extension filter
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.JSON)", "*.txt");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.JSON)", "*.json");
         fileChooser.getExtensionFilters().add(extFilter);
         // Show save file dialog
         File fileLocal = fileChooser.showSaveDialog(mainApp.getStage());

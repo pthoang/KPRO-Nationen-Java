@@ -353,7 +353,6 @@ public class CandidateController {
 
         int rank = Integer.parseInt(rankField.getText());
         ScoringList.getOrCreateInstance().updateRankWhenChangedRank(candidate, candidate.getRank(), rank);
-        //candidate.setRank(new SimpleIntegerProperty(rank));
 
         try {
             int previousYearRank = Integer.parseInt(previousYearRankField.getText());

@@ -35,6 +35,11 @@ public class ShareholderRegister implements DataSourceInterface {
     }
 
     public void getData(List<Candidate> candidates) {
+
+        if (this.shareholderFile.getFilepath() == null) {
+            return;
+        }
+
         HashMap<String, JsonArray> candidateShareholderInformation = new HashMap<>();
 
         for (Candidate candidate :

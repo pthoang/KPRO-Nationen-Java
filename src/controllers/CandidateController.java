@@ -340,7 +340,7 @@ public class CandidateController {
     private void saveCandidate() {
         candidate.setStatus("allFields");
         String name = nameField.getText();
-        candidate.setName(name);
+        candidate.setName(name.trim());
 
         String gender = getSelectedGender();
         candidate.setGender(gender);
@@ -368,7 +368,7 @@ public class CandidateController {
         candidate.setProfession(newProfession);
 
         String twitter = twitterField.getText();
-        candidate.setTwitter(new SimpleStringProperty(twitter));
+        candidate.setTwitter(new SimpleStringProperty(twitter.trim()));
 
         String title = titleField.getText();
         candidate.setTitle(title);

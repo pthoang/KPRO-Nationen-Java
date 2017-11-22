@@ -10,14 +10,12 @@ import interfaces.DataSourceInterface;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import model.ScoringList;
-import model.DataSources;
-import model.Candidate;
-import model.Settings;
+import model.*;
 import org.apache.commons.io.FileUtils;
 
 public class MainApp extends Application {
@@ -179,6 +177,13 @@ public class MainApp extends Application {
 
 		ConnectionsDb connectionsDb = new ConnectionsDb();
 		connectionsDb.setConnections(scoringList.getCandidates());
+
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle("Informasjon");
+		alert.setHeaderText("Analysen er gjennomført");
+		alert.setContentText("Resultatet av analysen kan ses når filen eksporteres");
+		alert.showAndWait();
+
 	}
 
 	// Called when closing the program

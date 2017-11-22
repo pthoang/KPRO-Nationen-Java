@@ -28,6 +28,10 @@ public class SupportDb implements DataSourceInterface {
     @Override
     public void getData(List<Candidate> candidates) {
 
+        if (this.part1.getFilepath() == null) {
+            return;
+        }
+
         for (Candidate candidate : candidates) {
             JsonObject returnData = new JsonObject();
 

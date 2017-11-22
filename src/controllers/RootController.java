@@ -18,6 +18,7 @@ import Main.MainApp;
 import model.Candidate;
 import model.ScoringList;
 import model.Utility;
+import org.apache.commons.io.FilenameUtils;
 
 public class RootController {
 
@@ -44,7 +45,7 @@ public class RootController {
 
 
 	@FXML
-	private void createJsonList() throws IOException{
+	private void createJsonList() throws IOException {
 		File file = mainApp.chooseAndGetFile();
 		String content = readFile(file.getPath(), StandardCharsets.UTF_8);
 
@@ -194,8 +195,10 @@ public class RootController {
 		String filePath = file.getAbsolutePath();
 		ScoringList scoringList = ScoringList.getOrCreateInstance();
 
+		System.out.println("FilePath: " + filePath);
+
 		if (filePath.toLowerCase().endsWith(".json")) {
-			scoringList.createFromPreviousList(filePath);
+			scoringList.createFromPreviousList(file);
 		} else if (filePath.toLowerCase().endsWith(".txt")) {
 			scoringList.createFromNameList(file);
 		} else {

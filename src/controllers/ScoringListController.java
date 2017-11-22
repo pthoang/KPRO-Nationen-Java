@@ -261,7 +261,7 @@ public class ScoringListController {
 
 
 
-        File file = new File("tempFiles/maktlista.json");
+        File file = new File("maktlista.json");
         saveFile(json.toString(), file);
 
         AmazonBucketUploader.getOrCreateInstance().uploadFile(file, "maktlista.json");

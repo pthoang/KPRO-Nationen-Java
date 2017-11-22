@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<?import javafx.scene.control.TextArea?>
+<GridPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SettingsController">
+  <padding>
+    <Insets top="50.0" left="50" right="50" bottom="50" />
+  </padding>
+  <children>
+    <GridPane fx:id="gpSettings" GridPane.rowIndex="0">
+      <Label styleClass="settingsTitle" text="Kilder" />
+      <columnConstraints>
+        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" percentWidth="20" />
+        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" percentWidth="40" />
+        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" percentWidth="20" />
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints valignment="BOTTOM" vgrow="SOMETIMES" />
+        <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+        <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+      </rowConstraints>
+    </GridPane>
+    <GridPane GridPane.rowIndex="1">
+      <children>
+        <Label text="Liste" styleClass="settingsTitle" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <Label text="Antall kandidater i lista" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <TextField fx:id="numCandidatesField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+        <Label text="Antall koblinger til en kandidat" GridPane.columnIndex="0"  GridPane.rowIndex="4" />
+        <TextField fx:id="numConnectionsField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+        <Label text="Amazon S3 Bucket" GridPane.columnIndex="0" GridPane.rowIndex="6" styleClass="settingsTitle"/>
+        <Label text="Bucket" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+        <TextField fx:id="bucketNameField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+
+        <Label text="Mappe i bucket" GridPane.rowIndex="8" />
+        <TextField fx:id="folderNameField" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+
+        <Label text="Access key" GridPane.rowIndex="9" />
+        <TextField fx:id="bucketAccessKeyField" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+
+        <Label text="Secret key" GridPane.rowIndex="10" />
+        <TextField fx:id="bucketSecretKeyField" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+
+        <Label text="Om kåringen" GridPane.columnIndex="0" GridPane.rowIndex="11" styleClass="settingsTitle"/>
+        <TextArea fx:id="aboutScoringField" maxHeight="100" wrapText="true" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="12" />
+
+        <ToolBar GridPane.columnIndex="0" GridPane.rowIndex="13">
+          <items>
+            <Button mnemonicParsing="false" onAction="#handleSave" text="Lagre" />
+            <Button mnemonicParsing="false" onAction="#handleCancel" text="Avbryt" />
+          </items>
+        </ToolBar>
+      </children>
+      <columnConstraints>
+        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" percentWidth="20" />
+        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" percentWidth="80" />
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints valignment="BOTTOM" vgrow="SOMETIMES" />
+        <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+        <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+        <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+        <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+        <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+        <RowConstraints valignment="BOTTOM" vgrow="SOMETIMES" />
+        <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+        <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+        <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+        <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+        <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+      </rowConstraints>
+    </GridPane>
+  </children>
+  <columnConstraints>
+    <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" percentWidth="100" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints valignment="CENTER" vgrow="SOMETIMES" percentHeight="20" />
+    <RowConstraints valignment="CENTER" vgrow="SOMETIMES" percentHeight="80"/>
+  </rowConstraints>
+</GridPane>

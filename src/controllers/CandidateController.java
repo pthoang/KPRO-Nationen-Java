@@ -428,6 +428,7 @@ public class CandidateController {
     }
 
     private void setFields() {
+        System.out.println("Setting fields to candidate: " + candidate.getName());
         getAndSetCorrectImage();
 
         nameField.setText(candidate.getName());
@@ -449,7 +450,6 @@ public class CandidateController {
     }
 
     private void getAndSetCorrectImage() {
-        BufferedImage bfImage;
         if (candidate.getImageIsInBucket()) {
             System.out.println("Loading image from bucket");
             bfImage = AmazonBucketUploader.getOrCreateInstance().getImageFromBucket(candidate.getImageName());

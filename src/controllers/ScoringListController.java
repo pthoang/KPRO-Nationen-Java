@@ -106,8 +106,10 @@ public class ScoringListController {
     }
 
     public void refreshTable() {
-        ScoringList.getOrCreateInstance().updateRanks();
+        System.out.println("Refreshing table");
+        ScoringList.getOrCreateInstance().printCandidatesAndRank();
         candidates = ScoringList.getOrCreateInstance().getCandidates();
+        ScoringList.getOrCreateInstance().printCandidatesAndRank();
         candidateTable.setItems(candidates);
         candidateTable.refresh();
         updateCountLabel();

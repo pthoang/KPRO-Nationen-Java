@@ -255,24 +255,58 @@ public class ScoringList {
 		Jury.getOrCreateInstance().empty();
 	}
 
-	public void updateRanks() {
-		System.out.println("Updating ranks");
+	public void updateRanksWhenDeletedCandidate() {
 		sortListByRank();
-		int highestRank = 0;
-		for (Candidate candidate : candidates) {
-			int rank = candidate.getRank();
-			System.out.println("rank to " + candidate.getName() + ": " + rank + " vs highest rank: " + highestRank);
-			if (rank <= highestRank) {
-				int newRank = highestRank + 1;
-				System.out.println("NEw rank: " + newRank);
-				candidate.setRank(new SimpleIntegerProperty(newRank));
-			}
-			highestRank += 1;
-		}
+		compactifyRanks();
 	}
+
+	public void updateRankWhenChangedRank(Candidate candidate, int oldRank, int newRank) {
+
+        if (newRank < oldRank) {
+            changeRankForCandidates(newRank, oldRank, true);
+            candidate.setRank(new SimpleIntegerProperty(newRank));
+        } else if (newRank > oldRank) {
+            changeRankForCandidates(oldRank, newRank, false);
+            candidate.setRank(new SimpleIntegerProperty(newRank));
+        }
+
+		sortListByRank();
+		compactifyRanks();
+	}
+
+	private void changeRankForCandidates(int fromRank, int toRank, boolean increase) {
+	    sortListByRank();
+	    for (Candidate c : candidates) {
+	        int rank = c.getRank();
+	        if (rank > toRank) {
+	            break;
+            } else if(rank >= fromRank && rank < toRank) {
+	            if (increase) {
+                    c.setRank(new SimpleIntegerProperty(rank + 1));
+                } else {
+                    c.setRank(new SimpleIntegerProperty(rank - 1));
+                }
+            }
+        }
+    }
 
 	private void sortListByRank() {
 		Comparator<Candidate> comparator = Comparator.comparingInt(Candidate:: getRank);
 		FXCollections.sort(candidates, comparator);
+	}
+
+	private void compactifyRanks() {
+		int nextFreeRank = 1;
+		for (Candidate candidate : candidates) {
+			if (candidate.getRank() < nextFreeRank) {
+				nextFreeRank += 1;
+				candidate.setRank(new SimpleIntegerProperty(nextFreeRank));
+			} else if (candidate.getRank() > nextFreeRank) {
+				candidate.setRank(new SimpleIntegerProperty(nextFreeRank));
+				nextFreeRank += 1;
+			} else {
+				nextFreeRank += 1;
+			}
+		}
 	}
 }

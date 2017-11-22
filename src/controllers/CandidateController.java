@@ -449,7 +449,6 @@ public class CandidateController {
     }
 
     private void getAndSetCorrectImage() {
-        BufferedImage bfImage;
         if (candidate.getImageIsInBucket()) {
             bfImage = AmazonBucketUploader.getOrCreateInstance().getImageFromBucket(candidate.getImageName());
         } else {

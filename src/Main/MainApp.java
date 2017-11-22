@@ -18,6 +18,7 @@ import model.ScoringList;
 import model.DataSources;
 import model.Candidate;
 import model.Settings;
+import org.apache.commons.io.FileUtils;
 
 public class MainApp extends Application {
 
@@ -182,14 +183,12 @@ public class MainApp extends Application {
 
 	// Called when closing the program
 	private static void deleteImageFolder() {
-        //File imagesFolder = new File(Settings.getOrCreateInstance().getFolderName());
         File tempFilesFolder = new File("tempFiles");
-		File[] files = tempFilesFolder.listFiles();
-        if (files != null) {
-            for (File f: files) {
-                f.delete();
-            }
-        }
+        try {
+			FileUtils.cleanDirectory(tempFilesFolder);
+		} catch (IOException e) {
+        	System.out.println("Error: could not delete tempFiles: " + e);
+		}
     }
 
     private void saveState() {

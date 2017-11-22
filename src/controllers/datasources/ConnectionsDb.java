@@ -5,10 +5,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import model.Candidate;
 import model.Connection;
+import model.Settings;
 
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class ConnectionsDb {
 
@@ -41,28 +43,6 @@ public class ConnectionsDb {
             candidateNodeObject.add("data", candidateNode);
             nodes.add(candidateNodeObject);
 
-            int j = 2;
-            for (Connection connection:
-                    candidate.getConnections()) {
-                System.out.println("Connection when writing JSON: " + connection);
-                JsonObject dataNode = new JsonObject();
-                dataNode.addProperty("id", Integer.toString(j));
-                dataNode.addProperty("name", connection.getName());
-                dataNode.addProperty("img", connection.getPerson().getBucketImageURL());
-                dataNode.addProperty("size", Integer.toString(30));
-                dataNode.addProperty("description", connection.getDescription());
-                JsonObject dataNodeObject = new JsonObject();
-                dataNodeObject.add("data", dataNode);
-                nodes.add(dataNodeObject);
-
-                JsonObject dataEdge = new JsonObject();
-                dataEdge.addProperty("source", "1"); //Source
-                dataEdge.addProperty("target", Integer.toString(j)); //Target
-                JsonObject dataEdgeObject = new JsonObject();
-                dataEdgeObject.add("data", dataEdge);
-                edges.add(dataEdgeObject);
-                j++;
-            }
 
             //
             int i = 2;
@@ -93,13 +73,6 @@ public class ConnectionsDb {
                                 dataNodeObject.add("data", dataNode);
                                 nodes.add(dataNodeObject);
 
-                                JsonObject dataEdge = new JsonObject();
-                                dataEdge.addProperty("source", "1"); //Source
-                                dataEdge.addProperty("target", newId); //Target
-                                JsonObject dataEdgeObject = new JsonObject();
-                                dataEdgeObject.add("data", dataEdge);
-                                edges.add(dataEdgeObject);
-                                candidateAdded = true;
                             }
                             if(candidateAdded) {
                                 break;
@@ -128,12 +101,6 @@ public class ConnectionsDb {
                         dataNodeObject.add("data", dataNode);
                         nodes.add(dataNodeObject);
 
-                        JsonObject dataEdge = new JsonObject();
-                                dataEdge.addProperty("source", "1"); //Source
-                        dataEdge.addProperty("target", newId); //Target
-                        JsonObject dataEdgeObject = new JsonObject();
-                        dataEdgeObject.add("data", dataEdge);
-                        edges.add(dataEdgeObject);
 
                     }
                     //avløs
@@ -150,12 +117,6 @@ public class ConnectionsDb {
                         dataNodeObject.add("data", dataNode);
                         nodes.add(dataNodeObject);
 
-                        JsonObject dataEdge = new JsonObject();
-                        dataEdge.addProperty("source", "1"); //Source
-                        dataEdge.addProperty("target",newId); //Target
-                        JsonObject dataEdgeObject = new JsonObject();
-                        dataEdgeObject.add("data", dataEdge);
-                        edges.add(dataEdgeObject);
                     }
                     //Jordbruk
                     if(candidate.getFarmingSubsidies()>0 && candidate2.getFarmingSubsidies()>0){
@@ -171,12 +132,6 @@ public class ConnectionsDb {
                         dataNodeObject.add("data", dataNode);
                         nodes.add(dataNodeObject);
 
-                        JsonObject dataEdge = new JsonObject();
-                        dataEdge.addProperty("source", "1"); //Source
-                        dataEdge.addProperty("target",newId); //Target
-                        JsonObject dataEdgeObject = new JsonObject();
-                        dataEdgeObject.add("data", dataEdge);
-                        edges.add(dataEdgeObject);
                     }
 
                     if(rawData.get("politic") != null && rawData2.get("politic") != null) {
@@ -187,22 +142,58 @@ public class ConnectionsDb {
                         dataNode.addProperty("img", candidate2.getBucketImageURL());
                         dataNode.addProperty("size", Integer.toString(30));
                         dataNode.addProperty("description",
-                                candidate2.getName()+" sitter i Stortinget eller i regjering sammen med " +
-                                        candidate.getName());
+                                candidate2.getName()+" og " +
+                                        candidate.getName() + " er begge politikere. Begge sitter i regjeringen " +
+                                        "eller på Stortinget.");
                         JsonObject dataNodeObject = new JsonObject();
                         dataNodeObject.add("data", dataNode);
                         nodes.add(dataNodeObject);
 
-                        JsonObject dataEdge = new JsonObject();
-                        dataEdge.addProperty("source", "1"); //Source
-                        dataEdge.addProperty("target", newId); //Target
-                        JsonObject dataEdgeObject = new JsonObject();
-                        dataEdgeObject.add("data", dataEdge);
-                        edges.add(dataEdgeObject);
                     }
                     i++;
                     }
+
+
                 }
+
+            Settings settings = Settings.getOrCreateInstance();
+            while ( nodes.size() + candidate.getConnections().size() > settings.getNumConnections()) {
+                Random rand = new Random();
+
+                int removeIndex = rand.nextInt(nodes.size()-1) + 1;
+                nodes.remove(removeIndex);
+            }
+
+            int j = 2;
+            for (Connection connection:
+                    candidate.getConnections()) {
+                System.out.println("Connection when writing JSON: " + connection);
+                JsonObject dataNode = new JsonObject();
+                dataNode.addProperty("id", Integer.toString(j));
+                dataNode.addProperty("name", connection.getName());
+                dataNode.addProperty("img", connection.getPerson().getBucketImageURL());
+                dataNode.addProperty("size", Integer.toString(30));
+                dataNode.addProperty("description", connection.getDescription());
+                JsonObject dataNodeObject = new JsonObject();
+                dataNodeObject.add("data", dataNode);
+                nodes.add(dataNodeObject);
+
+                j++;
+            }
+
+            for (JsonElement node :
+                    nodes) {
+                String id = node.getAsJsonObject().get("data").getAsJsonObject().get("id").getAsString();
+                if(!id.equals("1")) {
+                    JsonObject dataEdge = new JsonObject();
+                    dataEdge.addProperty("source", "1"); //Source
+                    dataEdge.addProperty("target", id); //Target
+                    JsonObject dataEdgeObject = new JsonObject();
+                    dataEdgeObject.add("data", dataEdge);
+                    edges.add(dataEdgeObject);
+                }
+
+            }
 
             candidate.setElements(elements);
             }

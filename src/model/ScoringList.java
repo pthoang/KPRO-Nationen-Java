@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.io.BufferedReader;
+import java.util.Comparator;
 
 import controllers.CandidateController;
 import controllers.ScoringListController;
@@ -243,36 +244,6 @@ public class ScoringList {
 		}
 	}
 
-	private void readJson(String filepath) throws IOException {
-		// Loads the whole file into memory
-		String content = new String(Files.readAllBytes(Paths.get(filepath)));
-
-		// Starts the parser to create json objects we can work with
-		JsonParser parser = new JsonParser();
-		JsonElement data = parser.parse(content);
-
-		// Gets the list of people from the
-		JsonArray people = (JsonArray)data.getAsJsonObject().get("people");
-
-		int rank = 1;
-
-		// Loops trough the list and creates basic information for candidates
-		for (JsonElement jsonCandidate : people) {
-			String name = jsonCandidate.getAsJsonObject().get("firstName").toString();
-
-			// TODO
-			//this is just a quickfix. needs error handling when they don't have a value from before
-			int lastYear = 0; //Integer.parseInt(jsonCandidate.getAsJsonObject().get("lastYear").toString());
-
-			// Creates and add the candidate
-			Candidate newCandidate = new Candidate(name, rank);
-			// newCandidate.setLastYearRank(lastYear);
-			candidates.add(newCandidate);
-
-			rank++;
-		}
-	}
-
 	public void empty() {
         candidates = FXCollections.observableArrayList();
         candidates.add(new Candidate("", 1));
@@ -282,5 +253,60 @@ public class ScoringList {
 	public void totalEmpty() {
 		candidates = FXCollections.observableArrayList();
 		Jury.getOrCreateInstance().empty();
+	}
+
+	public void updateRanksWhenDeletedCandidate() {
+		sortListByRank();
+		compactifyRanks();
+	}
+
+	public void updateRankWhenChangedRank(Candidate candidate, int oldRank, int newRank) {
+
+        if (newRank < oldRank) {
+            changeRankForCandidates(newRank, oldRank, true);
+            candidate.setRank(new SimpleIntegerProperty(newRank));
+        } else if (newRank > oldRank) {
+            changeRankForCandidates(oldRank, newRank + 1, false);
+            candidate.setRank(new SimpleIntegerProperty(newRank));
+        }
+
+		sortListByRank();
+		compactifyRanks();
+	}
+
+	private void changeRankForCandidates(int fromRank, int toRank, boolean increase) {
+	    sortListByRank();
+	    for (Candidate c : candidates) {
+	        int rank = c.getRank();
+	        if (rank > toRank) {
+	            break;
+            } else if(rank >= fromRank && rank < toRank) {
+	            if (increase) {
+                    c.setRank(new SimpleIntegerProperty(rank + 1));
+                } else {
+                    c.setRank(new SimpleIntegerProperty(rank - 1));
+                }
+            }
+        }
+    }
+
+	private void sortListByRank() {
+		Comparator<Candidate> comparator = Comparator.comparingInt(Candidate:: getRank);
+		FXCollections.sort(candidates, comparator);
+	}
+
+	private void compactifyRanks() {
+		int nextFreeRank = 1;
+		for (Candidate candidate : candidates) {
+			if (candidate.getRank() < nextFreeRank) {
+				nextFreeRank += 1;
+				candidate.setRank(new SimpleIntegerProperty(nextFreeRank));
+			} else if (candidate.getRank() > nextFreeRank) {
+				candidate.setRank(new SimpleIntegerProperty(nextFreeRank));
+				nextFreeRank += 1;
+			} else {
+				nextFreeRank += 1;
+			}
+		}
 	}
 }

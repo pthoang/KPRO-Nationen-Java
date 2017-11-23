@@ -266,7 +266,7 @@ public class ScoringList {
             changeRankForCandidates(newRank, oldRank, true);
             candidate.setRank(new SimpleIntegerProperty(newRank));
         } else if (newRank > oldRank) {
-            changeRankForCandidates(oldRank, newRank, false);
+            changeRankForCandidates(oldRank, newRank + 1, false);
             candidate.setRank(new SimpleIntegerProperty(newRank));
         }
 

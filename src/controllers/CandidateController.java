@@ -450,7 +450,7 @@ public class CandidateController {
     }
 
     private void getAndSetCorrectImage() {
-        if (candidate.getImageIsInBucket()) {
+        if (candidate != null && candidate.getImageIsInBucket() ) {
             bfImage = AmazonBucketUploader.getOrCreateInstance().getImageFromBucket(candidate.getImageName());
         } else {
             bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);

@@ -184,13 +184,13 @@ public class ConnectionsDb {
                 }
 
             Settings settings = Settings.getOrCreateInstance();
-            while ((nodes.size() + candidate.getConnections().size() > settings.getNumConnections() + 1) &&
+           /* while ((nodes.size() + candidate.getConnections().size() > settings.getNumConnections() + 1) &&
                     nodes.size() > 1) {
                 Random rand = new Random();
 
                 int removeIndex = rand.nextInt(nodes.size()-1) + 1;
                 nodes.remove(removeIndex);
-            }
+            }*/
 
             int j = 2;
             for (Connection connection:
@@ -209,6 +209,7 @@ public class ConnectionsDb {
                 j++;
             }
 
+            /*
             for (JsonElement node :
                     nodes) {
                 String id = node.getAsJsonObject().get("data").getAsJsonObject().get("id").getAsString();
@@ -221,7 +222,7 @@ public class ConnectionsDb {
                     edges.add(dataEdgeObject);
                 }
 
-            }
+            }*/
 
             candidate.setElements(elements);
             }

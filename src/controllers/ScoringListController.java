@@ -1,6 +1,7 @@
 package controllers;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,6 +21,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Savepoint;
 import java.util.HashMap;
+import java.util.List;
 
 import org.hildan.fxgson.FxGson;
 
@@ -218,8 +220,56 @@ public class ScoringListController {
             jsonCandidate.add("politic",
                     candidate.getRawData().get("politic") != null ?
                             candidate.getRawData().get("politic") : new JsonObject());
+
+
+
+            JsonArray elements = new JsonArray();
+
+            JsonArray nodes = new JsonArray();
+            JsonArray edges = new JsonArray();
+            JsonObject nodesObject = new JsonObject();
+            nodesObject.add("nodes", nodes);
+            nodesObject.add("edges", edges);
+
+            elements.add(nodesObject);
+
+            JsonObject candidateNode = new JsonObject();
+            candidateNode.addProperty("id", Integer.toString(1));
+            candidateNode.addProperty("name", candidate.getName());
+            candidateNode.addProperty("img", candidate.getBucketImageURL());
+            candidateNode.addProperty("size", "60");
+            candidateNode.addProperty("description", "");
+            JsonObject candidateNodeObject = new JsonObject();
+            candidateNodeObject.add("data", candidateNode);
+            nodes.add(candidateNodeObject);
+
+            for(int i = 0; i < Math.min(10, candidate.getConnections().size()); i++) {
+                Connection connection = candidate.getConnections().get(i);
+                JsonObject jsonObject = new JsonObject();
+                int newId = i+2;
+                jsonObject.addProperty("id", Integer.toString(newId));
+                jsonObject.addProperty("name", connection.getName());
+                jsonObject.addProperty("img", connection.getPerson().getBucketImageURL());
+                jsonObject.addProperty("size", Integer.toString(30));
+                jsonObject.addProperty("description", connection.getDescription());
+                JsonObject dataObject = new JsonObject();
+
+                dataObject.add("data", jsonObject);
+
+                nodes.add(dataObject);
+
+                JsonObject edge = new JsonObject();
+                edge.addProperty("source", "1");
+                edge.addProperty("target", Integer.toString(newId));
+                JsonObject edgeObject = new JsonObject();
+                edgeObject.add("data", edge);
+                edges.add(edgeObject);
+
+            }
+
+
             jsonCandidate.add("elements",
-                    candidate.getElements() != null ? candidate.getElements() : new JsonArray());
+                    elements);
             
             people.add(jsonCandidate);
         }

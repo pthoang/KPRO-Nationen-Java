@@ -294,6 +294,7 @@ public class CandidateController {
     @FXML
     public void handleDelete() {
         ScoringList.getOrCreateInstance().deleteCandidate(candidate);
+        ScoringList.getOrCreateInstance().updateRanksWhenDeletedCandidate();
         Candidate nextCandidate = ScoringListController.getOrCreateInstance().getNextCandidate();
 
         setCandidate(nextCandidate);
@@ -351,7 +352,7 @@ public class CandidateController {
         candidate.setMunicipality(new SimpleStringProperty(municipality));
 
         int rank = Integer.parseInt(rankField.getText());
-        candidate.setRank(new SimpleIntegerProperty(rank));
+        ScoringList.getOrCreateInstance().updateRankWhenChangedRank(candidate, candidate.getRank(), rank);
 
         try {
             int previousYearRank = Integer.parseInt(previousYearRankField.getText());
@@ -466,7 +467,7 @@ public class CandidateController {
     }
 
     public void cleanFields() {
-        BufferedImage bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
+        bfImage = Utility.getResourceAsImage(Utility.STANDARD_IMAGE_PATH);
         setImageField(bfImage);
 
         nameField.setText("");

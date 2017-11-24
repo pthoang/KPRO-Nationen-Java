@@ -14,10 +14,6 @@
                         <MenuItem mnemonicParsing="false" onAction="#showNewAndEmpty" text="Ny tom liste" />
                         <MenuItem mnemonicParsing="false" onAction="#showLoadList" text="Last inn liste" />
                         <MenuItem mnemonicParsing="false" onAction="#showAddJury" text="Administrer Jury" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Hjelp">
-                    <items>
                         <MenuItem fx:id="settingsItem" mnemonicParsing="false" onAction="#showSettings" text="Innstillinger" />
                     </items>
                 </Menu>

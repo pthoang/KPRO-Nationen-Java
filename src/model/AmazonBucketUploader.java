@@ -123,7 +123,7 @@ public class AmazonBucketUploader {
 	}
 
     public BufferedImage getImageFromBucket(String imageName) {
-        System.out.println("ImageKey: " + imageKey);
+        String imageKey = folderName + "/images/" + imageName;
         GetObjectRequest getObjReq = new GetObjectRequest(bucketName, imageKey);
         File file = new File("tempFiles/" + imageKey);
         try {

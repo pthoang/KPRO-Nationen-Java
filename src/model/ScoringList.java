@@ -192,8 +192,20 @@ public class ScoringList {
 				System.out.println("No twitter");
 			}
 
-			ScoringList.getOrCreateInstance().addCandidate(newCandidate);
+			//connections
+			JsonArray connectionPeople = (JsonArray)jsonCandidate.getAsJsonObject().get("elements");
+			JsonObject nodesObjects = connectionPeople.get(0).getAsJsonObject();
+			JsonArray nodes = nodesObjects.get("nodes").getAsJsonArray();
+			for(JsonElement nodeData : nodes){
+				String connectionName = nodeData.getAsJsonObject().get("data").getAsJsonObject().get("name").getAsString();
+				if(nodeData.getAsJsonObject().get("data").getAsJsonObject().get("id").getAsString().equals("1")) {
+					continue;
+				}
+				String connectionDescription = nodeData.getAsJsonObject().get("data").getAsJsonObject().get("description").getAsString();
+				newCandidate.addConnection(new Connection(new Person(connectionName), connectionDescription));
+			}
 
+			ScoringList.getOrCreateInstance().addCandidate(newCandidate);
 			rank++;
 		}
 

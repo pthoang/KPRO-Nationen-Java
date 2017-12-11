@@ -35,9 +35,6 @@ public class SupportDb implements DataSourceInterface {
         for (Candidate candidate : candidates) {
             JsonObject returnData = new JsonObject();
 
-//            //todo. this is just to add test data before stock register is implemented.
-//            candidate.testOrg();
-
             JsonObject rawData = candidate.getRawData();
 
             JsonArray dataToAnalyze = (JsonArray) rawData.get("stocks");
@@ -65,8 +62,9 @@ public class SupportDb implements DataSourceInterface {
                     String[] fields = line.split(csvSplitBy);
 
                     //finds any matching orgidnumbers that the candidate has on his profile
-                    if (org.contains(fields[0])) {
+                    if (org.contains(fields[0]) || candidate.getName().toUpperCase().contains(fields[1])) {
                         //We found something, lets read the data
+                        System.out.println("found stuff on " + candidate.getName());
 
 
                         if (Integer.parseInt(fields[3])>0){

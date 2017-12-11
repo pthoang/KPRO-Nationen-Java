@@ -11,14 +11,13 @@ import javafx.util.Callback;
 import model.*;
 import Main.MainApp;
 
-import java.io.File;
+import java.io.*;
+
 import javafx.stage.FileChooser;
 import model.Candidate;
 import model.ScoringList;
 
-import java.io.FileWriter;
-
-import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.sql.Savepoint;
 import java.util.HashMap;
 import java.util.List;
@@ -323,9 +322,10 @@ public class ScoringListController {
 	private void saveFile(String content, File file){
 
         try {
-            FileWriter fileWriter = null;
-            
-            fileWriter = new FileWriter(file);
+            Writer fileWriter = null;
+
+            fileWriter = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
+            //fileWriter = new FileWriter(file);
             fileWriter.write(content);
             fileWriter.close();
         } catch (IOException e) {

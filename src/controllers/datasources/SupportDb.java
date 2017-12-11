@@ -115,28 +115,30 @@ public class SupportDb implements DataSourceInterface {
 
             JsonArray subsidiesArray = new JsonArray();
 
-            JsonObject animal = new JsonObject();
-            animal.addProperty("id", 1);
-            animal.addProperty("name", "Dyrehold");
-            animal.addProperty("value", animalSubsidies);
+            if (animalSubsidies > 0 || farmingSubsidies > 0 || hiredHelpSubsidies > 0) {
+                JsonObject animal = new JsonObject();
+                animal.addProperty("id", 1);
+                animal.addProperty("name", "Dyrehold");
+                animal.addProperty("value", animalSubsidies);
 
-            JsonObject farming = new JsonObject();
-            farming.addProperty("id", 2);
-            farming.addProperty("name", "Areal");
-            farming.addProperty("value", farmingSubsidies);
+                JsonObject farming = new JsonObject();
+                farming.addProperty("id", 2);
+                farming.addProperty("name", "Areal");
+                farming.addProperty("value", farmingSubsidies);
 
-            JsonObject hiredhelp = new JsonObject();
-            hiredhelp.addProperty("id", 3);
-            hiredhelp.addProperty("name", "Avløser");
-            hiredhelp.addProperty("value", hiredHelpSubsidies);
+                JsonObject hiredhelp = new JsonObject();
+                hiredhelp.addProperty("id", 3);
+                hiredhelp.addProperty("name", "Avløser");
+                hiredhelp.addProperty("value", hiredHelpSubsidies);
 
-            subsidiesArray.add(animal);
-            subsidiesArray.add(farming);
-            subsidiesArray.add(hiredhelp);
+                subsidiesArray.add(animal);
+                subsidiesArray.add(farming);
+                subsidiesArray.add(hiredhelp);
 
-            candidate.setAnimalSubsidies(animalSubsidies);
-            candidate.setFarmingSubsidies(farmingSubsidies);
-            candidate.setHiredHelpSubsidies(hiredHelpSubsidies);
+                candidate.setAnimalSubsidies(animalSubsidies);
+                candidate.setFarmingSubsidies(farmingSubsidies);
+                candidate.setHiredHelpSubsidies(hiredHelpSubsidies);
+            }
 
             candidate.addRawData("subsidies", subsidiesArray);
         }

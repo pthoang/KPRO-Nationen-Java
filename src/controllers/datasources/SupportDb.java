@@ -62,7 +62,7 @@ public class SupportDb implements DataSourceInterface {
                     String[] fields = line.split(csvSplitBy);
 
                     //finds any matching orgidnumbers that the candidate has on his profile
-                    if (org.contains(fields[0]) || candidate.getName().toUpperCase().contains(fields[1])) {
+                    if (org.contains(fields[0]) || candidate.getName().toUpperCase().equals(fields[1])) {
                         //We found something, lets read the data
                         System.out.println("found stuff on " + candidate.getName());
 

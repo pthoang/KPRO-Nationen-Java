@@ -9,11 +9,10 @@ import model.Candidate;
 import model.DataSourceFile;
 import model.ShareholderInformation;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigInteger;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -50,7 +49,7 @@ public class ShareholderRegister implements DataSourceInterface {
             candidateShareholderInformation.put(hashKey.toLowerCase(), new JsonArray());
         }
 
-        try (BufferedReader br = new BufferedReader(new FileReader(this.shareholderFile.getFilepath()))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(this.shareholderFile.getFilepath()), "UTF-8"))) {
 
             String csvSplit = ";";
             String[] fields = br.readLine().replaceAll("[^a-zA-Z0-9;_]+", "").split(csvSplit);

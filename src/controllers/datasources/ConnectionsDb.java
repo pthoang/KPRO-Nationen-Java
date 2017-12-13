@@ -89,7 +89,7 @@ public class ConnectionsDb {
                     }
 
 
-
+                    /*
                     //Adding connection if candidates get same kind of subsidies
 
                     //dyrehold
@@ -154,6 +154,7 @@ public class ConnectionsDb {
                         nodes.add(dataNodeObject);
 
                     }
+                    */
 
                     if(rawData.get("politic") != null && rawData2.get("politic") != null) {
                         String newId = Integer.toString(i) + "p";
